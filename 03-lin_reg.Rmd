@@ -1,0 +1,113 @@
+# Linear regression {#lin_reg}
+
+## Motivation
+
+The questions we wish to answer with linear regression are of the kind depicted in Figure \@ref(fig:motivation): What drives spatial variation in annual average precipitation and annual average temperature? In the case of precipitation the drivers seem to be continentality and elevation, while temperature seems to be dominantly controlled by elevation only. Linear regression puts this question as a problem of modelling a response variable with one or more predictor variables, while the relationship between the two is linear in its parameters.
+
+## The linear model
+
+A **linear model** is generally of the form:
+
+$$\begin{equation}
+y = \beta_0 + \sum_{j+1}^{p}\beta_j \cdot x_j + \epsilon
+(\#eq:linmod)
+\end{equation}$$
+In this equation, $y$ is the **response variable** (also called dependent or output variable), $x_j$ are the **predictor variables** (also called independent, explanatory, input variables or covariates), $\beta_0, \beta_1, \ldots, \beta_p$ are the **parameters** and $\epsilon$ is the **residual**, i.e. that part of the response which remains unexplained by the predictors.
+
+In the case of one predictor, which has come to be known as **linear regression**, the linear model is:
+
+$$\begin{equation}
+y = \beta_0 + \beta_1 \cdot x + \epsilon
+(\#eq:linmodsingle)
+\end{equation}$$
+It can be visualised as a line, with $\beta_0$ being the **intercept**, where the line intersects the vertical axis ($x=0$), and $\beta_1$ being the **slope** of the line (Figure \@ref(fig:linreggraph)). Note, the point $\left(\bar{x},\bar{y}\right)$, the centroid of the data, lies always on the line.
+
+```{r linreggraph, echo=FALSE, fig.align='center', fig.cap='Linear model with one predictor variable (linear regression)', out.width='80%'}
+knitr::include_graphics('figs/linreggraph.png')
+```
+
+Linear means linear in the model parameters, not (necessarily) in the predictor variables. With this in mind, consider the following five models. Which are linear models, which are non-linear models? (Q1)^[The answer can be found at the end of this script.]
+
+$$\begin{equation}
+y = \beta_0 + \beta_1 \cdot x_1 + \beta_2 \cdot x_2 + \epsilon
+(\#eq:Q1model1)
+\end{equation}$$
+$$\begin{equation}
+y = \beta_0 + \beta_1 \cdot x_1^{\beta_2} + \epsilon
+(\#eq:Q1model2)
+\end{equation}$$
+$$\begin{equation}
+y = \beta_0 + \beta_1 \cdot x_1^3 + \beta_2 \cdot x_1 \cdot x_2 + \epsilon
+(\#eq:Q1model3)
+\end{equation}$$
+$$\begin{equation}
+y = \beta_0 + \exp(\beta_1 \cdot x_1) + \beta_2 \cdot x_2 + \epsilon
+(\#eq:Q1model4)
+\end{equation}$$
+$$\begin{equation}
+y = \beta_0 + \beta_1 \cdot \log x_1 + \beta_2 \cdot x_2 + \epsilon
+(\#eq:Q1model5)
+\end{equation}$$
+
+We can also write the linear model equation with the data points index by $i$ for $i=1,\ldots,n$:
+
+$$\begin{equation}
+y_i = \beta_0 + \sum_{j=1}^{p}\beta_j \cdot x_{ij} + \epsilon_i
+(\#eq:linmodi)
+\end{equation}$$
+These data points could be repeat measurements in time or in space.
+
+We can also write the model more compactly in matrix formulation:
+
+$$\begin{equation}
+y = \mathbf{X} \cdot \beta + \epsilon
+(\#eq:linmodmatrix)
+\end{equation}$$
+
+With $y =
+\begin{pmatrix}
+y_1\\
+y_2\\
+y_3
+\end{pmatrix}$, $\beta =
+\begin{pmatrix}
+\beta_0\\
+\beta_1\\
+\beta_2\\
+\beta_3
+\end{pmatrix}$, $\epsilon =
+\begin{pmatrix}
+\epsilon_1\\
+\epsilon_2\\
+\epsilon_3
+\end{pmatrix}$ and $\mathbf{X} =
+\begin{pmatrix}
+1 & x_{11} & x_{12} & x_{13}\\
+1 & x_{21} & x_{22} & x_{23}\\
+1 & x_{31} & x_{32} & x_{33}
+\end{pmatrix}$, the latter being the **design matrix** which summarises the predictor data.
+
+When we talk about the linear model, the response variable is always continuous, while the predictor variables can be continuous, categorical or mixed. In principle, each of these variants can be treated mathematically in the same way, e.g. all can be analysed using the _lm_ function in R. However, historically different names have been established for these variants, which are worth mentioning here to avoid confusion (Tables \@ref(tab:variants1) and \@ref(tab:variants2)).
+
+| Continuous | Categorical                     | Mixed                               |
+| :--------: | :-----------------------------: | :-----------------------: |
+| Regression | Analysis of variance<br>(ANOVA) | Analysis of covariance<br>(ANCOVA) |
+Table: (\#tab:variants1) Historical names for the variants of the linear model, depending on whether the predictors are continuous, categorical or mixed. The response is always continuous.
+
+|                           | 1 predictor variable     | >1 predictor variables      |
+| :-----------------------: | :----------------------: | :----------------------: |
+| **1 response variable**   | Regression               | Multiple regression      |
+| **>1 response variables** | Multivariate regression  | Multivariate regression  |
+Table: (\#tab:variants2) For the case of regression, different variants with different historical names can be distinguished again, depending on whether we have one or more predictors and one or more responses.
+
+## Description versus prediction
+
+[...]
+
+## Linear Regression
+
+## Significance of regression
+
+## Confidence in parameter estimates
+
+## Goodness of fit

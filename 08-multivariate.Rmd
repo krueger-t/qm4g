@@ -1,0 +1,9 @@
+# Multivariate methods {#multivariate}
+
+## Cluster analysis
+
+## Principal Component Analysis (PCA)
+
+## Multivariate ANOVA (MANOVA)
+
+## Discriminant Function Analysis (DFA)
