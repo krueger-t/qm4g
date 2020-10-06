@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 2 Mathematical preliminaries | Quantitative Methods for Geographers</title>
+  <meta name="description" content="…" />
+  <meta name="generator" content="bookdown 0.20 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 2 Mathematical preliminaries | Quantitative Methods for Geographers" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="…" />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 2 Mathematical preliminaries | Quantitative Methods for Geographers" />
+  
+  <meta name="twitter:description" content="…" />
+  
+
+<meta name="author" content="Tobias Krueger" />
+
+
+<meta name="date" content="2020-10-06" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="orga.html"/>
+<link rel="next" href="lin-reg.html"/>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
+
+
+<style type="text/css">
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="1" data-path="orga.html"><a href="orga.html"><i class="fa fa-check"></i><b>1</b> Organisational matters</a><ul>
+<li class="chapter" data-level="1.1" data-path="orga.html"><a href="orga.html#motivatiing-example"><i class="fa fa-check"></i><b>1.1</b> Motivatiing example</a></li>
+<li class="chapter" data-level="1.2" data-path="orga.html"><a href="orga.html#topics"><i class="fa fa-check"></i><b>1.2</b> Topics</a></li>
+<li class="chapter" data-level="1.3" data-path="orga.html"><a href="orga.html#format"><i class="fa fa-check"></i><b>1.3</b> Format</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="math.html"><a href="math.html"><i class="fa fa-check"></i><b>2</b> Mathematical preliminaries</a><ul>
+<li class="chapter" data-level="2.1" data-path="math.html"><a href="math.html#logarithm-and-exponentiation"><i class="fa fa-check"></i><b>2.1</b> Logarithm and exponentiation</a></li>
+<li class="chapter" data-level="2.2" data-path="math.html"><a href="math.html#centring-and-standardisation"><i class="fa fa-check"></i><b>2.2</b> Centring and standardisation</a></li>
+<li class="chapter" data-level="2.3" data-path="math.html"><a href="math.html#derivatives"><i class="fa fa-check"></i><b>2.3</b> Derivatives</a></li>
+<li class="chapter" data-level="2.4" data-path="math.html"><a href="math.html#matrix-algebra"><i class="fa fa-check"></i><b>2.4</b> Matrix algebra</a><ul>
+<li class="chapter" data-level="2.4.1" data-path="math.html"><a href="math.html#simple-matrix-operations"><i class="fa fa-check"></i><b>2.4.1</b> Simple matrix operations</a></li>
+<li class="chapter" data-level="2.4.2" data-path="math.html"><a href="math.html#matrix-multiplication"><i class="fa fa-check"></i><b>2.4.2</b> Matrix multiplication</a></li>
+<li class="chapter" data-level="2.4.3" data-path="math.html"><a href="math.html#matrix-division-inverse-of-a-matrix-identity-matrix"><i class="fa fa-check"></i><b>2.4.3</b> Matrix division, inverse of a matrix, identity matrix</a></li>
+</ul></li>
+<li class="chapter" data-level="2.5" data-path="math.html"><a href="math.html#exercises"><i class="fa fa-check"></i><b>2.5</b> Exercises</a><ul>
+<li class="chapter" data-level="" data-path="math.html"><a href="math.html#exercise-1"><i class="fa fa-check"></i>Exercise 1</a></li>
+<li class="chapter" data-level="" data-path="math.html"><a href="math.html#exercise-2"><i class="fa fa-check"></i>Exercise 2</a></li>
+<li class="chapter" data-level="" data-path="math.html"><a href="math.html#exercise-3"><i class="fa fa-check"></i>Exercise 3</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="lin-reg.html"><a href="lin-reg.html"><i class="fa fa-check"></i><b>3</b> Linear regression</a><ul>
+<li class="chapter" data-level="3.1" data-path="lin-reg.html"><a href="lin-reg.html#motivation"><i class="fa fa-check"></i><b>3.1</b> Motivation</a></li>
+<li class="chapter" data-level="3.2" data-path="lin-reg.html"><a href="lin-reg.html#the-linear-model"><i class="fa fa-check"></i><b>3.2</b> The linear model</a></li>
+<li class="chapter" data-level="3.3" data-path="lin-reg.html"><a href="lin-reg.html#description-versus-prediction"><i class="fa fa-check"></i><b>3.3</b> Description versus prediction</a></li>
+<li class="chapter" data-level="3.4" data-path="lin-reg.html"><a href="lin-reg.html#linear-regression"><i class="fa fa-check"></i><b>3.4</b> Linear Regression</a></li>
+<li class="chapter" data-level="3.5" data-path="lin-reg.html"><a href="lin-reg.html#significance-of-regression"><i class="fa fa-check"></i><b>3.5</b> Significance of regression</a></li>
+<li class="chapter" data-level="3.6" data-path="lin-reg.html"><a href="lin-reg.html#confidence-in-parameter-estimates"><i class="fa fa-check"></i><b>3.6</b> Confidence in parameter estimates</a></li>
+<li class="chapter" data-level="3.7" data-path="lin-reg.html"><a href="lin-reg.html#goodness-of-fit"><i class="fa fa-check"></i><b>3.7</b> Goodness of fit</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="categorical-vars.html"><a href="categorical-vars.html"><i class="fa fa-check"></i><b>4</b> Categorical variables</a><ul>
+<li class="chapter" data-level="4.1" data-path="categorical-vars.html"><a href="categorical-vars.html#example-one"><i class="fa fa-check"></i><b>4.1</b> Example one</a></li>
+<li class="chapter" data-level="4.2" data-path="categorical-vars.html"><a href="categorical-vars.html#example-two"><i class="fa fa-check"></i><b>4.2</b> Example two</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="multiple-lin-reg.html"><a href="multiple-lin-reg.html"><i class="fa fa-check"></i><b>5</b> Multiple linear regression</a></li>
+<li class="chapter" data-level="6" data-path="ml-bayes.html"><a href="ml-bayes.html"><i class="fa fa-check"></i><b>6</b> Probabilistic underpinnings</a></li>
+<li class="chapter" data-level="7" data-path="glms.html"><a href="glms.html"><i class="fa fa-check"></i><b>7</b> Generalised Linear Models (GLMs)</a></li>
+<li class="chapter" data-level="8" data-path="multivariate.html"><a href="multivariate.html"><i class="fa fa-check"></i><b>8</b> Multivariate methods</a><ul>
+<li class="chapter" data-level="8.1" data-path="multivariate.html"><a href="multivariate.html#cluster-analysis"><i class="fa fa-check"></i><b>8.1</b> Cluster analysis</a></li>
+<li class="chapter" data-level="8.2" data-path="multivariate.html"><a href="multivariate.html#principal-component-analysis-pca"><i class="fa fa-check"></i><b>8.2</b> Principal Component Analysis (PCA)</a></li>
+<li class="chapter" data-level="8.3" data-path="multivariate.html"><a href="multivariate.html#multivariate-anova-manova"><i class="fa fa-check"></i><b>8.3</b> Multivariate ANOVA (MANOVA)</a></li>
+<li class="chapter" data-level="8.4" data-path="multivariate.html"><a href="multivariate.html#discriminant-function-analysis-dfa"><i class="fa fa-check"></i><b>8.4</b> Discriminant Function Analysis (DFA)</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Quantitative Methods for Geographers</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="math" class="section level1">
+<h1><span class="header-section-number">Chapter 2</span> Mathematical preliminaries</h1>
+<p>In this chapter we get a few mathematical preliminaries out of the way that are important for later chapters. If you feel rusty on any of these then please read up on them elsewhere.</p>
+<div id="logarithm-and-exponentiation" class="section level2">
+<h2><span class="header-section-number">2.1</span> Logarithm and exponentiation</h2>
+<p>The following is inspired by <span class="citation">Gelman and Nolan (<a href="#ref-gelman2002" role="doc-biblioref">2002</a>)</span>. Suppose you have an amoeba that takes one hour to divide (Figure <a href="math.html#fig:amoeba">2.1</a>), and then the two amoebas each divide in one more hour, and so forth. What is the equation of the number of amoebas, <span class="math inline">\(y\)</span>, as a function of time, <span class="math inline">\(t\)</span> (in hours)?</p>
+<div class="figure" style="text-align: center"><span id="fig:amoeba"></span>
+<img src="figs/amoeba.jpg" alt="Amoeba dividing. Source: http://www.gutenberg.org/files/18451/18451-h/images/illus002.jpg." width="80%" />
+<p class="caption">
+Figure 2.1: Amoeba dividing. Source: <a href="http://www.gutenberg.org/files/18451/18451-h/images/illus002.jpg" class="uri">http://www.gutenberg.org/files/18451/18451-h/images/illus002.jpg</a>.
+</p>
+</div>
+<p>The equation is:
+<span class="math display" id="eq:exp">\[\begin{equation}
+y=2^t
+\tag{2.1}
+\end{equation}\]</span>
+This is an <strong>exponential function</strong> with <strong>base</strong> 2 and <strong>exponent</strong> <span class="math inline">\(t\)</span>. Figure <a href="math.html#fig:explog">2.2</a> shows two plots of this function.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="math.html#cb1-1"></a>t &lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="dv">1</span>, <span class="dv">6</span>)</span>
+<span id="cb1-2"><a href="math.html#cb1-2"></a>y &lt;-<span class="st"> </span><span class="dv">2</span><span class="op">^</span>t</span>
+<span id="cb1-3"><a href="math.html#cb1-3"></a><span class="kw">plot</span>(t, y, <span class="dt">pch =</span> <span class="dv">19</span>, <span class="dt">type =</span> <span class="st">&#39;b&#39;</span>)</span>
+<span id="cb1-4"><a href="math.html#cb1-4"></a><span class="kw">plot</span>(t, <span class="kw">log</span>(y), <span class="dt">pch =</span> <span class="dv">19</span>, <span class="dt">type =</span> <span class="st">&#39;b&#39;</span>)</span></code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:explog"></span>
+<img src="qm4g_files/figure-html/explog-1.png" alt="Left: Plot of Equation 2.1. Right: Plot of Equation 2.1 on logarithmic scale." width="50%" /><img src="qm4g_files/figure-html/explog-2.png" alt="Left: Plot of Equation 2.1. Right: Plot of Equation 2.1 on logarithmic scale." width="50%" />
+<p class="caption">
+Figure 2.2: Left: Plot of Equation 2.1. Right: Plot of Equation 2.1 on logarithmic scale.
+</p>
+</div>
+<p>The inverse of the exponential function is the <strong>logarithmic function</strong>:
+<span class="math display" id="eq:inv">\[\begin{equation}
+log(y)=log(2^t)=t \cdot log(2)
+\tag{2.2}
+\end{equation}\]</span>
+Since the logarithm of <span class="math inline">\(y\)</span> is a linear function of <span class="math inline">\(t\)</span> (Equation <a href="math.html#eq:inv">(2.2)</a>), the right-hand side of Figure <a href="math.html#fig:explog">2.2</a> (<span class="math inline">\(y\)</span> on logarithmic scale) displays a straight line.</p>
+<p>Common bases of the logarithmic function are:
+<span class="math display" id="eq:lb">\[\begin{equation}
+log_2\left(2^t\right)=lb\left(2^t\right)=t
+\tag{2.3}
+\end{equation}\]</span>
+This is called the binary logarithm (lb).
+<span class="math display" id="eq:lg">\[\begin{equation}
+log_{10}\left(10^t\right)=lg\left(10^t\right)=t
+\tag{2.4}
+\end{equation}\]</span>
+This is called the common logarithm (lg).
+<span class="math display" id="eq:ln">\[\begin{equation}
+log_e\left(e^t\right)=ln\left(e^t\right)=t
+\tag{2.5}
+\end{equation}\]</span>
+This is called the natural logarithm (ln) with <span class="math inline">\(e \approx 2.7183\)</span> being Euler’s constant.</p>
+<p>Note, programming often uses a different notation, which is followed in this course:
+<span class="math display" id="eq:lnlog">\[\begin{equation}
+ln()=log()
+\tag{2.6}
+\end{equation}\]</span>
+<span class="math display" id="eq:eexp">\[\begin{equation}
+e^t=\exp(t)
+\tag{2.7}
+\end{equation}\]</span></p>
+<p>Basic rules for exponentiation are:
+<span class="math display" id="eq:exprule1">\[\begin{equation}
+a^m \cdot a^n=a^{m+n}
+\tag{2.8}
+\end{equation}\]</span>
+<span class="math display" id="eq:exprule2">\[\begin{equation}
+a^n \cdot b^n=(a \cdot b)^n
+\tag{2.9}
+\end{equation}\]</span>
+<span class="math display" id="eq:exprule3">\[\begin{equation}
+\frac{a^m}{a^n}=a^{m-n}
+\tag{2.10}
+\end{equation}\]</span>
+<span class="math display" id="eq:exprule4">\[\begin{equation}
+\frac{a^n}{b^n}=\left(\frac{a}{b}\right)^n
+\tag{2.11}
+\end{equation}\]</span>
+<span class="math display" id="eq:exprule5">\[\begin{equation}
+\left(a^m\right)^n=a^{m \cdot n}
+\tag{2.12}
+\end{equation}\]</span></p>
+<p>At this point it is also useful to remind ourselves of the meaning of the sum and product symbols:
+<span class="math display" id="eq:sum">\[\begin{equation}
+\sum_{i=1}^{n}x_i=x_1+x_2+\ldots+x_n
+\tag{2.13}
+\end{equation}\]</span>
+This signifies the <strong>sum</strong> of all <span class="math inline">\(x_i\)</span> for <span class="math inline">\(i\)</span> taking integer values from 1 to <span class="math inline">\(n\)</span>.
+<span class="math display" id="eq:prod">\[\begin{equation}
+\prod_{i=1}^{n}x_i=x_1 \cdot x_2 \cdot \ldots \cdot x_n
+\tag{2.14}
+\end{equation}\]</span>
+This signifies the <strong>product</strong> of all <span class="math inline">\(x_i\)</span> for <span class="math inline">\(i\)</span> taking integer values from 1 to <span class="math inline">\(n\)</span>.</p>
+<p>The basic rules of logarithm are:
+<span class="math display" id="eq:logrule1">\[\begin{equation}
+log(u \cdot v)=log(u)+log(v)
+\tag{2.15}
+\end{equation}\]</span>
+<span class="math display" id="eq:logrule2">\[\begin{equation}
+log\left(\frac{u}{v}\right)=log(u)-log(v)
+\tag{2.16}
+\end{equation}\]</span>
+<span class="math display" id="eq:logrule3">\[\begin{equation}
+log\left(u^r\right)=r \cdot log(u)
+\tag{2.17}
+\end{equation}\]</span></p>
+</div>
+<div id="centring-and-standardisation" class="section level2">
+<h2><span class="header-section-number">2.2</span> Centring and standardisation</h2>
+<p>Centring and standardisation are used to transform different datasets onto the same scale. Note, for these transformations to be sensible the data <span class="math inline">\(y\)</span> need to follow (approximately) a normal distribution. We will need this for the multivariate methods in sessions (Chapter <a href="multivariate.html#multivariate">8</a>).</p>
+<p><strong>Centring</strong> means subtracting from every data point <span class="math inline">\(y\)</span> the overall mean of the dataset <span class="math inline">\(\bar{y}\)</span>:
+<span class="math display" id="eq:centring">\[\begin{equation}
+y^*=y-\bar{y}
+\tag{2.18}
+\end{equation}\]</span>
+This yields new data points <span class="math inline">\(y^*\)</span> and new mean <span class="math inline">\(\bar{y^*}=0\)</span> while the standard deviation of the transformed data remains the same: <span class="math inline">\(s_{y^*}=s_y\)</span>. Centring thus shifts the data histogram to be centred on zero (Figure <a href="math.html#fig:rawcentred">2.3</a>).</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="math.html#cb2-1"></a><span class="co"># draw random sample of y~N(1,2) of size 1000</span></span>
+<span id="cb2-2"><a href="math.html#cb2-2"></a>y &lt;-<span class="st"> </span><span class="kw">rnorm</span>(<span class="dv">1000</span>, <span class="dt">mean =</span> <span class="dv">1</span>, <span class="dt">sd =</span> <span class="dv">2</span>)</span>
+<span id="cb2-3"><a href="math.html#cb2-3"></a><span class="co"># mean</span></span>
+<span id="cb2-4"><a href="math.html#cb2-4"></a>ybar &lt;-<span class="st"> </span><span class="kw">mean</span>(y)</span>
+<span id="cb2-5"><a href="math.html#cb2-5"></a><span class="co"># standard deviation</span></span>
+<span id="cb2-6"><a href="math.html#cb2-6"></a>s_y &lt;-<span class="st"> </span><span class="kw">sd</span>(y)</span>
+<span id="cb2-7"><a href="math.html#cb2-7"></a><span class="co"># histogram, raw</span></span>
+<span id="cb2-8"><a href="math.html#cb2-8"></a><span class="kw">hist</span>(y, <span class="dt">freq =</span> <span class="ot">FALSE</span>, <span class="dt">xlim =</span> <span class="kw">c</span>(<span class="op">-</span><span class="dv">10</span>,<span class="dv">10</span>), <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="fl">0.4</span>), <span class="dt">main =</span> <span class="st">&quot;&quot;</span>, </span>
+<span id="cb2-9"><a href="math.html#cb2-9"></a>     <span class="dt">xlab =</span> <span class="st">&quot;y&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;relative frequency&quot;</span>)</span>
+<span id="cb2-10"><a href="math.html#cb2-10"></a><span class="kw">lines</span>(<span class="kw">c</span>(ybar, ybar), <span class="kw">c</span>(<span class="dv">0</span>,<span class="fl">0.4</span>), <span class="dt">lwd =</span> <span class="dv">3</span>)</span>
+<span id="cb2-11"><a href="math.html#cb2-11"></a><span class="co"># histogram, centred</span></span>
+<span id="cb2-12"><a href="math.html#cb2-12"></a><span class="kw">hist</span>(y<span class="op">-</span>ybar, <span class="dt">freq =</span> <span class="ot">FALSE</span>, <span class="dt">xlim =</span> <span class="kw">c</span>(<span class="op">-</span><span class="dv">10</span>,<span class="dv">10</span>), <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="fl">0.4</span>), <span class="dt">main =</span> <span class="st">&quot;&quot;</span>, </span>
+<span id="cb2-13"><a href="math.html#cb2-13"></a>     <span class="dt">xlab =</span> <span class="st">&quot;y*&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;relative frequency&quot;</span>)</span>
+<span id="cb2-14"><a href="math.html#cb2-14"></a><span class="kw">lines</span>(<span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">0</span>), <span class="kw">c</span>(<span class="dv">0</span>,<span class="fl">0.4</span>), <span class="dt">lwd =</span> <span class="dv">3</span>)</span></code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:rawcentred"></span>
+<img src="qm4g_files/figure-html/rawcentred-1.png" alt="Histogram of dataset $y$ (left) and centred dataset $y^*$ (right). The vertical line represents the mean." width="50%" /><img src="qm4g_files/figure-html/rawcentred-2.png" alt="Histogram of dataset $y$ (left) and centred dataset $y^*$ (right). The vertical line represents the mean." width="50%" />
+<p class="caption">
+Figure 2.3: Histogram of dataset <span class="math inline">\(y\)</span> (left) and centred dataset <span class="math inline">\(y^*\)</span> (right). The vertical line represents the mean.
+</p>
+</div>
+<p><strong>Standardisation</strong> means subtracting from every data point <span class="math inline">\(y\)</span> the overall mean of the dataset <span class="math inline">\(\bar{y}\)</span> and dividing by the standard deviation <span class="math inline">\(s_y\)</span>:
+<span class="math display" id="eq:standardisation">\[\begin{equation}
+y^*=\frac{y-\bar{y}}{s_y}
+\tag{2.19}
+\end{equation}\]</span>
+This yields new data points <span class="math inline">\(y^*\)</span>, new mean <span class="math inline">\(\bar{y^*}=0\)</span> and new standard deviation <span class="math inline">\(s_{y^*}=1\)</span>. Standardisation thus shifts the data histogram to be centred on zero and expands or contracts it to have unit standard deviation, i.e. transforming it to the scale of the standard normal distribution (Figure <a href="math.html#fig:rawstandardised">2.4</a>).</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="math.html#cb3-1"></a><span class="co"># histogram, raw</span></span>
+<span id="cb3-2"><a href="math.html#cb3-2"></a><span class="kw">hist</span>(y, <span class="dt">freq =</span> <span class="ot">FALSE</span>, <span class="dt">xlim =</span> <span class="kw">c</span>(<span class="op">-</span><span class="dv">10</span>,<span class="dv">10</span>), <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="fl">0.4</span>), <span class="dt">main =</span> <span class="st">&quot;&quot;</span>, </span>
+<span id="cb3-3"><a href="math.html#cb3-3"></a>     <span class="dt">xlab =</span> <span class="st">&quot;y&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;relative frequency&quot;</span>)</span>
+<span id="cb3-4"><a href="math.html#cb3-4"></a><span class="kw">lines</span>(<span class="kw">c</span>(ybar, ybar), <span class="kw">c</span>(<span class="dv">0</span>,<span class="fl">0.4</span>), <span class="dt">lwd =</span> <span class="dv">3</span>)</span>
+<span id="cb3-5"><a href="math.html#cb3-5"></a><span class="co"># histogram, standardised</span></span>
+<span id="cb3-6"><a href="math.html#cb3-6"></a><span class="kw">hist</span>((y<span class="op">-</span>ybar)<span class="op">/</span>s_y, <span class="dt">freq =</span> <span class="ot">FALSE</span>, <span class="dt">xlim =</span> <span class="kw">c</span>(<span class="op">-</span><span class="dv">10</span>,<span class="dv">10</span>), <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="fl">0.4</span>), <span class="dt">main =</span> <span class="st">&quot;&quot;</span>, </span>
+<span id="cb3-7"><a href="math.html#cb3-7"></a>     <span class="dt">xlab =</span> <span class="st">&quot;y*&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;relative frequency&quot;</span>)</span>
+<span id="cb3-8"><a href="math.html#cb3-8"></a><span class="kw">lines</span>(<span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">0</span>), <span class="kw">c</span>(<span class="dv">0</span>,<span class="fl">0.4</span>), <span class="dt">lwd =</span> <span class="dv">3</span>)</span></code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:rawstandardised"></span>
+<img src="qm4g_files/figure-html/rawstandardised-1.png" alt="Histogram of dataset $y$ (left) and standardised dataset $y^*$ (right). The vertical line represents the mean." width="50%" /><img src="qm4g_files/figure-html/rawstandardised-2.png" alt="Histogram of dataset $y$ (left) and standardised dataset $y^*$ (right). The vertical line represents the mean." width="50%" />
+<p class="caption">
+Figure 2.4: Histogram of dataset <span class="math inline">\(y\)</span> (left) and standardised dataset <span class="math inline">\(y^*\)</span> (right). The vertical line represents the mean.
+</p>
+</div>
+</div>
+<div id="derivatives" class="section level2">
+<h2><span class="header-section-number">2.3</span> Derivatives</h2>
+<p>The <strong>first derivative</strong> of a function <span class="math inline">\(f(x)\)</span>, <span class="math inline">\(f&#39;(x)\)</span> or <span class="math inline">\(\frac{df(x)}{dx}\)</span>, can be interpreted graphically as the slope of that function, i.e. the tangent line of a certain point of the function (Figure <a href="math.html#fig:derivative">2.5</a>, left).</p>
+<div class="figure" style="text-align: center"><span id="fig:derivative"></span>
+<img src="figs/derivative1.png" alt="Left: Tangent line of function $f(x)$. Centre: Secant line of function $f(x)$ between point $f\left(x_0\right)$ and point $f\left(x_0+h\right)$; the horizontal distance between these two points is $\Delta x$ and the vertical distance is $\Delta f(x)$. Right: Set of secant lines of function $f(x)$ between point $f\left(x_0\right)$ and point $f\left(x_0+h\right)$ for progressively decreasing increments $h$. Source: http://en.wikipedia.org/wiki/Derivative." width="33%" /><img src="figs/derivative2.png" alt="Left: Tangent line of function $f(x)$. Centre: Secant line of function $f(x)$ between point $f\left(x_0\right)$ and point $f\left(x_0+h\right)$; the horizontal distance between these two points is $\Delta x$ and the vertical distance is $\Delta f(x)$. Right: Set of secant lines of function $f(x)$ between point $f\left(x_0\right)$ and point $f\left(x_0+h\right)$ for progressively decreasing increments $h$. Source: http://en.wikipedia.org/wiki/Derivative." width="33%" /><img src="figs/derivative3.png" alt="Left: Tangent line of function $f(x)$. Centre: Secant line of function $f(x)$ between point $f\left(x_0\right)$ and point $f\left(x_0+h\right)$; the horizontal distance between these two points is $\Delta x$ and the vertical distance is $\Delta f(x)$. Right: Set of secant lines of function $f(x)$ between point $f\left(x_0\right)$ and point $f\left(x_0+h\right)$ for progressively decreasing increments $h$. Source: http://en.wikipedia.org/wiki/Derivative." width="33%" />
+<p class="caption">
+Figure 2.5: Left: Tangent line of function <span class="math inline">\(f(x)\)</span>. Centre: Secant line of function <span class="math inline">\(f(x)\)</span> between point <span class="math inline">\(f\left(x_0\right)\)</span> and point <span class="math inline">\(f\left(x_0+h\right)\)</span>; the horizontal distance between these two points is <span class="math inline">\(\Delta x\)</span> and the vertical distance is <span class="math inline">\(\Delta f(x)\)</span>. Right: Set of secant lines of function <span class="math inline">\(f(x)\)</span> between point <span class="math inline">\(f\left(x_0\right)\)</span> and point <span class="math inline">\(f\left(x_0+h\right)\)</span> for progressively decreasing increments <span class="math inline">\(h\)</span>. Source: <a href="http://en.wikipedia.org/wiki/Derivative" class="uri">http://en.wikipedia.org/wiki/Derivative</a>.
+</p>
+</div>
+<p>Mathematically, the slope amounts to the limiting value of the ratio of the (vertical) increment of the function, <span class="math inline">\(\Delta f(x)\)</span>, for an (horizontal) increment of <span class="math inline">\(x\)</span>, <span class="math inline">\(\Delta x\)</span>, for <span class="math inline">\(\Delta x\)</span> approaching zero, <span class="math inline">\(\Delta x \to 0\)</span>:
+<span class="math display" id="eq:derivative1">\[\begin{equation}
+f&#39;(x)=\frac{df(x)}{dx}=\lim_{\Delta x \to 0}\frac{\Delta f(x)}{\Delta x}
+\tag{2.20}
+\end{equation}\]</span>
+This can be visualised as a secant line of the function between two points, <span class="math inline">\(x_0\)</span> and <span class="math inline">\(x_0+h\)</span> (Figure <a href="math.html#fig:derivative">2.5</a>, centre), whose slope is:
+<span class="math display" id="eq:derivative2">\[\begin{equation}
+\frac{\Delta f(x)}{\Delta x}=\frac{f\left(x_0+h\right)-f\left(x_0\right)}{\left(x_0+h\right)-\left(x_0\right)}=\frac{f\left(x_0+h\right)-f\left(x_0\right)}{h}
+\tag{2.21}
+\end{equation}\]</span>
+As <span class="math inline">\(h\)</span> approaches zero (Figure <a href="math.html#fig:derivative">2.5</a>, right) we reach the limiting value of the slope at point <span class="math inline">\(x_0\)</span>, which is the first derivative:
+<span class="math display" id="eq:derivative3">\[\begin{equation}
+\frac{df(x)}{dx}=\lim_{h \to 0}\frac{f\left(x_0+h\right)-f\left(x_0\right)}{h}
+\tag{2.22}
+\end{equation}\]</span>
+The first derivative is useful for finding <strong>minima</strong>, <strong>maxima</strong> and <strong>inflexion points</strong> of a function, because this is where the slope is zero, <span class="math inline">\(\frac{df(x)}{dx}=0\)</span> (Figure <a href="math.html#fig:minmax">2.6</a>). The <strong>second derivative</strong>, measuring the curvature of the function, tells us whether these points are minima <span class="math inline">\(\left(\frac{d^2f(x)}{dx^2}&gt;0\right)\)</span>, maxima <span class="math inline">\(\left(\frac{d^2f(x)}{dx^2}&lt;0\right)\)</span> or inflexion points <span class="math inline">\(\left(\frac{d^2f(x)}{dx^2}=0\right)\)</span>, but often we already know that a function has only a single minimum or maximum and then we do not need the second derivative.</p>
+<div class="figure" style="text-align: center"><span id="fig:minmax"></span>
+<img src="figs/derivative4.gif" alt="Use of first and second derivative to determine minima, maxima and inflexion points of a function. Source: http://hyperphysics.phy-astr.gsu.edu/hbase/math/maxmin.html." width="80%" />
+<p class="caption">
+Figure 2.6: Use of first and second derivative to determine minima, maxima and inflexion points of a function. Source: <a href="http://hyperphysics.phy-astr.gsu.edu/hbase/math/maxmin.html" class="uri">http://hyperphysics.phy-astr.gsu.edu/hbase/math/maxmin.html</a>.
+</p>
+</div>
+<p>The differentiation rules are:
+If <span class="math inline">\(y=f(t)=t^a\)</span> then <span class="math inline">\(\frac{dy}{dt}=a \cdot t^{a-1}\)</span>, i.e. multiplying the function with the exponent and reducing the exponent by one.</p>
+<p>Constant factor rule: If <span class="math inline">\(y=c \cdot u(t)\)</span> then <span class="math inline">\(\frac{dy}{dt}=c \cdot \frac{du}{dt}\)</span>.</p>
+<p>Sum rule: If <span class="math inline">\(y=u(t) \pm v(t)\)</span> then <span class="math inline">\(\frac{dy}{dt}=\frac{du}{dt} \pm \frac{dv}{dt}\)</span>.</p>
+<p>Product rule: If <span class="math inline">\(y=u(t) \cdot v(t)\)</span> then <span class="math inline">\(\frac{dy}{dt}=\frac{du}{dt} \cdot v+u \cdot \frac{dv}{dt}\)</span>.</p>
+<p>Quotient rule: If <span class="math inline">\(y=\frac{u(t)}{v(t)}\)</span> then <span class="math inline">\(\frac{dy}{dt}=\frac{\left(\frac{du}{dt} \cdot v-u \cdot \frac{dv}{dt}\right)}{v^2}\)</span>.</p>
+<p>Chain rule: If <span class="math inline">\(y=f[g(t)]\)</span> then <span class="math inline">\(\frac{dy}{dt}=\frac{df[g]}{dg} \cdot \frac{dg}{dt}\)</span>, i.e. “outer times inner derivative”.</p>
+</div>
+<div id="matrix-algebra" class="section level2">
+<h2><span class="header-section-number">2.4</span> Matrix algebra</h2>
+<p>The following is based on <span class="citation">Tabachnick and Fidell (<a href="#ref-tabachnick2013" role="doc-biblioref">2013</a>)</span>.</p>
+<div id="simple-matrix-operations" class="section level3">
+<h3><span class="header-section-number">2.4.1</span> Simple matrix operations</h3>
+<p>Let <span class="math inline">\(\mathbf{A}\)</span> and <span class="math inline">\(\mathbf{B}\)</span> be matrices:</p>
+<p><span class="math display">\[\mathbf{A} =
+\begin{pmatrix}
+a &amp; b &amp; c\\
+d &amp; e &amp; f\\
+g &amp; h &amp; i
+\end{pmatrix} =
+\begin{pmatrix}
+3 &amp; 2 &amp; 4\\
+7 &amp; 5 &amp; 0\\
+1 &amp; 0 &amp; 8
+\end{pmatrix}
+\]</span></p>
+<p><span class="math display">\[\mathbf{B} =
+\begin{pmatrix}
+r &amp; s &amp; t\\
+u &amp; v &amp; w\\
+x &amp; y &amp; z
+\end{pmatrix} =
+\begin{pmatrix}
+6 &amp; 1 &amp; 0\\
+2 &amp; 8 &amp; 7\\
+3 &amp; 4 &amp; 5
+\end{pmatrix}
+\]</span></p>
+<p><strong>Addition/subtraction of a constant to a matrix</strong> happens element-wise:</p>
+<p><span class="math display">\[\mathbf{A} + k =
+\begin{pmatrix}
+a+k &amp; b+k &amp; c+k\\
+d+k &amp; e+k &amp; f+k\\
+g+k &amp; h+k &amp; i+k
+\end{pmatrix}
+\]</span></p>
+<p><span class="math display">\[\mathbf{A} - k =
+\begin{pmatrix}
+a-k &amp; b-k &amp; c-k\\
+d-k &amp; e-k &amp; f-k\\
+g-k &amp; h-k &amp; i-k
+\end{pmatrix}
+\]</span></p>
+<p><strong>Multiplication/division of a matrix by a constant</strong> also happens element-wise:</p>
+<p><span class="math display">\[k \cdot \mathbf{A} =
+\begin{pmatrix}
+k \cdot a &amp; k \cdot b &amp; k \cdot c\\
+k \cdot d &amp; k \cdot e &amp; k \cdot f\\
+k \cdot g &amp; k \cdot h &amp; k \cdot i
+\end{pmatrix}
+\]</span></p>
+<p><span class="math display">\[\frac{1}{k} \cdot \mathbf{A} =
+\begin{pmatrix}
+\frac{1}{k} \cdot a &amp; \frac{1}{k} \cdot b &amp; \frac{1}{k} \cdot c\\
+\frac{1}{k} \cdot d &amp; \frac{1}{k} \cdot e &amp; \frac{1}{k} \cdot f\\
+\frac{1}{k} \cdot g &amp; \frac{1}{k} \cdot h &amp; \frac{1}{k} \cdot i
+\end{pmatrix}
+\]</span></p>
+<p><strong>Addition/subtraction of two matrices</strong> also happens element-wise:</p>
+<p><span class="math display">\[\mathbf{A} + \mathbf{B} =
+\begin{pmatrix}
+a+r &amp; b+s &amp; c+t\\
+d+u &amp; e+v &amp; f+w\\
+g+x &amp; h+y &amp; i+z
+\end{pmatrix}
+\]</span></p>
+<p><span class="math display">\[\mathbf{A} - \mathbf{B} =
+\begin{pmatrix}
+a-r &amp; b-s &amp; c-t\\
+d-u &amp; e-v &amp; f-w\\
+g-x &amp; h-y &amp; i-z
+\end{pmatrix}
+\]</span></p>
+<p>The <strong>transpose of a matrix</strong> is:</p>
+<p><span class="math display">\[\mathbf{A}&#39; =
+\begin{pmatrix}
+a &amp; d &amp; g\\
+b &amp; e &amp; h\\
+c &amp; f &amp; i
+\end{pmatrix}
+\]</span></p>
+</div>
+<div id="matrix-multiplication" class="section level3">
+<h3><span class="header-section-number">2.4.2</span> Matrix multiplication</h3>
+<p>Now, the multiplication of two matrices is the only operation that is a bit complicated at first. It may be best to consider an example to work out the rules:</p>
+<p><span class="math display">\[\begin{eqnarray}
+\mathbf{A} \cdot \mathbf{B}&amp;=&amp;
+\begin{pmatrix}
+a &amp; b &amp; c\\
+d &amp; e &amp; f\\
+g &amp; h &amp; i
+\end{pmatrix} \cdot
+\begin{pmatrix}
+r &amp; s &amp; t\\
+u &amp; v &amp; w\\
+x &amp; y &amp; z
+\end{pmatrix}\\
+&amp;=&amp;\begin{pmatrix}
+a \cdot r + b \cdot u + c \cdot x &amp; a \cdot s + b \cdot v + c \cdot y &amp; a \cdot t + b \cdot w + c \cdot z\\
+d \cdot r + e \cdot u + f \cdot x &amp; d \cdot s + e \cdot v + f \cdot y &amp; d \cdot t + e \cdot w + f \cdot z\\
+g \cdot r + h \cdot u + i \cdot x &amp; g \cdot s + h \cdot v + i \cdot y &amp; g \cdot t + h \cdot w + i \cdot z
+\end{pmatrix}\\
+&amp;=&amp;\begin{pmatrix}
+34 &amp; 35 &amp; 34\\
+52 &amp; 47 &amp; 35\\
+30 &amp; 33 &amp; 40
+\end{pmatrix}
+\end{eqnarray}\]</span></p>
+<p>The result of a matrix multiplication has as many rows as the 1st matrix and as many columns as the 2nd (in our example the matrices are square). For this to work, the number of columns of the 1st matrix must match the number of rows of the 2nd matrix.</p>
+<p>To construct each cell of the results matrix, one row of the 1st matrix is combined with one column of the 2nd matrix. For cell (1,1) (top-left), for example, we combine the 1st row of matrix 1 (here <span class="math inline">\(\mathbf{A}\)</span>) and the 1st column of matrix 2 (here <span class="math inline">\(\mathbf{B}\)</span>). Moving to the right, for cell (1,2) (top-middle), we combine the 1st row of matrix 1 and the 2nd column of matrix 2. For cell (2,1) (middle-left), we combine the 2nd row of matrix 1 and the 1st column of matrix 2. And so on and so forth.</p>
+<p>The combination of the two respective vectors is the sum of the products of the vector elements paired in order. So for cell (1,1) in our example this is <span class="math inline">\(a \cdot r + b \cdot u + c \cdot x\)</span>. Try and recreate the following example to get a feeling for the matrix multiplication rules.</p>
+<p><span class="math display">\[\begin{eqnarray}
+\mathbf{B} \cdot \mathbf{A}&amp;=&amp;
+\begin{pmatrix}
+r &amp; s &amp; t\\
+u &amp; v &amp; w\\
+x &amp; y &amp; z
+\end{pmatrix} \cdot
+\begin{pmatrix}
+a &amp; b &amp; c\\
+d &amp; e &amp; f\\
+g &amp; h &amp; i
+\end{pmatrix}\\
+&amp;=&amp;\begin{pmatrix}
+r \cdot a + s \cdot d + t \cdot g &amp; r \cdot b + s \cdot e + t \cdot h &amp; r \cdot c + s \cdot f + t \cdot i\\
+u \cdot a + v \cdot d + w \cdot g &amp; u \cdot b + v \cdot e + w \cdot h &amp; u \cdot c + v \cdot f + w \cdot i\\
+x \cdot a + y \cdot d + z \cdot g &amp; x \cdot b + y \cdot e + z \cdot h &amp; x \cdot c + y \cdot f + z \cdot i
+\end{pmatrix}\\
+&amp;=&amp;\begin{pmatrix}
+25 &amp; 17 &amp; 24\\
+69 &amp; 44 &amp; 64\\
+42 &amp; 26 &amp; 52
+\end{pmatrix}
+\end{eqnarray}\]</span></p>
+<p>The point with this example is that <span class="math inline">\(\mathbf{A} \cdot \mathbf{B}\)</span> is not the same as <span class="math inline">\(\mathbf{B} \cdot \mathbf{A}\)</span>. The order matters when multiplying matrices! Let’s consider two more example:</p>
+<p><span class="math display">\[\begin{eqnarray}
+\mathbf{A} \cdot \mathbf{A}&amp;=&amp;
+\begin{pmatrix}
+a &amp; b &amp; c\\
+d &amp; e &amp; f\\
+g &amp; h &amp; i
+\end{pmatrix} \cdot
+\begin{pmatrix}
+a &amp; b &amp; c\\
+d &amp; e &amp; f\\
+g &amp; h &amp; i
+\end{pmatrix}\\
+&amp;=&amp;\begin{pmatrix}
+a^2 + b \cdot d + c \cdot g &amp; a \cdot b + b \cdot e + c \cdot h &amp; a \cdot c + b \cdot f + c \cdot i\\
+d \cdot a + e \cdot d + f \cdot g &amp; d \cdot b + e^2 + f \cdot h &amp; d \cdot c + e \cdot f + f \cdot i\\
+g \cdot a + h \cdot d + i \cdot g &amp; g \cdot b + h \cdot e + i \cdot h &amp; g \cdot c + h \cdot f + i^2
+\end{pmatrix}\\
+&amp;=&amp;\begin{pmatrix}
+27 &amp; 16 &amp; 44\\
+56 &amp; 39 &amp; 28\\
+11 &amp; 2 &amp; 68
+\end{pmatrix}
+\end{eqnarray}\]</span></p>
+<p>This matrix multiplied with itself, <span class="math inline">\(\mathbf{A} \cdot \mathbf{A}\)</span>, is different to the same matrix multiplied with its inverse <span class="math inline">\(\mathbf{A} \cdot \mathbf{A}&#39;\)</span>:</p>
+<p><span class="math display">\[\begin{eqnarray}
+\mathbf{A} \cdot \mathbf{A}&#39;&amp;=&amp;
+\begin{pmatrix}
+a &amp; b &amp; c\\
+d &amp; e &amp; f\\
+g &amp; h &amp; i
+\end{pmatrix} \cdot
+\begin{pmatrix}
+a &amp; d &amp; g\\
+b &amp; e &amp; h\\
+c &amp; f &amp; i
+\end{pmatrix}\\
+&amp;=&amp;\begin{pmatrix}
+a^2 + b^2 + c^2 &amp; a \cdot d + b \cdot e + c \cdot f &amp; a \cdot g + b \cdot h + c \cdot i\\
+d \cdot a + e \cdot b + f \cdot c &amp; d^2 + e^2 + f^2 &amp; d \cdot g + e \cdot h + f \cdot i\\
+g \cdot a + h \cdot b + i \cdot c &amp; g \cdot d + h \cdot e + i \cdot f &amp; g^2 + h^2 + i^2
+\end{pmatrix}\\
+&amp;=&amp;\begin{pmatrix}
+29 &amp; 31 &amp; 35\\
+31 &amp; 74 &amp; 7\\
+35 &amp; 7 &amp; 65
+\end{pmatrix}
+\end{eqnarray}\]</span></p>
+<p>This matrix is symmetrical, i.e. mirrored along its diagonal. Diagonal elements are so called <strong>sums of squares</strong>, off-diagonal elements are so called <strong>cross-products</strong>. This will be useful later on when working with variance-covariance matrices in Chapter <a href="multivariate.html#multivariate">8</a>.</p>
+</div>
+<div id="matrix-division-inverse-of-a-matrix-identity-matrix" class="section level3">
+<h3><span class="header-section-number">2.4.3</span> Matrix division, inverse of a matrix, identity matrix</h3>
+<p><strong>Division of two matrices</strong> means multiplication of one matrix with the inverse of the other:</p>
+<p><span class="math display">\[\frac{\mathbf{A}}{\mathbf{B}} = \mathbf{A} \cdot \mathbf{B}^{-1}\]</span></p>
+<p>The <strong>inverse of matrix</strong> is found so that the following equation holds:</p>
+<p><span class="math display">\[\mathbf{A} \cdot \mathbf{A}^{-1} = \mathbf{A}^{-1} \cdot \mathbf{A} = \mathbf{I}\]</span></p>
+<p>With <span class="math inline">\(\mathbf{I}\)</span> being the <strong>identity matrix</strong>, where diagonal elements are 1 and off-diagnal elements are 0:</p>
+<p><span class="math display">\[\mathbf{I} =
+\begin{pmatrix}
+1 &amp; 0 &amp; 0\\
+0 &amp; 1 &amp; 0\\
+0 &amp; 0 &amp; 1
+\end{pmatrix}
+\]</span></p>
+<p>Only matrices with determinants larger zero can be inverted!</p>
+</div>
+</div>
+<div id="exercises" class="section level2">
+<h2><span class="header-section-number">2.5</span> Exercises</h2>
+<div id="exercise-1" class="section level3 unnumbered">
+<h3>Exercise 1</h3>
+<p>Apply the rules in the script to the following equation to get rid of the product operator, and then simplify the resultant equation as much as you can:</p>
+<p><span class="math display" id="eq:ex1">\[\begin{equation}
+\prod_{i=1}^{n}\frac{1}{\sigma \cdot \sqrt{2 \cdot \pi}} \cdot \exp\left(\frac{\left(y_i - \beta_0 - \beta_1 \cdot x_i\right)^2}{-2 \cdot \sigma^2}\right)=
+\tag{2.23}
+\end{equation}\]</span></p>
+</div>
+<div id="exercise-2" class="section level3 unnumbered">
+<h3>Exercise 2</h3>
+<p>Apply the differentiation rules in the script to take the derivative of the following equation:</p>
+<p><span class="math display" id="eq:ex2">\[\begin{equation}
+\frac{d\sum_{i=1}^{n}\left(y_i - \beta_0 - \beta_1 \cdot x_i\right)^2}{d\beta_0}=
+\tag{2.24}
+\end{equation}\]</span></p>
+</div>
+<div id="exercise-3" class="section level3 unnumbered">
+<h3>Exercise 3</h3>
+<p>Consider the following vectors and matrix:</p>
+<p><span class="math display">\[y =
+\begin{pmatrix}
+y_1\\
+y_2\\
+y_3
+\end{pmatrix}
+\]</span></p>
+<p><span class="math display">\[\beta =
+\begin{pmatrix}
+\beta_0\\
+\beta_1\\
+\beta_2\\
+\beta_3
+\end{pmatrix}
+\]</span></p>
+<p><span class="math display">\[\epsilon =
+\begin{pmatrix}
+\epsilon_1\\
+\epsilon_2\\
+\epsilon_3
+\end{pmatrix}
+\]</span></p>
+<p><span class="math display">\[\mathbf{X} =
+\begin{pmatrix}
+1 &amp; x_{11} &amp; x_{12} &amp; x_{13}\\
+1 &amp; x_{21} &amp; x_{22} &amp; x_{23}\\
+1 &amp; x_{31} &amp; x_{32} &amp; x_{33}
+\end{pmatrix}
+\]</span></p>
+<p>Now solve the following equation using matrix algebra:</p>
+<p><span class="math display">\[y = \mathbf{X} \cdot \beta + \epsilon = \]</span></p>
+
+</div>
+</div>
+</div>
+<h3>References</h3>
+<div id="refs" class="references">
+<div id="ref-gelman2002">
+<p>Gelman, A., and D. Nolan. 2002. <em>Teaching Statistics: A Bag of Tricks</em>. Book. New York: Oxford University Press.</p>
+</div>
+<div id="ref-tabachnick2013">
+<p>Tabachnick, B. G., and L. S. Fidell. 2013. <em>Using Multivariate Statistics</em>. Book. Boston: Pearson Education.</p>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="orga.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="lin-reg.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
