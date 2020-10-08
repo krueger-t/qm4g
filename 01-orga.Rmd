@@ -6,7 +6,7 @@ Welcome to the course _Quantitative Methods for Geographers_ (online edition), w
 
 Figure \@ref(fig:motivation) shows the spatial variation of annual average precipitation and annual average temperature over Germany. Before reading on, reflect a minute on what might control this spatial variation.
 
-```{r motivation, echo=FALSE, fig.align='center', fig.cap='Maps of annual average precipitation (left) and annual average air temperature (right) over Germany from 1961 to 1990. Source: www.dwd.de/klimaatlas.', fig.show='hold', out.width='50%'}
+```{r motivation, echo=FALSE, fig.align='center', fig.cap='Maps of annual average precipitation (left) and annual average air temperature (right) over Germany from 1961 to 1990. Source: https://www.dwd.de/EN/climate_environment/climateatlas/climateatlas_node.html.', fig.show='hold', out.width='50%'}
 knitr::include_graphics(c('figs/precip_D.png','figs/temp_D.png'))
 ```
 

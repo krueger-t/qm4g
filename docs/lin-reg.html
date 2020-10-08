@@ -177,6 +177,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="8.3" data-path="multivariate.html"><a href="multivariate.html#multivariate-anova-manova"><i class="fa fa-check"></i><b>8.3</b> Multivariate ANOVA (MANOVA)</a></li>
 <li class="chapter" data-level="8.4" data-path="multivariate.html"><a href="multivariate.html#discriminant-function-analysis-dfa"><i class="fa fa-check"></i><b>8.4</b> Discriminant Function Analysis (DFA)</a></li>
 </ul></li>
+<li class="chapter" data-level="" data-path="solutions-to-exercises.html"><a href="solutions-to-exercises.html"><i class="fa fa-check"></i>Solutions to exercises</a><ul>
+<li class="chapter" data-level="" data-path="solutions-to-exercises.html"><a href="solutions-to-exercises.html#answer-to-q1"><i class="fa fa-check"></i>Answer to Q1</a></li>
+</ul></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -218,9 +221,9 @@ y = \beta_0 + \beta_1 \cdot x + \epsilon
 \end{equation}\]</span>
 It can be visualised as a line, with <span class="math inline">\(\beta_0\)</span> being the <strong>intercept</strong>, where the line intersects the vertical axis (<span class="math inline">\(x=0\)</span>), and <span class="math inline">\(\beta_1\)</span> being the <strong>slope</strong> of the line (Figure <a href="lin-reg.html#fig:linreggraph">3.1</a>). Note, the point <span class="math inline">\(\left(\bar{x},\bar{y}\right)\)</span>, the centroid of the data, lies always on the line.</p>
 <div class="figure" style="text-align: center"><span id="fig:linreggraph"></span>
-<img src="figs/linreggraph.png" alt="Linear model with one predictor variable (linear regression)" width="80%" />
+<img src="figs/linreggraph.png" alt="Linear model with one predictor variable (linear regression)." width="80%" />
 <p class="caption">
-Figure 3.1: Linear model with one predictor variable (linear regression)
+Figure 3.1: Linear model with one predictor variable (linear regression).
 </p>
 </div>
 <p>Linear means linear in the model parameters, not (necessarily) in the predictor variables. With this in mind, consider the following five models. Which are linear models, which are non-linear models? (Q1)<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a></p>
@@ -261,9 +264,9 @@ y = \mathbf{X} \cdot \beta + \epsilon
 <caption><span id="tab:variants1">Table 3.1: </span> Historical names for the variants of the linear model, depending on whether the predictors are continuous, categorical or mixed. The response is always continuous.</caption>
 <thead>
 <tr class="header">
-<th align="center">Continuous</th>
-<th align="center">Categorical</th>
-<th align="center">Mixed</th>
+<th align="center">Continuous<br>predictors</th>
+<th align="center">Categorical<br>predictors</th>
+<th align="center">Mixed<br>predictors</th>
 </tr>
 </thead>
 <tbody>
@@ -276,6 +279,11 @@ y = \mathbf{X} \cdot \beta + \epsilon
 </table>
 <table>
 <caption><span id="tab:variants2">Table 3.2: </span> For the case of regression, different variants with different historical names can be distinguished again, depending on whether we have one or more predictors and one or more responses.</caption>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
 <thead>
 <tr class="header">
 <th align="center"></th>
@@ -292,27 +300,289 @@ y = \mathbf{X} \cdot \beta + \epsilon
 <tr class="even">
 <td align="center"><strong>&gt;1 response variables</strong></td>
 <td align="center">Multivariate regression</td>
-<td align="center">Multivariate regression</td>
+<td align="center">Multivariate multiple regression</td>
 </tr>
 </tbody>
 </table>
 </div>
 <div id="description-versus-prediction" class="section level2">
 <h2><span class="header-section-number">3.3</span> Description versus prediction</h2>
-<p>[…]</p>
+<p>The primary purpose of regression analysis is the description (or explanation) of the data in terms of a general relationship pertaining to the population that these data are sampled from. Being a property of the population, this relationship should then also allow us to make predictions, but we need to be careful. Consider the relationship between year and world record time for the men’s mile depicted in Figure <a href="lin-reg.html#fig:mile">3.2</a>. When the predictor is time, as in this case, regression becomes a form of trend analysis, in this case of how the time it took the respective world record holder to run a mile in the male competition decreased over time.</p>
+<div class="figure" style="text-align: center"><span id="fig:mile"></span>
+<img src="figs/mile1.jpg" alt="Left: Trend of the world record for the men`s mile over the first half of the 20th century (description). Centre: Extrapolation of this trend over the 2nd half of the 20th century (prediction). Right: Extrapolation of this trend until the year 2050 (longer prediction). Source: @wainer2009" width="33%" /><img src="figs/mile2.jpg" alt="Left: Trend of the world record for the men`s mile over the first half of the 20th century (description). Centre: Extrapolation of this trend over the 2nd half of the 20th century (prediction). Right: Extrapolation of this trend until the year 2050 (longer prediction). Source: @wainer2009" width="33%" /><img src="figs/mile3.jpg" alt="Left: Trend of the world record for the men`s mile over the first half of the 20th century (description). Centre: Extrapolation of this trend over the 2nd half of the 20th century (prediction). Right: Extrapolation of this trend until the year 2050 (longer prediction). Source: @wainer2009" width="33%" />
+<p class="caption">
+Figure 3.2: Left: Trend of the world record for the men`s mile over the first half of the 20th century (description). Centre: Extrapolation of this trend over the 2nd half of the 20th century (prediction). Right: Extrapolation of this trend until the year 2050 (longer prediction). Source: <span class="citation">Wainer (<a href="#ref-wainer2009" role="doc-biblioref">2009</a>)</span>
+</p>
+</div>
+<p>The world record for the men`s mile improved linearly over the first half of the 20th century (Figure <a href="lin-reg.html#fig:mile">3.2</a>, left). This fit provides a remarkably accurate fit for the second half as well (Figure <a href="lin-reg.html#fig:mile">3.2</a>, centre). However, for how long can the world record continue to improve at the same rate (Figure <a href="lin-reg.html#fig:mile">3.2</a>, right)? This example clearly shows the scope for prediction by regression within certain bounds, while highlighting the limits of these simple models for making distant predictions (e.g. in time and space). In the case of the world record we would expect the rate of improvement to decline with time, i.e. the world record to level off, which calls for a non-linear model.</p>
 </div>
 <div id="linear-regression" class="section level2">
 <h2><span class="header-section-number">3.4</span> Linear Regression</h2>
+<p>Typically, regression problems are solved, i.e. the lines in Figures <a href="lin-reg.html#fig:linreggraph">3.1</a> and <a href="lin-reg.html#fig:mile">3.2</a> are fitted to the data, by minimising the Sum of Squared Errors (SSE) between the regression line and the data points. This method has come to be known as <strong>Least Squares</strong>. Graphically, it means that in Figure <a href="lin-reg.html#fig:linreggraph">3.1</a> we try different lines with different intercepts (<span class="math inline">\(\beta_0\)</span>) and slopes (<span class="math inline">\(\beta_1\)</span>) and ultimately choose the one where the sum over all vertical distances <span class="math inline">\(\epsilon_i\)</span> squared is smallest. Mathematically, SSE is defined as:</p>
+<p><span class="math display" id="eq:sse">\[\begin{equation}
+SSE=\sum_{i=1}^{n}\left(\epsilon_i\right)^2=\sum_{i=1}^{n}\left(y_i-\left(\beta_0+\beta_1 \cdot x_i\right)\right)^2
+\tag{3.10}
+\end{equation}\]</span>
+The terms <span class="math inline">\(\epsilon_i=y_i-\left(\beta_0+\beta_1 \cdot x_i\right)\)</span> are called the <strong>residuals</strong>, i.e. that part of the variation in the data which the linear model cannot explain.</p>
+<p>In the case of linear regression, SSE can be minimised analytically, which is not the case for non-linear models, for example. Analytically, we find the minimum of SSE where its partial derivatives with respect to the two model parameters are both zero (compare Chapter <a href="math.html#math">2</a>): <span class="math inline">\(\frac{\partial SSE}{\partial \beta_0}=0\)</span> and <span class="math inline">\(\frac{\partial SSE}{\partial \beta_1}=0\)</span>. Using the definition of SEE of Equation <a href="lin-reg.html#eq:sse">(3.10)</a> we thus begin with a system of two differential equations:</p>
+<p><span class="math display" id="eq:sseb0">\[\begin{equation}
+\frac{\partial SSE}{\partial \beta_0}=-2 \cdot \sum_{i=1}^{n}\left(y_i-\beta_0-\beta_1 \cdot x_i\right)=0
+\tag{3.11}
+\end{equation}\]</span>
+<span class="math display" id="eq:sseb1">\[\begin{equation}
+\frac{\partial SSE}{\partial \beta_1}=-2 \cdot \sum_{i=1}^{n}x_i \cdot \left(y_i-\beta_0-\beta_1 \cdot x_i\right)=0
+\tag{3.12}
+\end{equation}\]</span>
+We calculated these derivatives in an exercise in Chapter <a href="math.html#math">2</a> using the sum rule and the chain rule in particular. Since Equations <a href="lin-reg.html#eq:sseb0">(3.11)</a> and <a href="lin-reg.html#eq:sseb1">(3.12)</a> form a system of two differential equations with two unknowns (<span class="math inline">\(\beta_0\)</span> and <span class="math inline">\(\beta_1\)</span>; the data points <span class="math inline">\(x_i\)</span> and <span class="math inline">\(y_i\)</span> are known) we can solve it exactly.</p>
+<p>First, we solve Equation <a href="lin-reg.html#eq:sseb0">(3.11)</a> for <span class="math inline">\(\beta_0\)</span> (after dividing by -2):</p>
+<p><span class="math display" id="eq:b01">\[\begin{equation}
+\sum_{i=1}^{n}y_i-n \cdot \beta_0-\beta_1 \cdot \sum_{i=1}^{n}x_i=0
+\tag{3.13}
+\end{equation}\]</span>
+<span class="math display" id="eq:b02">\[\begin{equation}
+n \cdot \hat\beta_0=\sum_{i=1}^{n}y_i-\hat\beta_1 \cdot \sum_{i=1}^{n}x_i
+\tag{3.14}
+\end{equation}\]</span>
+<span class="math display" id="eq:b03">\[\begin{equation}
+\hat\beta_0=\bar{y}-\hat\beta_1 \cdot \bar{x}
+\tag{3.15}
+\end{equation}\]</span>
+Note, at some point we have renamed <span class="math inline">\(\beta_0\)</span> to <span class="math inline">\(\hat\beta_0\)</span> and <span class="math inline">\(\beta_1\)</span> to <span class="math inline">\(\hat\beta_1\)</span> to denote these as <strong>estimates</strong>. The parameter notation up to now has been general but as we approach actual numerical values for the data at hand we are using the “hat” symbol to signify that we are talking about estimates of those general parameters now for a given dataset.</p>
+<p>Second, we insert Equation <a href="lin-reg.html#eq:b03">(3.15)</a> into Equation <a href="lin-reg.html#eq:sseb1">(3.12)</a> (again after dividing by -2 and rearranging):</p>
+<p><span class="math display" id="eq:insert1">\[\begin{equation}
+\sum_{i=1}^{n}\left(x_i \cdot y_i-\beta_0 \cdot x_i-\beta_1 \cdot x_i^2\right)=0
+\tag{3.16}
+\end{equation}\]</span>
+<span class="math display" id="eq:insert2">\[\begin{equation}
+\sum_{i=1}^{n}\left(x_i \cdot y_i-\bar{y} \cdot x_i+\hat\beta_1 \cdot \bar{x} \cdot x_i-\hat\beta_1 \cdot x_i^2\right)=0
+\tag{3.17}
+\end{equation}\]</span></p>
+<p>Third, we solve Equation <a href="lin-reg.html#eq:insert2">(3.17)</a> for <span class="math inline">\(\beta_1\)</span>:</p>
+<p><span class="math display" id="eq:b11">\[\begin{equation}
+\sum_{i=1}^{n}\left(x_i \cdot y_i-\bar{y} \cdot x_i\right)-\hat\beta_1 \cdot \sum_{i=1}^{n}\left(x_i^2-\bar{x} \cdot x_i\right)=0
+\tag{3.18}
+\end{equation}\]</span>
+<span class="math display" id="eq:b12">\[\begin{equation}
+\hat\beta_1=\frac{\sum_{i=1}^{n}\left(x_i \cdot y_i-\bar{y} \cdot x_i\right)}{\sum_{i=1}^{n}\left(x_i^2-\bar{x} \cdot x_i\right)}
+\tag{3.19}
+\end{equation}\]</span></p>
+<p>Via a series of steps that I skip here, we arrive at:</p>
+<p><span class="math display" id="eq:b13">\[\begin{equation}
+\hat\beta_1=\frac{SSXY}{SSX}
+\tag{3.20}
+\end{equation}\]</span>
+Where <span class="math inline">\(SSX=\sum_{i=1}^{n}\left(x_i-\bar{x}\right)^2\)</span> and <span class="math inline">\(SSXY=\sum_{i=1}^{n}\left(x_i-\bar{x}\right) \cdot \left(y_i-\bar{y}\right)\)</span>. Note, analogously <span class="math inline">\(SSY=\sum_{i=1}^{n}\left(y_i-\bar{y}\right)^2\)</span>. This is an exact solution for <span class="math inline">\(\hat\beta_1\)</span>.</p>
+<p>We then insert Equation <a href="lin-reg.html#eq:b13">(3.20)</a> back into Equation <a href="lin-reg.html#eq:sse">(3.10)</a> and have an exact solution for <span class="math inline">\(\hat\beta_0\)</span>.</p>
 </div>
 <div id="significance-of-regression" class="section level2">
 <h2><span class="header-section-number">3.5</span> Significance of regression</h2>
+<p>Having estimates for the regression parameters we need to ask ourselves whether these estimates are statistically significant or have arisen by chance from the (assumed) random process of sampling the data. We do this via <strong>Analysis of Variance (ANOVA)</strong>, which begins by constructing the ANOVA table (Table <a href="lin-reg.html#tab:anova">3.3</a>). This is often done in the background in software like R and not actually looked at that much.</p>
+<table style="width:100%;">
+<caption><span id="tab:anova">Table 3.3: </span> ANOVA table for linear regression.</caption>
+<colgroup>
+<col width="16%" />
+<col width="16%" />
+<col width="16%" />
+<col width="16%" />
+<col width="16%" />
+<col width="16%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">Source</th>
+<th align="center">Sum of<br>squares</th>
+<th align="center">Degrees of freedom (<span class="math inline">\(df\)</span>)</th>
+<th align="center">Mean squares</th>
+<th align="center">F statistic (<span class="math inline">\(F_s\)</span>)</th>
+<th align="center"><span class="math inline">\(\Pr\left(Z\geq F_s\right)\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">Regression</td>
+<td align="center"><span class="math inline">\(SSR=\\SSY-SSE\)</span></td>
+<td align="center"><span class="math inline">\(1\)</span></td>
+<td align="center"><span class="math inline">\(\frac{SSR}{df_{SSR}}\)</span></td>
+<td align="center"><span class="math inline">\(\frac{\frac{SSR}{df_{SSR}}}{s^2}\)</span></td>
+<td align="center"><span class="math inline">\(1-F\left(F_s,1,n-2\right)\)</span></td>
+</tr>
+<tr class="even">
+<td align="center">Error</td>
+<td align="center"><span class="math inline">\(SSE\)</span></td>
+<td align="center"><span class="math inline">\(n-2\)</span></td>
+<td align="center"><span class="math inline">\(\frac{SSE}{df_{SSE}}=s^2\)</span></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr class="odd">
+<td align="center">Total</td>
+<td align="center"><span class="math inline">\(SSY\)</span></td>
+<td align="center"><span class="math inline">\(n-1\)</span></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+</tbody>
+</table>
+<p>In the second column of Table <a href="lin-reg.html#tab:anova">3.3</a>, <span class="math inline">\(SSY=\sum_{i=1}^{n}\left(y_i-\bar{y}\right)^2\)</span> is a measure of the total variance of the data, i.e. how much the data points are varying around the overall mean (Figure <a href="lin-reg.html#fig:ssysse">3.3</a>, left). <span class="math inline">\(SSE=\sum_{i=1}^{n}\left(\epsilon_i\right)^2=\sum_{i=1}^{n}\left(y_i-\left(\beta_0+\beta_1 \cdot x_i\right)\right)^2\)</span> is a measure of the error variance, i.e. how much the data points are varying around the regression line (Figure <a href="lin-reg.html#fig:ssysse">3.3</a>, right). This is the variance not explained by the model. <span class="math inline">\(SSR=SSY-SSE\)</span> then is a measure of the variance explained by the model.</p>
+<div class="figure" style="text-align: center"><span id="fig:ssysse"></span>
+<img src="figs/ssy.jpg" alt="Variation of the data points around the mean, summarised by $SSY$ (left), and around the regression line, summarised by $SSE$ (right)." width="50%" /><img src="figs/sse.jpg" alt="Variation of the data points around the mean, summarised by $SSY$ (left), and around the regression line, summarised by $SSE$ (right)." width="50%" />
+<p class="caption">
+Figure 3.3: Variation of the data points around the mean, summarised by <span class="math inline">\(SSY\)</span> (left), and around the regression line, summarised by <span class="math inline">\(SSE\)</span> (right).
+</p>
+</div>
+<p>The third column of Table <a href="lin-reg.html#tab:anova">3.3</a> lists the so called <strong>degrees of freedom</strong> of the three variance terms, which can be understood as the number of free parameters for the respective term that is controlled by the (assumed) random process of sampling the data. It is the number of possibilities for the chance process to unfold. <span class="math inline">\(SSY\)</span> requires one parameter (<span class="math inline">\(\bar{y}\)</span>) to be calculated from the data (see above). Hence the degrees of freedom are <span class="math inline">\(n-1\)</span>; if I know <span class="math inline">\(\bar{y}\)</span> then there are <span class="math inline">\(n-1\)</span> data points left that can be generated by chance, the nth one I can calculate from all the others and <span class="math inline">\(\bar{y}\)</span>. <span class="math inline">\(SSE\)</span>, in turn, requires two parameters (<span class="math inline">\(\beta_0\)</span> and <span class="math inline">\(\beta_1\)</span>) to be calculated from the data (Equations <a href="lin-reg.html#eq:b03">(3.15)</a> and <a href="lin-reg.html#eq:b13">(3.20)</a>). Hence the degrees of freedom are <span class="math inline">\(n-2\)</span>. The degrees of freedom of <span class="math inline">\(SSR\)</span> then are just the difference between the former two; <span class="math inline">\(df_{SSR}=df_{SSY}-df_{SSE}=1\)</span>. The degrees of freedom are used to normalise the variance terms in the fourth column of Table <a href="lin-reg.html#tab:anova">3.3</a>, where <span class="math inline">\(s^2\)</span> is called the <strong>error variance</strong>.</p>
+<p>In the fifth column of Table <a href="lin-reg.html#tab:anova">3.3</a> we find the ratio of two variances; regression variance over error variance. Naturally, for a significant regression we want the regression variance (explained by the model) to be much larger than the error variance (unexplained by the model). This is an <strong>F-Test</strong> problem, testing whether the variance explained by the model is significantly different from the variance unexplained by the model. The ratio of the two variances serves as the F statistic (<span class="math inline">\(F_s\)</span>). The sixths column of Table <a href="lin-reg.html#tab:anova">3.3</a> then shows the <strong>p-value</strong> of the F-Test, i.e. the probability of getting <span class="math inline">\(F_s\)</span> or a larger value by chance (i.e. an even better model) if the Null hypothesis (<span class="math inline">\(H_0\)</span>) is true. <span class="math inline">\(H_0\)</span> here is that the two variances are equal. <span class="math inline">\(F_s\)</span> follows an F-distribution with parameters <span class="math inline">\(1\)</span> and <span class="math inline">\(n-2\)</span> under the Null hypothesis (Figure <a href="lin-reg.html#fig:fcdf">3.4</a>). The red line in Figure <a href="lin-reg.html#fig:fcdf">3.4</a> marks a particular value of <span class="math inline">\(F_s\)</span> (between 10 and 11) and the corresponding value of the cumulative distribution function of the F-distribution (<span class="math inline">\(F\left(F_s,1,n-2\right)\)</span>). The p-value is <span class="math inline">\(\Pr\left(Z\geq F_s\right)=1-F\left(F_s,1,n-2\right)\)</span>, i.e. the probability of getting this variance ratio or a greater one by chance (due to the random sampling process) even if the two variances are actually equal. Here this value is very small and hence we conclude that the regression is significant.</p>
+<div class="figure" style="text-align: center"><span id="fig:fcdf"></span>
+<img src="figs/cdf_f.jpg" alt="Cumulative distribution function (CDF) of the F-distribution of the F statistic ($F_s$) with a particular value and corresponding value of the CDF marked in red." width="80%" />
+<p class="caption">
+Figure 3.4: Cumulative distribution function (CDF) of the F-distribution of the F statistic (<span class="math inline">\(F_s\)</span>) with a particular value and corresponding value of the CDF marked in red.
+</p>
+</div>
+<p>The correct interpretation of the p-value is a bit tricky. In the words of philosopher of science Ian <span class="citation">Hacking (<a href="#ref-hacking2001" role="doc-biblioref">2001</a>)</span>, if we have a p-value of say 0.01 this means “either the Null hypothesis is true, in which case something unusual happened by chance (probability 1%), or the Null hypothesis is false.” This means, strictly speaking, the p-value is not the probability of the Null hypothesis being true; it is the probability of the data to come about if the Null hypothesis were true. If this is a very low probability then we think this tells us something about the Null hypothesis (that perhaps we should reject it), but in a roundabout way. Note, in the case of linear regression, the Null model is <span class="math inline">\(\beta_1=0\)</span>, i.e. <span class="math inline">\(y=\beta_0\)</span> with <span class="math inline">\(\hat\beta_0=\bar{y}\)</span>, which means the overall mean is the best model summarising the data (Figure <a href="lin-reg.html#fig:ssysse">3.3</a>, left).</p>
 </div>
 <div id="confidence-in-parameter-estimates" class="section level2">
 <h2><span class="header-section-number">3.6</span> Confidence in parameter estimates</h2>
+<p>Having established the statistical significance of the regression, we should look at the uncertainty around the parameter estimates. In classic linear regression this uncertainty is conceptualised as arising purely from the random sampling process; the data at hand are just one possibility of many, and in each alternative case the parameter estimates would have turned out slightly differently. The linear model itself is assumed to be correct.</p>
+<p>The first step in establishing how confident we should be that the parameter estimates are the correct ones is the calculation of <strong>standard errors</strong>. For <span class="math inline">\(\hat\beta_0\)</span> this is:</p>
+<p><span class="math display" id="eq:seb0">\[\begin{equation}
+s_{\hat\beta_0}=\sqrt{\frac{\sum_{i=1}^{n}x_i^2}{n} \cdot \frac{s^2}{SSX}}
+\tag{3.21}
+\end{equation}\]</span>
+As we can see from the formula, the more data points <span class="math inline">\(n\)</span> we have the smaller is the standard error, i.e. the more confidence we have in the estimate. Also, the larger the variation in <span class="math inline">\(x\)</span> is (<span class="math inline">\(SSX\)</span>) the smaller the standard error. Both effects make intuitive sends: the more data points we have and the more possibilities for <span class="math inline">\(x\)</span> we have covered the more we can be confident that we have not missed much in our random sample. Conversely, the larger the error variance <span class="math inline">\(s^2\)</span>, i.e. the smaller the explanatory power of our model, the larger the standard error. And, the more <span class="math inline">\(x\)</span> data points we have away from zero, i.e. the greater <span class="math inline">\(\sum_{i=1}^{n}x_i^2\)</span> is, the smaller our confidence is in the intercept (where <span class="math inline">\(x=0\)</span>) and hence the standard error increases.</p>
+<p>The standard error for <span class="math inline">\(\hat\beta_1\)</span> is:</p>
+<p><span class="math display" id="eq:seb1">\[\begin{equation}
+s_{\hat\beta_1}=\sqrt{\frac{s^2}{SSX}}
+\tag{3.22}
+\end{equation}\]</span>
+The same interpretation applies, except there is no influence of the magnitude of the <span class="math inline">\(x\)</span> data points.</p>
+<p>We can also establish a standard error for new predictions <span class="math inline">\(\hat y\)</span> for given <span class="math inline">\(\hat x\)</span>:</p>
+<p><span class="math display" id="eq:sey">\[\begin{equation}
+s_{\hat y}=\sqrt{s^2 \cdot \left(\frac{1}{n}+\frac{\left(\hat x-\bar x\right)^2}{SSX}\right)}
+\tag{3.23}
+\end{equation}\]</span>
+The same interpretation applies again, except there now is an added term <span class="math inline">\(\left(\hat x-\bar x\right)^2\)</span> which means the further the new <span class="math inline">\(x\)</span> value is away from the centre of the original data (the training or calibration data) the greater the standard error of the new prediction, i.e. the lower the confidence in it being correct.</p>
+<p>Note, the formula for the standard errors arise from the fundamental assumptions of linear regression, which will be covered below. This can be shown mathematically but is omitted here.</p>
+<p>From the standard errors we can calculate <strong>confidence intervals</strong> for the parameter estimates as follows:</p>
+<p><span class="math display" id="eq:cib01">\[\begin{equation}
+\Pr\left(\hat\beta_0-t_{n-2;0.975} \cdot s_{\hat\beta_0}\leq \beta_0\leq \hat\beta_0+t_{n-2;0.975} \cdot s_{\hat\beta_0}\right)=0.95
+\tag{3.24}
+\end{equation}\]</span>
+The symbol <span class="math inline">\(\Pr(\cdot)\)</span> means probability. The symbol <span class="math inline">\(t_{n-2;0.975}\)</span> stands for the 0.975-percentile of the t-distribution with <span class="math inline">\(n-2\)</span> degrees of freedom. Equation <a href="lin-reg.html#eq:cib01">(3.24)</a> is the central 95% confidence interval, which is defined as the bounds in which the true parameter, here <span class="math inline">\(\beta_0\)</span>, lies with a probability of 0.95. We can write the interval like this:</p>
+<p><span class="math display" id="eq:cib02">\[\begin{equation}
+CI=\left[\hat\beta_0-t_{n-2;0.975} \cdot s_{\hat\beta_0};\hat\beta_0+t_{n-2;0.975} \cdot s_{\hat\beta_0}\right]
+\tag{3.25}
+\end{equation}\]</span>
+As can be seen, the confidence interval is symmetric around the parameter estimate <span class="math inline">\(\hat\beta_0\)</span> and arises from a t-distribution with parameter <span class="math inline">\(n-2\)</span> whose width is modulated by the standard error <span class="math inline">\(s_{\hat\beta_0}\)</span>. Note, the width of the t-distribution is also controlled by sample size, becoming narrower with increasing <span class="math inline">\(n\)</span>.</p>
+<p>The same formulae apply for <span class="math inline">\(\beta_1\)</span> and <span class="math inline">\(y\)</span>:</p>
+<p><span class="math display" id="eq:cib1">\[\begin{equation}
+\Pr\left(\hat\beta_1-t_{n-2;0.975} \cdot s_{\hat\beta_1}\leq \beta_1\leq \hat\beta_1+t_{n-2;0.975} \cdot s_{\hat\beta_1}\right)=0.95
+\tag{3.26}
+\end{equation}\]</span>
+<span class="math display" id="eq:ciy">\[\begin{equation}
+\Pr\left(\hat y-t_{n-2;0.975} \cdot s_{\hat y}\leq y\leq \hat y+t_{n-2;0.975} \cdot s_{\hat y}\right)=0.95
+\tag{3.27}
+\end{equation}\]</span>
+As with the p-values, we need to be clear about the meaning of probability here, which in classic statistics is predicated on the <strong>repeated sampling principle</strong>. The meaning of the 95% confidence interval is then that in an assumed infinite number of regression experiments the 95% confidence interval captures the true parameter value in 95% of the cases. Again, this is not a probability of the true parameter value lying within the confidence interval for any one experiment!</p>
+<p>The formula for the confidence intervals (Equations <a href="lin-reg.html#eq:cib01">(3.24)</a>, <a href="lin-reg.html#eq:cib1">(3.26)</a> and <a href="lin-reg.html#eq:ciy">(3.27)</a>) arise from the fundamental assumptions of linear regression; the residuals are <strong>independent identically distributed (iid)</strong> according to a <strong>normal distribution</strong> and <strong>the linear model is correct</strong>. Then it can be shown mathematically that <span class="math inline">\(\frac{\hat\beta_0-\beta_0}{s_{\hat\beta_0}}\)</span>, <span class="math inline">\(\frac{\hat\beta_1-\beta_1}{s_{\hat\beta_1}}\)</span> and <span class="math inline">\(\frac{\hat y-y}{s_{\hat y}}\)</span> are <span class="math inline">\(t_{n-2}\)</span>-distributed (t-distribution with <span class="math inline">\(n-2\)</span> degrees of freedom). Since the central 95% confidence interval of an arbitrary <span class="math inline">\(t_{n-2}\)</span>-distributed random variable <span class="math inline">\(Z\)</span> is <span class="math inline">\(\Pr\left(-t_{n-2;0.975}\leq Z\leq t_{n-2;0.975}\right)=0.95\)</span> (Figure <a href="lin-reg.html#fig:tpdfcdf">3.5</a>), we can substitute any of the aforementioned three terms for <span class="math inline">\(Z\)</span> and rearrange to arrive at Equations <a href="lin-reg.html#eq:cib01">(3.24)</a>, <a href="lin-reg.html#eq:cib1">(3.26)</a> and <a href="lin-reg.html#eq:ciy">(3.27)</a>.</p>
+<div class="figure" style="text-align: center"><span id="fig:tpdfcdf"></span>
+<img src="figs/pdf_t.jpg" alt="Left: Probability density function (PDF) of a t-distributed random variable $Z$, with central 95% confidence interval marked in red. 95% of the PDF lie between the two bounds, 2.5% lie left of the lower bound and 2.5% right of the upper bound. Right: Cumulative distribution function (CDF) of the same t-distributed random variable $Z$. The upper bound of the 95% confidence interval is defined as $t_{n-2;0.975}$, i.e. the 0.975-percentile of the distribution, while the lower bound is defined as $t_{n-2;0.025}$, which is equivalent to $-t_{n-2;0.975}$ due to the symmetry of the distribution." width="50%" /><img src="figs/cdf_t.jpg" alt="Left: Probability density function (PDF) of a t-distributed random variable $Z$, with central 95% confidence interval marked in red. 95% of the PDF lie between the two bounds, 2.5% lie left of the lower bound and 2.5% right of the upper bound. Right: Cumulative distribution function (CDF) of the same t-distributed random variable $Z$. The upper bound of the 95% confidence interval is defined as $t_{n-2;0.975}$, i.e. the 0.975-percentile of the distribution, while the lower bound is defined as $t_{n-2;0.025}$, which is equivalent to $-t_{n-2;0.975}$ due to the symmetry of the distribution." width="50%" />
+<p class="caption">
+Figure 3.5: Left: Probability density function (PDF) of a t-distributed random variable <span class="math inline">\(Z\)</span>, with central 95% confidence interval marked in red. 95% of the PDF lie between the two bounds, 2.5% lie left of the lower bound and 2.5% right of the upper bound. Right: Cumulative distribution function (CDF) of the same t-distributed random variable <span class="math inline">\(Z\)</span>. The upper bound of the 95% confidence interval is defined as <span class="math inline">\(t_{n-2;0.975}\)</span>, i.e. the 0.975-percentile of the distribution, while the lower bound is defined as <span class="math inline">\(t_{n-2;0.025}\)</span>, which is equivalent to <span class="math inline">\(-t_{n-2;0.975}\)</span> due to the symmetry of the distribution.
+</p>
+</div>
+<p>The t-distribution property of the parameter estimates can further be exploited to test each parameter estimate separately for its statistical significance. This becomes especially important for multiple regression problems where we have more than one possible predictor, not all of which will have a statistically significant effect. The <strong>significance of the parameter estimates</strong> is determined via a <strong>t-test</strong>. The Null hypothesis is that the true parameters are zero, i.e. the parameter estimates are not significant:</p>
+<p><span class="math display" id="eq:h0b0">\[\begin{equation}
+H_0:\beta_0=0
+\tag{3.28}
+\end{equation}\]</span>
+<span class="math display" id="eq:h0b1">\[\begin{equation}
+H_0:\beta_1=0
+\tag{3.29}
+\end{equation}\]</span></p>
+<p>This hypothesis is tested against the alternative hypothesis that the true parameters are different from zero, i.e. the parameter estimates are significant:</p>
+<p><span class="math display" id="eq:h1b0">\[\begin{equation}
+H_1:\beta_0\neq 0
+\tag{3.30}
+\end{equation}\]</span>
+<span class="math display" id="eq:h1b1">\[\begin{equation}
+H_1:\beta_1\neq 0
+\tag{3.31}
+\end{equation}\]</span></p>
+<p>The test statistics are:</p>
+<p><span class="math display" id="eq:tsb0">\[\begin{equation}
+t_s=\frac{\hat\beta_0-0}{s_{\hat\beta_0}}\sim t_{n-2}
+\tag{3.32}
+\end{equation}\]</span>
+<span class="math display" id="eq:tsb1">\[\begin{equation}
+t_s=\frac{\hat\beta_1-0}{s_{\hat\beta_1}}\sim t_{n-2}
+\tag{3.33}
+\end{equation}\]</span>
+The “tilde” symbol (<span class="math inline">\(\sim\)</span>) means the test statistics follow a certain distribution, here the t-distribution. This arises again from the regression assumptions noted above. The assumptions are the same as for the common t-test of means, except in the case of linear regression the residuals are assumed iid normal while in the case of means the actual data points <span class="math inline">\(y\)</span> are assumed <strong>iid normal</strong>.</p>
+<p>Analogous to the common 2-sided t-test, the p-value is defined as:</p>
+<p><span class="math display" id="eq:pv">\[\begin{equation}
+2 \cdot \Pr\left(t&gt;|t_s|\right)=2 \cdot \left(1-F_t\left(|t_s|\right)\right)
+\tag{3.34}
+\end{equation}\]</span>
+The symbol <span class="math inline">\(F_t\left(|t_s|\right)\)</span> signifies the value of the cumulative distribution function of the t-distribution at the location of the absolute value of the test statistic (<span class="math inline">\(|t_s|\)</span>, Figure <a href="lin-reg.html#fig:tc">3.6</a>). With a significance level of say <span class="math inline">\(\alpha=0.05\)</span> we arrive at a critical value of the test statistic <span class="math inline">\(t_c=t_{n-2;0.975}\)</span> beyond which we reject the Null hypothesis and call the parameter estimates significant (Figure <a href="lin-reg.html#fig:tc">3.6</a>).</p>
+<div class="figure" style="text-align: center"><span id="fig:tc"></span>
+<img src="figs/tc.jpg" alt="Schematic of the t-test of significance of parameter estimates. The test statistic follows a t-distribution under the Null hypothesis. The actual value of the test statistic $t_s$ is marked in blue and mirrored at zero for the 2-sided test. The critical value of the test statistic $t_c$ we get from a significance level of $\alpha=0.05$ is marked in red; this too is mirrored for the 2-sided test. We reject the Null hypothesis if $|t_s|&gt;t_c$, i.e. for values of $t_s$ below $-t_c$ and above $t_c$, and then call this parameter estimate significant. We keep the Null hypothesis if $|t_s|\leq t_c$, i.e. for values of $t_s$ between $-t_c$ and $t_c$, and then call this parameter estimate insignificant (for now). In the example shown the parameter estimate is insignificant." width="80%" />
+<p class="caption">
+Figure 3.6: Schematic of the t-test of significance of parameter estimates. The test statistic follows a t-distribution under the Null hypothesis. The actual value of the test statistic <span class="math inline">\(t_s\)</span> is marked in blue and mirrored at zero for the 2-sided test. The critical value of the test statistic <span class="math inline">\(t_c\)</span> we get from a significance level of <span class="math inline">\(\alpha=0.05\)</span> is marked in red; this too is mirrored for the 2-sided test. We reject the Null hypothesis if <span class="math inline">\(|t_s|&gt;t_c\)</span>, i.e. for values of <span class="math inline">\(t_s\)</span> below <span class="math inline">\(-t_c\)</span> and above <span class="math inline">\(t_c\)</span>, and then call this parameter estimate significant. We keep the Null hypothesis if <span class="math inline">\(|t_s|\leq t_c\)</span>, i.e. for values of <span class="math inline">\(t_s\)</span> between <span class="math inline">\(-t_c\)</span> and <span class="math inline">\(t_c\)</span>, and then call this parameter estimate insignificant (for now). In the example shown the parameter estimate is insignificant.
+</p>
+</div>
 </div>
 <div id="goodness-of-fit" class="section level2">
 <h2><span class="header-section-number">3.7</span> Goodness of fit</h2>
+<p>The final step in regression analysis is assessing the goodness of fit of the linear model. In the first instance this may be done through the <strong>coefficient of determination</strong> (<span class="math inline">\(r^2\)</span>), which is defined as the proportion of variation (in y-direction) that is explained by the model:</p>
+<p><span class="math display" id="eq:r2">\[\begin{equation}
+r^2=\frac{SSY-SSE}{SSY}=1-\frac{SSE}{SSY}
+\tag{3.35}
+\end{equation}\]</span>
+As can be seen, when the model fails to explain more variation than the total variation around the mean, i.e. <span class="math inline">\(SSE=SSY\)</span>, then <span class="math inline">\(r^2=0\)</span>. Conversely, when the model fits the data perfectly, i.e. <span class="math inline">\(SSE=0\)</span>, then <span class="math inline">\(r^2=1\)</span>. Any value in between signifies varying levels of goodness of fit. This can be visualised again with Figure <a href="lin-reg.html#fig:ssysse">3.3</a>, with the left panel signifying <span class="math inline">\(SSY\)</span> and the right panel <span class="math inline">\(SSE\)</span>.</p>
+<p>When it comes to comparing models of varying complexity (i.e. with more or less parameters) using <span class="math inline">\(r^2\)</span>, then penalising the metric by the number of model parameters makes sense since more complex models (more parameters) automatically lead to better fits simply due to the greater degrees of freedom that more complex models have for fitting the data. This leads to the <strong>adjusted <span class="math inline">\(r^2\)</span></strong>:</p>
+<p><span class="math display" id="eq:adjr2">\[\begin{equation}
+\bar r^2=1-\frac{\frac{SSE}{df_{SSE}}}{\frac{SSY}{df_{SSY}}}=1-\frac{SSE}{SSY} \cdot \frac{df_{SSY}}{df_{SSE}}
+\tag{3.36}
+\end{equation}\]</span></p>
+<p>The coefficient of determination alone, however, is insufficient for assessing goodness of fit. Consider the four datasets depicted in Figure <a href="#fig:"><strong>??</strong></a>, which together form the <span class="citation">Anscombe (<a href="#ref-anscombe1973" role="doc-biblioref">1973</a>)</span> dataset. The individual datasets have purposely been constructed to yield virtually the same parameter estimates and coefficients of determination (Table <a href="#tab:"><strong>??</strong></a>), despite wildly different relationships between <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> (Figure <a href="#fig:"><strong>??</strong></a>).</p>
+<p>[Figure]</p>
+<p>[Table]</p>
+<p>The coefficient of determination is insensitive to these and similar systematic deviations from the regression line. But we can detect these deficiencies of the model by looking at plots like Figure <a href="#fig:"><strong>??</strong></a>, and more generally by performing <strong>residual diagnostics</strong> that <strong>check model assumptions</strong>.</p>
+<p>The fundamental assumptions of linear regression are:</p>
+<ul>
+<li>The residuals are <strong>independent</strong>, in which case there will be no serial correlation in the residual plot – this can be tested using the Durbin-Watson test</li>
+<li>The residuals are <strong>normally distributed</strong> – this can be visually assessed using the quantile-quantile plot (QQ plot) and the residual histogram/boxplot, and can be tested using the Kolmogorov-Smirnov test and the Shapiro-Wilk test</li>
+<li>The variance is the same across residuals (= residuals are <strong>homoscedastic</strong>), in which case there is no “fanning out” of the residuals</li>
+</ul>
+<p>If these assumptions are not met then we can resort to data transformation, weighted regression or Generalised Linear Models (this is the preferred option), which we will cover later in this course.</p>
+<p>A first useful diagnostic plot is of the residuals in series, i.e. by index <span class="math inline">\(i\)</span>, to see if there is a pattern due to the data collection process (Figure <a href="#fig:"><strong>??</strong></a>). For the Anscombe dataset, this detects the nonlinearity in dataset 2 (top-right) and the outlier in dataset 3 (bottom-left), compare Figure <a href="#fig:"><strong>??</strong></a>.</p>
+<p>[Figure]</p>
+<p>We should also plot the residuals by predicted value of <span class="math inline">\(y\)</span> to see if there is a pattern as a function of magnitude (Figure <a href="#fig:"><strong>??</strong></a>). For the Anscombe dataset, this emphasizes the non-linearity of dataset 2 (top-right) and the outlier in dataset 3 (bottom-left) and also detects the singular extreme point in dataset 4 (bottom-right). In sum, the independence and homoscedasticity assumptions seem to be violated in all datasets except dataset 1. This would have to be formally tested using the Durbin-Watson test, for example.</p>
+<p>The normality assumption can be assessed using the QQ plot (Figure <a href="#fig:"><strong>??</strong></a>). In the QQ plot, every data point represents a certain quantile of the empirical distribution. This quantile (after standardisation) is plotted (vertical axis) against the value of that quantile expected under a standard normal distribution (horizontal axis). The resultant shapes say something about the distribution of the residuals (Figure <a href="lin-reg.html#fig:qq">3.7</a>), e.g. in case of a normal distribution they all fall on a straight line. In the Anscombe dataset, the only clearly non-normal dataset seems to be #3 (bottom-left). This would have to be formally tested using the Kolmogorov-Smirnov test or the Shapiro-Wilk test, for example.</p>
+<p>[Figure]</p>
+<div class="figure" style="text-align: center"><span id="fig:qq"></span>
+<img src="figs/qq.gif" alt="Characteristic shapes of the QQ plot and what they mean for the residuals in our case. Source: https://condor.depaul.edu/sjost/it223/documents/normal-plot.htm." width="80%" />
+<p class="caption">
+Figure 3.7: Characteristic shapes of the QQ plot and what they mean for the residuals in our case. Source: <a href="https://condor.depaul.edu/sjost/it223/documents/normal-plot.htm" class="uri">https://condor.depaul.edu/sjost/it223/documents/normal-plot.htm</a>.
+</p>
+</div>
+<p>The non-normality of dataset 3 becomes apparent also in the residual histograms (Figure <a href="#fig:"><strong>??</strong></a>) and boxplots (Figure <a href="#fig:"><strong>??</strong></a>). They also emphasize the outlier in dataset 3. Note, it is generally difficult to reject the hypothesis of normally distributed residuals with so few data points.</p>
+<p>[Figure]</p>
+<p>[Figure]</p>
 
+</div>
+</div>
+<h3>References</h3>
+<div id="refs" class="references">
+<div id="ref-anscombe1973">
+<p>Anscombe, F. J. 1973. “Graphs in Statistical Analysis.” Journal Article. <em>The American Statistician</em> 27 (1): 17–21. <a href="https://doi.org/10.1080/00031305.1973.10478966">https://doi.org/10.1080/00031305.1973.10478966</a>.</p>
+</div>
+<div id="ref-hacking2001">
+<p>Hacking, I. 2001. <em>An Introduction to Probability and Inductive Logic</em>. Book. Cambridge: Cambridge University Press.</p>
+</div>
+<div id="ref-wainer2009">
+<p>Wainer, H. 2009. <em>Picturing the Uncertain World</em>. Book. Princeton: Princeton University Press.</p>
 </div>
 </div>
 <div class="footnotes">

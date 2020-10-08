@@ -177,6 +177,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="8.3" data-path="multivariate.html"><a href="multivariate.html#multivariate-anova-manova"><i class="fa fa-check"></i><b>8.3</b> Multivariate ANOVA (MANOVA)</a></li>
 <li class="chapter" data-level="8.4" data-path="multivariate.html"><a href="multivariate.html#discriminant-function-analysis-dfa"><i class="fa fa-check"></i><b>8.4</b> Discriminant Function Analysis (DFA)</a></li>
 </ul></li>
+<li class="chapter" data-level="" data-path="solutions-to-exercises.html"><a href="solutions-to-exercises.html"><i class="fa fa-check"></i>Solutions to exercises</a><ul>
+<li class="chapter" data-level="" data-path="solutions-to-exercises.html"><a href="solutions-to-exercises.html#answer-to-q1"><i class="fa fa-check"></i>Answer to Q1</a></li>
+</ul></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -356,9 +359,9 @@ Figure 2.4: Histogram of dataset <span class="math inline">\(y\)</span> (left) a
 <h2><span class="header-section-number">2.3</span> Derivatives</h2>
 <p>The <strong>first derivative</strong> of a function <span class="math inline">\(f(x)\)</span>, <span class="math inline">\(f&#39;(x)\)</span> or <span class="math inline">\(\frac{df(x)}{dx}\)</span>, can be interpreted graphically as the slope of that function, i.e. the tangent line of a certain point of the function (Figure <a href="math.html#fig:derivative">2.5</a>, left).</p>
 <div class="figure" style="text-align: center"><span id="fig:derivative"></span>
-<img src="figs/derivative1.png" alt="Left: Tangent line of function $f(x)$. Centre: Secant line of function $f(x)$ between point $f\left(x_0\right)$ and point $f\left(x_0+h\right)$; the horizontal distance between these two points is $\Delta x$ and the vertical distance is $\Delta f(x)$. Right: Set of secant lines of function $f(x)$ between point $f\left(x_0\right)$ and point $f\left(x_0+h\right)$ for progressively decreasing increments $h$. Source: http://en.wikipedia.org/wiki/Derivative." width="33%" /><img src="figs/derivative2.png" alt="Left: Tangent line of function $f(x)$. Centre: Secant line of function $f(x)$ between point $f\left(x_0\right)$ and point $f\left(x_0+h\right)$; the horizontal distance between these two points is $\Delta x$ and the vertical distance is $\Delta f(x)$. Right: Set of secant lines of function $f(x)$ between point $f\left(x_0\right)$ and point $f\left(x_0+h\right)$ for progressively decreasing increments $h$. Source: http://en.wikipedia.org/wiki/Derivative." width="33%" /><img src="figs/derivative3.png" alt="Left: Tangent line of function $f(x)$. Centre: Secant line of function $f(x)$ between point $f\left(x_0\right)$ and point $f\left(x_0+h\right)$; the horizontal distance between these two points is $\Delta x$ and the vertical distance is $\Delta f(x)$. Right: Set of secant lines of function $f(x)$ between point $f\left(x_0\right)$ and point $f\left(x_0+h\right)$ for progressively decreasing increments $h$. Source: http://en.wikipedia.org/wiki/Derivative." width="33%" />
+<img src="figs/derivative1.png" alt="Left: Tangent line of function $f(x)$. Centre: Secant line of function $f(x)$ between point $f\left(x_0\right)$ and point $f\left(x_0+h\right)$; the horizontal distance between these two points is $\Delta x$ and the vertical distance is $\Delta f(x)$. Right: Set of secant lines of function $f(x)$ between point $f\left(x_0\right)$ and point $f\left(x_0+h\right)$ for progressively decreasing increments $h$. Source: https://en.wikipedia.org/wiki/Derivative." width="33%" /><img src="figs/derivative2.png" alt="Left: Tangent line of function $f(x)$. Centre: Secant line of function $f(x)$ between point $f\left(x_0\right)$ and point $f\left(x_0+h\right)$; the horizontal distance between these two points is $\Delta x$ and the vertical distance is $\Delta f(x)$. Right: Set of secant lines of function $f(x)$ between point $f\left(x_0\right)$ and point $f\left(x_0+h\right)$ for progressively decreasing increments $h$. Source: https://en.wikipedia.org/wiki/Derivative." width="33%" /><img src="figs/derivative3.png" alt="Left: Tangent line of function $f(x)$. Centre: Secant line of function $f(x)$ between point $f\left(x_0\right)$ and point $f\left(x_0+h\right)$; the horizontal distance between these two points is $\Delta x$ and the vertical distance is $\Delta f(x)$. Right: Set of secant lines of function $f(x)$ between point $f\left(x_0\right)$ and point $f\left(x_0+h\right)$ for progressively decreasing increments $h$. Source: https://en.wikipedia.org/wiki/Derivative." width="33%" />
 <p class="caption">
-Figure 2.5: Left: Tangent line of function <span class="math inline">\(f(x)\)</span>. Centre: Secant line of function <span class="math inline">\(f(x)\)</span> between point <span class="math inline">\(f\left(x_0\right)\)</span> and point <span class="math inline">\(f\left(x_0+h\right)\)</span>; the horizontal distance between these two points is <span class="math inline">\(\Delta x\)</span> and the vertical distance is <span class="math inline">\(\Delta f(x)\)</span>. Right: Set of secant lines of function <span class="math inline">\(f(x)\)</span> between point <span class="math inline">\(f\left(x_0\right)\)</span> and point <span class="math inline">\(f\left(x_0+h\right)\)</span> for progressively decreasing increments <span class="math inline">\(h\)</span>. Source: <a href="http://en.wikipedia.org/wiki/Derivative" class="uri">http://en.wikipedia.org/wiki/Derivative</a>.
+Figure 2.5: Left: Tangent line of function <span class="math inline">\(f(x)\)</span>. Centre: Secant line of function <span class="math inline">\(f(x)\)</span> between point <span class="math inline">\(f\left(x_0\right)\)</span> and point <span class="math inline">\(f\left(x_0+h\right)\)</span>; the horizontal distance between these two points is <span class="math inline">\(\Delta x\)</span> and the vertical distance is <span class="math inline">\(\Delta f(x)\)</span>. Right: Set of secant lines of function <span class="math inline">\(f(x)\)</span> between point <span class="math inline">\(f\left(x_0\right)\)</span> and point <span class="math inline">\(f\left(x_0+h\right)\)</span> for progressively decreasing increments <span class="math inline">\(h\)</span>. Source: <a href="https://en.wikipedia.org/wiki/Derivative" class="uri">https://en.wikipedia.org/wiki/Derivative</a>.
 </p>
 </div>
 <p>Mathematically, the slope amounts to the limiting value of the ratio of the (vertical) increment of the function, <span class="math inline">\(\Delta f(x)\)</span>, for an (horizontal) increment of <span class="math inline">\(x\)</span>, <span class="math inline">\(\Delta x\)</span>, for <span class="math inline">\(\Delta x\)</span> approaching zero, <span class="math inline">\(\Delta x \to 0\)</span>:
@@ -614,36 +617,7 @@ g \cdot a + h \cdot b + i \cdot c &amp; g \cdot d + h \cdot e + i \cdot f &amp; 
 </div>
 <div id="exercise-3" class="section level3 unnumbered">
 <h3>Exercise 3</h3>
-<p>Consider the following vectors and matrix:</p>
-<p><span class="math display">\[y =
-\begin{pmatrix}
-y_1\\
-y_2\\
-y_3
-\end{pmatrix}
-\]</span></p>
-<p><span class="math display">\[\beta =
-\begin{pmatrix}
-\beta_0\\
-\beta_1\\
-\beta_2\\
-\beta_3
-\end{pmatrix}
-\]</span></p>
-<p><span class="math display">\[\epsilon =
-\begin{pmatrix}
-\epsilon_1\\
-\epsilon_2\\
-\epsilon_3
-\end{pmatrix}
-\]</span></p>
-<p><span class="math display">\[\mathbf{X} =
-\begin{pmatrix}
-1 &amp; x_{11} &amp; x_{12} &amp; x_{13}\\
-1 &amp; x_{21} &amp; x_{22} &amp; x_{23}\\
-1 &amp; x_{31} &amp; x_{32} &amp; x_{33}
-\end{pmatrix}
-\]</span></p>
+<p>Consider the following vectors and matrix: <span class="math inline">\(y = \begin{pmatrix} y_1\\ y_2\\ y_3 \end{pmatrix}\)</span>, <span class="math inline">\(\beta = \begin{pmatrix} \beta_0\\ \beta_1\\ \beta_2\\ \beta_3 \end{pmatrix}\)</span>, <span class="math inline">\(\epsilon = \begin{pmatrix} \epsilon_1\\ \epsilon_2\\ \epsilon_3 \end{pmatrix}\)</span> and <span class="math inline">\(\mathbf{X} = \begin{pmatrix} 1 &amp; x_{11} &amp; x_{12} &amp; x_{13}\\ 1 &amp; x_{21} &amp; x_{22} &amp; x_{23}\\ 1 &amp; x_{31} &amp; x_{32} &amp; x_{33} \end{pmatrix}\)</span>.</p>
 <p>Now solve the following equation using matrix algebra:</p>
 <p><span class="math display">\[y = \mathbf{X} \cdot \beta + \epsilon = \]</span></p>
 

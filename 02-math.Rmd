@@ -156,7 +156,7 @@ lines(c(0, 0), c(0,0.4), lwd = 3)
 
 The **first derivative** of a function $f(x)$, $f'(x)$ or $\frac{df(x)}{dx}$, can be interpreted graphically as the slope of that function, i.e. the tangent line of a certain point of the function (Figure \@ref(fig:derivative), left).
 
-```{r derivative, echo=FALSE, fig.align='center', fig.cap='Left: Tangent line of function $f(x)$. Centre: Secant line of function $f(x)$ between point $f\\left(x_0\\right)$ and point $f\\left(x_0+h\\right)$; the horizontal distance between these two points is $\\Delta x$ and the vertical distance is $\\Delta f(x)$. Right: Set of secant lines of function $f(x)$ between point $f\\left(x_0\\right)$ and point $f\\left(x_0+h\\right)$ for progressively decreasing increments $h$. Source: http://en.wikipedia.org/wiki/Derivative.', fig.show='hold', out.width='33%'}
+```{r derivative, echo=FALSE, fig.align='center', fig.cap='Left: Tangent line of function $f(x)$. Centre: Secant line of function $f(x)$ between point $f\\left(x_0\\right)$ and point $f\\left(x_0+h\\right)$; the horizontal distance between these two points is $\\Delta x$ and the vertical distance is $\\Delta f(x)$. Right: Set of secant lines of function $f(x)$ between point $f\\left(x_0\\right)$ and point $f\\left(x_0+h\\right)$ for progressively decreasing increments $h$. Source: https://en.wikipedia.org/wiki/Derivative.', fig.show='hold', out.width='33%'}
 knitr::include_graphics(c('figs/derivative1.png','figs/derivative2.png','figs/derivative3.png'))
 ```
 
@@ -449,40 +449,28 @@ $$\begin{equation}
 
 ### Exercise 3 {-}
 
-Consider the following vectors and matrix:
-
-$$y =
+Consider the following vectors and matrix: $y =
 \begin{pmatrix}
 y_1\\
 y_2\\
 y_3
-\end{pmatrix}
-$$
-
-$$\beta =
+\end{pmatrix}$, $\beta =
 \begin{pmatrix}
 \beta_0\\
 \beta_1\\
 \beta_2\\
 \beta_3
-\end{pmatrix}
-$$
-
-$$\epsilon =
+\end{pmatrix}$, $\epsilon =
 \begin{pmatrix}
 \epsilon_1\\
 \epsilon_2\\
 \epsilon_3
-\end{pmatrix}
-$$
-
-$$\mathbf{X} =
+\end{pmatrix}$ and $\mathbf{X} =
 \begin{pmatrix}
 1 & x_{11} & x_{12} & x_{13}\\
 1 & x_{21} & x_{22} & x_{23}\\
 1 & x_{31} & x_{32} & x_{33}
-\end{pmatrix}
-$$
+\end{pmatrix}$.
 
 Now solve the following equation using matrix algebra:
 
