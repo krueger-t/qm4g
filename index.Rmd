@@ -8,8 +8,8 @@ documentclass: book
 bibliography: book.bib
 biblio-style: apalike
 link-citations: yes
-github-repo: 
-description: "..."
+github-repo: krueger-t/qm4g
+description: "This is the script of the course 'Quantitative Methods for Geographers' run at the Geography Department of Humboldt-Universität zu Berlin."
 ---
 
-# Intro
+# Preface {-}
