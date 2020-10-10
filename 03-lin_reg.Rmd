@@ -332,13 +332,52 @@ $$\begin{equation}
 (\#eq:adjr2)
 \end{equation}$$
 
-The coefficient of determination alone, however, is insufficient for assessing goodness of fit. Consider the four datasets depicted in Figure \@ref(fig:), which together form the @anscombe1973 dataset. The individual datasets have purposely been constructed to yield virtually the same parameter estimates and coefficients of determination (Table \@ref(tab:)), despite wildly different relationships between $x$ and $y$ (Figure \@ref(fig:)).
+The coefficient of determination alone, however, is insufficient for assessing goodness of fit. Consider the four datasets depicted in Figure \@ref(fig:anscomberaw), which together form the @anscombe1973 dataset.
 
-[Figure]
+```{r anscomberaw, echo=TRUE, fig.align='center', fig.cap='The four @anscombe1973 datasets.', fig.show='hold', out.width='50%'}
+# load Anscombe dataset
+dat <- anscombe
+# plot 4 individual datasets
+plot(dat$x1, dat$y1, xlim = c(0, 20), ylim = c(0, 14), pch = 19, type = 'p')
+plot(dat$x2, dat$y2, xlim = c(0, 20), ylim = c(0, 14), pch = 19, type = 'p')
+plot(dat$x3, dat$y3, xlim = c(0, 20), ylim = c(0, 14), pch = 19, type = 'p')
+plot(dat$x4, dat$y4, xlim = c(0, 20), ylim = c(0, 14), pch = 19, type = 'p')
+```
 
-[Table]
+The individual datasets have purposely been constructed to yield virtually the same parameter estimates and coefficients of determination , despite wildly different relationships between $x$ and $y$ (Figure \@ref(fig:anscombefit)):
 
-The coefficient of determination is insensitive to these and similar systematic deviations from the regression line. But we can detect these deficiencies of the model by looking at plots like Figure \@ref(fig:), and more generally by performing **residual diagnostics** that **check model assumptions**.
+```{r echo=TRUE}
+# perform individual regressions
+fit1 <- lm(y1 ~ x1, data = dat)
+fit2 <- lm(y2 ~ x2, data = dat)
+fit3 <- lm(y3 ~ x3, data = dat)
+fit4 <- lm(y4 ~ x4, data = dat)
+# extract information about parameter estimates and R2
+coef(summary(fit1))
+summary(fit1)$r.squared
+coef(summary(fit2))
+summary(fit2)$r.squared
+coef(summary(fit3))
+summary(fit3)$r.squared
+coef(summary(fit4))
+summary(fit4)$r.squared
+```
+
+In these summary tables, "(Intercept)" stands for $\beta_0$, "x1"-"x4" stands for $\beta_1$. The column "Estimate" gives $\hat\beta_0$ and $\hat\beta_1$, the column "Std. Error" gives $s_{\hat\beta_0}$ and $s_{\hat\beta_1}$, the column "t value" gives the individual $t_s$ and the column "Pr(>|t|)" gives the respective p-value.
+
+```{r anscombefit, echo=TRUE, fig.align='center', fig.cap='Regression analysis of the four @anscombe1973 datasets, yielding virtually the same parameter estimates and coefficients of determination (see above), despite wildly different relationships between $x$ and $y$.', fig.show='hold', out.width='50%'}
+# plot individual datasets with regression lines
+plot(dat$x1, dat$y1, xlim = c(0, 20), ylim = c(0, 14), pch = 19, type = 'p')
+abline(coef(fit1), lwd = 3, col = "red")
+plot(dat$x2, dat$y2, xlim = c(0, 20), ylim = c(0, 14), pch = 19, type = 'p')
+abline(coef(fit2), lwd = 3, col = "red")
+plot(dat$x3, dat$y3, xlim = c(0, 20), ylim = c(0, 14), pch = 19, type = 'p')
+abline(coef(fit3), lwd = 3, col = "red")
+plot(dat$x4, dat$y4, xlim = c(0, 20), ylim = c(0, 14), pch = 19, type = 'p')
+abline(coef(fit4), lwd = 3, col = "red")
+```
+
+The coefficient of determination is insensitive to these and similar systematic deviations from the regression line. But we can detect these deficiencies of the model by looking at plots like Figure \@ref(fig:anscombefit), and more generally by performing **residual diagnostics** that **check model assumptions**.
 
 The fundamental assumptions of linear regression are:
 
@@ -348,22 +387,60 @@ The fundamental assumptions of linear regression are:
 
 If these assumptions are not met then we can resort to data transformation, weighted regression or Generalised Linear Models (this is the preferred option), which we will cover later in this course.
 
-A first useful diagnostic plot is of the residuals in series, i.e. by index $i$, to see if there is a pattern due to the data collection process (Figure \@ref(fig:)). For the Anscombe dataset, this detects the nonlinearity in dataset 2 (top-right) and the outlier in dataset 3 (bottom-left), compare Figure \@ref(fig:).
+A first useful diagnostic plot is of the residuals in series, i.e. by index $i$, to see if there is a pattern due to the data collection process (Figure \@ref(fig:anscomberes1)). For the Anscombe dataset, this detects the nonlinearity in dataset 2 (top-right) and the outlier in dataset 3 (bottom-left), compare Figure \@ref(fig:anscombefit).
 
-[Figure]
+```{r anscomberes1, echo=TRUE, fig.align='center', fig.cap='@anscombe1973 datasets. Plot of residuals in series, i.e. by index $i$.', fig.show='hold', out.width='50%'}
+# plot residuals against index
+plot(residuals(fit1), xlim = c(0, 12), ylim = c(-2, 2), pch = 19, type = 'p')
+abline(h = 0, lwd = 3, col = "red")
+plot(residuals(fit2), xlim = c(0, 12), ylim = c(-2, 2), pch = 19, type = 'p')
+abline(h = 0, lwd = 3, col = "red")
+plot(residuals(fit3), xlim = c(0, 12), ylim = c(-2, 4), pch = 19, type = 'p')
+abline(h = 0, lwd = 3, col = "red")
+plot(residuals(fit4), xlim = c(0, 12), ylim = c(-2, 2), pch = 19, type = 'p')
+abline(h = 0, lwd = 3, col = "red")
+```
 
-We should also plot the residuals by predicted value of $y$ to see if there is a pattern as a function of magnitude (Figure \@ref(fig:)). For the Anscombe dataset, this emphasizes the non-linearity of dataset 2 (top-right) and the outlier in dataset 3 (bottom-left) and also detects the singular extreme point in dataset 4 (bottom-right). In sum, the independence and homoscedasticity assumptions seem to be violated in all datasets except dataset 1. This would have to be formally tested using the Durbin-Watson test, for example.
+We should also plot the residuals by predicted value of $y$ to see if there is a pattern as a function of magnitude (Figure \@ref(fig:anscomberes2)). For the Anscombe dataset, this emphasizes the non-linearity of dataset 2 (top-right) and the outlier in dataset 3 (bottom-left) and also detects the singular extreme point in dataset 4 (bottom-right). In sum, the independence and homoscedasticity assumptions seem to be violated in all datasets except dataset 1. This would have to be formally tested using the Durbin-Watson test, for example.
 
-The normality assumption can be assessed using the QQ plot (Figure \@ref(fig:)). In the QQ plot, every data point represents a certain quantile of the empirical distribution. This quantile (after standardisation) is plotted (vertical axis) against the value of that quantile expected under a standard normal distribution (horizontal axis). The resultant shapes say something about the distribution of the residuals (Figure \@ref(fig:qq)), e.g. in case of a normal distribution they all fall on a straight line. In the Anscombe dataset, the only clearly non-normal dataset seems to be #3 (bottom-left). This would have to be formally tested using the Kolmogorov-Smirnov test or the Shapiro-Wilk test, for example.
+```{r anscomberes2, echo=TRUE, fig.align='center', fig.cap='@anscombe1973 datasets. Plot of residuals by predicted value of $y$.', fig.show='hold', out.width='50%'}
+# plot residuals against predicted value of y
+plot(fitted.values(fit1),residuals(fit1), xlim = c(0, 14), ylim = c(-2, 2), pch = 19, type = 'p')
+abline(h = 0, lwd = 3, col = "red")
+plot(fitted.values(fit2),residuals(fit2), xlim = c(0, 14), ylim = c(-2, 2), pch = 19, type = 'p')
+abline(h = 0, lwd = 3, col = "red")
+plot(fitted.values(fit3),residuals(fit3), xlim = c(0, 14), ylim = c(-2, 4), pch = 19, type = 'p')
+abline(h = 0, lwd = 3, col = "red")
+plot(fitted.values(fit4),residuals(fit4), xlim = c(0, 14), ylim = c(-2, 2), pch = 19, type = 'p')
+abline(h = 0, lwd = 3, col = "red")
+```
 
-[Figure]
+The normality assumption can be assessed using the QQ plot (Figure \@ref(fig:anscombeqq)).
+
+```{r anscombeqq, echo=TRUE, fig.align='center', fig.cap='@anscombe1973 datasets. Quantile-quantile plot (QQ plot) of residuals.', fig.show='hold', out.width='50%'}
+# QQ plots
+qqnorm(residuals(fit1), xlim = c(-4, 4), ylim = c(-4, 4))
+qqline(residuals(fit1))
+qqnorm(residuals(fit2), xlim = c(-4, 4), ylim = c(-4, 4))
+qqline(residuals(fit2))
+qqnorm(residuals(fit3), xlim = c(-4, 4), ylim = c(-4, 4))
+qqline(residuals(fit3))
+qqnorm(residuals(fit4), xlim = c(-4, 4), ylim = c(-4, 4))
+qqline(residuals(fit4))
+```
+
+In the QQ plot, every data point represents a certain quantile of the empirical distribution. This quantile (after standardisation) is plotted (vertical axis) against the value of that quantile expected under a standard normal distribution (horizontal axis). The resultant shapes say something about the distribution of the residuals (Figure \@ref(fig:qq)), e.g. in case of a normal distribution they all fall on a straight line. In the Anscombe dataset, the only clearly non-normal dataset seems to be #3 (bottom-left). This would have to be formally tested using the Kolmogorov-Smirnov test or the Shapiro-Wilk test, for example.
 
 ```{r qq, echo=FALSE, fig.align='center', fig.cap='Characteristic shapes of the QQ plot and what they mean for the residuals in our case. Source: https://condor.depaul.edu/sjost/it223/documents/normal-plot.htm.', out.width='80%'}
 knitr::include_graphics('figs/qq.gif')
 ```
 
-The non-normality of dataset 3 becomes apparent also in the residual histograms (Figure \@ref(fig:)) and boxplots (Figure \@ref(fig:)). They also emphasize the outlier in dataset 3. Note, it is generally difficult to reject the hypothesis of normally distributed residuals with so few data points.
+The non-normality of dataset 3 becomes apparent also in the residual histograms (Figure \@ref(fig:anscomberes3)). They also emphasize the outlier in dataset 3. Note, it is generally difficult to reject the hypothesis of normally distributed residuals with so few data points.
 
-[Figure]
-
-[Figure]
+```{r anscomberes3, echo=TRUE, fig.align='center', fig.cap='@anscombe1973 datasets. Quantile-quantile plot (QQ plot) of residuals.', fig.show='hold', out.width='50%'}
+# histograms of residuals
+hist(residuals(fit1), breaks = seq(-4,4,0.5))
+hist(residuals(fit2), breaks = seq(-4,4,0.5))
+hist(residuals(fit3), breaks = seq(-4,4,0.5))
+hist(residuals(fit4), breaks = seq(-4,4,0.5))
+```
