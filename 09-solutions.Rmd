@@ -3,4 +3,3 @@
 ## Answer to Q1 {-}
 
 Equations \@ref(eq:Q1model1), \@ref(eq:Q1model3) and \@ref(eq:Q1model5) are linear models; the others are non-linear in their parameters. Note, that the variables of linear models can take non-linear forms ($x_1^3, x_1 \cdot x_2, \log x_1$) as long as the parameters are not implicated in this non-linearity.
-
