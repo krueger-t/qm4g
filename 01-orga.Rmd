@@ -10,9 +10,9 @@ Figure \@ref(fig:motivation) shows the spatial variation of annual average preci
 knitr::include_graphics(c('figs/precip_D.png','figs/temp_D.png'))
 ```
 
-The spatial variation of average precipitation and temperature in our climatic zone is controlled mainly by elevation and continentality: the higher up we go the more it rains over the year and the colder it gets; and the further east we go the drier it gets while a temperature effect is not visible. There are of course more nuanced effects such as aspect, but these are not so clearly visible in this graph.
+The spatial variation of average precipitation and temperature in our climatic zone is controlled mainly by elevation and continentality: the higher up we go the more it rains over the year and the colder it gets; and the further East we go the drier it gets while a temperature effect is not visible. There are of course more nuanced effects such as aspect, but these are not so clearly visible in this figure.
 
-And this is exactly the goal of large parts of this course: To try and explain patterns we see in data (so called **response** variables) - in space (like here) and in time - with other data (so called **predictor** variables) using **statistical inference** methods. This includes separating dominant predictors from not so dominant predictors. It also includes making predictions with the relationships we find, e.g. for interpolating between data points to create maps like Figure \@ref(fig:motivation).
+And this is precisely the goal of large parts of this course: To try and explain patterns in data (so called **response** variables) over space and time - such as rainfall and temperature - with other data (so called **predictor** variables). We do this using **statistical inference** methods. This includes separating dominant predictors from not so dominant predictors. It also includes making predictions with the relationships we find, e.g. for interpolating between data points to create maps like Figure \@ref(fig:motivation).
 
 By the end of this course you will have learned the following:
 
@@ -43,10 +43,10 @@ knitr::kable(
 
 ## Format
 
-During this digital semester, the learning mode will be mainly **reading**. You are required to read a chapter of this script each week, which will then be discussed in a ZOOM session the following **Monday 13:00-15:00** (see link on Moodle).
+During this digital semester, the learning mode will be mainly **reading**. You are required to read a chapter of this script each week, which will then be discussed in a ZOOM session the following **Monday 13:00-15:00** (see link on Moodle). The reading listed for each week in the table above is due the following week.
 
-I will give you guiding questions and little quizzes to guide your reading. And you are required to post questions on the topics or aspects that I should deepen in the Moodle Forum **by each Friday**. This way we know what to discuss each Monday and I will prepare some lecture-style input. We can also discuss questions that arise in the PC labs. Some questions might already be answered via the Forum.
+I will provide you with guiding questions and small quizzes to guide your reading. You are required to post questions on the topics or aspects you would like me to focus on during the seminar in the Moodle Forum **by each Friday**. This way we know what to discuss each Monday and I will prepare some lecture-style input. We can also discuss questions that arise in the PC labs. Some questions might already be answered via the Forum.
 
 In the PC labs, Dirk and David will give you **homework**, which you need to submit via Moodle to pass the course. They will explain this in detail.
 
-The **final exam** is a project similar to an extended homework in which course topics are applied and extended on a dataset from the research context of the Geography Department. Each of will get their own topic and data. We will allocate topics towards the end of the semester via Moodle. The project has to be submitted as a HTML document created by R Markdown towards the end of the semester break (**deadline _tbc_**).
+The **final exam** is a project similar to an extended homework, in which you will be able to apply and expand on topics studied in class, using datasets provided in the research context of the Geography Department. The project will be done individually (other than in previous years) and each of you will get their own topic and data. We will allocate topics towards the end of the semester via Moodle. The project has to be submitted as a HTML document created by R Markdown towards the end of the semester break (**deadline _tbc_**).

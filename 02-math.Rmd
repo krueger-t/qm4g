@@ -15,7 +15,7 @@ $$\begin{equation}
 y=2^t
 (\#eq:exp)
 \end{equation}$$
-This is an **exponential function** with **base** 2 and **exponent** $t$. Figure \@ref(fig:explog) shows two plots of this function.
+This is an **exponential function** with **base** 2 and **exponent** $t$. Figure \@ref(fig:explog) shows two plots of this function. (Don't worry, you will start to understand the R code better as you progress in the PC labs.)
 
 ```{r explog, echo=TRUE, fig.align='center', fig.cap='Left: Plot of Equation 2.1. Right: Plot of Equation 2.1 on logarithmic scale.', fig.show='hold', out.width='50%'}
 t <- seq(1, 6)
@@ -37,18 +37,20 @@ log_2\left(2^t\right)=lb\left(2^t\right)=t
 (\#eq:lb)
 \end{equation}$$
 This is called the binary logarithm (lb).
+
 $$\begin{equation}
 log_{10}\left(10^t\right)=lg\left(10^t\right)=t
 (\#eq:lg)
 \end{equation}$$
 This is called the common logarithm (lg).
+
 $$\begin{equation}
 log_e\left(e^t\right)=ln\left(e^t\right)=t
 (\#eq:ln)
 \end{equation}$$
 This is called the natural logarithm (ln) with $e \approx 2.7183$ being Euler's constant.
 
-Note, programming often uses a different notation, which is followed in this course:
+Note, programming often uses a different notation, which will also be used from now on in this course:
 $$\begin{equation}
 ln()=log()
 (\#eq:lnlog)
@@ -108,17 +110,17 @@ log\left(u^r\right)=r \cdot log(u)
 
 ## Centring and standardisation
 
-Centring and standardisation are used to transform different datasets onto the same scale. Note, for these transformations to be sensible the data $y$ need to follow (approximately) a normal distribution. We will need this for the multivariate methods in sessions (Chapter \@ref(multivariate)).
+Centring and standardisation are used to transform different datasets onto the same scale. We will need this for the multivariate methods in later sessions (Chapter \@ref(multivariate)).
 
 **Centring** means subtracting from every data point $y$ the overall mean of the dataset $\bar{y}$:
 $$\begin{equation}
 y^*=y-\bar{y}
 (\#eq:centring)
 \end{equation}$$
-This yields new data points $y^*$ and new mean $\bar{y^*}=0$ while the standard deviation of the transformed data remains the same: $s_{y^*}=s_y$. Centring thus shifts the data histogram to be centred on zero (Figure \@ref(fig:rawcentred)).
+This yields new data points $y^*$ and a new mean $\bar{y^*}=0$ while the standard deviation of the transformed data remains the same: $s_{y^*}=s_y$. Centring thus *shifts* the data histogram to be centred on zero, but does not change its shape (Figure \@ref(fig:rawcentred)).
 
 ```{r rawcentred, echo=TRUE, fig.align='center', fig.cap='Histogram of dataset $y$ (left) and centred dataset $y^*$ (right). The vertical line represents the mean.', fig.show='hold', out.width='50%'}
-# draw random sample of y~N(1,2) of size 1000
+# draw random sample of size 1000 from normal distribution with mean 1 and standard deviation 2, i.e. y~N(1,2)
 y <- rnorm(1000, mean = 1, sd = 2)
 # mean
 ybar <- mean(y)
@@ -134,12 +136,12 @@ hist(y-ybar, freq = FALSE, xlim = c(-10,10), ylim = c(0, 0.4), main = "",
 lines(c(0, 0), c(0,0.4), lwd = 3)
 ```
 
-**Standardisation** means subtracting from every data point $y$ the overall mean of the dataset $\bar{y}$ and dividing by the standard deviation $s_y$:
+**Standardisation** means subtracting from every data point $y$ the overall mean of the dataset $\bar{y}$ and additionally dividing by the standard deviation $s_y$:
 $$\begin{equation}
 y^*=\frac{y-\bar{y}}{s_y}
 (\#eq:standardisation)
 \end{equation}$$
-This yields new data points $y^*$, new mean $\bar{y^*}=0$ and new standard deviation $s_{y^*}=1$. Standardisation thus shifts the data histogram to be centred on zero and expands or contracts it to have unit standard deviation, i.e. transforming it to the scale of the standard normal distribution (Figure \@ref(fig:rawstandardised)).
+This yields new data points $y^*$, a new mean $\bar{y^*}=0$ and a new standard deviation $s_{y^*}=1$. Standardisation thus shifts the data histogram to be centred on zero and expands or contracts it to have unit standard deviation (Figure \@ref(fig:rawstandardised)).
 
 ```{r rawstandardised, echo=TRUE, fig.align='center', fig.cap='Histogram of dataset $y$ (left) and standardised dataset $y^*$ (right). The vertical line represents the mean.', fig.show='hold', out.width='50%'}
 # histogram, raw
@@ -152,9 +154,11 @@ hist((y-ybar)/s_y, freq = FALSE, xlim = c(-10,10), ylim = c(0, 0.4), main = "",
 lines(c(0, 0), c(0,0.4), lwd = 3)
 ```
 
+If the original data $y$ were normally distributed (like we set it up for the plots above) then standardisation would transform $y$ to the scale of the standard normal distribution, i.e. a normal distribution with mean 0 and standard deviation 1. If you feel rusty on the normal distribution (or probability distributions in general) then Wikipedia is as good a source as any: https://en.wikipedia.org/wiki/Normal_distribution.
+
 ## Derivatives
 
-The **first derivative** of a function $f(x)$, $f'(x)$ or $\frac{df(x)}{dx}$, can be interpreted graphically as the slope of that function, i.e. the tangent line of a certain point of the function (Figure \@ref(fig:derivative), left).
+The **first derivative** of a function $f(x)$, written as $f'(x)$ or $\frac{df(x)}{dx}$, can be interpreted graphically as the slope of that function, i.e. the tangent line of a certain point of the function (Figure \@ref(fig:derivative), left).
 
 ```{r derivative, echo=FALSE, fig.align='center', fig.cap='Left: Tangent line of function $f(x)$. Centre: Secant line of function $f(x)$ between point $f\\left(x_0\\right)$ and point $f\\left(x_0+h\\right)$; the horizontal distance between these two points is $\\Delta x$ and the vertical distance is $\\Delta f(x)$. Right: Set of secant lines of function $f(x)$ between point $f\\left(x_0\\right)$ and point $f\\left(x_0+h\\right)$ for progressively decreasing increments $h$. Source: https://en.wikipedia.org/wiki/Derivative.', fig.show='hold', out.width='33%'}
 knitr::include_graphics(c('figs/derivative1.png','figs/derivative2.png','figs/derivative3.png'))
@@ -165,24 +169,28 @@ $$\begin{equation}
 f'(x)=\frac{df(x)}{dx}=\lim_{\Delta x \to 0}\frac{\Delta f(x)}{\Delta x}
 (\#eq:derivative1)
 \end{equation}$$
+
 This can be visualised as a secant line of the function between two points, $x_0$ and $x_0+h$ (Figure \@ref(fig:derivative), centre), whose slope is:
 $$\begin{equation}
 \frac{\Delta f(x)}{\Delta x}=\frac{f\left(x_0+h\right)-f\left(x_0\right)}{\left(x_0+h\right)-\left(x_0\right)}=\frac{f\left(x_0+h\right)-f\left(x_0\right)}{h}
 (\#eq:derivative2)
 \end{equation}$$
+
 As $h$ approaches zero (Figure \@ref(fig:derivative), right) we reach the limiting value of the slope at point $x_0$, which is the first derivative:
 $$\begin{equation}
 \frac{df(x)}{dx}=\lim_{h \to 0}\frac{f\left(x_0+h\right)-f\left(x_0\right)}{h}
 (\#eq:derivative3)
 \end{equation}$$
+
 The first derivative is useful for finding **minima**, **maxima** and **inflexion points** of a function, because this is where the slope is zero, $\frac{df(x)}{dx}=0$ (Figure \@ref(fig:minmax)). The **second derivative**, measuring the curvature of the function, tells us whether these points are minima $\left(\frac{d^2f(x)}{dx^2}>0\right)$, maxima $\left(\frac{d^2f(x)}{dx^2}<0\right)$ or inflexion points $\left(\frac{d^2f(x)}{dx^2}=0\right)$, but often we already know that a function has only a single minimum or maximum and then we do not need the second derivative.
 
 ```{r minmax, echo=FALSE, fig.align='center', fig.cap='Use of first and second derivative to determine minima, maxima and inflexion points of a function. Source: http://hyperphysics.phy-astr.gsu.edu/hbase/math/maxmin.html.', out.width='80%'}
 knitr::include_graphics('figs/derivative4.gif')
 ```
 
-The differentiation rules are:
-If $y=f(t)=t^a$ then $\frac{dy}{dt}=a \cdot t^{a-1}$, i.e. multiplying the function with the exponent and reducing the exponent by one.
+The differentiation rules are listed below:
+
+If $y=f(t)=t^a$ then $\frac{dy}{dt}=a \cdot t^{a-1}$, i.e. multiplying the function with the exponent and reducing the exponent by one gives you the derivative of $f(x)$.
 
 Constant factor rule: If $y=c \cdot u(t)$ then $\frac{dy}{dt}=c \cdot \frac{du}{dt}$.
 
@@ -264,7 +272,7 @@ $$\frac{1}{k} \cdot \mathbf{A} =
 \end{pmatrix}
 $$
 
-**Addition/subtraction of two matrices** also happens element-wise:
+**Addition/subtraction of two matrices** happens element-wise again:
 
 $$\mathbf{A} + \mathbf{B} =
 \begin{pmatrix}
@@ -282,7 +290,7 @@ g-x & h-y & i-z
 \end{pmatrix}
 $$
 
-The **transpose of a matrix** is:
+Finally, the so called **transpose of a matrix** refers to the mirroring of a matrix along its diagonal. Hence, the transpose of $\mathbf{A}$ is:
 
 $$\mathbf{A}' =
 \begin{pmatrix}
@@ -320,7 +328,7 @@ g \cdot r + h \cdot u + i \cdot x & g \cdot s + h \cdot v + i \cdot y & g \cdot 
 \end{pmatrix}
 \end{eqnarray}$$
 
-The result of a matrix multiplication has as many rows as the 1st matrix and as many columns as the 2nd (in our example the matrices are square). For this to work, the number of columns of the 1st matrix must match the number of rows of the 2nd matrix.
+The result of a matrix multiplication has as many *rows* as the 1st matrix and as many *columns* as the 2nd. For this to work, the number of columns of the 1st matrix must match the number of rows of the 2nd matrix. In our example, this does not matter as the matrices are square, i.e. they have as many rows as columns.
 
 To construct each cell of the results matrix, one row of the 1st matrix is combined with one column of the 2nd matrix. For cell (1,1) (top-left), for example, we combine the 1st row of matrix 1 (here $\mathbf{A}$) and the 1st column of matrix 2 (here $\mathbf{B}$). Moving to the right, for cell (1,2) (top-middle), we combine the 1st row of matrix 1 and the 2nd column of matrix 2. For cell (2,1) (middle-left), we combine the 2nd row of matrix 1 and the 1st column of matrix 2. And so on and so forth.
 
@@ -376,7 +384,7 @@ g \cdot a + h \cdot d + i \cdot g & g \cdot b + h \cdot e + i \cdot h & g \cdot 
 \end{pmatrix}
 \end{eqnarray}$$
 
-This matrix multiplied with itself, $\mathbf{A} \cdot \mathbf{A}$, is different to the same matrix multiplied with its inverse $\mathbf{A} \cdot \mathbf{A}'$:
+This matrix multiplied with itself, $\mathbf{A} \cdot \mathbf{A}$, is different to the same matrix multiplied with its transpose $\mathbf{A} \cdot \mathbf{A}'$:
 
 $$\begin{eqnarray}
 \mathbf{A} \cdot \mathbf{A}'&=&
@@ -402,19 +410,19 @@ g \cdot a + h \cdot b + i \cdot c & g \cdot d + h \cdot e + i \cdot f & g^2 + h^
 \end{pmatrix}
 \end{eqnarray}$$
 
-This matrix is symmetrical, i.e. mirrored along its diagonal. Diagonal elements are so called **sums of squares**, off-diagonal elements are so called **cross-products**. This will be useful later on when working with variance-covariance matrices in Chapter \@ref(multivariate).
+This last matrix is symmetrical, i.e. mirrored along its diagonal. Diagonal elements are so called **sums of squares**, off-diagonal elements are so called **cross-products**. This will be useful later on when working with variance-covariance matrices in Chapter \@ref(multivariate).
 
 ### Matrix division, inverse of a matrix, identity matrix
 
-**Division of two matrices** means multiplication of one matrix with the inverse of the other:
+**Division of two matrices** means multiplication of one matrix with the so called inverse of the other, here $\mathbf{B}^{-1}$:
 
 $$\frac{\mathbf{A}}{\mathbf{B}} = \mathbf{A} \cdot \mathbf{B}^{-1}$$
 
-The **inverse of matrix** is found so that the following equation holds:
+The **inverse of a matrix** is different to the transpose. It is rather complicated to calculate, using in most cases numerical (and not analytical) techniques that we do not go into here. At the most general level, the inverse is found so that the following equation holds:
 
 $$\mathbf{A} \cdot \mathbf{A}^{-1} = \mathbf{A}^{-1} \cdot \mathbf{A} = \mathbf{I}$$
 
-With $\mathbf{I}$ being the **identity matrix**, where diagonal elements are 1 and off-diagnal elements are 0:
+With $\mathbf{I}$ being the **identity matrix**, i.e. a matrix with diagonal elements 1 and off-diagonal elements 0:
 
 $$\mathbf{I} =
 \begin{pmatrix}
@@ -423,9 +431,6 @@ $$\mathbf{I} =
 0 & 0 & 1
 \end{pmatrix}
 $$
-
-Only matrices with determinants larger zero can be inverted!
-
 
 ## Exercises
 
