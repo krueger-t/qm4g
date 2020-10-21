@@ -24,7 +24,7 @@
 <meta name="author" content="Tobias Krueger" />
 
 
-<meta name="date" content="2020-10-10" />
+<meta name="date" content="2020-10-21" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -214,7 +214,7 @@ Figure 2.1: Amoeba dividing. Source: <a href="http://www.gutenberg.org/files/184
 y=2^t
 \tag{2.1}
 \end{equation}\]</span>
-This is an <strong>exponential function</strong> with <strong>base</strong> 2 and <strong>exponent</strong> <span class="math inline">\(t\)</span>. Figure <a href="math.html#fig:explog">2.2</a> shows two plots of this function.</p>
+This is an <strong>exponential function</strong> with <strong>base</strong> 2 and <strong>exponent</strong> <span class="math inline">\(t\)</span>. Figure <a href="math.html#fig:explog">2.2</a> shows two plots of this function. (Don’t worry, you will start to understand the R code better as you progress in the PC labs.)</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="math.html#cb1-1"></a>t &lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="dv">1</span>, <span class="dv">6</span>)</span>
 <span id="cb1-2"><a href="math.html#cb1-2"></a>y &lt;-<span class="st"> </span><span class="dv">2</span><span class="op">^</span>t</span>
 <span id="cb1-3"><a href="math.html#cb1-3"></a><span class="kw">plot</span>(t, y, <span class="dt">pch =</span> <span class="dv">19</span>, <span class="dt">type =</span> <span class="st">&#39;b&#39;</span>)</span>
@@ -236,18 +236,18 @@ Since the logarithm of <span class="math inline">\(y\)</span> is a linear functi
 log_2\left(2^t\right)=lb\left(2^t\right)=t
 \tag{2.3}
 \end{equation}\]</span>
-This is called the binary logarithm (lb).
-<span class="math display" id="eq:lg">\[\begin{equation}
+This is called the binary logarithm (lb).</p>
+<p><span class="math display" id="eq:lg">\[\begin{equation}
 log_{10}\left(10^t\right)=lg\left(10^t\right)=t
 \tag{2.4}
 \end{equation}\]</span>
-This is called the common logarithm (lg).
-<span class="math display" id="eq:ln">\[\begin{equation}
+This is called the common logarithm (lg).</p>
+<p><span class="math display" id="eq:ln">\[\begin{equation}
 log_e\left(e^t\right)=ln\left(e^t\right)=t
 \tag{2.5}
 \end{equation}\]</span>
 This is called the natural logarithm (ln) with <span class="math inline">\(e \approx 2.7183\)</span> being Euler’s constant.</p>
-<p>Note, programming often uses a different notation, which is followed in this course:
+<p>Note, programming often uses a different notation, which will also be used from now on in this course:
 <span class="math display" id="eq:lnlog">\[\begin{equation}
 ln()=log()
 \tag{2.6}
@@ -304,14 +304,14 @@ log\left(u^r\right)=r \cdot log(u)
 </div>
 <div id="centring-and-standardisation" class="section level2">
 <h2><span class="header-section-number">2.2</span> Centring and standardisation</h2>
-<p>Centring and standardisation are used to transform different datasets onto the same scale. Note, for these transformations to be sensible the data <span class="math inline">\(y\)</span> need to follow (approximately) a normal distribution. We will need this for the multivariate methods in sessions (Chapter <a href="multivariate.html#multivariate">8</a>).</p>
+<p>Centring and standardisation are used to transform different datasets onto the same scale. We will need this for the multivariate methods in later sessions (Chapter <a href="multivariate.html#multivariate">8</a>).</p>
 <p><strong>Centring</strong> means subtracting from every data point <span class="math inline">\(y\)</span> the overall mean of the dataset <span class="math inline">\(\bar{y}\)</span>:
 <span class="math display" id="eq:centring">\[\begin{equation}
 y^*=y-\bar{y}
 \tag{2.18}
 \end{equation}\]</span>
-This yields new data points <span class="math inline">\(y^*\)</span> and new mean <span class="math inline">\(\bar{y^*}=0\)</span> while the standard deviation of the transformed data remains the same: <span class="math inline">\(s_{y^*}=s_y\)</span>. Centring thus shifts the data histogram to be centred on zero (Figure <a href="math.html#fig:rawcentred">2.3</a>).</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="math.html#cb2-1"></a><span class="co"># draw random sample of y~N(1,2) of size 1000</span></span>
+This yields new data points <span class="math inline">\(y^*\)</span> and a new mean <span class="math inline">\(\bar{y^*}=0\)</span> while the standard deviation of the transformed data remains the same: <span class="math inline">\(s_{y^*}=s_y\)</span>. Centring thus <em>shifts</em> the data histogram to be centred on zero, but does not change its shape (Figure <a href="math.html#fig:rawcentred">2.3</a>).</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="math.html#cb2-1"></a><span class="co"># draw random sample of size 1000 from normal distribution with mean 1 and standard deviation 2, i.e. y~N(1,2)</span></span>
 <span id="cb2-2"><a href="math.html#cb2-2"></a>y &lt;-<span class="st"> </span><span class="kw">rnorm</span>(<span class="dv">1000</span>, <span class="dt">mean =</span> <span class="dv">1</span>, <span class="dt">sd =</span> <span class="dv">2</span>)</span>
 <span id="cb2-3"><a href="math.html#cb2-3"></a><span class="co"># mean</span></span>
 <span id="cb2-4"><a href="math.html#cb2-4"></a>ybar &lt;-<span class="st"> </span><span class="kw">mean</span>(y)</span>
@@ -331,12 +331,12 @@ This yields new data points <span class="math inline">\(y^*\)</span> and new mea
 Figure 2.3: Histogram of dataset <span class="math inline">\(y\)</span> (left) and centred dataset <span class="math inline">\(y^*\)</span> (right). The vertical line represents the mean.
 </p>
 </div>
-<p><strong>Standardisation</strong> means subtracting from every data point <span class="math inline">\(y\)</span> the overall mean of the dataset <span class="math inline">\(\bar{y}\)</span> and dividing by the standard deviation <span class="math inline">\(s_y\)</span>:
+<p><strong>Standardisation</strong> means subtracting from every data point <span class="math inline">\(y\)</span> the overall mean of the dataset <span class="math inline">\(\bar{y}\)</span> and additionally dividing by the standard deviation <span class="math inline">\(s_y\)</span>:
 <span class="math display" id="eq:standardisation">\[\begin{equation}
 y^*=\frac{y-\bar{y}}{s_y}
 \tag{2.19}
 \end{equation}\]</span>
-This yields new data points <span class="math inline">\(y^*\)</span>, new mean <span class="math inline">\(\bar{y^*}=0\)</span> and new standard deviation <span class="math inline">\(s_{y^*}=1\)</span>. Standardisation thus shifts the data histogram to be centred on zero and expands or contracts it to have unit standard deviation, i.e. transforming it to the scale of the standard normal distribution (Figure <a href="math.html#fig:rawstandardised">2.4</a>).</p>
+This yields new data points <span class="math inline">\(y^*\)</span>, a new mean <span class="math inline">\(\bar{y^*}=0\)</span> and a new standard deviation <span class="math inline">\(s_{y^*}=1\)</span>. Standardisation thus shifts the data histogram to be centred on zero and expands or contracts it to have unit standard deviation (Figure <a href="math.html#fig:rawstandardised">2.4</a>).</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="math.html#cb3-1"></a><span class="co"># histogram, raw</span></span>
 <span id="cb3-2"><a href="math.html#cb3-2"></a><span class="kw">hist</span>(y, <span class="dt">freq =</span> <span class="ot">FALSE</span>, <span class="dt">xlim =</span> <span class="kw">c</span>(<span class="op">-</span><span class="dv">10</span>,<span class="dv">10</span>), <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="fl">0.4</span>), <span class="dt">main =</span> <span class="st">&quot;&quot;</span>, </span>
 <span id="cb3-3"><a href="math.html#cb3-3"></a>     <span class="dt">xlab =</span> <span class="st">&quot;y&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;relative frequency&quot;</span>)</span>
@@ -351,10 +351,11 @@ This yields new data points <span class="math inline">\(y^*\)</span>, new mean <
 Figure 2.4: Histogram of dataset <span class="math inline">\(y\)</span> (left) and standardised dataset <span class="math inline">\(y^*\)</span> (right). The vertical line represents the mean.
 </p>
 </div>
+<p>If the original data <span class="math inline">\(y\)</span> were normally distributed (like we set it up for the plots above) then standardisation would transform <span class="math inline">\(y\)</span> to the scale of the standard normal distribution, i.e. a normal distribution with mean 0 and standard deviation 1. If you feel rusty on the normal distribution (or probability distributions in general) then Wikipedia is as good a source as any: <a href="https://en.wikipedia.org/wiki/Normal_distribution" class="uri">https://en.wikipedia.org/wiki/Normal_distribution</a>.</p>
 </div>
 <div id="derivatives" class="section level2">
 <h2><span class="header-section-number">2.3</span> Derivatives</h2>
-<p>The <strong>first derivative</strong> of a function <span class="math inline">\(f(x)\)</span>, <span class="math inline">\(f&#39;(x)\)</span> or <span class="math inline">\(\frac{df(x)}{dx}\)</span>, can be interpreted graphically as the slope of that function, i.e. the tangent line of a certain point of the function (Figure <a href="math.html#fig:derivative">2.5</a>, left).</p>
+<p>The <strong>first derivative</strong> of a function <span class="math inline">\(f(x)\)</span>, written as <span class="math inline">\(f&#39;(x)\)</span> or <span class="math inline">\(\frac{df(x)}{dx}\)</span>, can be interpreted graphically as the slope of that function, i.e. the tangent line of a certain point of the function (Figure <a href="math.html#fig:derivative">2.5</a>, left).</p>
 <div class="figure" style="text-align: center"><span id="fig:derivative"></span>
 <img src="figs/derivative1.png" alt="Left: Tangent line of function $f(x)$. Centre: Secant line of function $f(x)$ between point $f\left(x_0\right)$ and point $f\left(x_0+h\right)$; the horizontal distance between these two points is $\Delta x$ and the vertical distance is $\Delta f(x)$. Right: Set of secant lines of function $f(x)$ between point $f\left(x_0\right)$ and point $f\left(x_0+h\right)$ for progressively decreasing increments $h$. Source: https://en.wikipedia.org/wiki/Derivative." width="33%" /><img src="figs/derivative2.png" alt="Left: Tangent line of function $f(x)$. Centre: Secant line of function $f(x)$ between point $f\left(x_0\right)$ and point $f\left(x_0+h\right)$; the horizontal distance between these two points is $\Delta x$ and the vertical distance is $\Delta f(x)$. Right: Set of secant lines of function $f(x)$ between point $f\left(x_0\right)$ and point $f\left(x_0+h\right)$ for progressively decreasing increments $h$. Source: https://en.wikipedia.org/wiki/Derivative." width="33%" /><img src="figs/derivative3.png" alt="Left: Tangent line of function $f(x)$. Centre: Secant line of function $f(x)$ between point $f\left(x_0\right)$ and point $f\left(x_0+h\right)$; the horizontal distance between these two points is $\Delta x$ and the vertical distance is $\Delta f(x)$. Right: Set of secant lines of function $f(x)$ between point $f\left(x_0\right)$ and point $f\left(x_0+h\right)$ for progressively decreasing increments $h$. Source: https://en.wikipedia.org/wiki/Derivative." width="33%" />
 <p class="caption">
@@ -365,26 +366,26 @@ Figure 2.5: Left: Tangent line of function <span class="math inline">\(f(x)\)</s
 <span class="math display" id="eq:derivative1">\[\begin{equation}
 f&#39;(x)=\frac{df(x)}{dx}=\lim_{\Delta x \to 0}\frac{\Delta f(x)}{\Delta x}
 \tag{2.20}
-\end{equation}\]</span>
-This can be visualised as a secant line of the function between two points, <span class="math inline">\(x_0\)</span> and <span class="math inline">\(x_0+h\)</span> (Figure <a href="math.html#fig:derivative">2.5</a>, centre), whose slope is:
+\end{equation}\]</span></p>
+<p>This can be visualised as a secant line of the function between two points, <span class="math inline">\(x_0\)</span> and <span class="math inline">\(x_0+h\)</span> (Figure <a href="math.html#fig:derivative">2.5</a>, centre), whose slope is:
 <span class="math display" id="eq:derivative2">\[\begin{equation}
 \frac{\Delta f(x)}{\Delta x}=\frac{f\left(x_0+h\right)-f\left(x_0\right)}{\left(x_0+h\right)-\left(x_0\right)}=\frac{f\left(x_0+h\right)-f\left(x_0\right)}{h}
 \tag{2.21}
-\end{equation}\]</span>
-As <span class="math inline">\(h\)</span> approaches zero (Figure <a href="math.html#fig:derivative">2.5</a>, right) we reach the limiting value of the slope at point <span class="math inline">\(x_0\)</span>, which is the first derivative:
+\end{equation}\]</span></p>
+<p>As <span class="math inline">\(h\)</span> approaches zero (Figure <a href="math.html#fig:derivative">2.5</a>, right) we reach the limiting value of the slope at point <span class="math inline">\(x_0\)</span>, which is the first derivative:
 <span class="math display" id="eq:derivative3">\[\begin{equation}
 \frac{df(x)}{dx}=\lim_{h \to 0}\frac{f\left(x_0+h\right)-f\left(x_0\right)}{h}
 \tag{2.22}
-\end{equation}\]</span>
-The first derivative is useful for finding <strong>minima</strong>, <strong>maxima</strong> and <strong>inflexion points</strong> of a function, because this is where the slope is zero, <span class="math inline">\(\frac{df(x)}{dx}=0\)</span> (Figure <a href="math.html#fig:minmax">2.6</a>). The <strong>second derivative</strong>, measuring the curvature of the function, tells us whether these points are minima <span class="math inline">\(\left(\frac{d^2f(x)}{dx^2}&gt;0\right)\)</span>, maxima <span class="math inline">\(\left(\frac{d^2f(x)}{dx^2}&lt;0\right)\)</span> or inflexion points <span class="math inline">\(\left(\frac{d^2f(x)}{dx^2}=0\right)\)</span>, but often we already know that a function has only a single minimum or maximum and then we do not need the second derivative.</p>
+\end{equation}\]</span></p>
+<p>The first derivative is useful for finding <strong>minima</strong>, <strong>maxima</strong> and <strong>inflexion points</strong> of a function, because this is where the slope is zero, <span class="math inline">\(\frac{df(x)}{dx}=0\)</span> (Figure <a href="math.html#fig:minmax">2.6</a>). The <strong>second derivative</strong>, measuring the curvature of the function, tells us whether these points are minima <span class="math inline">\(\left(\frac{d^2f(x)}{dx^2}&gt;0\right)\)</span>, maxima <span class="math inline">\(\left(\frac{d^2f(x)}{dx^2}&lt;0\right)\)</span> or inflexion points <span class="math inline">\(\left(\frac{d^2f(x)}{dx^2}=0\right)\)</span>, but often we already know that a function has only a single minimum or maximum and then we do not need the second derivative.</p>
 <div class="figure" style="text-align: center"><span id="fig:minmax"></span>
 <img src="figs/derivative4.gif" alt="Use of first and second derivative to determine minima, maxima and inflexion points of a function. Source: http://hyperphysics.phy-astr.gsu.edu/hbase/math/maxmin.html." width="80%" />
 <p class="caption">
 Figure 2.6: Use of first and second derivative to determine minima, maxima and inflexion points of a function. Source: <a href="http://hyperphysics.phy-astr.gsu.edu/hbase/math/maxmin.html" class="uri">http://hyperphysics.phy-astr.gsu.edu/hbase/math/maxmin.html</a>.
 </p>
 </div>
-<p>The differentiation rules are:
-If <span class="math inline">\(y=f(t)=t^a\)</span> then <span class="math inline">\(\frac{dy}{dt}=a \cdot t^{a-1}\)</span>, i.e. multiplying the function with the exponent and reducing the exponent by one.</p>
+<p>The differentiation rules are listed below:</p>
+<p>If <span class="math inline">\(y=f(t)=t^a\)</span> then <span class="math inline">\(\frac{dy}{dt}=a \cdot t^{a-1}\)</span>, i.e. multiplying the function with the exponent and reducing the exponent by one gives you the derivative of <span class="math inline">\(f(x)\)</span>.</p>
 <p>Constant factor rule: If <span class="math inline">\(y=c \cdot u(t)\)</span> then <span class="math inline">\(\frac{dy}{dt}=c \cdot \frac{du}{dt}\)</span>.</p>
 <p>Sum rule: If <span class="math inline">\(y=u(t) \pm v(t)\)</span> then <span class="math inline">\(\frac{dy}{dt}=\frac{du}{dt} \pm \frac{dv}{dt}\)</span>.</p>
 <p>Product rule: If <span class="math inline">\(y=u(t) \cdot v(t)\)</span> then <span class="math inline">\(\frac{dy}{dt}=\frac{du}{dt} \cdot v+u \cdot \frac{dv}{dt}\)</span>.</p>
@@ -451,7 +452,7 @@ k \cdot g &amp; k \cdot h &amp; k \cdot i
 \frac{1}{k} \cdot g &amp; \frac{1}{k} \cdot h &amp; \frac{1}{k} \cdot i
 \end{pmatrix}
 \]</span></p>
-<p><strong>Addition/subtraction of two matrices</strong> also happens element-wise:</p>
+<p><strong>Addition/subtraction of two matrices</strong> happens element-wise again:</p>
 <p><span class="math display">\[\mathbf{A} + \mathbf{B} =
 \begin{pmatrix}
 a+r &amp; b+s &amp; c+t\\
@@ -466,7 +467,7 @@ d-u &amp; e-v &amp; f-w\\
 g-x &amp; h-y &amp; i-z
 \end{pmatrix}
 \]</span></p>
-<p>The <strong>transpose of a matrix</strong> is:</p>
+<p>Finally, the so called <strong>transpose of a matrix</strong> refers to the mirroring of a matrix along its diagonal. Hence, the transpose of <span class="math inline">\(\mathbf{A}\)</span> is:</p>
 <p><span class="math display">\[\mathbf{A}&#39; =
 \begin{pmatrix}
 a &amp; d &amp; g\\
@@ -501,7 +502,7 @@ g \cdot r + h \cdot u + i \cdot x &amp; g \cdot s + h \cdot v + i \cdot y &amp; 
 30 &amp; 33 &amp; 40
 \end{pmatrix}
 \end{eqnarray}\]</span></p>
-<p>The result of a matrix multiplication has as many rows as the 1st matrix and as many columns as the 2nd (in our example the matrices are square). For this to work, the number of columns of the 1st matrix must match the number of rows of the 2nd matrix.</p>
+<p>The result of a matrix multiplication has as many <em>rows</em> as the 1st matrix and as many <em>columns</em> as the 2nd. For this to work, the number of columns of the 1st matrix must match the number of rows of the 2nd matrix. In our example, this does not matter as the matrices are square, i.e. they have as many rows as columns.</p>
 <p>To construct each cell of the results matrix, one row of the 1st matrix is combined with one column of the 2nd matrix. For cell (1,1) (top-left), for example, we combine the 1st row of matrix 1 (here <span class="math inline">\(\mathbf{A}\)</span>) and the 1st column of matrix 2 (here <span class="math inline">\(\mathbf{B}\)</span>). Moving to the right, for cell (1,2) (top-middle), we combine the 1st row of matrix 1 and the 2nd column of matrix 2. For cell (2,1) (middle-left), we combine the 2nd row of matrix 1 and the 1st column of matrix 2. And so on and so forth.</p>
 <p>The combination of the two respective vectors is the sum of the products of the vector elements paired in order. So for cell (1,1) in our example this is <span class="math inline">\(a \cdot r + b \cdot u + c \cdot x\)</span>. Try and recreate the following example to get a feeling for the matrix multiplication rules.</p>
 <p><span class="math display">\[\begin{eqnarray}
@@ -551,7 +552,7 @@ g \cdot a + h \cdot d + i \cdot g &amp; g \cdot b + h \cdot e + i \cdot h &amp; 
 11 &amp; 2 &amp; 68
 \end{pmatrix}
 \end{eqnarray}\]</span></p>
-<p>This matrix multiplied with itself, <span class="math inline">\(\mathbf{A} \cdot \mathbf{A}\)</span>, is different to the same matrix multiplied with its inverse <span class="math inline">\(\mathbf{A} \cdot \mathbf{A}&#39;\)</span>:</p>
+<p>This matrix multiplied with itself, <span class="math inline">\(\mathbf{A} \cdot \mathbf{A}\)</span>, is different to the same matrix multiplied with its transpose <span class="math inline">\(\mathbf{A} \cdot \mathbf{A}&#39;\)</span>:</p>
 <p><span class="math display">\[\begin{eqnarray}
 \mathbf{A} \cdot \mathbf{A}&#39;&amp;=&amp;
 \begin{pmatrix}
@@ -575,15 +576,15 @@ g \cdot a + h \cdot b + i \cdot c &amp; g \cdot d + h \cdot e + i \cdot f &amp; 
 35 &amp; 7 &amp; 65
 \end{pmatrix}
 \end{eqnarray}\]</span></p>
-<p>This matrix is symmetrical, i.e. mirrored along its diagonal. Diagonal elements are so called <strong>sums of squares</strong>, off-diagonal elements are so called <strong>cross-products</strong>. This will be useful later on when working with variance-covariance matrices in Chapter <a href="multivariate.html#multivariate">8</a>.</p>
+<p>This last matrix is symmetrical, i.e. mirrored along its diagonal. Diagonal elements are so called <strong>sums of squares</strong>, off-diagonal elements are so called <strong>cross-products</strong>. This will be useful later on when working with variance-covariance matrices in Chapter <a href="multivariate.html#multivariate">8</a>.</p>
 </div>
 <div id="matrix-division-inverse-of-a-matrix-identity-matrix" class="section level3">
 <h3><span class="header-section-number">2.4.3</span> Matrix division, inverse of a matrix, identity matrix</h3>
-<p><strong>Division of two matrices</strong> means multiplication of one matrix with the inverse of the other:</p>
+<p><strong>Division of two matrices</strong> means multiplication of one matrix with the so called inverse of the other, here <span class="math inline">\(\mathbf{B}^{-1}\)</span>:</p>
 <p><span class="math display">\[\frac{\mathbf{A}}{\mathbf{B}} = \mathbf{A} \cdot \mathbf{B}^{-1}\]</span></p>
-<p>The <strong>inverse of matrix</strong> is found so that the following equation holds:</p>
+<p>The <strong>inverse of a matrix</strong> is different to the transpose. It is rather complicated to calculate, using in most cases numerical (and not analytical) techniques that we do not go into here. At the most general level, the inverse is found so that the following equation holds:</p>
 <p><span class="math display">\[\mathbf{A} \cdot \mathbf{A}^{-1} = \mathbf{A}^{-1} \cdot \mathbf{A} = \mathbf{I}\]</span></p>
-<p>With <span class="math inline">\(\mathbf{I}\)</span> being the <strong>identity matrix</strong>, where diagonal elements are 1 and off-diagnal elements are 0:</p>
+<p>With <span class="math inline">\(\mathbf{I}\)</span> being the <strong>identity matrix</strong>, i.e. a matrix with diagonal elements 1 and off-diagonal elements 0:</p>
 <p><span class="math display">\[\mathbf{I} =
 \begin{pmatrix}
 1 &amp; 0 &amp; 0\\
@@ -591,7 +592,6 @@ g \cdot a + h \cdot b + i \cdot c &amp; g \cdot d + h \cdot e + i \cdot f &amp; 
 0 &amp; 0 &amp; 1
 \end{pmatrix}
 \]</span></p>
-<p>Only matrices with determinants larger zero can be inverted!</p>
 </div>
 </div>
 <div id="exercises" class="section level2">
