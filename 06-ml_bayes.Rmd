@@ -1,3 +1,84 @@
-# Probabilistic underpinnings {#ml_bayes}
+# Probabilistic underpinnings {#mlbayes}
+
+In this chapter we will see how the assumptions of linear regression - which are needed for the quantification of uncertainty in our results - come about. We will first derive the Least Squares parameter estimators from Maximum Likelihood theory (the historically dominant approach) before giving an introduction to the more general approach of Bayesian statistics. The latter is the focus of my course _Applied Statistical Modelling_ in the summer term and also features at a basic level in _Risk and Uncertainty in Science and Policy_ (offered summers and winters).
+
+## Inference via Maximum Likelihood
+
+The so called **likelihood** of parameters conditional on the data at hand is defined as the probability of the data conditional on the parameters (and implicitly the model):
+$$\begin{equation}
+L(\boldsymbol{\theta}|\mathbf{y})=\Pr(\mathbf{y}|\boldsymbol{\theta})
+(\#eq:lnorm1)
+\end{equation}$$
+
+$\boldsymbol{\theta}$ is a vector of parameters, in the case of linear regression $\boldsymbol{\theta}=\begin{pmatrix}\beta_0 & \beta_1 & \sigma\end{pmatrix}$, and $\mathbf{y}$ is a vector of data points $y_i$. If all $y_i$ are **independent** then the joint probability equals the product of the individual probabilities:
+$$\begin{equation}
+L(\boldsymbol{\theta}|\mathbf{y})=\prod_{i=1}^{n}\Pr(y_i|\boldsymbol{\theta})
+(\#eq:lnorm2)
+\end{equation}$$
+This follows from the product rule of probability calculus.
+
+If we further assume the residuals of the linear model to be **normally distributed** then the likelihood is:
+$$\begin{equation}
+L(\beta_0,\beta_1,\sigma|\mathbf{y})=\prod_{i=1}^{n}\frac{1}{\sigma\cdot\sqrt{2\cdot\pi}}\exp\left(\frac{\left(y_i-\beta_0-\beta_1\cdot x_i\right)^2}{-2\cdot\sigma^2}\right)
+(\#eq:lnorm3)
+\end{equation}$$
+
+This means, the probability of individual data points to arise given certain parameter values, $\Pr(y_i|\boldsymbol{\theta})$, is $\frac{1}{\sigma\cdot\sqrt{2\cdot\pi}}\exp\left(\frac{\left(y_i-\beta_0-\beta_1\cdot x_i\right)^2}{-2\cdot\sigma^2}\right)$. This is the formula of the probability density function (pdf) of the normal distribution, $\frac{1}{\sigma\cdot\sqrt{2\cdot\pi}}\exp\left(\frac{\left(y_i-\mu\right)^2}{-2\cdot\sigma^2}\right)$, with $\mu$ being substituted with the linear predictor $\beta_0+\beta_1\cdot x_i$.
+
+In effect we're saying that the data are normally distributed, with the mean represented by the linear model, i.e. not constant but changing as a function of the predictor:
+$$\begin{equation}
+y_i\sim N\left(\beta_0+\beta_1\cdot x_i,\sigma\right)
+(\#eq:ynorm)
+\end{equation}$$
+
+Put differently, Equation \@ref(eq:ynorm) arises from combining the linear model $y_i=\beta_0+\beta_1\cdot x_i+\epsilon_i$ with the normality assumption for the residuals $\epsilon_i\sim N(0,\sigma)$. Note, the mean of the residual distribution is zero because - based on our fundamental assumption that **the model is correct** - on average we expect no deviation from the regression line.
+
+Getting rid of the product operator in Equation \@ref(eq:lnorm3) yields:
+$$\begin{equation}
+L(\beta_0,\beta_1,\sigma|\mathbf{y})=\frac{1}{\left(\sigma\cdot\sqrt{2\cdot\pi}\right)^n}\exp\left(\frac{-1}{2\cdot\sigma^2}\cdot\sum_{i=1}^{n}\left(y_i-\beta_0-\beta_1\cdot x_i\right)^2\right)
+(\#eq:lnorm4)
+\end{equation}$$
+Compare exercises in chapter \@ref(math).
+
+The **log-likelihood** is often mathematically easier to handle, while locations of maxima remain unchanged:
+$$\begin{equation}
+\log L(\beta_0,\beta_1,\sigma|\mathbf{y})=\log\left(\sigma^{-n}\cdot (2\cdot\pi)^{-\frac{n}{2}}\right)-\frac{1}{2\cdot\sigma^2}\cdot\sum_{i=1}^{n}\left(y_i-\beta_0-\beta_1\cdot x_i\right)^2
+(\#eq:loglnorm1)
+\end{equation}$$
+$$\begin{equation}
+\log L(\beta_0,\beta_1,\sigma|\mathbf{y})=-n\cdot \log (\sigma)-\frac{n}{2}\cdot\log(2\cdot\pi)-\frac{1}{2\cdot\sigma^2}\cdot\sum_{i=1}^{n}\left(y_i-\beta_0-\beta_1\cdot x_i\right)^2
+(\#eq:loglnorm2)
+\end{equation}$$
+Compare logarithm calculus of chapter \@ref(math).
+
+The maximum likelihood (ML) is where all partial derivatives with respect to the parameters are zero: $\frac{\partial\log L}{\partial \beta_0}=0$ and $\frac{\partial\log L}{\partial \beta_1}=0$ and $\frac{\partial\log L}{\partial \sigma}=0$. This yields:
+$$\begin{equation}
+\frac{\partial\log L\left(\beta_0,\beta_1,\sigma\right)}{\partial \beta_0}=\frac{1}{\sigma^2}\cdot \sum_{i=1}^{n}\left(y_i-\beta_0-\beta_1 \cdot x_i\right)=0
+(\#eq:loglb0)
+\end{equation}$$
+$$\begin{equation}
+\frac{\partial\log L\left(\beta_0,\beta_1,\sigma\right)}{\partial \beta_1}=\frac{1}{\sigma^2}\cdot \sum_{i=1}^{n}x_i\cdot\left(y_i-\beta_0-\beta_1 \cdot x_i\right)=0
+(\#eq:loglb1)
+\end{equation}$$
+Hence, the maximum likelihood estimator for $\beta_0$ and $\beta_1$ under normal residuals is identical to the Least Squares parameter estimator (Equations \@ref(eq:sseb0) and \@ref(eq:sseb1) in chapter \@ref(linreg)).
+
+For $\sigma$, we have:
+$$\begin{equation}
+\frac{\partial\log L\left(\beta_0,\beta_1,\sigma\right)}{\partial \sigma}=-\frac{n}{\sigma}+\frac{1}{\sigma^3}\cdot\sum_{i=1}^{n}\left(y_i-\beta_0-\beta_1 \cdot x_i\right)^2=0
+(\#eq:loglsigma1)
+\end{equation}$$
+$$\begin{equation}
+\frac{\partial\log L\left(\beta_0,\beta_1,\sigma\right)}{\partial \sigma}=-n\cdot\sigma^2+\sum_{i=1}^{n}\left(y_i-\beta_0-\beta_1 \cdot x_i\right)^2=0
+(\#eq:loglsigma2)
+\end{equation}$$
+
+This yields:
+$$\begin{equation}
+\sigma=\sqrt{\frac{SSE}{n}}
+(\#eq:sigma)
+\end{equation}$$
+Note, the Least Squares estimator is $s=\sqrt{\frac{SSE}{df_{SSE}}}=\sqrt{\frac{SSE}{n-2}}$, which doesn’t make much of a difference for large $n$.
+
+## Outlook: Bayesian inference
 
 Under construction.

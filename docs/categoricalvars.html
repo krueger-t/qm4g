@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Chapter 1 Organisational matters | Quantitative Methods for Geographers</title>
+  <title>Chapter 4 Categorical variables | Quantitative Methods for Geographers</title>
   <meta name="description" content="This is the script of the course ‘Quantitative Methods for Geographers’ run at the Geography Department of Humboldt-Universität zu Berlin." />
   <meta name="generator" content="bookdown 0.20 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Chapter 1 Organisational matters | Quantitative Methods for Geographers" />
+  <meta property="og:title" content="Chapter 4 Categorical variables | Quantitative Methods for Geographers" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   <meta name="github-repo" content="krueger-t/qm4g" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 1 Organisational matters | Quantitative Methods for Geographers" />
+  <meta name="twitter:title" content="Chapter 4 Categorical variables | Quantitative Methods for Geographers" />
   
   <meta name="twitter:description" content="This is the script of the course ‘Quantitative Methods for Geographers’ run at the Geography Department of Humboldt-Universität zu Berlin." />
   
@@ -31,8 +31,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="index.html"/>
-<link rel="next" href="math.html"/>
+<link rel="prev" href="linreg.html"/>
+<link rel="next" href="multiplelinreg.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -200,161 +200,18 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="orga" class="section level1">
-<h1><span class="header-section-number">Chapter 1</span> Organisational matters</h1>
-<p>Welcome to the course <em>Quantitative Methods for Geographers</em> (online edition), which consists of a seminar and a PC lab. In the <strong>seminar</strong>, theoretical input will be provided by <a href="https://www.iri-thesys.org/people/kruegertobias">myself</a> up until January and by <a href="https://www.geographie.hu-berlin.de/de/Members/lakes_tobia">Tobia Lakes</a> in the last four sessions in February. Part of this course is a <strong>PC lab</strong> run by <a href="https://www.geographie.hu-berlin.de/en/professorships/eol/people/labmembers/dirk_pflugmacher">Dirk Pflugmacher</a> and <a href="https://www.geographie.hu-berlin.de/de/Members/loibl_david">David Loibl</a>.</p>
-<div id="motivating-example" class="section level2">
-<h2><span class="header-section-number">1.1</span> Motivating example</h2>
-<p>Figure <a href="orga.html#fig:motivation">1.1</a> shows the spatial variation of annual average precipitation and annual average temperature over Germany. Before reading on, reflect a minute on what might control this spatial variation.</p>
-<div class="figure" style="text-align: center"><span id="fig:motivation"></span>
-<img src="figs/precip_D.png" alt="Maps of annual average precipitation (left) and annual average air temperature (right) over Germany from 1961 to 1990. Source: https://www.dwd.de/EN/climate_environment/climateatlas/climateatlas_node.html." width="50%" /><img src="figs/temp_D.png" alt="Maps of annual average precipitation (left) and annual average air temperature (right) over Germany from 1961 to 1990. Source: https://www.dwd.de/EN/climate_environment/climateatlas/climateatlas_node.html." width="50%" />
-<p class="caption">
-Figure 1.1: Maps of annual average precipitation (left) and annual average air temperature (right) over Germany from 1961 to 1990. Source: <a href="https://www.dwd.de/EN/climate_environment/climateatlas/climateatlas_node.html" class="uri">https://www.dwd.de/EN/climate_environment/climateatlas/climateatlas_node.html</a>.
-</p>
-</div>
-<p>The spatial variation of average precipitation and temperature in our climatic zone is controlled mainly by elevation and continentality: the higher up we go the more it rains over the year and the colder it gets; and the further East we go the drier it gets while a temperature effect is not visible. There are of course more nuanced effects such as aspect, but these are not so clearly visible in this figure.</p>
-<p>And this is precisely the goal of large parts of this course: To try and explain patterns in data (so called <strong>response</strong> variables) over space and time - such as rainfall and temperature - with other data (so called <strong>predictor</strong> variables). We do this using <strong>statistical inference</strong> methods. This includes separating dominant predictors from not so dominant predictors. It also includes making predictions with the relationships we find, e.g. for interpolating between data points to create maps like Figure <a href="orga.html#fig:motivation">1.1</a>.</p>
-<p>By the end of this course you will have learned the following:</p>
-<ol style="list-style-type: decimal">
-<li>You have understood the concept of statistical inference using the <strong>linear model</strong> in depth.</li>
-<li>This includes linear regression with one or more predictors (<strong>multiple regression</strong>).</li>
-<li>It also includes mildly non-linear models and specific types of responses, dealt with by so called <strong>Generalised Linear Models</strong>.</li>
-<li>You have worked with metric as well as categorical predictors and mixtures of the two.</li>
-<li>You have learned metrics to compare and simplify models and evaluate their assumptions.</li>
-<li>You have understood the principles of extending these techniques to cases of more than one response variable (<strong>multivariate methods</strong>).</li>
-<li>You have learned specific techniques for working with spatial data.</li>
-<li>You can carry out the corresponding analyses in the software R.</li>
-</ol>
-</div>
-<div id="topics" class="section level2">
-<h2><span class="header-section-number">1.2</span> Topics</h2>
-<p>The timing of topics is shown in Table <a href="orga.html#tab:syllabus">1.1</a>.</p>
-<table>
-<caption><span id="tab:syllabus">Table 1.1: </span>Schedule of <em>Quantitative Methods for Geographers</em>.</caption>
-<colgroup>
-<col width="3%" />
-<col width="32%" />
-<col width="32%" />
-<col width="31%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th align="right">Week</th>
-<th align="left">Reading</th>
-<th align="left">Monday seminar</th>
-<th align="left">Wednesday PC lab</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="right">1</td>
-<td align="left">Organisational matters</td>
-<td align="left">no class due to Dies Academicus</td>
-<td align="left">Introduction to R</td>
-</tr>
-<tr class="even">
-<td align="right">2</td>
-<td align="left">Mathematical preliminaries</td>
-<td align="left">Introductions</td>
-<td align="left">Data manipulation and import/export with R</td>
-</tr>
-<tr class="odd">
-<td align="right">3</td>
-<td align="left">The linear model</td>
-<td align="left">Mathematical preliminaries</td>
-<td align="left">Visualization and data manipulation with R</td>
-</tr>
-<tr class="even">
-<td align="right">4</td>
-<td align="left">Categorical variables (ANOVA) and dummy coding</td>
-<td align="left">The linear model</td>
-<td align="left">Linear regression</td>
-</tr>
-<tr class="odd">
-<td align="right">5</td>
-<td align="left">Multiple linear regression</td>
-<td align="left">Categorical variables (ANOVA) and dummy coding</td>
-<td align="left">Hypothesis testing and ANOVA</td>
-</tr>
-<tr class="even">
-<td align="right">6</td>
-<td align="left">Maximum Likelihood and outlook to Bayesian statistics</td>
-<td align="left">Multiple linear regression</td>
-<td align="left">Multiple linear regression</td>
-</tr>
-<tr class="odd">
-<td align="right">7</td>
-<td align="left">Generalized linear models I</td>
-<td align="left">Maximum Likelihood and outlook to Bayesian statistics</td>
-<td align="left">Outlook to machine learning</td>
-</tr>
-<tr class="even">
-<td align="right">8</td>
-<td align="left">Generalized linear models II</td>
-<td align="left">Generalized linear models I</td>
-<td align="left">Generalized linear models I</td>
-</tr>
-<tr class="odd">
-<td align="right">9</td>
-<td align="left">Multivariate methods I</td>
-<td align="left">Generalized linear models II</td>
-<td align="left">Generalized linear models II</td>
-</tr>
-<tr class="even">
-<td align="right">10</td>
-<td align="left">Multivariate methods II</td>
-<td align="left">Multivariate methods I</td>
-<td align="left">Principal Component Analysis</td>
-</tr>
-<tr class="odd">
-<td align="right">11</td>
-<td align="left">tbc</td>
-<td align="left">Multivariate methods II</td>
-<td align="left">Discriminant Function Analysis and model validation</td>
-</tr>
-<tr class="even">
-<td align="right">12</td>
-<td align="left">tbc</td>
-<td align="left">Understanding spatial data (Tobia)</td>
-<td align="left">Spatial data and cluster analysis in R</td>
-</tr>
-<tr class="odd">
-<td align="right">13</td>
-<td align="left">tbc</td>
-<td align="left">Point pattern analysis (Tobia)</td>
-<td align="left">Point pattern analysis and spatial auto-correlation</td>
-</tr>
-<tr class="even">
-<td align="right">14</td>
-<td align="left">tbc</td>
-<td align="left">Spatial autocorrelation and interpolation (Tobia)</td>
-<td align="left">Semivariogram analysis and kriging</td>
-</tr>
-<tr class="odd">
-<td align="right">15</td>
-<td align="left">tbc</td>
-<td align="left">Spatial weights and linear modeling (Tobia)</td>
-<td align="left">Spatial regression models</td>
-</tr>
-</tbody>
-</table>
-</div>
-<div id="format" class="section level2">
-<h2><span class="header-section-number">1.3</span> Format</h2>
-<p>During this digital semester, the learning mode will be mainly <strong>reading</strong>. You are required to read a chapter of this script each week, which will then be discussed in a ZOOM session the following <strong>Monday 13:00-15:00</strong> (see link on Moodle). The reading listed for each week in the table above is due the following week.</p>
-<p>I will provide you with guiding questions and small quizzes to guide your reading. You are required to post questions on the topics or aspects you would like me to focus on during the seminar in the Moodle Forum <strong>by each Friday</strong>. This way we know what to discuss each Monday and I will prepare some lecture-style input. We can also discuss questions that arise in the PC labs. Some questions might already be answered via the Forum.</p>
-<p>In the PC labs, Dirk and David will give you <strong>homework</strong>, which you need to submit via Moodle to pass the course. They will explain this in detail.</p>
-<p>The <strong>final exam</strong> is a project similar to an extended homework, in which you will be able to apply and expand on topics studied in class, using datasets provided in the research context of the Geography Department. The project will be done individually (other than in previous years) and each of you will get their own topic and data. We will allocate topics towards the end of the semester via Moodle. The project has to be submitted as a HTML document created by R Markdown towards the end of the semester break (<strong>deadline <em>tbc</em></strong>).</p>
+<div id="categoricalvars" class="section level1">
+<h1><span class="header-section-number">Chapter 4</span> Categorical variables</h1>
+<p>Under construction.</p>
 
-</div>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-<a href="index.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="math.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="linreg.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="multiplelinreg.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
