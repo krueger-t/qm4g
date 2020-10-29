@@ -106,31 +106,31 @@ The primary purpose of regression analysis is the description (or explanation) o
 
 ```{r echo=TRUE}
 # load mile data from remote repository
-dat <- read.csv("https://raw.githubusercontent.com/avehtari/ROS-Examples/master/Mile/data/mile.csv", header=TRUE)
+mile <- read.csv("https://raw.githubusercontent.com/avehtari/ROS-Examples/master/Mile/data/mile.csv", header=TRUE)
 # fit linear model to data from 1st half of 20th century
-fit1 <- lm(seconds ~ year, data = dat[dat$year<1950,])
+fit1 <- lm(seconds ~ year, data = mile[mile$year<1950,])
 # extract information about parameter estimates
 coef(summary(fit1))
 # fit linear model to complete dataset
-fit2 <- lm(seconds ~ year, data = dat)
+fit2 <- lm(seconds ~ year, data = mile)
 coef(summary(fit2))
 ```
 
 ```{r mile, echo=TRUE, fig.align='center', fig.cap='Left: Trend of the world record for the men`s mile over the first half of the 20th century (description). Centre: Extrapolation of this trend over the 2nd half of the 20th century (prediction). Right: Extrapolation of the overall trend until the year 2050 (longer prediction). After: @wainer2009', fig.show='hold', out.width='33%'}
 # plot fit for 1st half of 20th century
-plot(dat$year[dat$year<1950], dat$seconds[dat$year<1950],
+plot(mile$year[mile$year<1950], mile$seconds[mile$year<1950],
      xlim = c(1900, 2000), ylim = c(200, 260),
      pch = 19, type = 'p',
      xlab = "Year", ylab = "World record, men's mile (seconds)")
 abline(coef(fit1), lwd = 3, col = "red")
 # plot extrapolation to 2nd half of 20th century
-plot(dat$year, dat$seconds,
+plot(mile$year, mile$seconds,
      xlim = c(1900, 2000), ylim = c(200, 260),
      pch = 19, type = 'p',
      xlab = "Year", ylab = "World record, men's mile (seconds)")
 abline(coef(fit1), lwd = 3, col = "red")
 # plot all-data fit until 2050
-plot(dat$year, dat$seconds,
+plot(mile$year, mile$seconds,
      xlim = c(1900, 2050), ylim = c(200, 260),
      pch = 19, type = 'p',
      xlab = "Year", ylab = "World record, men's mile (seconds)")
@@ -362,23 +362,21 @@ $$\begin{equation}
 The coefficient of determination alone, however, is insufficient for assessing goodness of fit. Consider the four datasets depicted in Figure \@ref(fig:anscomberaw), which together form the @anscombe1973 dataset.
 
 ```{r anscomberaw, echo=TRUE, fig.align='center', fig.cap='The four @anscombe1973 datasets.', fig.show='hold', out.width='50%'}
-# load Anscombe dataset
-dat <- anscombe
 # plot 4 individual datasets
-plot(dat$x1, dat$y1, xlim = c(0, 20), ylim = c(0, 14), pch = 19, type = 'p')
-plot(dat$x2, dat$y2, xlim = c(0, 20), ylim = c(0, 14), pch = 19, type = 'p')
-plot(dat$x3, dat$y3, xlim = c(0, 20), ylim = c(0, 14), pch = 19, type = 'p')
-plot(dat$x4, dat$y4, xlim = c(0, 20), ylim = c(0, 14), pch = 19, type = 'p')
+plot(anscombe$x1, anscombe$y1, xlim = c(0, 20), ylim = c(0, 14), pch = 19, type = 'p')
+plot(anscombe$x2, anscombe$y2, xlim = c(0, 20), ylim = c(0, 14), pch = 19, type = 'p')
+plot(anscombe$x3, anscombe$y3, xlim = c(0, 20), ylim = c(0, 14), pch = 19, type = 'p')
+plot(anscombe$x4, anscombe$y4, xlim = c(0, 20), ylim = c(0, 14), pch = 19, type = 'p')
 ```
 
 The individual datasets have purposely been constructed to yield virtually the same parameter estimates and coefficients of determination, despite wildly different relationships between $x$ and $y$ (Figure \@ref(fig:anscombefit)):
 
 ```{r echo=TRUE}
 # perform individual regressions
-fit1 <- lm(y1 ~ x1, data = dat)
-fit2 <- lm(y2 ~ x2, data = dat)
-fit3 <- lm(y3 ~ x3, data = dat)
-fit4 <- lm(y4 ~ x4, data = dat)
+fit1 <- lm(y1 ~ x1, data = anscombe)
+fit2 <- lm(y2 ~ x2, data = anscombe)
+fit3 <- lm(y3 ~ x3, data = anscombe)
+fit4 <- lm(y4 ~ x4, data = anscombe)
 # extract information about parameter estimates and R2
 coef(summary(fit1))
 summary(fit1)$r.squared
@@ -394,13 +392,13 @@ In these summary tables, "(Intercept)" stands for $\beta_0$, while "x1" to "x4" 
 
 ```{r anscombefit, echo=TRUE, fig.align='center', fig.cap='Regression analysis of the four @anscombe1973 datasets, yielding virtually the same parameter estimates and coefficients of determination (see above), despite wildly different relationships between $x$ and $y$.', fig.show='hold', out.width='50%'}
 # plot individual datasets with regression lines
-plot(dat$x1, dat$y1, xlim = c(0, 20), ylim = c(0, 14), pch = 19, type = 'p')
+plot(anscombe$x1, anscombe$y1, xlim = c(0, 20), ylim = c(0, 14), pch = 19, type = 'p')
 abline(coef(fit1), lwd = 3, col = "red")
-plot(dat$x2, dat$y2, xlim = c(0, 20), ylim = c(0, 14), pch = 19, type = 'p')
+plot(anscombe$x2, anscombe$y2, xlim = c(0, 20), ylim = c(0, 14), pch = 19, type = 'p')
 abline(coef(fit2), lwd = 3, col = "red")
-plot(dat$x3, dat$y3, xlim = c(0, 20), ylim = c(0, 14), pch = 19, type = 'p')
+plot(anscombe$x3, anscombe$y3, xlim = c(0, 20), ylim = c(0, 14), pch = 19, type = 'p')
 abline(coef(fit3), lwd = 3, col = "red")
-plot(dat$x4, dat$y4, xlim = c(0, 20), ylim = c(0, 14), pch = 19, type = 'p')
+plot(anscombe$x4, anscombe$y4, xlim = c(0, 20), ylim = c(0, 14), pch = 19, type = 'p')
 abline(coef(fit4), lwd = 3, col = "red")
 ```
 

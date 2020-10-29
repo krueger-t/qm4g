@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Chapter 4 Categorical variables | Quantitative Methods for Geographers</title>
+  <title>Chapter 4 Categorical predictors | Quantitative Methods for Geographers</title>
   <meta name="description" content="This is the script of the course ‘Quantitative Methods for Geographers’ run at the Geography Department of Humboldt-Universität zu Berlin." />
   <meta name="generator" content="bookdown 0.20 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Chapter 4 Categorical variables | Quantitative Methods for Geographers" />
+  <meta property="og:title" content="Chapter 4 Categorical predictors | Quantitative Methods for Geographers" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   <meta name="github-repo" content="krueger-t/qm4g" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 4 Categorical variables | Quantitative Methods for Geographers" />
+  <meta name="twitter:title" content="Chapter 4 Categorical predictors | Quantitative Methods for Geographers" />
   
   <meta name="twitter:description" content="This is the script of the course ‘Quantitative Methods for Geographers’ run at the Geography Department of Humboldt-Universität zu Berlin." />
   
@@ -24,7 +24,7 @@
 <meta name="author" content="Tobias Krueger" />
 
 
-<meta name="date" content="2020-10-28" />
+<meta name="date" content="2020-10-29" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -164,7 +164,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="3.6" data-path="linreg.html"><a href="linreg.html#confidence-in-parameter-estimates"><i class="fa fa-check"></i><b>3.6</b> Confidence in parameter estimates</a></li>
 <li class="chapter" data-level="3.7" data-path="linreg.html"><a href="linreg.html#goodness-of-fit"><i class="fa fa-check"></i><b>3.7</b> Goodness of fit</a></li>
 </ul></li>
-<li class="chapter" data-level="4" data-path="categoricalvars.html"><a href="categoricalvars.html"><i class="fa fa-check"></i><b>4</b> Categorical variables</a></li>
+<li class="chapter" data-level="4" data-path="categoricalvars.html"><a href="categoricalvars.html"><i class="fa fa-check"></i><b>4</b> Categorical predictors</a></li>
 <li class="chapter" data-level="5" data-path="multiplelinreg.html"><a href="multiplelinreg.html"><i class="fa fa-check"></i><b>5</b> Multiple linear regression</a></li>
 <li class="chapter" data-level="6" data-path="mlbayes.html"><a href="mlbayes.html"><i class="fa fa-check"></i><b>6</b> Probabilistic underpinnings</a><ul>
 <li class="chapter" data-level="6.1" data-path="mlbayes.html"><a href="mlbayes.html#inference-via-maximum-likelihood"><i class="fa fa-check"></i><b>6.1</b> Inference via Maximum Likelihood</a></li>
@@ -201,9 +201,242 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
             <section class="normal" id="section-">
 <div id="categoricalvars" class="section level1">
-<h1><span class="header-section-number">Chapter 4</span> Categorical variables</h1>
-<p>Under construction.</p>
+<h1><span class="header-section-number">Chapter 4</span> Categorical predictors</h1>
+<p>The linear model where the <em>predictor variables are categorical</em> - so called <strong>factors</strong> - has come to be known as <strong>Analysis of Variance (ANOVA)</strong>. In this chapter we first introduce ANOVA in a classic sense before showing how this is essentially a special case of the linear model.</p>
+<p>As an example we will look at a dataset of crop yields for different soil types from <span class="citation">Crawley (<a href="#ref-crawley2012" role="doc-biblioref">2012</a>)</span> - see Figure <a href="categoricalvars.html#fig:yields">4.1</a> - asking the question: <em>Does soil type significantly affect crop yield?</em></p>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="categoricalvars.html#cb31-1"></a><span class="co"># load yields data</span></span>
+<span id="cb31-2"><a href="categoricalvars.html#cb31-2"></a>yields &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="st">&quot;data/yields.txt&quot;</span>,<span class="dt">header=</span>T)</span>
+<span id="cb31-3"><a href="categoricalvars.html#cb31-3"></a><span class="co"># means per soil type</span></span>
+<span id="cb31-4"><a href="categoricalvars.html#cb31-4"></a>mu_j &lt;-<span class="st"> </span><span class="kw">sapply</span>(<span class="kw">list</span>(yields<span class="op">$</span>sand,yields<span class="op">$</span>clay,yields<span class="op">$</span>loam),mean)</span>
+<span id="cb31-5"><a href="categoricalvars.html#cb31-5"></a><span class="co"># overall mean</span></span>
+<span id="cb31-6"><a href="categoricalvars.html#cb31-6"></a>mu &lt;-<span class="st"> </span><span class="kw">mean</span>(mu_j)</span></code></pre></div>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="categoricalvars.html#cb32-1"></a><span class="co"># boxplots of yield per soil type</span></span>
+<span id="cb32-2"><a href="categoricalvars.html#cb32-2"></a><span class="kw">boxplot</span>(yields, <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">20</span>), <span class="dt">ylab =</span> <span class="st">&quot;yield&quot;</span>)</span>
+<span id="cb32-3"><a href="categoricalvars.html#cb32-3"></a><span class="kw">abline</span>(<span class="dt">h =</span> mu, <span class="dt">lwd =</span> <span class="dv">3</span>, <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>)</span>
+<span id="cb32-4"><a href="categoricalvars.html#cb32-4"></a><span class="kw">points</span>(<span class="kw">seq</span>(<span class="dv">1</span>,<span class="dv">3</span>), mu_j, <span class="dt">pch =</span> <span class="dv">23</span>, <span class="dt">lwd =</span> <span class="dv">3</span>, <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>)</span></code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:yields"></span>
+<img src="qm4g_files/figure-html/yields-1.png" alt="Boxplots of yield per soil type (the factor) with individual and overall means marked in red. Data from: @crawley2012" width="80%" />
+<p class="caption">
+Figure 4.1: Boxplots of yield per soil type (the factor) with individual and overall means marked in red. Data from: <span class="citation">Crawley (<a href="#ref-crawley2012" role="doc-biblioref">2012</a>)</span>
+</p>
+</div>
+<p>The factor in this example is “soil type”. The categories of a factor are called <strong>levels</strong>, <strong>groups</strong> or <strong>treatments</strong> depending on the experimental setting and the research field. In the yields example the factor levels are “sand”, “clay” and “loam”. The parameters of an ANOVA are called <strong>effects</strong> - more below. ANOVA with one factor is called <strong>one-way ANOVA</strong>.</p>
+<p>The typical question answered by ANOVA is: Are <em>means</em> across factor levels significantly different? This is tested by comparing the variation <em>between</em> levels (i.e. the overlap or not between boxplots in Figure <a href="categoricalvars.html#fig:yields">4.1</a>) to the variation <em>within</em> levels (i.e. the size of the individual boxplots). In the case of one factor with two levels, ANOVA is equivalent to the familiar t-test.</p>
+<p>The Linear effects model formulation for ANOVA is:
+<span class="math display" id="eq:effform">\[\begin{equation}
+y_{ji}=\mu+a_j+\epsilon_{ji}
+\tag{4.1}
+\end{equation}\]</span>
+With <span class="math inline">\(j=1, 2, \ldots, k\)</span> indexing the levels (e.g. sand, clay, loam), <span class="math inline">\(i=1, 2, \ldots, n_j\)</span> indexing the data points at level <span class="math inline">\(j\)</span>, <span class="math inline">\(y_{ji}\)</span> being the <span class="math inline">\(i\)</span>th observation of the response variable (e.g. yield) at level <span class="math inline">\(j\)</span>, <span class="math inline">\(\mu\)</span> being the overall mean of the response variable (Figure <a href="categoricalvars.html#fig:anovassysse">4.2</a>, left), <span class="math inline">\(\mu_j\)</span> being the mean of the response variable at level <span class="math inline">\(j\)</span>, <span class="math inline">\(a_j=\mu_j-\mu\)</span> being the effect of level <span class="math inline">\(j\)</span>, and <span class="math inline">\(\epsilon_{ji}\)</span> being the residual error. So effectively the response variable for each level is predicted by its mean plus random noise (Figure <a href="categoricalvars.html#fig:anovassysse">4.2</a>, right):
+<span class="math display" id="eq:levform">\[\begin{equation}
+y_{ji}=\mu_j+\epsilon_{ji}
+\tag{4.2}
+\end{equation}\]</span></p>
+<div class="figure" style="text-align: center"><span id="fig:anovassysse"></span>
+<img src="figs/anova_ssy.png" alt="Left: Variation of data points around overall mean $\mu$, summarised by $SSY$. Right: Variation of data points around individual means $\mu_1, \mu_2, \mu_3$, summarised by $SSE$." width="50%" /><img src="figs/anova_sse.png" alt="Left: Variation of data points around overall mean $\mu$, summarised by $SSY$. Right: Variation of data points around individual means $\mu_1, \mu_2, \mu_3$, summarised by $SSE$." width="50%" />
+<p class="caption">
+Figure 4.2: Left: Variation of data points around overall mean <span class="math inline">\(\mu\)</span>, summarised by <span class="math inline">\(SSY\)</span>. Right: Variation of data points around individual means <span class="math inline">\(\mu_1, \mu_2, \mu_3\)</span>, summarised by <span class="math inline">\(SSE\)</span>.
+</p>
+</div>
+<p>To see how the ANOVA model is essentially a linear model we look at what is called <strong>dummy coding</strong> of the categorical predictor (here soil type). This is the original data table:</p>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="categoricalvars.html#cb33-1"></a>yields</span></code></pre></div>
+<pre><code>##    sand clay loam
+## 1     6   17   13
+## 2    10   15   16
+## 3     8    3    9
+## 4     6   11   12
+## 5    14   14   15
+## 6    17   12   16
+## 7     9   12   17
+## 8    11    8   13
+## 9     7   10   18
+## 10   11   13   14</code></pre>
+<p>Now we expand this to a long table with dummy or <strong>indicator variables</strong> “clay” and “loam”:</p>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="categoricalvars.html#cb35-1"></a>yields2 &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">yield =</span> <span class="kw">c</span>(yields<span class="op">$</span>sand, yields<span class="op">$</span>clay, yields<span class="op">$</span>loam),</span>
+<span id="cb35-2"><a href="categoricalvars.html#cb35-2"></a>                      <span class="dt">clay =</span> <span class="kw">c</span>(<span class="kw">rep</span>(<span class="dv">0</span>,<span class="dv">10</span>), <span class="kw">rep</span>(<span class="dv">1</span>,<span class="dv">10</span>), <span class="kw">rep</span>(<span class="dv">0</span>,<span class="dv">10</span>)),</span>
+<span id="cb35-3"><a href="categoricalvars.html#cb35-3"></a>                      <span class="dt">loam =</span> <span class="kw">c</span>(<span class="kw">rep</span>(<span class="dv">0</span>,<span class="dv">10</span>), <span class="kw">rep</span>(<span class="dv">0</span>,<span class="dv">10</span>), <span class="kw">rep</span>(<span class="dv">1</span>,<span class="dv">10</span>)))</span>
+<span id="cb35-4"><a href="categoricalvars.html#cb35-4"></a>yields2</span></code></pre></div>
+<pre><code>##    yield clay loam
+## 1      6    0    0
+## 2     10    0    0
+## 3      8    0    0
+## 4      6    0    0
+## 5     14    0    0
+## 6     17    0    0
+## 7      9    0    0
+## 8     11    0    0
+## 9      7    0    0
+## 10    11    0    0
+## 11    17    1    0
+## 12    15    1    0
+## 13     3    1    0
+## 14    11    1    0
+## 15    14    1    0
+## 16    12    1    0
+## 17    12    1    0
+## 18     8    1    0
+## 19    10    1    0
+## 20    13    1    0
+## 21    13    0    1
+## 22    16    0    1
+## 23     9    0    1
+## 24    12    0    1
+## 25    15    0    1
+## 26    16    0    1
+## 27    17    0    1
+## 28    13    0    1
+## 29    18    0    1
+## 30    14    0    1</code></pre>
+<p>When “clay” is 1 and “loam” is 0 then we are in the clay category, when “clay” is 0 and “loam” is
+1 then we are in the loam category, and if both are 0 we are in the “sand” category. This is visualised in 3D in Figure <a href="categoricalvars.html#fig:yields3d">4.3</a>.</p>
+<div class="figure" style="text-align: center"><span id="fig:yields3d"></span>
+<img src="figs/yields3d.jpg" alt="3D representation of the dummy coding of the yields dataset." width="88%" />
+<p class="caption">
+Figure 4.3: 3D representation of the dummy coding of the yields dataset.
+</p>
+</div>
+<p>Now we can use the familiar linear model, but with two predictors, to represent ANOVA:
+<span class="math display" id="eq:dummyanova">\[\begin{equation}
+y_i=\beta_0+\beta_1\cdot x_{i1}+\beta_2\cdot x_{i2}+\epsilon_i
+\tag{4.3}
+\end{equation}\]</span>
+In this formulation, <span class="math inline">\(x_1\)</span> is the indicator variable “clay” and <span class="math inline">\(x_2\)</span> is the indicator variable “loam”. Both can only take values of 0 and 1, they are binary. Hence, looking at Figure <a href="categoricalvars.html#fig:yields3d">4.3</a>, when both <span class="math inline">\(x_1\)</span> and <span class="math inline">\(x_2\)</span> are 0 then we are in the front corner of the plot where we see the yield data for “sand”. The model is then reduced to <span class="math inline">\(y_i=\beta_0+\epsilon_i\)</span>, with <span class="math inline">\(\beta_0\)</span> being the mean yield for “sand”.</p>
+<p>When <span class="math inline">\(x_1=0\)</span> and <span class="math inline">\(x_2=1\)</span> then we are in the left corner of Figure <a href="categoricalvars.html#fig:yields3d">4.3</a> where we see the “loam” yields. The model is then <span class="math inline">\(y_i=\beta_0+\beta_2+\epsilon_i\)</span> with <span class="math inline">\(\beta_0+\beta_2\)</span> being the mean yield for “loam”.</p>
+<p>Finally, when <span class="math inline">\(x_1=1\)</span> and <span class="math inline">\(x_2=0\)</span> then we are in the right corner of Figure <a href="categoricalvars.html#fig:yields3d">4.3</a> where we see the “clay” yields. The model is then <span class="math inline">\(y_i=\beta_0+\beta_1+\epsilon_i\)</span> with <span class="math inline">\(\beta_0+\beta_1\)</span> being the mean yield for “clay”. <span class="math inline">\(\beta_1\)</span> and <span class="math inline">\(\beta_2\)</span> are thus increments added to what’s called the base category (in this case “sand”) to arrive at the new means for “clay” and “loam”, respectively. This is symbolised by the red lines in Figure <a href="categoricalvars.html#fig:yields3d">4.3</a>. We are basically modelling unique means for each factor level; Equations <a href="categoricalvars.html#eq:dummyanova">(4.3)</a> and <a href="categoricalvars.html#eq:levform">(4.2)</a> are equivalent.</p>
+<p>If you remember, we already looked at an ANOVA table under linear regression (chapter <a href="linreg.html#linreg">3</a>). Let’s now see how this is essentially similar to the actual ANOVA, while noting some key differences. Table <a href="categoricalvars.html#tab:oneway">4.1</a> shows the one-way ANOVA table.</p>
+<table style="width:100%;">
+<caption><span id="tab:oneway">Table 4.1: </span> One-way ANOVA table.</caption>
+<colgroup>
+<col width="16%" />
+<col width="16%" />
+<col width="16%" />
+<col width="16%" />
+<col width="16%" />
+<col width="16%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">Source</th>
+<th align="center">Sum of<br>squares</th>
+<th align="center">Degrees of freedom <span class="math inline">\((df)\)</span></th>
+<th align="center">Mean squares</th>
+<th align="center">F statistic <span class="math inline">\(\left(F_s\right)\)</span></th>
+<th align="center"><span class="math inline">\(\Pr\left(Z\geq F_s\right)\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">Level</td>
+<td align="center"><span class="math inline">\(SSA=\\SSY-SSE\)</span></td>
+<td align="center"><span class="math inline">\(k-1\)</span></td>
+<td align="center"><span class="math inline">\(\frac{SSA}{df_{SSA}}\)</span></td>
+<td align="center"><span class="math inline">\(\frac{\frac{SSA}{df_{SSA}}}{s^2}\)</span></td>
+<td align="center"><span class="math inline">\(1-F\left(F_s,1,n-k\right)\)</span></td>
+</tr>
+<tr class="even">
+<td align="center">Error</td>
+<td align="center"><span class="math inline">\(SSE\)</span></td>
+<td align="center"><span class="math inline">\(n-k\)</span></td>
+<td align="center"><span class="math inline">\(\frac{SSE}{df_{SSE}}=s^2\)</span></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr class="odd">
+<td align="center">Total</td>
+<td align="center"><span class="math inline">\(SSY\)</span></td>
+<td align="center"><span class="math inline">\(n-1\)</span></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+</tbody>
+</table>
+<p>Compare this to Table <a href="linreg.html#tab:anova">3.3</a>. The essential differences are: The explained variation is now labeled “level” with the notation <span class="math inline">\(SSA\)</span>, instead of “regression” and <span class="math inline">\(SSR\)</span>. The number of parameters subtracted from the data degrees of freedom is now <span class="math inline">\(k\)</span>, the number of levels, instead of 2. The error variation is now calculated as <span class="math inline">\(SSE=\sum_{j=1}^{k}\sum_{i=1}^{n_j}\left(y_{ji}-\bar y_j\right)^2\)</span> (Figure <a href="categoricalvars.html#fig:anovassysse">4.2</a>, right), instead of <span class="math inline">\(SSE=\sum_{i=1}^{n}\left(y_i-\left(\beta_0+\beta_1\cdot x_i\right)\right)^2\)</span>. The total variation, however, is the same: <span class="math inline">\(SSY=\sum_{j=1}^{k}\sum_{i=1}^{n_j}\left(y_{ji}-\bar y\right)^2=\sum_{i=1}^{n}\left(y_i-\bar y\right)^2\)</span> (Figure <a href="categoricalvars.html#fig:anovassysse">4.2</a>, left).</p>
+For comparison, a perfect model fit would look like Figure <a href="categoricalvars.html#fig:perfectssysse">4.4</a>.
+<div class="figure" style="text-align: center"><span id="fig:perfectssysse"></span>
+<img src="figs/perfect_ssy.jpg" alt="Hypothetical perfect fit of an ANOVA model. Left: Variation of data points around overall mean, summarised by $SSY$. Right: Variation of data points around individual means, summarised by $SSE$." width="50%" /><img src="figs/perfect_sse.jpg" alt="Hypothetical perfect fit of an ANOVA model. Left: Variation of data points around overall mean, summarised by $SSY$. Right: Variation of data points around individual means, summarised by $SSE$." width="50%" />
+<p class="caption">
+Figure 4.4: Hypothetical perfect fit of an ANOVA model. Left: Variation of data points around overall mean, summarised by <span class="math inline">\(SSY\)</span>. Right: Variation of data points around individual means, summarised by <span class="math inline">\(SSE\)</span>.
+</p>
+</div>
+<p>When we estimate the individual means of the factor levels, they come with a <strong>standard error</strong> just like the linear regression parameters. This is:
+<span class="math display" id="eq:semuj">\[\begin{equation}
+s_{\mu_j}=\sqrt{\frac{s^2}{n_j}}
+\tag{4.4}
+\end{equation}\]</span>
+With <span class="math inline">\(n_j\)</span> being 10 in our example, which does not need to be the same across the factor levels, and <span class="math inline">\(s^2=\frac{SSE}{n-k}\)</span>, the error variance from the ANOVA table (Table <a href="categoricalvars.html#tab:oneway">4.1</a>). Let’s calculate the various means, effect sizes and corresponding errors again:</p>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="categoricalvars.html#cb37-1"></a><span class="co"># define constants</span></span>
+<span id="cb37-2"><a href="categoricalvars.html#cb37-2"></a>n &lt;-<span class="st"> </span><span class="dv">30</span></span>
+<span id="cb37-3"><a href="categoricalvars.html#cb37-3"></a>k &lt;-<span class="st"> </span><span class="dv">3</span></span>
+<span id="cb37-4"><a href="categoricalvars.html#cb37-4"></a>n_j &lt;-<span class="st"> </span><span class="dv">10</span></span>
+<span id="cb37-5"><a href="categoricalvars.html#cb37-5"></a><span class="co"># means per soil type</span></span>
+<span id="cb37-6"><a href="categoricalvars.html#cb37-6"></a>mu_j &lt;-<span class="st"> </span><span class="kw">sapply</span>(<span class="kw">list</span>(yields<span class="op">$</span>sand,yields<span class="op">$</span>clay,yields<span class="op">$</span>loam),mean)</span>
+<span id="cb37-7"><a href="categoricalvars.html#cb37-7"></a>mu_j</span></code></pre></div>
+<pre><code>## [1]  9.9 11.5 14.3</code></pre>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="categoricalvars.html#cb39-1"></a><span class="co"># overall mean</span></span>
+<span id="cb39-2"><a href="categoricalvars.html#cb39-2"></a>mu &lt;-<span class="st"> </span><span class="kw">mean</span>(mu_j)</span>
+<span id="cb39-3"><a href="categoricalvars.html#cb39-3"></a>mu</span></code></pre></div>
+<pre><code>## [1] 11.9</code></pre>
+<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="categoricalvars.html#cb41-1"></a><span class="co"># effect size</span></span>
+<span id="cb41-2"><a href="categoricalvars.html#cb41-2"></a>a_j &lt;-<span class="st"> </span>mu_j <span class="op">-</span><span class="st"> </span>mu</span>
+<span id="cb41-3"><a href="categoricalvars.html#cb41-3"></a>a_j</span></code></pre></div>
+<pre><code>## [1] -2.0 -0.4  2.4</code></pre>
+<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="categoricalvars.html#cb43-1"></a><span class="co"># SSE</span></span>
+<span id="cb43-2"><a href="categoricalvars.html#cb43-2"></a>SSE &lt;-<span class="st"> </span><span class="kw">sum</span>(<span class="kw">sapply</span>(<span class="kw">list</span>(yields<span class="op">$</span>sand,yields<span class="op">$</span>clay,yields<span class="op">$</span>loam),<span class="cf">function</span> (x) <span class="kw">sum</span>((x<span class="op">-</span><span class="kw">mean</span>(x))<span class="op">^</span><span class="dv">2</span>) ))</span>
+<span id="cb43-3"><a href="categoricalvars.html#cb43-3"></a>SSE</span></code></pre></div>
+<pre><code>## [1] 315.5</code></pre>
+<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb45-1"><a href="categoricalvars.html#cb45-1"></a><span class="co"># error variance</span></span>
+<span id="cb45-2"><a href="categoricalvars.html#cb45-2"></a>s2 &lt;-<span class="st"> </span>SSE<span class="op">/</span>(n<span class="op">-</span>k)</span>
+<span id="cb45-3"><a href="categoricalvars.html#cb45-3"></a>s2</span></code></pre></div>
+<pre><code>## [1] 11.68519</code></pre>
+<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb47-1"><a href="categoricalvars.html#cb47-1"></a><span class="co"># standard error of individual means</span></span>
+<span id="cb47-2"><a href="categoricalvars.html#cb47-2"></a><span class="co"># here the same across factor levels as n_j is homogeneous</span></span>
+<span id="cb47-3"><a href="categoricalvars.html#cb47-3"></a>s_mu_j &lt;-<span class="st"> </span><span class="kw">sqrt</span>(s2<span class="op">/</span>n_j)</span>
+<span id="cb47-4"><a href="categoricalvars.html#cb47-4"></a>s_mu_j</span></code></pre></div>
+<pre><code>## [1] 1.08098</code></pre>
+<p>Finally, what we are really interested in are the differences between factor level means <span class="math inline">\(\mu_j\)</span> and whether they are statistically significant, i.e. large enough compared to the variation within each factor level. This is a t-test problem (comparing two means) for which we need the <strong>differences of means</strong>, let’s call them <span class="math inline">\(\Delta\mu_j\)</span>, and the standard errors of these differences:
+<span class="math display" id="eq:sedelta">\[\begin{equation}
+s_{\Delta\mu_j}=\sqrt{\frac{2\cdot s^2}{n_j}}
+\tag{4.5}
+\end{equation}\]</span></p>
+<p>The t-test statistics then is:
+<span class="math display" id="eq:ts">\[\begin{equation}
+t_s=\frac{\Delta\mu_j}{s_{\Delta\mu_j}}
+\tag{4.6}
+\end{equation}\]</span></p>
+<p>Compare the standard t-test where the test statistic is <span class="math inline">\(t_s=\frac{\bar x_1-\bar x_2}{\sqrt{\frac{s_1^2}{n_1}+\frac{s_2^2}{n_2}}}\)</span>. Since in this dataset we have equal sample sizes across levels and homogeneous variance (homoscedasticity) is a fundamental assumption of ANOVA (as it is of linear regression), the standard t-test statistic simplifies to Equation <a href="categoricalvars.html#eq:ts">(4.6)</a>.</p>
+<p>The corresponding p-value of the 2-sided test then is:
+<span class="math display" id="eq:pvalue">\[\begin{equation}
+\Pr\left(|Z|\geq t_s\right)=2\cdot\left(1-t\left(t_s,n&#39;-2\right)\right)
+\tag{4.7}
+\end{equation}\]</span>
+With <span class="math inline">\(t\left(t_s,n&#39;-2\right)\)</span> being the value of the cumulative distribution function (cdf) of the t-distribution with parameter <span class="math inline">\(n&#39;-2\)</span> at the location <span class="math inline">\(t_s\)</span>, and <span class="math inline">\(n&#39;=20\)</span> in the yields example.</p>
+<p>Let’s calculate these t-tests “by hand” in R:</p>
+<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb49-1"><a href="categoricalvars.html#cb49-1"></a><span class="co"># differences of means</span></span>
+<span id="cb49-2"><a href="categoricalvars.html#cb49-2"></a>delta_mu_j &lt;-<span class="st"> </span><span class="kw">c</span>(mu_j[<span class="dv">2</span>]<span class="op">-</span>mu_j[<span class="dv">1</span>],mu_j[<span class="dv">3</span>]<span class="op">-</span>mu_j[<span class="dv">1</span>],mu_j[<span class="dv">3</span>]<span class="op">-</span>mu_j[<span class="dv">2</span>])</span>
+<span id="cb49-3"><a href="categoricalvars.html#cb49-3"></a>delta_mu_j</span></code></pre></div>
+<pre><code>## [1] 1.6 4.4 2.8</code></pre>
+<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb51-1"><a href="categoricalvars.html#cb51-1"></a><span class="co"># standard error of differences</span></span>
+<span id="cb51-2"><a href="categoricalvars.html#cb51-2"></a><span class="co"># here the same across factor levels as n_j is homogeneous</span></span>
+<span id="cb51-3"><a href="categoricalvars.html#cb51-3"></a>s_delta_mu_j &lt;-<span class="st"> </span><span class="kw">sqrt</span>(<span class="dv">2</span><span class="op">*</span>s2<span class="op">/</span>n_j)</span>
+<span id="cb51-4"><a href="categoricalvars.html#cb51-4"></a>s_delta_mu_j</span></code></pre></div>
+<pre><code>## [1] 1.528737</code></pre>
+<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb53-1"><a href="categoricalvars.html#cb53-1"></a><span class="co"># t-test statistics</span></span>
+<span id="cb53-2"><a href="categoricalvars.html#cb53-2"></a>t_s &lt;-<span class="st"> </span>delta_mu_j<span class="op">/</span>s_delta_mu_j</span>
+<span id="cb53-3"><a href="categoricalvars.html#cb53-3"></a>t_s</span></code></pre></div>
+<pre><code>## [1] 1.046616 2.878193 1.831577</code></pre>
+<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb55-1"><a href="categoricalvars.html#cb55-1"></a><span class="co"># p-values</span></span>
+<span id="cb55-2"><a href="categoricalvars.html#cb55-2"></a>pvalue &lt;-<span class="st"> </span><span class="dv">2</span><span class="op">*</span>(<span class="dv">1</span><span class="op">-</span><span class="kw">pt</span>(t_s,<span class="dv">20-2</span>))</span>
+<span id="cb55-3"><a href="categoricalvars.html#cb55-3"></a>pvalue</span></code></pre></div>
+<pre><code>## [1] 0.30912862 0.01000534 0.08361664</code></pre>
+<p>We conclude that the yields on sand and loam are just about significantly different at a conventional significance level of 0.01, with yields on sand being 4.4 units lower on average. The other yield differences are not statistically significant (compare Figure <a href="categoricalvars.html#fig:yields">4.1</a>).</p>
 
+</div>
+<h3>References</h3>
+<div id="refs" class="references">
+<div id="ref-crawley2012">
+<p>Crawley, M. J. 2012. <em>The R Book (2nd Ed.)</em>. Chichester: John Wiley &amp; Sons Ltd.</p>
+</div>
 </div>
             </section>
 
