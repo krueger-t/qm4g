@@ -3,3 +3,7 @@
 ## Answer to Q1 {-}
 
 Equations \@ref(eq:Q1model1), \@ref(eq:Q1model3) and \@ref(eq:Q1model5) are linear models; the others are non-linear in their parameters. Note, that the variables of linear models can take non-linear forms ($x_1^3, x_1 \cdot x_2, \log x_1$) as long as the parameters are not implicated in this non-linearity.
+
+## Answer to Q2 {-}
+
+We have 6 main predictors, 5+4+3+2+1=15 2-way interactions, 20 3-way interactions, 15 4-way interactions, 6 5-way interactions and 1 6-way interaction, i.e. 63 possible predictors. Note the symmetry of this calculation: the number of possibilities of combining 2 variables (2-way interactions) is the same as the number of possibilities of leaving out 2 variables (4-way interactions).
