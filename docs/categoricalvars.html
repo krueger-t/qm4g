@@ -24,7 +24,7 @@
 <meta name="author" content="Tobias Krueger" />
 
 
-<meta name="date" content="2020-11-12" />
+<meta name="date" content="2020-11-20" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -216,16 +216,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h1><span class="header-section-number">Chapter 4</span> Categorical predictors</h1>
 <p>The linear model where the <em>predictor variables are categorical</em> - so called <strong>factors</strong> - has come to be known as <strong>Analysis of Variance (ANOVA)</strong>. In this chapter we first introduce ANOVA in a classic sense before showing how this is essentially a special case of the linear model.</p>
 <p>As an example we will look at a dataset of crop yields for different soil types from <span class="citation">Crawley (<a href="#ref-crawley2012" role="doc-biblioref">2012</a>)</span> - see Figure <a href="categoricalvars.html#fig:yields">4.1</a> - asking the question: <em>Does soil type significantly affect crop yield?</em></p>
-<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="categoricalvars.html#cb31-1"></a><span class="co"># load yields data</span></span>
-<span id="cb31-2"><a href="categoricalvars.html#cb31-2"></a>yields &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="st">&quot;data/yields.txt&quot;</span>,<span class="dt">header=</span>T)</span>
-<span id="cb31-3"><a href="categoricalvars.html#cb31-3"></a><span class="co"># means per soil type</span></span>
-<span id="cb31-4"><a href="categoricalvars.html#cb31-4"></a>mu_j &lt;-<span class="st"> </span><span class="kw">sapply</span>(<span class="kw">list</span>(yields<span class="op">$</span>sand,yields<span class="op">$</span>clay,yields<span class="op">$</span>loam),mean)</span>
-<span id="cb31-5"><a href="categoricalvars.html#cb31-5"></a><span class="co"># overall mean</span></span>
-<span id="cb31-6"><a href="categoricalvars.html#cb31-6"></a>mu &lt;-<span class="st"> </span><span class="kw">mean</span>(mu_j)</span></code></pre></div>
-<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="categoricalvars.html#cb32-1"></a><span class="co"># boxplots of yield per soil type</span></span>
-<span id="cb32-2"><a href="categoricalvars.html#cb32-2"></a><span class="kw">boxplot</span>(yields, <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">20</span>), <span class="dt">ylab =</span> <span class="st">&quot;yield&quot;</span>)</span>
-<span id="cb32-3"><a href="categoricalvars.html#cb32-3"></a><span class="kw">abline</span>(<span class="dt">h =</span> mu, <span class="dt">lwd =</span> <span class="dv">3</span>, <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>)</span>
-<span id="cb32-4"><a href="categoricalvars.html#cb32-4"></a><span class="kw">points</span>(<span class="kw">seq</span>(<span class="dv">1</span>,<span class="dv">3</span>), mu_j, <span class="dt">pch =</span> <span class="dv">23</span>, <span class="dt">lwd =</span> <span class="dv">3</span>, <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="categoricalvars.html#cb32-1"></a><span class="co"># load yields data</span></span>
+<span id="cb32-2"><a href="categoricalvars.html#cb32-2"></a>yields &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="st">&quot;data/yields.txt&quot;</span>,<span class="dt">header=</span>T)</span>
+<span id="cb32-3"><a href="categoricalvars.html#cb32-3"></a><span class="co"># means per soil type</span></span>
+<span id="cb32-4"><a href="categoricalvars.html#cb32-4"></a>mu_j &lt;-<span class="st"> </span><span class="kw">sapply</span>(<span class="kw">list</span>(yields<span class="op">$</span>sand,yields<span class="op">$</span>clay,yields<span class="op">$</span>loam),mean)</span>
+<span id="cb32-5"><a href="categoricalvars.html#cb32-5"></a><span class="co"># overall mean</span></span>
+<span id="cb32-6"><a href="categoricalvars.html#cb32-6"></a>mu &lt;-<span class="st"> </span><span class="kw">mean</span>(mu_j)</span></code></pre></div>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="categoricalvars.html#cb33-1"></a><span class="co"># boxplots of yield per soil type</span></span>
+<span id="cb33-2"><a href="categoricalvars.html#cb33-2"></a><span class="kw">boxplot</span>(yields, <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">20</span>), <span class="dt">ylab =</span> <span class="st">&quot;yield&quot;</span>)</span>
+<span id="cb33-3"><a href="categoricalvars.html#cb33-3"></a><span class="kw">abline</span>(<span class="dt">h =</span> mu, <span class="dt">lwd =</span> <span class="dv">3</span>, <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>)</span>
+<span id="cb33-4"><a href="categoricalvars.html#cb33-4"></a><span class="kw">points</span>(<span class="kw">seq</span>(<span class="dv">1</span>,<span class="dv">3</span>), mu_j, <span class="dt">pch =</span> <span class="dv">23</span>, <span class="dt">lwd =</span> <span class="dv">3</span>, <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>)</span></code></pre></div>
 <div class="figure" style="text-align: center"><span id="fig:yields"></span>
 <img src="qm4g_files/figure-html/yields-1.png" alt="Boxplots of yield per soil type (the factor) with individual and overall means marked in red. Data from: @crawley2012" width="80%" />
 <p class="caption">
@@ -251,7 +251,7 @@ Figure 4.2: Left: Variation of data points around overall mean <span class="math
 </p>
 </div>
 <p>To see how the ANOVA model is essentially a linear model we look at what is called <strong>dummy coding</strong> of the categorical predictor (here soil type). This is the original data table:</p>
-<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="categoricalvars.html#cb33-1"></a>yields</span></code></pre></div>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="categoricalvars.html#cb34-1"></a>yields</span></code></pre></div>
 <pre><code>##    sand clay loam
 ## 1     6   17   13
 ## 2    10   15   16
@@ -264,10 +264,10 @@ Figure 4.2: Left: Variation of data points around overall mean <span class="math
 ## 9     7   10   18
 ## 10   11   13   14</code></pre>
 <p>Now we expand this to a long table with dummy or <strong>indicator variables</strong> “clay” and “loam”:</p>
-<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="categoricalvars.html#cb35-1"></a>yields2 &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">yield =</span> <span class="kw">c</span>(yields<span class="op">$</span>sand, yields<span class="op">$</span>clay, yields<span class="op">$</span>loam),</span>
-<span id="cb35-2"><a href="categoricalvars.html#cb35-2"></a>                      <span class="dt">clay =</span> <span class="kw">c</span>(<span class="kw">rep</span>(<span class="dv">0</span>,<span class="dv">10</span>), <span class="kw">rep</span>(<span class="dv">1</span>,<span class="dv">10</span>), <span class="kw">rep</span>(<span class="dv">0</span>,<span class="dv">10</span>)),</span>
-<span id="cb35-3"><a href="categoricalvars.html#cb35-3"></a>                      <span class="dt">loam =</span> <span class="kw">c</span>(<span class="kw">rep</span>(<span class="dv">0</span>,<span class="dv">10</span>), <span class="kw">rep</span>(<span class="dv">0</span>,<span class="dv">10</span>), <span class="kw">rep</span>(<span class="dv">1</span>,<span class="dv">10</span>)))</span>
-<span id="cb35-4"><a href="categoricalvars.html#cb35-4"></a>yields2</span></code></pre></div>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="categoricalvars.html#cb36-1"></a>yields2 &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">yield =</span> <span class="kw">c</span>(yields<span class="op">$</span>sand, yields<span class="op">$</span>clay, yields<span class="op">$</span>loam),</span>
+<span id="cb36-2"><a href="categoricalvars.html#cb36-2"></a>                      <span class="dt">clay =</span> <span class="kw">c</span>(<span class="kw">rep</span>(<span class="dv">0</span>,<span class="dv">10</span>), <span class="kw">rep</span>(<span class="dv">1</span>,<span class="dv">10</span>), <span class="kw">rep</span>(<span class="dv">0</span>,<span class="dv">10</span>)),</span>
+<span id="cb36-3"><a href="categoricalvars.html#cb36-3"></a>                      <span class="dt">loam =</span> <span class="kw">c</span>(<span class="kw">rep</span>(<span class="dv">0</span>,<span class="dv">10</span>), <span class="kw">rep</span>(<span class="dv">0</span>,<span class="dv">10</span>), <span class="kw">rep</span>(<span class="dv">1</span>,<span class="dv">10</span>)))</span>
+<span id="cb36-4"><a href="categoricalvars.html#cb36-4"></a>yields2</span></code></pre></div>
 <pre><code>##    yield clay loam
 ## 1      6    0    0
 ## 2     10    0    0
@@ -377,34 +377,34 @@ s_{\mu_j}=\sqrt{\frac{s^2}{n_j}}
 \tag{4.4}
 \end{equation}\]</span>
 With <span class="math inline">\(n_j\)</span> being 10 in our example, which does not need to be the same across the factor levels, and <span class="math inline">\(s^2=\frac{SSE}{n-k}\)</span>, the error variance from the ANOVA table (Table <a href="categoricalvars.html#tab:oneway">4.1</a>). Let’s calculate the various means, effect sizes and corresponding errors again:</p>
-<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="categoricalvars.html#cb37-1"></a><span class="co"># define constants</span></span>
-<span id="cb37-2"><a href="categoricalvars.html#cb37-2"></a>n &lt;-<span class="st"> </span><span class="dv">30</span></span>
-<span id="cb37-3"><a href="categoricalvars.html#cb37-3"></a>k &lt;-<span class="st"> </span><span class="dv">3</span></span>
-<span id="cb37-4"><a href="categoricalvars.html#cb37-4"></a>n_j &lt;-<span class="st"> </span><span class="dv">10</span></span>
-<span id="cb37-5"><a href="categoricalvars.html#cb37-5"></a><span class="co"># means per soil type</span></span>
-<span id="cb37-6"><a href="categoricalvars.html#cb37-6"></a>mu_j &lt;-<span class="st"> </span><span class="kw">sapply</span>(<span class="kw">list</span>(yields<span class="op">$</span>sand,yields<span class="op">$</span>clay,yields<span class="op">$</span>loam),mean)</span>
-<span id="cb37-7"><a href="categoricalvars.html#cb37-7"></a>mu_j</span></code></pre></div>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="categoricalvars.html#cb38-1"></a><span class="co"># define constants</span></span>
+<span id="cb38-2"><a href="categoricalvars.html#cb38-2"></a>n &lt;-<span class="st"> </span><span class="dv">30</span></span>
+<span id="cb38-3"><a href="categoricalvars.html#cb38-3"></a>k &lt;-<span class="st"> </span><span class="dv">3</span></span>
+<span id="cb38-4"><a href="categoricalvars.html#cb38-4"></a>n_j &lt;-<span class="st"> </span><span class="dv">10</span></span>
+<span id="cb38-5"><a href="categoricalvars.html#cb38-5"></a><span class="co"># means per soil type</span></span>
+<span id="cb38-6"><a href="categoricalvars.html#cb38-6"></a>mu_j &lt;-<span class="st"> </span><span class="kw">sapply</span>(<span class="kw">list</span>(yields<span class="op">$</span>sand,yields<span class="op">$</span>clay,yields<span class="op">$</span>loam),mean)</span>
+<span id="cb38-7"><a href="categoricalvars.html#cb38-7"></a>mu_j</span></code></pre></div>
 <pre><code>## [1]  9.9 11.5 14.3</code></pre>
-<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="categoricalvars.html#cb39-1"></a><span class="co"># overall mean</span></span>
-<span id="cb39-2"><a href="categoricalvars.html#cb39-2"></a>mu &lt;-<span class="st"> </span><span class="kw">mean</span>(mu_j)</span>
-<span id="cb39-3"><a href="categoricalvars.html#cb39-3"></a>mu</span></code></pre></div>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="categoricalvars.html#cb40-1"></a><span class="co"># overall mean</span></span>
+<span id="cb40-2"><a href="categoricalvars.html#cb40-2"></a>mu &lt;-<span class="st"> </span><span class="kw">mean</span>(mu_j)</span>
+<span id="cb40-3"><a href="categoricalvars.html#cb40-3"></a>mu</span></code></pre></div>
 <pre><code>## [1] 11.9</code></pre>
-<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="categoricalvars.html#cb41-1"></a><span class="co"># effect size</span></span>
-<span id="cb41-2"><a href="categoricalvars.html#cb41-2"></a>a_j &lt;-<span class="st"> </span>mu_j <span class="op">-</span><span class="st"> </span>mu</span>
-<span id="cb41-3"><a href="categoricalvars.html#cb41-3"></a>a_j</span></code></pre></div>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="categoricalvars.html#cb42-1"></a><span class="co"># effect size</span></span>
+<span id="cb42-2"><a href="categoricalvars.html#cb42-2"></a>a_j &lt;-<span class="st"> </span>mu_j <span class="op">-</span><span class="st"> </span>mu</span>
+<span id="cb42-3"><a href="categoricalvars.html#cb42-3"></a>a_j</span></code></pre></div>
 <pre><code>## [1] -2.0 -0.4  2.4</code></pre>
-<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="categoricalvars.html#cb43-1"></a><span class="co"># SSE</span></span>
-<span id="cb43-2"><a href="categoricalvars.html#cb43-2"></a>SSE &lt;-<span class="st"> </span><span class="kw">sum</span>(<span class="kw">sapply</span>(<span class="kw">list</span>(yields<span class="op">$</span>sand,yields<span class="op">$</span>clay,yields<span class="op">$</span>loam),<span class="cf">function</span> (x) <span class="kw">sum</span>((x<span class="op">-</span><span class="kw">mean</span>(x))<span class="op">^</span><span class="dv">2</span>) ))</span>
-<span id="cb43-3"><a href="categoricalvars.html#cb43-3"></a>SSE</span></code></pre></div>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="categoricalvars.html#cb44-1"></a><span class="co"># SSE</span></span>
+<span id="cb44-2"><a href="categoricalvars.html#cb44-2"></a>SSE &lt;-<span class="st"> </span><span class="kw">sum</span>(<span class="kw">sapply</span>(<span class="kw">list</span>(yields<span class="op">$</span>sand,yields<span class="op">$</span>clay,yields<span class="op">$</span>loam),<span class="cf">function</span> (x) <span class="kw">sum</span>((x<span class="op">-</span><span class="kw">mean</span>(x))<span class="op">^</span><span class="dv">2</span>) ))</span>
+<span id="cb44-3"><a href="categoricalvars.html#cb44-3"></a>SSE</span></code></pre></div>
 <pre><code>## [1] 315.5</code></pre>
-<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb45-1"><a href="categoricalvars.html#cb45-1"></a><span class="co"># error variance</span></span>
-<span id="cb45-2"><a href="categoricalvars.html#cb45-2"></a>s2 &lt;-<span class="st"> </span>SSE<span class="op">/</span>(n<span class="op">-</span>k)</span>
-<span id="cb45-3"><a href="categoricalvars.html#cb45-3"></a>s2</span></code></pre></div>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="categoricalvars.html#cb46-1"></a><span class="co"># error variance</span></span>
+<span id="cb46-2"><a href="categoricalvars.html#cb46-2"></a>s2 &lt;-<span class="st"> </span>SSE<span class="op">/</span>(n<span class="op">-</span>k)</span>
+<span id="cb46-3"><a href="categoricalvars.html#cb46-3"></a>s2</span></code></pre></div>
 <pre><code>## [1] 11.68519</code></pre>
-<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb47-1"><a href="categoricalvars.html#cb47-1"></a><span class="co"># standard error of individual means</span></span>
-<span id="cb47-2"><a href="categoricalvars.html#cb47-2"></a><span class="co"># here the same across factor levels as n_j is homogeneous</span></span>
-<span id="cb47-3"><a href="categoricalvars.html#cb47-3"></a>s_mu_j &lt;-<span class="st"> </span><span class="kw">sqrt</span>(s2<span class="op">/</span>n_j)</span>
-<span id="cb47-4"><a href="categoricalvars.html#cb47-4"></a>s_mu_j</span></code></pre></div>
+<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="categoricalvars.html#cb48-1"></a><span class="co"># standard error of individual means</span></span>
+<span id="cb48-2"><a href="categoricalvars.html#cb48-2"></a><span class="co"># here the same across factor levels as n_j is homogeneous</span></span>
+<span id="cb48-3"><a href="categoricalvars.html#cb48-3"></a>s_mu_j &lt;-<span class="st"> </span><span class="kw">sqrt</span>(s2<span class="op">/</span>n_j)</span>
+<span id="cb48-4"><a href="categoricalvars.html#cb48-4"></a>s_mu_j</span></code></pre></div>
 <pre><code>## [1] 1.08098</code></pre>
 <p>Finally, what we are really interested in are the differences between factor level means <span class="math inline">\(\mu_j\)</span> and whether they are statistically significant, i.e. large enough compared to the variation within each factor level. This is a t-test problem (comparing two means) for which we need the <strong>differences of means</strong>, let’s call them <span class="math inline">\(\Delta\mu_j\)</span>, and the standard errors of these differences:
 <span class="math display" id="eq:sedelta">\[\begin{equation}
@@ -424,22 +424,22 @@ t_s=\frac{\Delta\mu_j}{s_{\Delta\mu_j}}
 \end{equation}\]</span>
 With <span class="math inline">\(t\left(t_s,n&#39;-2\right)\)</span> being the value of the cumulative distribution function (cdf) of the t-distribution with parameter <span class="math inline">\(n&#39;-2\)</span> at the location <span class="math inline">\(t_s\)</span>, and <span class="math inline">\(n&#39;=20\)</span> in the yields example.</p>
 <p>Let’s calculate these t-tests “by hand” in R:</p>
-<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb49-1"><a href="categoricalvars.html#cb49-1"></a><span class="co"># differences of means</span></span>
-<span id="cb49-2"><a href="categoricalvars.html#cb49-2"></a>delta_mu_j &lt;-<span class="st"> </span><span class="kw">c</span>(mu_j[<span class="dv">2</span>]<span class="op">-</span>mu_j[<span class="dv">1</span>],mu_j[<span class="dv">3</span>]<span class="op">-</span>mu_j[<span class="dv">1</span>],mu_j[<span class="dv">3</span>]<span class="op">-</span>mu_j[<span class="dv">2</span>])</span>
-<span id="cb49-3"><a href="categoricalvars.html#cb49-3"></a>delta_mu_j</span></code></pre></div>
+<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="categoricalvars.html#cb50-1"></a><span class="co"># differences of means</span></span>
+<span id="cb50-2"><a href="categoricalvars.html#cb50-2"></a>delta_mu_j &lt;-<span class="st"> </span><span class="kw">c</span>(mu_j[<span class="dv">2</span>]<span class="op">-</span>mu_j[<span class="dv">1</span>],mu_j[<span class="dv">3</span>]<span class="op">-</span>mu_j[<span class="dv">1</span>],mu_j[<span class="dv">3</span>]<span class="op">-</span>mu_j[<span class="dv">2</span>])</span>
+<span id="cb50-3"><a href="categoricalvars.html#cb50-3"></a>delta_mu_j</span></code></pre></div>
 <pre><code>## [1] 1.6 4.4 2.8</code></pre>
-<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb51-1"><a href="categoricalvars.html#cb51-1"></a><span class="co"># standard error of differences</span></span>
-<span id="cb51-2"><a href="categoricalvars.html#cb51-2"></a><span class="co"># here the same across factor levels as n_j is homogeneous</span></span>
-<span id="cb51-3"><a href="categoricalvars.html#cb51-3"></a>s_delta_mu_j &lt;-<span class="st"> </span><span class="kw">sqrt</span>(<span class="dv">2</span><span class="op">*</span>s2<span class="op">/</span>n_j)</span>
-<span id="cb51-4"><a href="categoricalvars.html#cb51-4"></a>s_delta_mu_j</span></code></pre></div>
+<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="categoricalvars.html#cb52-1"></a><span class="co"># standard error of differences</span></span>
+<span id="cb52-2"><a href="categoricalvars.html#cb52-2"></a><span class="co"># here the same across factor levels as n_j is homogeneous</span></span>
+<span id="cb52-3"><a href="categoricalvars.html#cb52-3"></a>s_delta_mu_j &lt;-<span class="st"> </span><span class="kw">sqrt</span>(<span class="dv">2</span><span class="op">*</span>s2<span class="op">/</span>n_j)</span>
+<span id="cb52-4"><a href="categoricalvars.html#cb52-4"></a>s_delta_mu_j</span></code></pre></div>
 <pre><code>## [1] 1.528737</code></pre>
-<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb53-1"><a href="categoricalvars.html#cb53-1"></a><span class="co"># t-test statistics</span></span>
-<span id="cb53-2"><a href="categoricalvars.html#cb53-2"></a>t_s &lt;-<span class="st"> </span>delta_mu_j<span class="op">/</span>s_delta_mu_j</span>
-<span id="cb53-3"><a href="categoricalvars.html#cb53-3"></a>t_s</span></code></pre></div>
+<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb54-1"><a href="categoricalvars.html#cb54-1"></a><span class="co"># t-test statistics</span></span>
+<span id="cb54-2"><a href="categoricalvars.html#cb54-2"></a>t_s &lt;-<span class="st"> </span>delta_mu_j<span class="op">/</span>s_delta_mu_j</span>
+<span id="cb54-3"><a href="categoricalvars.html#cb54-3"></a>t_s</span></code></pre></div>
 <pre><code>## [1] 1.046616 2.878193 1.831577</code></pre>
-<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb55-1"><a href="categoricalvars.html#cb55-1"></a><span class="co"># p-values</span></span>
-<span id="cb55-2"><a href="categoricalvars.html#cb55-2"></a>pvalue &lt;-<span class="st"> </span><span class="dv">2</span><span class="op">*</span>(<span class="dv">1</span><span class="op">-</span><span class="kw">pt</span>(t_s,<span class="dv">20-2</span>))</span>
-<span id="cb55-3"><a href="categoricalvars.html#cb55-3"></a>pvalue</span></code></pre></div>
+<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb56-1"><a href="categoricalvars.html#cb56-1"></a><span class="co"># p-values</span></span>
+<span id="cb56-2"><a href="categoricalvars.html#cb56-2"></a>pvalue &lt;-<span class="st"> </span><span class="dv">2</span><span class="op">*</span>(<span class="dv">1</span><span class="op">-</span><span class="kw">pt</span>(t_s,<span class="dv">20-2</span>))</span>
+<span id="cb56-3"><a href="categoricalvars.html#cb56-3"></a>pvalue</span></code></pre></div>
 <pre><code>## [1] 0.30912862 0.01000534 0.08361664</code></pre>
 <p>We conclude that the yields on sand and loam are just about significantly different at a conventional significance level of 0.01, with yields on sand being 4.4 units lower on average. The other yield differences are not statistically significant (compare Figure <a href="categoricalvars.html#fig:yields">4.1</a>).</p>
 

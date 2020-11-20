@@ -24,7 +24,7 @@
 <meta name="author" content="Tobias Krueger" />
 
 
-<meta name="date" content="2020-11-12" />
+<meta name="date" content="2020-11-20" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -340,19 +340,19 @@ Figure 6.1: Bayesian updating: The prior PDF of a hypothetical parameter <span c
 <div id="a-bayesian-analysis-of-the-yield-dataset" class="section level3">
 <h3><span class="header-section-number">6.2.3</span> A Bayesian analysis of the yield dataset</h3>
 <p>Let’s illustrate the Bayesian approach briefly for the yield dataset of Chapter <a href="categoricalvars.html#categoricalvars">4</a>. Implementation details, prior choices, model comparison and more complex models will be covered in <em>Applied Statistical Modelling</em> in the summer term. We use the <code>brms</code> package as the interface from <em>R</em> to the Bayesian inference engine <a href="https://mc-stan.org/">Stan</a>:<a href="#fn14" class="footnote-ref" id="fnref14"><sup>14</sup></a></p>
-<div class="sourceCode" id="cb114"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb114-1"><a href="mlbayes.html#cb114-1"></a><span class="co"># load brms package</span></span>
-<span id="cb114-2"><a href="mlbayes.html#cb114-2"></a><span class="kw">library</span>(brms)</span>
-<span id="cb114-3"><a href="mlbayes.html#cb114-3"></a><span class="co"># load yields data</span></span>
-<span id="cb114-4"><a href="mlbayes.html#cb114-4"></a>yields &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="st">&quot;data/yields.txt&quot;</span>,<span class="dt">header=</span>T)</span>
-<span id="cb114-5"><a href="mlbayes.html#cb114-5"></a><span class="co"># expand to a long variable &quot;yield&quot; and a index variable &quot;soiltype&quot;</span></span>
-<span id="cb114-6"><a href="mlbayes.html#cb114-6"></a>yields_long &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">yield =</span> <span class="kw">c</span>(yields<span class="op">$</span>sand, yields<span class="op">$</span>clay, yields<span class="op">$</span>loam),</span>
-<span id="cb114-7"><a href="mlbayes.html#cb114-7"></a>                          <span class="dt">soiltype =</span> <span class="kw">as.factor</span>(<span class="kw">c</span>(<span class="kw">rep</span>(<span class="dv">1</span>,<span class="dv">10</span>), <span class="kw">rep</span>(<span class="dv">2</span>,<span class="dv">10</span>), <span class="kw">rep</span>(<span class="dv">3</span>,<span class="dv">10</span>))))</span>
-<span id="cb114-8"><a href="mlbayes.html#cb114-8"></a><span class="co"># fit linear model using brms with default priors</span></span>
-<span id="cb114-9"><a href="mlbayes.html#cb114-9"></a>yield_fit &lt;-<span class="st"> </span><span class="kw">brm</span>(yield <span class="op">~</span><span class="st"> </span><span class="dv">0</span> <span class="op">+</span><span class="st"> </span>soiltype, <span class="dt">data =</span> yields_long,</span>
-<span id="cb114-10"><a href="mlbayes.html#cb114-10"></a>                 <span class="dt">family =</span> <span class="kw">gaussian</span>(), <span class="dt">silent =</span> <span class="ot">TRUE</span>, <span class="dt">refresh =</span> <span class="dv">0</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb115"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb115-1"><a href="mlbayes.html#cb115-1"></a><span class="co"># load brms package</span></span>
+<span id="cb115-2"><a href="mlbayes.html#cb115-2"></a><span class="kw">library</span>(brms)</span>
+<span id="cb115-3"><a href="mlbayes.html#cb115-3"></a><span class="co"># load yields data</span></span>
+<span id="cb115-4"><a href="mlbayes.html#cb115-4"></a>yields &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="st">&quot;data/yields.txt&quot;</span>,<span class="dt">header=</span>T)</span>
+<span id="cb115-5"><a href="mlbayes.html#cb115-5"></a><span class="co"># expand to a long variable &quot;yield&quot; and a index variable &quot;soiltype&quot;</span></span>
+<span id="cb115-6"><a href="mlbayes.html#cb115-6"></a>yields_long &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">yield =</span> <span class="kw">c</span>(yields<span class="op">$</span>sand, yields<span class="op">$</span>clay, yields<span class="op">$</span>loam),</span>
+<span id="cb115-7"><a href="mlbayes.html#cb115-7"></a>                          <span class="dt">soiltype =</span> <span class="kw">as.factor</span>(<span class="kw">c</span>(<span class="kw">rep</span>(<span class="dv">1</span>,<span class="dv">10</span>), <span class="kw">rep</span>(<span class="dv">2</span>,<span class="dv">10</span>), <span class="kw">rep</span>(<span class="dv">3</span>,<span class="dv">10</span>))))</span>
+<span id="cb115-8"><a href="mlbayes.html#cb115-8"></a><span class="co"># fit linear model using brms with default priors</span></span>
+<span id="cb115-9"><a href="mlbayes.html#cb115-9"></a>yield_fit &lt;-<span class="st"> </span><span class="kw">brm</span>(yield <span class="op">~</span><span class="st"> </span><span class="dv">0</span> <span class="op">+</span><span class="st"> </span>soiltype, <span class="dt">data =</span> yields_long,</span>
+<span id="cb115-10"><a href="mlbayes.html#cb115-10"></a>                 <span class="dt">family =</span> <span class="kw">gaussian</span>(), <span class="dt">silent =</span> <span class="ot">TRUE</span>, <span class="dt">refresh =</span> <span class="dv">0</span>)</span></code></pre></div>
 <p>We have fitted the model using default priors so let’s check quickly which these are:</p>
-<div class="sourceCode" id="cb115"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb115-1"><a href="mlbayes.html#cb115-1"></a><span class="co"># check default priors</span></span>
-<span id="cb115-2"><a href="mlbayes.html#cb115-2"></a><span class="kw">prior_summary</span>(yield_fit)</span></code></pre></div>
+<div class="sourceCode" id="cb116"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb116-1"><a href="mlbayes.html#cb116-1"></a><span class="co"># check default priors</span></span>
+<span id="cb116-2"><a href="mlbayes.html#cb116-2"></a><span class="kw">prior_summary</span>(yield_fit)</span></code></pre></div>
 <pre><code>##                 prior class      coef group resp dpar nlpar bound       source
 ##                (flat)     b                                            default
 ##                (flat)     b soiltype1                             (vectorized)
@@ -361,37 +361,37 @@ Figure 6.1: Bayesian updating: The prior PDF of a hypothetical parameter <span c
 ##  student_t(3, 0, 4.4) sigma                                            default</code></pre>
 <p>This rather cryptic output tells us that <code>brms</code> has used flat, i.e. uniform, priors for the three parameters, which are the unique means for the three soil types (compare Chapter <a href="categoricalvars.html#categoricalvars">4</a>), and a t-distribution with 3 degrees of freedom, centred on 0 and scaled by 4.4, as prior for <span class="math inline">\(\sigma\)</span>.</p>
 <p>Let’s look at the parameter estimates:</p>
-<div class="sourceCode" id="cb117"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb117-1"><a href="mlbayes.html#cb117-1"></a><span class="co"># summarise posterior</span></span>
-<span id="cb117-2"><a href="mlbayes.html#cb117-2"></a><span class="kw">posterior_summary</span>(yield_fit, <span class="dt">pars =</span> <span class="kw">c</span>(<span class="st">&#39;soiltype1&#39;</span>,<span class="st">&#39;soiltype2&#39;</span>,<span class="st">&#39;soiltype3&#39;</span>,<span class="st">&#39;sigma&#39;</span>))</span></code></pre></div>
-<pre><code>##              Estimate Est.Error      Q2.5    Q97.5
-## b_soiltype1  9.915041 1.1142070  7.758565 12.07210
-## b_soiltype2 11.513170 1.1459824  9.295205 13.72361
-## b_soiltype3 14.297810 1.1212049 12.072027 16.54020
-## sigma        3.533735 0.5043286  2.720420  4.68378</code></pre>
+<div class="sourceCode" id="cb118"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb118-1"><a href="mlbayes.html#cb118-1"></a><span class="co"># summarise posterior</span></span>
+<span id="cb118-2"><a href="mlbayes.html#cb118-2"></a><span class="kw">posterior_summary</span>(yield_fit, <span class="dt">pars =</span> <span class="kw">c</span>(<span class="st">&#39;soiltype1&#39;</span>,<span class="st">&#39;soiltype2&#39;</span>,<span class="st">&#39;soiltype3&#39;</span>,<span class="st">&#39;sigma&#39;</span>))</span></code></pre></div>
+<pre><code>##              Estimate Est.Error      Q2.5     Q97.5
+## b_soiltype1  9.894787  1.126319  7.647740 12.098366
+## b_soiltype2 11.497368  1.084361  9.400974 13.704449
+## b_soiltype3 14.299465  1.130634 12.021777 16.493034
+## sigma        3.538722  0.509612  2.715191  4.691014</code></pre>
 <p>This output gives us the median of the posterior for each parameter (“Estimate”), the standard error of that estimate via the standard deviation of the posterior (“Est.Error”) and the central 95% compatibility interval between the bounds “Q2.5” and “Q97.5”. The central parameter estimates are essentially the same as in the frequentist approach (Chapter <a href="categoricalvars.html#categoricalvars">4</a>). The standard errors are slightly higher than the frequentist estimate of 1.08, and not homogeneous. The residual standard deviation, here <span class="math inline">\(\sigma\)</span>, is slightly higher than the frequentist estimate of <span class="math inline">\(\sqrt{\frac{SSE}{n-k}}=\sqrt{11.7}=3.4\)</span>.</p>
 <p>These are just summaries. To get a sense of the full posterior we need to extract the numerical samples of the posterior and then we can plot these as histograms, for example. Note, these are discrete approximations of the posterior PDFs, which already for moderately complex problems don’t exist in closed form, so working with samples is the most general and often the only option.</p>
-<div class="sourceCode" id="cb119"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb119-1"><a href="mlbayes.html#cb119-1"></a><span class="co"># extract posterior samples</span></span>
-<span id="cb119-2"><a href="mlbayes.html#cb119-2"></a>s &lt;-<span class="st"> </span><span class="kw">posterior_samples</span>(yield_fit, <span class="dt">pars =</span> <span class="kw">c</span>(<span class="st">&#39;soiltype1&#39;</span>,<span class="st">&#39;soiltype2&#39;</span>,<span class="st">&#39;soiltype3&#39;</span>,<span class="st">&#39;sigma&#39;</span>))</span>
-<span id="cb119-3"><a href="mlbayes.html#cb119-3"></a><span class="co"># plot parameter posteriors as histograms</span></span>
-<span id="cb119-4"><a href="mlbayes.html#cb119-4"></a><span class="kw">hist</span>(s<span class="op">$</span>b_soiltype1, <span class="dt">freq =</span> <span class="ot">FALSE</span>)</span>
-<span id="cb119-5"><a href="mlbayes.html#cb119-5"></a><span class="kw">hist</span>(s<span class="op">$</span>b_soiltype2, <span class="dt">freq =</span> <span class="ot">FALSE</span>)</span>
-<span id="cb119-6"><a href="mlbayes.html#cb119-6"></a><span class="kw">hist</span>(s<span class="op">$</span>b_soiltype3, <span class="dt">freq =</span> <span class="ot">FALSE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb120"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb120-1"><a href="mlbayes.html#cb120-1"></a><span class="co"># extract posterior samples</span></span>
+<span id="cb120-2"><a href="mlbayes.html#cb120-2"></a>s &lt;-<span class="st"> </span><span class="kw">posterior_samples</span>(yield_fit, <span class="dt">pars =</span> <span class="kw">c</span>(<span class="st">&#39;soiltype1&#39;</span>,<span class="st">&#39;soiltype2&#39;</span>,<span class="st">&#39;soiltype3&#39;</span>,<span class="st">&#39;sigma&#39;</span>))</span>
+<span id="cb120-3"><a href="mlbayes.html#cb120-3"></a><span class="co"># plot parameter posteriors as histograms</span></span>
+<span id="cb120-4"><a href="mlbayes.html#cb120-4"></a><span class="kw">hist</span>(s<span class="op">$</span>b_soiltype1, <span class="dt">freq =</span> <span class="ot">FALSE</span>)</span>
+<span id="cb120-5"><a href="mlbayes.html#cb120-5"></a><span class="kw">hist</span>(s<span class="op">$</span>b_soiltype2, <span class="dt">freq =</span> <span class="ot">FALSE</span>)</span>
+<span id="cb120-6"><a href="mlbayes.html#cb120-6"></a><span class="kw">hist</span>(s<span class="op">$</span>b_soiltype3, <span class="dt">freq =</span> <span class="ot">FALSE</span>)</span></code></pre></div>
 <p><img src="qm4g_files/figure-html/unnamed-chunk-28-1.png" width="33%" /><img src="qm4g_files/figure-html/unnamed-chunk-28-2.png" width="33%" /><img src="qm4g_files/figure-html/unnamed-chunk-28-3.png" width="33%" /></p>
 <p>The beauty now is that we can calculate a probability distribution of the average yield differences between soil types, without having to worry about the two-sample t-test we did back in Chapter <a href="categoricalvars.html#categoricalvars">4</a> and its sampling distribution and all that. It’s very simple:</p>
-<div class="sourceCode" id="cb120"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb120-1"><a href="mlbayes.html#cb120-1"></a><span class="co"># plot average yield differences between soil types as histograms</span></span>
-<span id="cb120-2"><a href="mlbayes.html#cb120-2"></a><span class="kw">hist</span>(s<span class="op">$</span>b_soiltype2<span class="op">-</span>s<span class="op">$</span>b_soiltype1, <span class="dt">freq =</span> <span class="ot">FALSE</span>)</span>
-<span id="cb120-3"><a href="mlbayes.html#cb120-3"></a><span class="kw">hist</span>(s<span class="op">$</span>b_soiltype3<span class="op">-</span>s<span class="op">$</span>b_soiltype1, <span class="dt">freq =</span> <span class="ot">FALSE</span>)</span>
-<span id="cb120-4"><a href="mlbayes.html#cb120-4"></a><span class="kw">hist</span>(s<span class="op">$</span>b_soiltype3<span class="op">-</span>s<span class="op">$</span>b_soiltype2, <span class="dt">freq =</span> <span class="ot">FALSE</span>)</span>
-<span id="cb120-5"><a href="mlbayes.html#cb120-5"></a><span class="co"># express these differences as median and 95% compatibility interval</span></span>
-<span id="cb120-6"><a href="mlbayes.html#cb120-6"></a><span class="kw">quantile</span>(s<span class="op">$</span>b_soiltype2<span class="op">-</span>s<span class="op">$</span>b_soiltype1, <span class="dt">probs =</span> <span class="kw">c</span>(<span class="fl">0.025</span>, <span class="fl">0.5</span>, <span class="fl">0.975</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb121"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb121-1"><a href="mlbayes.html#cb121-1"></a><span class="co"># plot average yield differences between soil types as histograms</span></span>
+<span id="cb121-2"><a href="mlbayes.html#cb121-2"></a><span class="kw">hist</span>(s<span class="op">$</span>b_soiltype2<span class="op">-</span>s<span class="op">$</span>b_soiltype1, <span class="dt">freq =</span> <span class="ot">FALSE</span>)</span>
+<span id="cb121-3"><a href="mlbayes.html#cb121-3"></a><span class="kw">hist</span>(s<span class="op">$</span>b_soiltype3<span class="op">-</span>s<span class="op">$</span>b_soiltype1, <span class="dt">freq =</span> <span class="ot">FALSE</span>)</span>
+<span id="cb121-4"><a href="mlbayes.html#cb121-4"></a><span class="kw">hist</span>(s<span class="op">$</span>b_soiltype3<span class="op">-</span>s<span class="op">$</span>b_soiltype2, <span class="dt">freq =</span> <span class="ot">FALSE</span>)</span>
+<span id="cb121-5"><a href="mlbayes.html#cb121-5"></a><span class="co"># express these differences as median and 95% compatibility interval</span></span>
+<span id="cb121-6"><a href="mlbayes.html#cb121-6"></a><span class="kw">quantile</span>(s<span class="op">$</span>b_soiltype2<span class="op">-</span>s<span class="op">$</span>b_soiltype1, <span class="dt">probs =</span> <span class="kw">c</span>(<span class="fl">0.025</span>, <span class="fl">0.5</span>, <span class="fl">0.975</span>))</span></code></pre></div>
 <pre><code>##      2.5%       50%     97.5% 
-## -1.648893  1.602451  4.724115</code></pre>
-<div class="sourceCode" id="cb122"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb122-1"><a href="mlbayes.html#cb122-1"></a><span class="kw">quantile</span>(s<span class="op">$</span>b_soiltype3<span class="op">-</span>s<span class="op">$</span>b_soiltype1, <span class="dt">probs =</span> <span class="kw">c</span>(<span class="fl">0.025</span>, <span class="fl">0.5</span>, <span class="fl">0.975</span>))</span></code></pre></div>
+## -1.450571  1.612319  4.764457</code></pre>
+<div class="sourceCode" id="cb123"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb123-1"><a href="mlbayes.html#cb123-1"></a><span class="kw">quantile</span>(s<span class="op">$</span>b_soiltype3<span class="op">-</span>s<span class="op">$</span>b_soiltype1, <span class="dt">probs =</span> <span class="kw">c</span>(<span class="fl">0.025</span>, <span class="fl">0.5</span>, <span class="fl">0.975</span>))</span></code></pre></div>
 <pre><code>##     2.5%      50%    97.5% 
-## 1.245601 4.354623 7.577841</code></pre>
-<div class="sourceCode" id="cb124"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb124-1"><a href="mlbayes.html#cb124-1"></a><span class="kw">quantile</span>(s<span class="op">$</span>b_soiltype3<span class="op">-</span>s<span class="op">$</span>b_soiltype2, <span class="dt">probs =</span> <span class="kw">c</span>(<span class="fl">0.025</span>, <span class="fl">0.5</span>, <span class="fl">0.975</span>))</span></code></pre></div>
+## 1.287159 4.360585 7.527257</code></pre>
+<div class="sourceCode" id="cb125"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb125-1"><a href="mlbayes.html#cb125-1"></a><span class="kw">quantile</span>(s<span class="op">$</span>b_soiltype3<span class="op">-</span>s<span class="op">$</span>b_soiltype2, <span class="dt">probs =</span> <span class="kw">c</span>(<span class="fl">0.025</span>, <span class="fl">0.5</span>, <span class="fl">0.975</span>))</span></code></pre></div>
 <pre><code>##       2.5%        50%      97.5% 
-## -0.4250019  2.7821975  5.9543871</code></pre>
+## -0.3365286  2.8329556  5.8520960</code></pre>
 <p><img src="qm4g_files/figure-html/unnamed-chunk-29-1.png" width="33%" /><img src="qm4g_files/figure-html/unnamed-chunk-29-2.png" width="33%" /><img src="qm4g_files/figure-html/unnamed-chunk-29-3.png" width="33%" />
 We see that the only yield difference that is uniquely positive at the 95% compatibility level is that between soil types 3 and 1 - sand and loam. All other compatibility intervals overlap with zero meaning there are sizable probabilities of the differences going in either direction. In frequentist language we would call these differences insignificant, but looking at the full posterior distribution of the differences is much more useful than the binary split.</p>
 <p>All in all, this example shows how for simple models frequentist and Bayesian inference with uninformative priors yield essentially the same conclusions, although the Bayesian probabilities are much more intuitive to interpret and easier to post-process into any quantities of interest.</p>
