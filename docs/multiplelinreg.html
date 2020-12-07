@@ -24,7 +24,7 @@
 <meta name="author" content="Tobias Krueger" />
 
 
-<meta name="date" content="2020-11-26" />
+<meta name="date" content="2020-12-07" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -190,10 +190,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="7.6" data-path="glms.html"><a href="glms.html#overdisp"><i class="fa fa-check"></i><b>7.6</b> Over-dispersion</a></li>
 </ul></li>
 <li class="chapter" data-level="8" data-path="multivariate.html"><a href="multivariate.html"><i class="fa fa-check"></i><b>8</b> Multivariate methods</a><ul>
-<li class="chapter" data-level="8.1" data-path="multivariate.html"><a href="multivariate.html#cluster-analysis"><i class="fa fa-check"></i><b>8.1</b> Cluster analysis</a></li>
-<li class="chapter" data-level="8.2" data-path="multivariate.html"><a href="multivariate.html#principal-component-analysis-pca"><i class="fa fa-check"></i><b>8.2</b> Principal Component Analysis (PCA)</a></li>
-<li class="chapter" data-level="8.3" data-path="multivariate.html"><a href="multivariate.html#multivariate-anova-manova"><i class="fa fa-check"></i><b>8.3</b> Multivariate ANOVA (MANOVA)</a></li>
-<li class="chapter" data-level="8.4" data-path="multivariate.html"><a href="multivariate.html#discriminant-function-analysis-dfa"><i class="fa fa-check"></i><b>8.4</b> Discriminant Function Analysis (DFA)</a></li>
+<li class="chapter" data-level="8.1" data-path="multivariate.html"><a href="multivariate.html#clusteranalysis"><i class="fa fa-check"></i><b>8.1</b> Cluster analysis</a><ul>
+<li class="chapter" data-level="8.1.1" data-path="multivariate.html"><a href="multivariate.html#the-kmeans-algorithm"><i class="fa fa-check"></i><b>8.1.1</b> The <em>kmeans</em> algorithm</a></li>
+<li class="chapter" data-level="8.1.2" data-path="multivariate.html"><a href="multivariate.html#hierarchical-methods"><i class="fa fa-check"></i><b>8.1.2</b> Hierarchical methods</a></li>
+</ul></li>
+<li class="chapter" data-level="8.2" data-path="multivariate.html"><a href="multivariate.html#pca"><i class="fa fa-check"></i><b>8.2</b> Principal Component Analysis (PCA)</a><ul>
+<li class="chapter" data-level="8.2.1" data-path="multivariate.html"><a href="multivariate.html#from-univariate-normal-to-multivariate-normal"><i class="fa fa-check"></i><b>8.2.1</b> From univariate normal to multivariate normal</a></li>
+<li class="chapter" data-level="8.2.2" data-path="multivariate.html"><a href="multivariate.html#linear-combination-of-variables"><i class="fa fa-check"></i><b>8.2.2</b> Linear combination of variables</a></li>
+<li class="chapter" data-level="8.2.3" data-path="multivariate.html"><a href="multivariate.html#eigenanalysis"><i class="fa fa-check"></i><b>8.2.3</b> Eigenanalysis</a></li>
+</ul></li>
+<li class="chapter" data-level="8.3" data-path="multivariate.html"><a href="multivariate.html#manova"><i class="fa fa-check"></i><b>8.3</b> Multivariate ANOVA (MANOVA)</a></li>
+<li class="chapter" data-level="8.4" data-path="multivariate.html"><a href="multivariate.html#dfa"><i class="fa fa-check"></i><b>8.4</b> Discriminant Function Analysis (DFA)</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="solutions-to-exercises.html"><a href="solutions-to-exercises.html"><i class="fa fa-check"></i>Solutions to exercises</a><ul>
 <li class="chapter" data-level="" data-path="solutions-to-exercises.html"><a href="solutions-to-exercises.html#answer-to-q1"><i class="fa fa-check"></i>Answer to Q1</a></li>
@@ -663,7 +670,7 @@ IQ_{kid}=87+\epsilon
 I.e. the Null model is nothing more than the children’s mean IQ score, which is 87.</p>
 <p>The common slope and intercept model is:
 <span class="math display" id="eq:ancova2">\[\begin{equation}
-IQ_{kid}=87+0.6\cdot \left(IQ_{mom}-\hat{IQ}_{mom}\right)+\epsilon
+IQ_{kid}=87+0.6\cdot \left(IQ_{mom}-\bar{IQ}_{mom}\right)+\epsilon
 \tag{5.5}
 \end{equation}\]</span>
 So when mother’s IQ score is at its average then the child’s IQ score is again the overall average, 87, but increases or decreases by 0.6 for every unit increase or decrease in mother’s IQ score.</p>
@@ -675,29 +682,29 @@ IQ_{kid}=78+12\cdot hs_{mom}+\epsilon
 These are two different intercepts now, the mean children’s IQ score for mothers without a high school degree (when <span class="math inline">\(hs_{mom}=0\)</span>), which is 78, and the mean children’s IQ score for mothers with a high school degree (when <span class="math inline">\(hs_{mom}=1\)</span>), which is 78+12=90.</p>
 <p>The common slope model is:
 <span class="math display" id="eq:ancova4">\[\begin{equation}
-IQ_{kid}=82+6\cdot hs_{mom}+0.6\cdot \left(IQ_{mom}-\hat{IQ}_{mom}\right)+\epsilon
+IQ_{kid}=82+6\cdot hs_{mom}+0.6\cdot \left(IQ_{mom}-\bar{IQ}_{mom}\right)+\epsilon
 \tag{5.7}
 \end{equation}\]</span>
 This model assumes different mean children’s IQ scores for mothers with and without high school degree, but the same dependence on the mothers’ IQ score, which again comes out at 0.6.</p>
 <p>The common intercept model now includes the interaction term, but not <span class="math inline">\(hs_{mom}\)</span> as an individual predictor:
 <span class="math display" id="eq:ancova5">\[\begin{equation}
-IQ_{kid}=88+1.1\cdot \left(IQ_{mom}-\hat{IQ}_{mom}\right)-0.6\cdot hs_{mom}\cdot \left(IQ_{mom}-\hat{IQ}_{mom}\right)+\epsilon
+IQ_{kid}=88+1.1\cdot \left(IQ_{mom}-\bar{IQ}_{mom}\right)-0.6\cdot hs_{mom}\cdot \left(IQ_{mom}-\bar{IQ}_{mom}\right)+\epsilon
 \tag{5.8}
 \end{equation}\]</span></p>
 <p>Regrouping leads to:
 <span class="math display" id="eq:ancova5b">\[\begin{equation}
-IQ_{kid}=88+\left(1.1-0.6\cdot hs_{mom}\right)\cdot \left(IQ_{mom}-\hat{IQ}_{mom}\right)+\epsilon
+IQ_{kid}=88+\left(1.1-0.6\cdot hs_{mom}\right)\cdot \left(IQ_{mom}-\bar{IQ}_{mom}\right)+\epsilon
 \tag{5.9}
 \end{equation}\]</span>
 According to this model we embark from a common intercept but then follow different slopes depending on mother’s high school degree. When mother has a high school degree, the child’s IQ increases by 1.1-0.6=0.5 for very unit increase in mother’s IQ. When mother has no high school degree, then mother’s IQ effect is stronger, increasing the child’s IQ by 1.1 for very unit increase in mother’s IQ.</p>
 <p>Finally, the maximal model includes all predictors:
 <span class="math display" id="eq:ancova6">\[\begin{equation}
-IQ_{kid}=85+3\cdot hs_{mom}+1.0\cdot \left(IQ_{mom}-\hat{IQ}_{mom}\right)-0.5\cdot hs_{mom}\cdot \left(IQ_{mom}-\hat{IQ}_{mom}\right)+\epsilon
+IQ_{kid}=85+3\cdot hs_{mom}+1.0\cdot \left(IQ_{mom}-\bar{IQ}_{mom}\right)-0.5\cdot hs_{mom}\cdot \left(IQ_{mom}-\bar{IQ}_{mom}\right)+\epsilon
 \tag{5.10}
 \end{equation}\]</span></p>
 <p>Regrouping leads to:
 <span class="math display" id="eq:ancova6b">\[\begin{equation}
-IQ_{kid}=85+3\cdot hs_{mom}+\left(1.0-0.5\cdot hs_{mom}\right)\cdot \left(IQ_{mom}-mean\left(IQ_{mom}\right)\right)+\epsilon
+IQ_{kid}=85+3\cdot hs_{mom}+\left(1.0-0.5\cdot hs_{mom}\right)\cdot \left(IQ_{mom}-\bar{IQ}_{mom}\right)+\epsilon
 \tag{5.11}
 \end{equation}\]</span>
 So positing two different average children’s IQ scores for mothers with and without high school degree, 88 and 85 respectively, and two different dependencies on mothers’ IQ score, 0.5 and 1.0 respectively. If we believe this model that turned out best according AIC, then there is a difference in average children’s IQ score depending on whether or not the children’s mothers have a high school degree (with high school degrees improving IQ scores by 3 units on average). What also matters is the mothers’ IQ score, with a positive relationship between mothers’ and children’s score. This relationship is stronger (mother’s IQ matters more) when mothers have no high school degree than when they have one.</p>

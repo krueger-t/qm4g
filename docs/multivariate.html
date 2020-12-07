@@ -24,7 +24,7 @@
 <meta name="author" content="Tobias Krueger" />
 
 
-<meta name="date" content="2020-11-26" />
+<meta name="date" content="2020-12-07" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -190,10 +190,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="7.6" data-path="glms.html"><a href="glms.html#overdisp"><i class="fa fa-check"></i><b>7.6</b> Over-dispersion</a></li>
 </ul></li>
 <li class="chapter" data-level="8" data-path="multivariate.html"><a href="multivariate.html"><i class="fa fa-check"></i><b>8</b> Multivariate methods</a><ul>
-<li class="chapter" data-level="8.1" data-path="multivariate.html"><a href="multivariate.html#cluster-analysis"><i class="fa fa-check"></i><b>8.1</b> Cluster analysis</a></li>
-<li class="chapter" data-level="8.2" data-path="multivariate.html"><a href="multivariate.html#principal-component-analysis-pca"><i class="fa fa-check"></i><b>8.2</b> Principal Component Analysis (PCA)</a></li>
-<li class="chapter" data-level="8.3" data-path="multivariate.html"><a href="multivariate.html#multivariate-anova-manova"><i class="fa fa-check"></i><b>8.3</b> Multivariate ANOVA (MANOVA)</a></li>
-<li class="chapter" data-level="8.4" data-path="multivariate.html"><a href="multivariate.html#discriminant-function-analysis-dfa"><i class="fa fa-check"></i><b>8.4</b> Discriminant Function Analysis (DFA)</a></li>
+<li class="chapter" data-level="8.1" data-path="multivariate.html"><a href="multivariate.html#clusteranalysis"><i class="fa fa-check"></i><b>8.1</b> Cluster analysis</a><ul>
+<li class="chapter" data-level="8.1.1" data-path="multivariate.html"><a href="multivariate.html#the-kmeans-algorithm"><i class="fa fa-check"></i><b>8.1.1</b> The <em>kmeans</em> algorithm</a></li>
+<li class="chapter" data-level="8.1.2" data-path="multivariate.html"><a href="multivariate.html#hierarchical-methods"><i class="fa fa-check"></i><b>8.1.2</b> Hierarchical methods</a></li>
+</ul></li>
+<li class="chapter" data-level="8.2" data-path="multivariate.html"><a href="multivariate.html#pca"><i class="fa fa-check"></i><b>8.2</b> Principal Component Analysis (PCA)</a><ul>
+<li class="chapter" data-level="8.2.1" data-path="multivariate.html"><a href="multivariate.html#from-univariate-normal-to-multivariate-normal"><i class="fa fa-check"></i><b>8.2.1</b> From univariate normal to multivariate normal</a></li>
+<li class="chapter" data-level="8.2.2" data-path="multivariate.html"><a href="multivariate.html#linear-combination-of-variables"><i class="fa fa-check"></i><b>8.2.2</b> Linear combination of variables</a></li>
+<li class="chapter" data-level="8.2.3" data-path="multivariate.html"><a href="multivariate.html#eigenanalysis"><i class="fa fa-check"></i><b>8.2.3</b> Eigenanalysis</a></li>
+</ul></li>
+<li class="chapter" data-level="8.3" data-path="multivariate.html"><a href="multivariate.html#manova"><i class="fa fa-check"></i><b>8.3</b> Multivariate ANOVA (MANOVA)</a></li>
+<li class="chapter" data-level="8.4" data-path="multivariate.html"><a href="multivariate.html#dfa"><i class="fa fa-check"></i><b>8.4</b> Discriminant Function Analysis (DFA)</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="solutions-to-exercises.html"><a href="solutions-to-exercises.html"><i class="fa fa-check"></i>Solutions to exercises</a><ul>
 <li class="chapter" data-level="" data-path="solutions-to-exercises.html"><a href="solutions-to-exercises.html#answer-to-q1"><i class="fa fa-check"></i>Answer to Q1</a></li>
@@ -221,19 +228,298 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="multivariate" class="section level1">
 <h1><span class="header-section-number">Chapter 8</span> Multivariate methods</h1>
-<div id="cluster-analysis" class="section level2">
+<p><strong>Multivariate regression</strong> extends the case of multiple regression (one response variable/ multiple predictor variables) to the case of <em>multiple response variables</em>/ multiple predictor variables – <em>predictors are continuous variables</em> (though there is the same correspondence as between linear regression and ANOVA).</p>
+<p><strong>Multivariate analysis of variance (MANOVA)</strong> (Chapter <a href="multivariate.html#manova">8.3</a>) extends the case of ANOVA (one response variable/ multiple predictor variables) to the case of <em>multiple response variables</em>/ multiple predictor variables – <em>predictors are categorical variables</em> (though MANOVA relates to multivariate regression just like ANOVA does to linear regression).</p>
+<p><strong>Discriminant Function Analysis (DFA)</strong> (Chapter <a href="multivariate.html#dfa">8.4</a>) is a <em>classification</em> method that tests how well multi-response observations discriminate between pre-determined groups, and can also be used to classify new observations into one of the groups.</p>
+<p><strong>Principle Component Analysis (PCA)</strong> (Chapter <a href="multivariate.html#pca">8.2</a>), <strong>Factor Analysis (FA)</strong> and related methods aim at finding <em>structure</em> in a multivariate dataset, not deciding on response/predictor variables just yet. While PCA is trying to extract a reduced set of components that explain much of the <em>variability</em> in the original variables, FA is trying to explain <em>correlations</em> among the original variables (but both are related). PCA and FA are typically employed to pre-structure and <em>simplify</em> a problem by reducing its data dimensions, e.g. to reduce collinearity (compare Chapter <a href="multiplelinreg.html#multiplelinreg">5</a>).</p>
+<p><strong>Cluster Analysis</strong> (Chapter <a href="multivariate.html#clusteranalysis">8.1</a>) looks for groups (clusters) in a multivariate dataset. Objects (data points) belonging to the same group “resemble” each other (we will see what this means). Objects belonging to different groups are “dissimilar”.</p>
+<div id="clusteranalysis" class="section level2">
 <h2><span class="header-section-number">8.1</span> Cluster analysis</h2>
+<p>This section is based on material by Cornelius Senf.<a href="#fn23" class="footnote-ref" id="fnref23"><sup>23</sup></a> Cluster analysis looks for groups (clusters) in a multivariate dataset. Objects (data points) belonging to the same group “resemble” each other (we will see what this means). Objects belonging to different groups are “dissimilar”. There are three groups of methods:</p>
+<ol style="list-style-type: decimal">
+<li><strong>Partitioning</strong> the dataset into a number of clusters specified by the user, e.g. the <em>kmeans</em> algorithm</li>
+<li><strong>Hierarchical</strong>, starting with each object (data point) as a separate cluster and then aggregating these step by step, ending up with a single cluster</li>
+<li><strong>Divisive</strong>, starting with a single cluster of all objects (data points) and then splitting this up step by step until all objects are in different clusters</li>
+</ol>
+<p>Let’s illustrate the principles of these methods with the Iris dataset that is available from <em>R</em>, on which cluster analysis can be used to separate taxonomic groups. The dataset consists of a sample of Iris flowers for which the lengths and widths of their sepals and petals were measured. Sepals and petals are two different kinds of leaves in the flower. The question is: <em>Can we separate clusters of flowers that are sufficiently different with respect to these four features?</em> This then could form the basis of deriving taxonomic groups; indeed this is a typical approach in botany. To get a sense of the dataset let’s first plot a scatterplot matrix:</p>
+<div class="sourceCode" id="cb148"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb148-1"><a href="multivariate.html#cb148-1"></a><span class="co"># load Iris dataset</span></span>
+<span id="cb148-2"><a href="multivariate.html#cb148-2"></a><span class="kw">data</span>(iris)</span>
+<span id="cb148-3"><a href="multivariate.html#cb148-3"></a><span class="co"># scatterplot matrix</span></span>
+<span id="cb148-4"><a href="multivariate.html#cb148-4"></a><span class="kw">plot</span>(iris[,<span class="dv">1</span><span class="op">:</span><span class="dv">4</span>])</span></code></pre></div>
+<p><img src="qm4g_files/figure-html/unnamed-chunk-37-1.png" width="80%" /></p>
+<p>We can already see at least two clusters. In some dimensions (petal length and width) they are more apart than in others (sepal length and width). Let’s formalise this analysis using the <em>kmeans</em> algorithm and afterwards look briefly what hierarchical methods do.</p>
+<div id="the-kmeans-algorithm" class="section level3">
+<h3><span class="header-section-number">8.1.1</span> The <em>kmeans</em> algorithm</h3>
+<p>The purpose of <em>kmeans</em> is to build clusters such that the distance of cluster objects (data points) to cluster <em>centroids</em> (vectors of means) is minimised. The algorithm proceeds though the following steps:</p>
+<ol style="list-style-type: decimal">
+<li>Choose <span class="math inline">\(k\)</span> random cluster centroids in the multivariate space</li>
+<li>Allocate each object to a cluster so that <em>total intra-cluster sum of squares</em> (Equation <a href="multivariate.html#eq:intraclusterss">(8.1)</a>) is minimised</li>
+</ol>
+<p><span class="math display" id="eq:intraclusterss">\[\begin{equation}
+\sum_{j=1}^{k}\sum_{i=1}^{n_j}\lVert \mathbf{y}_{ij}-\boldsymbol{\mu}_j\rVert^2
+\tag{8.1}
+\end{equation}\]</span></p>
+<p><span class="math inline">\(\boldsymbol{\mu}_j\)</span> is the centroid of cluster <span class="math inline">\(j=1,2,\ldots,k\)</span>, i.e. the vector of means across the data dimensions (here four). <span class="math inline">\(\mathbf{y}_{ij}\)</span> is data point <span class="math inline">\(i=1,2,\ldots,n_j\)</span> of cluster <span class="math inline">\(j\)</span>, i.e. a multivariate vector too. <span class="math inline">\(\lVert\cdot\rVert\)</span> symbolises the <em>Euclidean distance</em>.</p>
+<ol start="3" style="list-style-type: decimal">
+<li>Re-calculate cluster centroids</li>
+<li>Repeat steps 2-3 until cluster centroids are not changing much anymore (by some chosen criterion)</li>
+</ol>
+<p>Often the Euclidean distance is used as a measure of (dis)similarity but others can be specified as well.</p>
+<p>We have to tell the algorithm how many clusters we want. Let’s use two to begin with (because that was our intuition earlier):</p>
+<div class="sourceCode" id="cb149"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb149-1"><a href="multivariate.html#cb149-1"></a><span class="co"># run kmeans algorithm on Iris data asking for 2 clusters</span></span>
+<span id="cb149-2"><a href="multivariate.html#cb149-2"></a>iris_fit2 &lt;-<span class="st"> </span><span class="kw">kmeans</span>(iris[,<span class="dv">1</span><span class="op">:</span><span class="dv">4</span>], <span class="dt">centers=</span><span class="dv">2</span>)</span>
+<span id="cb149-3"><a href="multivariate.html#cb149-3"></a><span class="co"># scatterplot matrix</span></span>
+<span id="cb149-4"><a href="multivariate.html#cb149-4"></a><span class="kw">plot</span>(iris[,<span class="dv">1</span><span class="op">:</span><span class="dv">4</span>], <span class="dt">col=</span>iris_fit2<span class="op">$</span>cluster)</span></code></pre></div>
+<p><img src="qm4g_files/figure-html/unnamed-chunk-38-1.png" width="80%" /></p>
+<p>Two clusters didn’t seem enough to reproduce the separation we see visually. Let’s increase the number of clusters to three:</p>
+<div class="sourceCode" id="cb150"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb150-1"><a href="multivariate.html#cb150-1"></a><span class="co"># run kmeans algorithm on Iris data asking for 3 clusters</span></span>
+<span id="cb150-2"><a href="multivariate.html#cb150-2"></a>iris_fit3 &lt;-<span class="st"> </span><span class="kw">kmeans</span>(iris[,<span class="dv">1</span><span class="op">:</span><span class="dv">4</span>], <span class="dt">centers=</span><span class="dv">3</span>)</span>
+<span id="cb150-3"><a href="multivariate.html#cb150-3"></a><span class="co"># scatterplot matrix</span></span>
+<span id="cb150-4"><a href="multivariate.html#cb150-4"></a><span class="kw">plot</span>(iris[,<span class="dv">1</span><span class="op">:</span><span class="dv">4</span>], <span class="dt">col=</span>iris_fit3<span class="op">$</span>cluster)</span></code></pre></div>
+<p><img src="qm4g_files/figure-html/unnamed-chunk-39-1.png" width="80%" /></p>
+<p>I think we would be happy with this visually. But are there perhaps even more clusters? When to stop? A useful stopping criterion is to look at the inflexion point where the total intra-cluster sum of squares (Equation <a href="multivariate.html#eq:intraclusterss">(8.1)</a>) does not change much anymore with increasing <span class="math inline">\(k\)</span>:</p>
+<div class="sourceCode" id="cb151"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb151-1"><a href="multivariate.html#cb151-1"></a><span class="co"># specify vector of clusters</span></span>
+<span id="cb151-2"><a href="multivariate.html#cb151-2"></a>clusters &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">:</span><span class="dv">10</span></span>
+<span id="cb151-3"><a href="multivariate.html#cb151-3"></a><span class="co"># initialise corresponding vector of total intra-cluster sum of squares</span></span>
+<span id="cb151-4"><a href="multivariate.html#cb151-4"></a>ticss &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="ot">NA</span>, <span class="dv">10</span>)</span>
+<span id="cb151-5"><a href="multivariate.html#cb151-5"></a><span class="co"># loop through vector of clusters</span></span>
+<span id="cb151-6"><a href="multivariate.html#cb151-6"></a><span class="cf">for</span>(i <span class="cf">in</span> clusters){</span>
+<span id="cb151-7"><a href="multivariate.html#cb151-7"></a>  <span class="co"># run kmeans</span></span>
+<span id="cb151-8"><a href="multivariate.html#cb151-8"></a>  iris_fit &lt;-<span class="st"> </span><span class="kw">kmeans</span>(iris[,<span class="dv">1</span><span class="op">:</span><span class="dv">4</span>], <span class="dt">centers=</span>i)</span>
+<span id="cb151-9"><a href="multivariate.html#cb151-9"></a>  <span class="co"># collect total intra-cluster sum of squares</span></span>
+<span id="cb151-10"><a href="multivariate.html#cb151-10"></a>  ticss[i] &lt;-<span class="st"> </span>iris_fit<span class="op">$</span>tot.withinss</span>
+<span id="cb151-11"><a href="multivariate.html#cb151-11"></a>}</span>
+<span id="cb151-12"><a href="multivariate.html#cb151-12"></a><span class="co"># plot total intra-cluster sum of squares against clusters</span></span>
+<span id="cb151-13"><a href="multivariate.html#cb151-13"></a><span class="kw">plot</span>(clusters, ticss, <span class="dt">pch =</span> <span class="dv">19</span>, <span class="dt">type =</span> <span class="st">&#39;b&#39;</span>, <span class="dt">xlab =</span> <span class="st">&quot;Number of clusters&quot;</span>,</span>
+<span id="cb151-14"><a href="multivariate.html#cb151-14"></a>     <span class="dt">ylab =</span> <span class="st">&quot;Total intra-cluster sum of squares&quot;</span>)</span></code></pre></div>
+<p><img src="qm4g_files/figure-html/unnamed-chunk-40-1.png" width="80%" /></p>
+<p>We can see that beyond three clusters the improvement in separation is minimal, so we would leave it at three. This, it turns out, matches almost perfectly the official taxonomic separation of the Iris dataset:</p>
+<div class="sourceCode" id="cb152"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb152-1"><a href="multivariate.html#cb152-1"></a><span class="co"># contingency table of cluster:species matches</span></span>
+<span id="cb152-2"><a href="multivariate.html#cb152-2"></a><span class="kw">table</span>(iris_fit3<span class="op">$</span>cluster, iris<span class="op">$</span>Species)</span></code></pre></div>
+<pre><code>##    
+##     setosa versicolor virginica
+##   1     50          0         0
+##   2      0          2        36
+##   3      0         48        14</code></pre>
+<p>The separation of Iris versicolor and Iris virginica, however, is not perfect.</p>
 </div>
-<div id="principal-component-analysis-pca" class="section level2">
+<div id="hierarchical-methods" class="section level3">
+<h3><span class="header-section-number">8.1.2</span> Hierarchical methods</h3>
+<p>The principle of hierarchical methods is to start with each object as a separate cluster and then aggregate these step by step, ending up with a single cluster. Note, devisive methods are not covered here, but they work exactly the other way round. An example algorithm works as follows:</p>
+<ol style="list-style-type: decimal">
+<li>Build dissimilarity matrix, i.e. a matrix of the distances of every object to every other object in the multivariate space, e.g. by Euclidean distance <span class="math inline">\(\lVert\mathbf{y}_i-\mathbf{y}_{i^*}\rVert\)</span></li>
+<li>Start with each object as a separate cluster</li>
+<li>Join the two most similar clusters, e.g. those that lead to minimum increase in total intra-cluster sum of squares after merging (Equation <a href="multivariate.html#eq:intraclusterss">(8.1)</a>); this is called <em>Ward’s method</em></li>
+<li>Repeat step 3 until a single cluster is build</li>
+</ol>
+<p>The result is a <em>dendrogram</em>, whose “height” is the distance between clusters, e.g. in Ward’s method the increase in the intra-cluster sum of squares of the clusters being merged:</p>
+<div class="sourceCode" id="cb154"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb154-1"><a href="multivariate.html#cb154-1"></a><span class="co"># construct dissimilarity matrix for Iris data</span></span>
+<span id="cb154-2"><a href="multivariate.html#cb154-2"></a>iris_dist &lt;-<span class="st"> </span><span class="kw">dist</span>(iris[,<span class="dv">1</span><span class="op">:</span><span class="dv">4</span>])</span>
+<span id="cb154-3"><a href="multivariate.html#cb154-3"></a><span class="co"># run hierarchical clustering with Ward&#39;s method</span></span>
+<span id="cb154-4"><a href="multivariate.html#cb154-4"></a>iris_fith &lt;-<span class="st"> </span><span class="kw">hclust</span>(iris_dist, <span class="dt">method=</span><span class="st">&quot;ward.D2&quot;</span>)</span>
+<span id="cb154-5"><a href="multivariate.html#cb154-5"></a><span class="co"># dendrogram</span></span>
+<span id="cb154-6"><a href="multivariate.html#cb154-6"></a><span class="kw">plot</span>(iris_fith)</span></code></pre></div>
+<p><img src="qm4g_files/figure-html/unnamed-chunk-42-1.png" width="80%" /></p>
+<p>Again we can see the three clearly separate clusters, beyond which any further separation is ambiguous.</p>
+</div>
+</div>
+<div id="pca" class="section level2">
 <h2><span class="header-section-number">8.2</span> Principal Component Analysis (PCA)</h2>
+<p>To illustrate PCA I will use a dataset from <span class="citation">(<span class="citeproc-not-found" data-reference-id="lovett2000"><strong>???</strong></span>)</span>, cited in <span class="citation">Quinn and Keough (<a href="#ref-quinn2002" role="doc-biblioref">2002</a>)</span>, that consists of stream chemistry measurements from 38 forested catchments in the Catskill Mountains, New York:</p>
+<div class="sourceCode" id="cb155"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb155-1"><a href="multivariate.html#cb155-1"></a><span class="co"># load stream chemistry data</span></span>
+<span id="cb155-2"><a href="multivariate.html#cb155-2"></a>streams &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="st">&quot;data/streams.txt&quot;</span>,<span class="dt">header=</span>T)</span>
+<span id="cb155-3"><a href="multivariate.html#cb155-3"></a><span class="kw">head</span>(streams)</span></code></pre></div>
+<pre><code>##    catchm_name max_elev sample_elev stream_length catchm_area  NO3 TON   TN NH4
+## 1   Santa_Cruz     1006         680          1680          23 24.2 5.6 29.9 0.8
+## 2      Colgate     1216         628          3912         462 25.4 4.9 30.3 1.4
+## 3       Halsey     1204         625          4032         297 29.7 4.4 33.0 0.8
+## 4 Batavia_Hill     1213         663          3072         399 22.1 6.1 28.3 1.4
+## 5 Windham_Ridg     1074         616          2520         207 13.1 5.7 17.6 0.6
+## 6 Silver_Sprin     1113         451          3120         348 27.5 3.0 30.8 1.1
+##     DOC  SO4   CL   CA   MG    H
+## 1 180.4 50.6 15.5 54.7 14.4 0.48
+## 2 108.8 55.4 16.4 58.4 17.0 0.24
+## 3 104.7 56.5 17.1 65.9 19.6 0.47
+## 4  84.5 57.5 16.8 59.5 19.5 0.23
+## 5  82.4 58.3 18.3 54.6 21.9 0.37
+## 6  86.6 63.0 15.7 68.5 22.4 0.17</code></pre>
+<p>The dataset first lists catchment characteristic: catchment name, maximum elevation in catchment, elevation where stream water sample was taken, stream length in catchment, catchment area. The stream chemistry variables are concentrations of: nitrate, total organic nitrogen, total nitrogen, ammonium, dissolved organic carbon, sulfate, chloride, calcium, magnesium, hydrogen.</p>
+<div id="from-univariate-normal-to-multivariate-normal" class="section level3">
+<h3><span class="header-section-number">8.2.1</span> From univariate normal to multivariate normal</h3>
+<p>Like univariate methods, multivariate methods, too, rely on the normality assumption; the univariate normal distribution (Figure <a href="multivariate.html#fig:camg">8.1</a>, left) is generalised to the <strong>multivariate normal distribution</strong> (Figure <a href="multivariate.html#fig:camg">8.1</a>, right). Taking calcium concentration in the stream chemistry dataset as the example, the univariate normal model would be <span class="math inline">\(N(\mu,\sigma)\)</span> with mean <span class="math inline">\(\mu=65.13\)</span> and variance <span class="math inline">\(\sigma^2=194.74\)</span> (Figure <a href="multivariate.html#fig:camg">8.1</a>, left). Looking at calcium and magnesium concentration together, the multivariate normal model would be <span class="math inline">\(MVN(\boldsymbol\mu,\boldsymbol\Sigma)\)</span> with <strong>centroid</strong> (vector of means) <span class="math inline">\(\boldsymbol\mu=\begin{pmatrix}65.13&amp;22.86\end{pmatrix}^T\)</span> and <strong>variance-covariance matrix</strong> <span class="math inline">\(\boldsymbol\Sigma=\begin{pmatrix}194.74&amp;27.03\\27.03&amp;194.74\end{pmatrix}\)</span> (Figure <a href="multivariate.html#fig:camg">8.1</a>, right).</p>
+<div class="figure" style="text-align: center"><span id="fig:camg"></span>
+<img src="figs/ca_pdf.jpg" alt="Left: Histogram of calcium concentration measurements from stream chemistry dataset, with fitted normal distribution. The vertical line marks the mean. Right: Scatterplot of calcium against magnesium concentration measurements, with coloured countours of fitted multivariate normal distribution. The vertical and horizontal lines are the individual means, which intersect at the centroid. Data from: @lovett2000, cited in @quinn2002." width="50%" /><img src="figs/ca_mg_jointpdf.jpg" alt="Left: Histogram of calcium concentration measurements from stream chemistry dataset, with fitted normal distribution. The vertical line marks the mean. Right: Scatterplot of calcium against magnesium concentration measurements, with coloured countours of fitted multivariate normal distribution. The vertical and horizontal lines are the individual means, which intersect at the centroid. Data from: @lovett2000, cited in @quinn2002." width="50%" />
+<p class="caption">
+Figure 8.1: Left: Histogram of calcium concentration measurements from stream chemistry dataset, with fitted normal distribution. The vertical line marks the mean. Right: Scatterplot of calcium against magnesium concentration measurements, with coloured countours of fitted multivariate normal distribution. The vertical and horizontal lines are the individual means, which intersect at the centroid. Data from: <span class="citation">(<span class="citeproc-not-found" data-reference-id="lovett2000"><strong>???</strong></span>)</span>, cited in <span class="citation">Quinn and Keough (<a href="#ref-quinn2002" role="doc-biblioref">2002</a>)</span>.
+</p>
 </div>
-<div id="multivariate-anova-manova" class="section level2">
+<p>The <strong>variance-covariance matrix</strong> (or just covariance matrix) is a matrix of associations between variables. On its diagonal are the variances of the individual variables,<a href="#fn24" class="footnote-ref" id="fnref24"><sup>24</sup></a> on the off-diagonals are the covariances between two variables:</p>
+<p><span class="math display" id="eq:covmatrix">\[\begin{equation}
+\mathbf{C}=\begin{pmatrix}
+\frac{\sum_{i=1}^{n}\left(y_{i1}-\bar y_1\right)^2}{n-1} &amp; \frac{\sum_{i=1}^{n}\left(y_{i2}-\bar y_2\right)\cdot\left(y_{i1}-\bar y_1\right)}{n-1} &amp; \cdots &amp; \frac{\sum_{i=1}^{n}\left(y_{ip}-\bar y_p\right)\cdot\left(y_{i1}-\bar y_1\right)}{n-1} \\
+\frac{\sum_{i=1}^{n}\left(y_{i1}-\bar y_1\right)\cdot\left(y_{i2}-\bar y_2\right)}{n-1} &amp; \frac{\sum_{i=1}^{n}\left(y_{i2}-\bar y_2\right)^2}{n-1} &amp; \cdots &amp; \frac{\sum_{i=1}^{n}\left(y_{ip}-\bar y_p\right)\cdot\left(y_{i2}-\bar y_2\right)}{n-1} \\
+\vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
+\frac{\sum_{i=1}^{n}\left(y_{i1}-\bar y_1\right)\cdot\left(y_{ip}-\bar y_p\right)}{n-1} &amp; \frac{\sum_{i=1}^{n}\left(y_{i2}-\bar y_2\right)\cdot\left(y_{ip}-\bar y_p\right)}{n-1} &amp; \cdots &amp; \frac{\sum_{i=1}^{n}\left(y_{ip}-\bar y_p\right)^2}{n-1}
+\end{pmatrix}
+\tag{8.2}
+\end{equation}\]</span></p>
+<p>Normalising the variance-covariance terms in Equation <a href="multivariate.html#eq:covmatrix">(8.2)</a> by the variances of the respective variables, e.g. <span class="math inline">\(corr\left(y_1,y_2\right)=\frac{cov\left(y_1,y_2\right)}{\sqrt{\sigma_{y_1}^2\cdot\sigma_{y_2}^2}}=\frac{cov\left(y_1,y_2\right)}{\sigma_{y_1}\cdot\sigma_{y_2}}\)</span>, yields the <strong>correlation matrix</strong>:</p>
+<p><span class="math display" id="eq:covmatrix">\[\begin{equation}
+\mathbf{R}=\begin{pmatrix}
+\frac{\sum_{i=1}^{n}\left(y_{i1}-\bar y_1\right)^2}{\sqrt{\sum_{i=1}^{n}\left(y_{i1}-\bar y_1\right)^2\cdot\sum_{i=1}^{n}\left(y_{i1}-\bar y_1\right)^2}} &amp; \frac{\sum_{i=1}^{n}\left(y_{i2}-\bar y_2\right)\cdot\left(y_{i1}-\bar y_1\right)}{\sqrt{\sum_{i=1}^{n}\left(y_{i2}-\bar y_2\right)^2\cdot\sum_{i=1}^{n}\left(y_{i1}-\bar y_1\right)^2}} &amp; \cdots &amp; \frac{\sum_{i=1}^{n}\left(y_{ip}-\bar y_p\right)\cdot\left(y_{i1}-\bar y_1\right)}{\sqrt{\sum_{i=1}^{n}\left(y_{ip}-\bar y_p\right)^2\cdot\sum_{i=1}^{n}\left(y_{i1}-\bar y_1\right)^2}} \\
+\frac{\sum_{i=1}^{n}\left(y_{i1}-\bar y_1\right)\cdot\left(y_{i2}-\bar y_2\right)}{\sqrt{\sum_{i=1}^{n}\left(y_{i1}-\bar y_1\right)^2\cdot\sum_{i=1}^{n}\left(y_{i2}-\bar y_2\right)^2}} &amp; \frac{\sum_{i=1}^{n}\left(y_{i2}-\bar y_2\right)^2}{\sqrt{\sum_{i=1}^{n}\left(y_{i2}-\bar y_2\right)^2\cdot\sum_{i=1}^{n}\left(y_{i2}-\bar y_2\right)^2}} &amp; \cdots &amp; \frac{\sum_{i=1}^{n}\left(y_{ip}-\bar y_p\right)\cdot\left(y_{i2}-\bar y_2\right)}{\sqrt{\sum_{i=1}^{n}\left(y_{ip}-\bar y_p\right)^2\cdot\sum_{i=1}^{n}\left(y_{i2}-\bar y_2\right)^2}} \\
+\vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
+\frac{\sum_{i=1}^{n}\left(y_{i1}-\bar y_1\right)\cdot\left(y_{ip}-\bar y_p\right)}{\sqrt{\sum_{i=1}^{n}\left(y_{i1}-\bar y_1\right)^2\cdot\sum_{i=1}^{n}\left(y_{ip}-\bar y_p\right)^2}} &amp; \frac{\sum_{i=1}^{n}\left(y_{i2}-\bar y_2\right)\cdot\left(y_{ip}-\bar y_p\right)}{\sqrt{\sum_{i=1}^{n}\left(y_{i2}-\bar y_2\right)^2\cdot\sum_{i=1}^{n}\left(y_{ip}-\bar y_p\right)^2}} &amp; \cdots &amp; \frac{\sum_{i=1}^{n}\left(y_{ip}-\bar y_p\right)^2}{\sqrt{\sum_{i=1}^{n}\left(y_{ip}-\bar y_p\right)^2\cdot\sum_{i=1}^{n}\left(y_{ip}-\bar y_p\right)^2}}
+\end{pmatrix}
+\tag{8.2}
+\end{equation}\]</span></p>
+<p>Let’s look at the associations between the variables in the stream chemistry dataset:</p>
+<div class="sourceCode" id="cb157"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb157-1"><a href="multivariate.html#cb157-1"></a><span class="kw">pairs</span>(streams[,<span class="dv">6</span><span class="op">:</span><span class="dv">15</span>], <span class="dt">diag.panel =</span> panel.hist)</span></code></pre></div>
+<p><img src="qm4g_files/figure-html/unnamed-chunk-45-1.png" width="80%" /></p>
+<p>First of all we notice the non-normality DOC, Cl and H (at least; in principle this diagnosis is ambiguous). Hence we log-transform these three variables to make them adhere better to normality:</p>
+<div class="sourceCode" id="cb158"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb158-1"><a href="multivariate.html#cb158-1"></a>streams_log &lt;-<span class="st"> </span>streams</span>
+<span id="cb158-2"><a href="multivariate.html#cb158-2"></a>streams_log<span class="op">$</span>DOC &lt;-<span class="st"> </span><span class="kw">log</span>(streams<span class="op">$</span>DOC)</span>
+<span id="cb158-3"><a href="multivariate.html#cb158-3"></a>streams_log<span class="op">$</span>CL &lt;-<span class="st"> </span><span class="kw">log</span>(streams<span class="op">$</span>CL)</span>
+<span id="cb158-4"><a href="multivariate.html#cb158-4"></a>streams_log<span class="op">$</span>H &lt;-<span class="st"> </span><span class="kw">log</span>(streams<span class="op">$</span>H)</span>
+<span id="cb158-5"><a href="multivariate.html#cb158-5"></a><span class="kw">pairs</span>(streams_log[,<span class="dv">6</span><span class="op">:</span><span class="dv">15</span>], <span class="dt">diag.panel =</span> panel.hist)</span></code></pre></div>
+<p><img src="qm4g_files/figure-html/unnamed-chunk-46-1.png" width="80%" /></p>
+<p>We then notice a positive correlation between NO3 and TN; most of the total nitrogen in streams actually comes in the form of nitrate. We notice a positive correlation between Ca and Mg; both are characteristic of alkaline waters and often appear together. We notice a positive correlation between Mg (and Ca) and SO4; magnesium (and calcium) often appear as Mg(Ca)-sulphate. And we notice a negative correlation between Ca and H; calcium is characteristic of alkaline waters, i.e. waters that have a high pH, hence a low hydrogen concentration.</p>
+<p>These associations are reflected in the covariance matrix:</p>
+<div class="sourceCode" id="cb159"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb159-1"><a href="multivariate.html#cb159-1"></a><span class="kw">cov</span>(streams_log[,<span class="dv">6</span><span class="op">:</span><span class="dv">15</span>])</span></code></pre></div>
+<pre><code>##             NO3          TON         TN         NH4         DOC        SO4
+## NO3  74.1885064 -4.367083926 68.5690754 -1.21607397  0.26399923 -1.8439972
+## TON  -4.3670839  1.636706970 -2.5259104  0.14816501  0.07963509  0.3585633
+## TN   68.5690754 -2.525910384 65.6039900 -0.97096728  0.30096702  0.9395590
+## NH4  -1.2160740  0.148165007 -0.9709673  0.53607397 -0.09426689  0.3710242
+## DOC   0.2639992  0.079635093  0.3009670 -0.09426689  0.11367492 -0.6113830
+## SO4  -1.8439972  0.358563300  0.9395590  0.37102418 -0.61138295 27.2433286
+## CL   -1.2917322  0.060402549 -1.1991558  0.07313198 -0.01935573  0.4772130
+## CA   29.1343670 -2.879523471 29.0208179  0.57644381 -1.25321565 35.0845235
+## MG  -14.7774538  2.627396871 -9.8611522  0.77961593 -0.60795805 19.8258464
+## H     0.3516809 -0.008264002  0.1717175 -0.10160741  0.09357589 -1.5999792
+##              CL          CA          MG            H
+## NO3 -1.29173215  29.1343670 -14.7774538  0.351680867
+## TON  0.06040255  -2.8795235   2.6273969 -0.008264002
+## TN  -1.19915582  29.0208179  -9.8611522  0.171717531
+## NH4  0.07313198   0.5764438   0.7796159 -0.101607407
+## DOC -0.01935573  -1.2532156  -0.6079580  0.093575891
+## SO4  0.47721304  35.0845235  19.8258464 -1.599979158
+## CL   0.12765675   0.8214436   1.0110406 -0.080456005
+## CA   0.82144357 194.7417710  27.0328307 -7.639475486
+## MG   1.01104057  27.0328307  26.2495306 -1.883364151
+## H   -0.08045601  -7.6394755  -1.8833642  0.454192635</code></pre>
+<p>In particular, <span class="math inline">\(cov(NO3,TN)=68.57\)</span>, <span class="math inline">\(cov(SO4,MG)=19.83\)</span> and <span class="math inline">\(cov(CA,H)=-7.64\)</span>. However, at the scale of covariances we cannot judge the strengths of the associations, because the magnitude of the covariance is determined by the diagonal variance terms of the respective variables. We need to normalise by those variances, i.e. look at the correlation matrix:</p>
+<div class="sourceCode" id="cb161"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb161-1"><a href="multivariate.html#cb161-1"></a><span class="kw">cor</span>(streams_log[,<span class="dv">6</span><span class="op">:</span><span class="dv">15</span>])</span></code></pre></div>
+<pre><code>##             NO3          TON          TN         NH4         DOC         SO4
+## NO3  1.00000000 -0.396312489  0.98286722 -0.19283209  0.09090798 -0.04101681
+## TON -0.39631249  1.000000000 -0.24376275  0.15817863  0.18462338  0.05369703
+## TN   0.98286722 -0.243762753  1.00000000 -0.16372957  0.11021011  0.02222434
+## NH4 -0.19283209  0.158178634 -0.16372957  1.00000000 -0.38186908  0.09708671
+## DOC  0.09090798  0.184623379  0.11021011 -0.38186908  1.00000000 -0.34741688
+## SO4 -0.04101681  0.053697033  0.02222434  0.09708671 -0.34741688  1.00000000
+## CL  -0.41974184  0.132144140 -0.41437028  0.27955874 -0.16067757  0.25589413
+## CA   0.24238610 -0.161289316  0.25675267  0.05641766 -0.26635688  0.48167703
+## MG  -0.33486559  0.400847742 -0.23763027  0.20782968 -0.35194963  0.74138003
+## H    0.06058434 -0.009584841  0.03145788 -0.20591736  0.41182395 -0.45484581
+##             CL          CA         MG            H
+## NO3 -0.4197418  0.24238610 -0.3348656  0.060584340
+## TON  0.1321441 -0.16128932  0.4008477 -0.009584841
+## TN  -0.4143703  0.25675267 -0.2376303  0.031457881
+## NH4  0.2795587  0.05641766  0.2078297 -0.205917361
+## DOC -0.1606776 -0.26635688 -0.3519496  0.411823946
+## SO4  0.2558941  0.48167703  0.7413800 -0.454845809
+## CL   1.0000000  0.16475033  0.5523138 -0.334130816
+## CA   0.1647503  1.00000000  0.3780952 -0.812295299
+## MG   0.5523138  0.37809523  1.0000000 -0.545448165
+## H   -0.3341308 -0.81229530 -0.5454482  1.000000000</code></pre>
+<p>Now the magnitude of the association is easier to see: <span class="math inline">\(corr(NO3,TN)=0.98\)</span>, <span class="math inline">\(corr(SO4,MG)=0.74\)</span> and <span class="math inline">\(corr(CA,H)=-0.81\)</span>.</p>
+</div>
+<div id="linear-combination-of-variables" class="section level3">
+<h3><span class="header-section-number">8.2.2</span> Linear combination of variables</h3>
+<p>A first step in multivariate analyses (PCA, DFA, FA, …) is usually to centre the variables to zero mean: <span class="math inline">\(y^*=y-\mu\)</span> so that <span class="math inline">\(\mu^*=0\)</span> and <span class="math inline">\(\sigma^*=\sigma\)</span>. Compare Chapter <a href="math.html#math">2</a>.</p>
+<p>Then, the fundamental concept underlying multivariate analyses (PCA, DFA, FA, …) is to derive new linear combinations of the variables that summarise the variation in the original data set:</p>
+<p><span class="math display" id="eq:lincomb">\[\begin{equation}
+z_{ik}=u_{1k}\cdot y_{i1}+u_{2k}\cdot y_{i2}+\ldots+u_{pk}\cdot y_{ip}
+\tag{8.3}
+\end{equation}\]</span></p>
+<p><span class="math inline">\(z_{ik}\)</span> is the value of the <em>new</em> variable <span class="math inline">\(k\)</span> for object <span class="math inline">\(i\)</span>. The object can be a timestep or a spatial location or else. <span class="math inline">\(u_{1k},\ldots,u_{pk}\)</span> are the <em>coefficients</em> indicating how much each original variable contributes to the linear combination. This is the <em>Eigenvector</em> of the covariance matrix (more on this later). <span class="math inline">\(y_{i1},\ldots,y_{ip}\)</span> are the values of <em>original</em> variables <span class="math inline">\(1,\ldots,p\)</span> for object <span class="math inline">\(i\)</span>.</p>
+<p>The new variables are called, depending on the type of method, <strong>principal components</strong>, factors or discriminant functions. They are extracted so that the first explains most of the variance in the original variables, the second explains most of the remaining variance after the first has been extracted but is <em>independent</em> of (uncorrelated with) the first … and so on. The number of new variables <span class="math inline">\(k\)</span> is the same as the number of original variables <span class="math inline">\(p\)</span>, although the variance is usually consolidated in the first few new variables. The unknown coefficients <span class="math inline">\(u_{1k},\ldots,u_{pk}\)</span> are determined via so called <strong>Eigenanalysis</strong> (see below).</p>
+<p>A graphical explanation of what PCA does is axis rotation.</p>
+<p>[…]</p>
+</div>
+<div id="eigenanalysis" class="section level3">
+<h3><span class="header-section-number">8.2.3</span> Eigenanalysis</h3>
+<p>The vector of coefficients <span class="math inline">\(\begin{pmatrix}u_{1k},\ldots,u_{pk}\end{pmatrix}^T\)</span> in Equation <a href="multivariate.html#eq:lincomb">(8.3)</a> is called the <span class="math inline">\(k\)</span>th <strong>Eigenvector</strong>. This is found so that the following equation holds:<a href="#fn25" class="footnote-ref" id="fnref25"><sup>25</sup></a></p>
+<p><span class="math display" id="eq:eigen">\[\begin{equation}
+\mathbf{C}\cdot\begin{pmatrix}
+u_{1k}\\u_{2k}\\\vdots\\u_{pk}
+\end{pmatrix}=\lambda_k\cdot\begin{pmatrix}
+u_{1k}\\u_{2k}\\\vdots\\u_{pk}
+\end{pmatrix}
+\tag{8.4}
+\end{equation}\]</span></p>
+<p><span class="math inline">\(\mathbf{C}\)</span> is the covariance matrix and <span class="math inline">\(\lambda_1,\ldots,\lambda_k\)</span> are the so called <strong>Eigenvalues</strong>, which equal the amount of variance explained by each new variable. The sum of variances (Eigenvalues) of the new variables equals the sum of variances of the original variables.</p>
+<p>[…]</p>
+<p>The Eigenanalysis can be carried out, i.e. the Eigenvectors and Eigenvalues determined, on the covariance matrix <span class="math inline">\(\mathbf{C}\)</span> or the correlation matrix <span class="math inline">\(\mathbf{R}\)</span> using <em>Spectral Decomposition (Eigendecomposition)</em> or on the data matrix (raw, centred or standardised) using <em>Singular Value Decomposition</em>, which is the more general method. We don’t go into the details of these techniques here.</p>
+<p>If the Eigenanalysis is carried out on the covariance matrix <span class="math inline">\(\mathbf{C}\)</span> then <span class="math inline">\(\sum_{j=1}^{k}\lambda_j=Tr(\mathbf{C})\)</span>, i.e. the sum of the Eigenvalues is the trace of <span class="math inline">\(\mathbf{C}\)</span>. The <strong>trace</strong> is defined as the sum of the diagonal elements of a matrix, i.e. here the sum of the variances of the original <em>centred</em> variables. This isappropriate when the variables are measured in comparable units and differences in variance make an important contribution to interpretation.</p>
+<p>If the Eigenanalysis is carried out on the correlation matrix <span class="math inline">\(\mathbf{R}\)</span> then <span class="math inline">\(\sum_{j=1}^{k}\lambda_j=Tr(\mathbf{R})\)</span>, i.e. the sum of the variances of the original <em>standardised</em> variables: <span class="math inline">\(y^*=\frac{y-\mu}{\sigma}\)</span> so that <span class="math inline">\(\mu^*=0\)</span> and <span class="math inline">\(\sigma^*=1\)</span>. Compare Chapter <a href="math.html#math">2</a>. This is necessary when variables are measured in very different units or scales, otherwise variables with large values/variances may dominate the results.</p>
+<p>In the stream chemistry example we best work with standardised data because variances are orders of magnitude different.<a href="#fn26" class="footnote-ref" id="fnref26"><sup>26</sup></a> The model for the new variables (Equation <a href="multivariate.html#eq:lincomb">(8.3)</a>) is:</p>
+<p><span class="math display" id="eq:lincombstreams">\[\begin{equation}
+z_{ik}=u_{1k}\cdot\left(NO_3\right)_i+u_{2k}\cdot\left(TON\right)_i+u_{3k}\cdot\left(TN\right)_i+u_{4k}\cdot\left(NH_4\right)_i+u_{5k}\cdot\left(\log(DOC)\right)_i+u_{6k}\cdot\left(SO_4\right)_i+u_{7k}\cdot\left(\log(Cl)\right)_i+u_{8k}\cdot\left(Ca\right)_i+u_{9k}\cdot\left(Mg\right)_i+u_{10k}\cdot\left(\log(H)\right)_i
+\tag{8.5}
+\end{equation}\]</span></p>
+<div class="sourceCode" id="cb163"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb163-1"><a href="multivariate.html#cb163-1"></a><span class="kw">prcomp</span>(streams_log[,<span class="dv">6</span><span class="op">:</span><span class="dv">15</span>], <span class="dt">scale=</span><span class="ot">TRUE</span>)</span></code></pre></div>
+<pre><code>## Standard deviations (1, .., p=10):
+##  [1] 1.85038489 1.57254556 1.08217040 0.96516016 0.86381333 0.80396686
+##  [7] 0.61930355 0.36160718 0.30237094 0.04783651
+## 
+## Rotation (n x k) = (10 x 10):
+##            PC1         PC2          PC3         PC4         PC5        PC6
+## NO3 -0.2608012  0.51882614  0.048948664  0.22991773 -0.02957754 -0.2391299
+## TON  0.1470633 -0.29927267  0.515134430  0.54375942 -0.11855680  0.3029571
+## TN  -0.2284551  0.51019467  0.153554316  0.34323284 -0.02311043 -0.1993705
+## NH4  0.2279503 -0.07531476 -0.486775784  0.65372357 -0.26639758 -0.1033473
+## DOC -0.2882751 -0.14662430  0.562051058 -0.09028595 -0.43309048 -0.2021881
+## SO4  0.3684647  0.22497988  0.241732702  0.01627193  0.53819564 -0.1550440
+## CL   0.3578631 -0.15795736 -0.017738392 -0.16532689 -0.32510731 -0.7380443
+## CA   0.2811469  0.44581191  0.080590317 -0.18761722 -0.36044030  0.2312748
+## MG   0.4716303  0.01538667  0.300889286  0.10730721  0.23553548 -0.1420917
+## H   -0.3972262 -0.28148573  0.005572391  0.15438867  0.38112577 -0.3424885
+##             PC7         PC8         PC9         PC10
+## NO3 -0.16234834  0.05636563 -0.03009849 -0.720448525
+## TON -0.29797877 -0.28358340 -0.20552744 -0.102368378
+## TN  -0.18049740  0.05424407 -0.04787331  0.684124042
+## NH4  0.43198173  0.06398237  0.07470189 -0.011423521
+## DOC  0.53976801  0.22174766  0.04692825 -0.013216360
+## SO4  0.48378154 -0.15731293 -0.42645336 -0.023891086
+## CL  -0.29877601 -0.19877842 -0.19925916  0.021153361
+## CA   0.15884541 -0.57822152  0.37080339  0.006383739
+## MG  -0.13127371  0.41741127  0.63806761 -0.031885844
+## H    0.09240295 -0.53606219  0.42495406  0.008249647</code></pre>
+</div>
+</div>
+<div id="manova" class="section level2">
 <h2><span class="header-section-number">8.3</span> Multivariate ANOVA (MANOVA)</h2>
 </div>
-<div id="discriminant-function-analysis-dfa" class="section level2">
+<div id="dfa" class="section level2">
 <h2><span class="header-section-number">8.4</span> Discriminant Function Analysis (DFA)</h2>
 
 </div>
+</div>
+<h3>References</h3>
+<div id="refs" class="references">
+<div id="ref-quinn2002">
+<p>Quinn, G. P., and M. J. Keough. 2002. <em>Experimental Design and Data Analysis for Biologists</em>. Cambridge: Cambridge University Press.</p>
+</div>
+</div>
+<div class="footnotes">
+<hr />
+<ol start="23">
+<li id="fn23"><p><a href="https://corneliussenf.com/" class="uri">https://corneliussenf.com/</a><a href="multivariate.html#fnref23" class="footnote-back">↩︎</a></p></li>
+<li id="fn24"><p>The variance of a variable is of course the covariance between that variable and itself, e.g. <span class="math inline">\(var\left(y_1\right)=cov\left(y_1,y_1\right)\)</span>.<a href="multivariate.html#fnref24" class="footnote-back">↩︎</a></p></li>
+<li id="fn25"><p>An example - though one that doesn’t involve a covariance matrix! - is: <span class="math inline">\(\begin{pmatrix}2&amp;3\\2&amp;1\end{pmatrix}\cdot\begin{pmatrix}3\\2\end{pmatrix}=\begin{pmatrix}12\\8\end{pmatrix}=4\cdot\begin{pmatrix}3\\2\end{pmatrix}\)</span>.<a href="multivariate.html#fnref25" class="footnote-back">↩︎</a></p></li>
+<li id="fn26"><p>You could try it yourself either way to see what difference it makes.<a href="multivariate.html#fnref26" class="footnote-back">↩︎</a></p></li>
+</ol>
 </div>
             </section>
 

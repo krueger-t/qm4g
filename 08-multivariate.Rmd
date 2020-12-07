@@ -1,9 +1,254 @@
 # Multivariate methods {#multivariate}
 
-## Cluster analysis
+**Multivariate regression** extends the case of multiple regression (one response variable/ multiple predictor variables) to the case of _multiple response variables_/ multiple predictor variables – _predictors are continuous variables_ (though there is the same correspondence as between linear regression and ANOVA).
 
-## Principal Component Analysis (PCA)
+**Multivariate analysis of variance (MANOVA)** (Chapter \@ref(manova)) extends the case of ANOVA (one response variable/ multiple predictor variables) to the case of _multiple response variables_/ multiple predictor variables – _predictors are categorical variables_ (though MANOVA relates to multivariate regression just like ANOVA does to linear regression).
 
-## Multivariate ANOVA (MANOVA)
+**Discriminant Function Analysis (DFA)** (Chapter \@ref(dfa)) is a _classification_ method that tests how well multi-response observations discriminate between pre-determined groups, and can also be used to classify new observations into one of the groups.
 
-## Discriminant Function Analysis (DFA)
+**Principle Component Analysis (PCA)** (Chapter \@ref(pca)), **Factor Analysis (FA)** and related methods aim at finding _structure_ in a multivariate dataset, not deciding on response/predictor variables just yet. While PCA is trying to extract a reduced set of components that explain much of the _variability_ in the original variables, FA is trying to explain _correlations_ among the original variables (but both are related). PCA and FA are typically employed to pre-structure and _simplify_ a problem by reducing its data dimensions, e.g. to reduce collinearity (compare Chapter \@ref(multiplelinreg)).
+
+**Cluster Analysis** (Chapter \@ref(clusteranalysis)) looks for groups (clusters) in a multivariate dataset. Objects (data points) belonging to the same group "resemble" each other (we will see what this means). Objects belonging to different groups are "dissimilar".
+
+## Cluster analysis {#clusteranalysis}
+
+This section is based on material by Cornelius Senf.^[https://corneliussenf.com/] Cluster analysis looks for groups (clusters) in a multivariate dataset. Objects (data points) belonging to the same group "resemble" each other (we will see what this means). Objects belonging to different groups are "dissimilar". There are three groups of methods:
+
+1. **Partitioning** the dataset into a number of clusters specified by the user, e.g. the _kmeans_ algorithm
+2. **Hierarchical**, starting with each object (data point) as a separate cluster and then aggregating these step by step, ending up with a single cluster
+3. **Divisive**, starting with a single cluster of all objects (data points) and then splitting this up step by step until all objects are in different clusters
+
+Let's illustrate the principles of these methods with the Iris dataset that is available from _R_, on which cluster analysis can be used to separate taxonomic groups. The dataset consists of a sample of Iris flowers for which the lengths and widths of their sepals and petals were measured. Sepals and petals are two different kinds of leaves in the flower. The question is: _Can we separate clusters of flowers that are sufficiently different with respect to these four features?_ This then could form the basis of deriving taxonomic groups; indeed this is a typical approach in botany. To get a sense of the dataset let's first plot a scatterplot matrix:
+
+```{r echo=TRUE, out.width='80%'}
+# load Iris dataset
+data(iris)
+# scatterplot matrix
+plot(iris[,1:4])
+```
+
+We can already see at least two clusters. In some dimensions (petal length and width) they are more apart than in others (sepal length and width). Let's formalise this analysis using the _kmeans_ algorithm and afterwards look briefly what hierarchical methods do.
+
+### The _kmeans_ algorithm
+
+The purpose of _kmeans_ is to build clusters such that the distance of cluster objects (data points) to cluster _centroids_ (vectors of means) is minimised. The algorithm proceeds though the following steps:
+
+1. Choose $k$ random cluster centroids in the multivariate space
+2. Allocate each object to a cluster so that _total intra-cluster sum of squares_ (Equation \@ref(eq:intraclusterss)) is minimised
+
+$$\begin{equation}
+\sum_{j=1}^{k}\sum_{i=1}^{n_j}\lVert \mathbf{y}_{ij}-\boldsymbol{\mu}_j\rVert^2
+(\#eq:intraclusterss)
+\end{equation}$$
+
+$\boldsymbol{\mu}_j$ is the centroid of cluster $j=1,2,\ldots,k$, i.e. the vector of means across the data dimensions (here four). $\mathbf{y}_{ij}$ is data point $i=1,2,\ldots,n_j$ of cluster $j$, i.e. a multivariate vector too. $\lVert\cdot\rVert$ symbolises the _Euclidean distance_.
+
+3. Re-calculate cluster centroids
+4. Repeat steps 2-3 until cluster centroids are not changing much anymore (by some chosen criterion)
+
+Often the Euclidean distance is used as a measure of (dis)similarity but others can be specified as well.
+
+We have to tell the algorithm how many clusters we want. Let's use two to begin with (because that was our intuition earlier):
+
+```{r echo=TRUE, out.width='80%'}
+# run kmeans algorithm on Iris data asking for 2 clusters
+iris_fit2 <- kmeans(iris[,1:4], centers=2)
+# scatterplot matrix
+plot(iris[,1:4], col=iris_fit2$cluster)
+```
+
+Two clusters didn't seem enough to reproduce the separation we see visually. Let's increase the number of clusters to three:
+
+```{r echo=TRUE, out.width='80%'}
+# run kmeans algorithm on Iris data asking for 3 clusters
+iris_fit3 <- kmeans(iris[,1:4], centers=3)
+# scatterplot matrix
+plot(iris[,1:4], col=iris_fit3$cluster)
+```
+
+I think we would be happy with this visually. But are there perhaps even more clusters? When to stop? A useful stopping criterion is to look at the inflexion point where the total intra-cluster sum of squares (Equation \@ref(eq:intraclusterss)) does not change much anymore with increasing $k$:
+
+```{r echo=TRUE, out.width='80%'}
+# specify vector of clusters
+clusters <- 1:10
+# initialise corresponding vector of total intra-cluster sum of squares
+ticss <- rep(NA, 10)
+# loop through vector of clusters
+for(i in clusters){
+  # run kmeans
+  iris_fit <- kmeans(iris[,1:4], centers=i)
+  # collect total intra-cluster sum of squares
+  ticss[i] <- iris_fit$tot.withinss
+}
+# plot total intra-cluster sum of squares against clusters
+plot(clusters, ticss, pch = 19, type = 'b', xlab = "Number of clusters",
+     ylab = "Total intra-cluster sum of squares")
+```
+
+We can see that beyond three clusters the improvement in separation is minimal, so we would leave it at three. This, it turns out, matches almost perfectly the official taxonomic separation of the Iris dataset:
+
+```{r echo=TRUE}
+# contingency table of cluster:species matches
+table(iris_fit3$cluster, iris$Species)
+```
+
+The separation of Iris versicolor and Iris virginica, however, is not perfect.
+
+### Hierarchical methods
+
+The principle of hierarchical methods is to start with each object as a separate cluster and then aggregate these step by step, ending up with a single cluster. Note, devisive methods are not covered here, but they work exactly the other way round. An example algorithm works as follows:
+
+1. Build dissimilarity matrix, i.e. a matrix of the distances of every object to every other object in the multivariate space, e.g. by Euclidean distance $\lVert\mathbf{y}_i-\mathbf{y}_{i^*}\rVert$
+2. Start with each object as a separate cluster
+3. Join the two most similar clusters, e.g. those that lead to minimum increase in total intra-cluster sum of squares after merging (Equation \@ref(eq:intraclusterss)); this is called _Ward’s method_
+4. Repeat step 3 until a single cluster is build
+
+The result is a _dendrogram_, whose "height" is the distance between clusters, e.g. in Ward’s method the increase in the intra-cluster sum of squares of the clusters being merged:
+
+```{r echo=TRUE, out.width='80%'}
+# construct dissimilarity matrix for Iris data
+iris_dist <- dist(iris[,1:4])
+# run hierarchical clustering with Ward's method
+iris_fith <- hclust(iris_dist, method="ward.D2")
+# dendrogram
+plot(iris_fith)
+```
+
+Again we can see the three clearly separate clusters, beyond which any further separation is ambiguous.
+
+## Principal Component Analysis (PCA) {#pca}
+
+To illustrate PCA I will use a dataset from @lovett2000, cited in @quinn2002, that consists of stream chemistry measurements from 38 forested catchments in the Catskill Mountains, New York:
+
+```{r echo=TRUE}
+# load stream chemistry data
+streams <- read.table("data/streams.txt",header=T)
+head(streams)
+```
+
+The dataset first lists catchment characteristic: catchment name, maximum elevation in catchment, elevation where stream water sample was taken, stream length in catchment, catchment area. The stream chemistry variables are concentrations of: nitrate, total organic nitrogen, total nitrogen, ammonium, dissolved organic carbon, sulfate, chloride, calcium, magnesium, hydrogen.
+
+### From univariate normal to multivariate normal
+
+Like univariate methods, multivariate methods, too, rely on the normality assumption; the univariate normal distribution (Figure \@ref(fig:camg), left) is generalised to the **multivariate normal distribution** (Figure \@ref(fig:camg), right). Taking calcium concentration in the stream chemistry dataset as the example, the univariate normal model would be $N(\mu,\sigma)$ with mean $\mu=65.13$ and variance $\sigma^2=194.74$ (Figure \@ref(fig:camg), left). Looking at calcium and magnesium concentration together, the multivariate normal model would be $MVN(\boldsymbol\mu,\boldsymbol\Sigma)$  with **centroid** (vector of means) $\boldsymbol\mu=\begin{pmatrix}65.13&22.86\end{pmatrix}^T$ and **variance-covariance matrix** $\boldsymbol\Sigma=\begin{pmatrix}194.74&27.03\\27.03&194.74\end{pmatrix}$ (Figure \@ref(fig:camg), right).
+
+```{r camg, echo=FALSE, fig.align='center', fig.cap='Left: Histogram of calcium concentration measurements from stream chemistry dataset, with fitted normal distribution. The vertical line marks the mean. Right: Scatterplot of calcium against magnesium concentration measurements, with coloured countours of fitted multivariate normal distribution. The vertical and horizontal lines are the individual means, which intersect at the centroid. Data from: @lovett2000, cited in @quinn2002.', fig.show='hold', out.width='50%'}
+knitr::include_graphics(c('figs/ca_pdf.jpg','figs/ca_mg_jointpdf.jpg'))
+```
+
+The **variance-covariance matrix** (or just covariance matrix) is a matrix of associations between variables. On its diagonal are the variances of the individual variables,^[The variance of a variable is of course the covariance between that variable and itself, e.g. $var\left(y_1\right)=cov\left(y_1,y_1\right)$.] on the off-diagonals are the covariances between two variables:
+
+$$\begin{equation}
+\mathbf{C}=\begin{pmatrix}
+\frac{\sum_{i=1}^{n}\left(y_{i1}-\bar y_1\right)^2}{n-1} & \frac{\sum_{i=1}^{n}\left(y_{i2}-\bar y_2\right)\cdot\left(y_{i1}-\bar y_1\right)}{n-1} & \cdots & \frac{\sum_{i=1}^{n}\left(y_{ip}-\bar y_p\right)\cdot\left(y_{i1}-\bar y_1\right)}{n-1} \\
+\frac{\sum_{i=1}^{n}\left(y_{i1}-\bar y_1\right)\cdot\left(y_{i2}-\bar y_2\right)}{n-1} & \frac{\sum_{i=1}^{n}\left(y_{i2}-\bar y_2\right)^2}{n-1} & \cdots & \frac{\sum_{i=1}^{n}\left(y_{ip}-\bar y_p\right)\cdot\left(y_{i2}-\bar y_2\right)}{n-1} \\
+\vdots & \vdots & \ddots & \vdots \\
+\frac{\sum_{i=1}^{n}\left(y_{i1}-\bar y_1\right)\cdot\left(y_{ip}-\bar y_p\right)}{n-1} & \frac{\sum_{i=1}^{n}\left(y_{i2}-\bar y_2\right)\cdot\left(y_{ip}-\bar y_p\right)}{n-1} & \cdots & \frac{\sum_{i=1}^{n}\left(y_{ip}-\bar y_p\right)^2}{n-1}
+\end{pmatrix}
+(\#eq:covmatrix)
+\end{equation}$$
+
+Normalising the variance-covariance terms in Equation \@ref(eq:covmatrix) by the variances of the respective variables, e.g. $corr\left(y_1,y_2\right)=\frac{cov\left(y_1,y_2\right)}{\sqrt{\sigma_{y_1}^2\cdot\sigma_{y_2}^2}}=\frac{cov\left(y_1,y_2\right)}{\sigma_{y_1}\cdot\sigma_{y_2}}$, yields the **correlation matrix**:
+
+$$\begin{equation}
+\mathbf{R}=\begin{pmatrix}
+\frac{\sum_{i=1}^{n}\left(y_{i1}-\bar y_1\right)^2}{\sqrt{\sum_{i=1}^{n}\left(y_{i1}-\bar y_1\right)^2\cdot\sum_{i=1}^{n}\left(y_{i1}-\bar y_1\right)^2}} & \frac{\sum_{i=1}^{n}\left(y_{i2}-\bar y_2\right)\cdot\left(y_{i1}-\bar y_1\right)}{\sqrt{\sum_{i=1}^{n}\left(y_{i2}-\bar y_2\right)^2\cdot\sum_{i=1}^{n}\left(y_{i1}-\bar y_1\right)^2}} & \cdots & \frac{\sum_{i=1}^{n}\left(y_{ip}-\bar y_p\right)\cdot\left(y_{i1}-\bar y_1\right)}{\sqrt{\sum_{i=1}^{n}\left(y_{ip}-\bar y_p\right)^2\cdot\sum_{i=1}^{n}\left(y_{i1}-\bar y_1\right)^2}} \\
+\frac{\sum_{i=1}^{n}\left(y_{i1}-\bar y_1\right)\cdot\left(y_{i2}-\bar y_2\right)}{\sqrt{\sum_{i=1}^{n}\left(y_{i1}-\bar y_1\right)^2\cdot\sum_{i=1}^{n}\left(y_{i2}-\bar y_2\right)^2}} & \frac{\sum_{i=1}^{n}\left(y_{i2}-\bar y_2\right)^2}{\sqrt{\sum_{i=1}^{n}\left(y_{i2}-\bar y_2\right)^2\cdot\sum_{i=1}^{n}\left(y_{i2}-\bar y_2\right)^2}} & \cdots & \frac{\sum_{i=1}^{n}\left(y_{ip}-\bar y_p\right)\cdot\left(y_{i2}-\bar y_2\right)}{\sqrt{\sum_{i=1}^{n}\left(y_{ip}-\bar y_p\right)^2\cdot\sum_{i=1}^{n}\left(y_{i2}-\bar y_2\right)^2}} \\
+\vdots & \vdots & \ddots & \vdots \\
+\frac{\sum_{i=1}^{n}\left(y_{i1}-\bar y_1\right)\cdot\left(y_{ip}-\bar y_p\right)}{\sqrt{\sum_{i=1}^{n}\left(y_{i1}-\bar y_1\right)^2\cdot\sum_{i=1}^{n}\left(y_{ip}-\bar y_p\right)^2}} & \frac{\sum_{i=1}^{n}\left(y_{i2}-\bar y_2\right)\cdot\left(y_{ip}-\bar y_p\right)}{\sqrt{\sum_{i=1}^{n}\left(y_{i2}-\bar y_2\right)^2\cdot\sum_{i=1}^{n}\left(y_{ip}-\bar y_p\right)^2}} & \cdots & \frac{\sum_{i=1}^{n}\left(y_{ip}-\bar y_p\right)^2}{\sqrt{\sum_{i=1}^{n}\left(y_{ip}-\bar y_p\right)^2\cdot\sum_{i=1}^{n}\left(y_{ip}-\bar y_p\right)^2}}
+\end{pmatrix}
+(\#eq:covmatrix)
+\end{equation}$$
+
+Let's look at the associations between the variables in the stream chemistry dataset:
+
+```{r include=FALSE}
+example(pairs)
+```
+```{r echo=TRUE, out.width='80%'}
+pairs(streams[,6:15], diag.panel = panel.hist)
+```
+
+First of all we notice the non-normality DOC, Cl and H (at least; in principle this diagnosis is ambiguous). Hence we log-transform these three variables to make them adhere better to normality:
+
+```{r echo=TRUE, out.width='80%'}
+streams_log <- streams
+streams_log$DOC <- log(streams$DOC)
+streams_log$CL <- log(streams$CL)
+streams_log$H <- log(streams$H)
+pairs(streams_log[,6:15], diag.panel = panel.hist)
+```
+
+We then notice a positive correlation between NO3 and TN; most of the total nitrogen in streams actually comes in the form of nitrate. We notice a positive correlation between Ca and Mg; both are characteristic of alkaline waters and often appear together. We notice a positive correlation between Mg (and Ca) and SO4; magnesium (and calcium) often appear as Mg(Ca)-sulphate. And we notice a negative correlation between Ca and H; calcium is characteristic of alkaline waters, i.e. waters that have a high pH, hence a low hydrogen concentration.
+
+These associations are reflected in the covariance matrix:
+
+```{r echo=TRUE}
+cov(streams_log[,6:15])
+```
+
+In particular, $cov(NO3,TN)=68.57$, $cov(SO4,MG)=19.83$ and $cov(CA,H)=-7.64$. However, at the scale of covariances we cannot judge the strengths of the associations, because the magnitude of the covariance is determined by the diagonal variance terms of the respective variables. We need to normalise by those variances, i.e. look at the correlation matrix:
+
+```{r echo=TRUE}
+cor(streams_log[,6:15])
+```
+
+Now the magnitude of the association is easier to see: $corr(NO3,TN)=0.98$, $corr(SO4,MG)=0.74$ and $corr(CA,H)=-0.81$.
+
+### Linear combination of variables
+
+A first step in multivariate analyses (PCA, DFA, FA, …) is usually to centre the variables to zero mean: $y^*=y-\mu$ so that $\mu^*=0$ and $\sigma^*=\sigma$. Compare Chapter \@ref(math).
+
+Then, the fundamental concept underlying multivariate analyses (PCA, DFA, FA, ...) is to derive new linear combinations of the variables that summarise the variation in the original data set:
+
+$$\begin{equation}
+z_{ik}=u_{1k}\cdot y_{i1}+u_{2k}\cdot y_{i2}+\ldots+u_{pk}\cdot y_{ip}
+(\#eq:lincomb)
+\end{equation}$$
+
+$z_{ik}$ is the value of the _new_ variable $k$ for object $i$. The object can be a timestep or a spatial location or else. $u_{1k},\ldots,u_{pk}$ are the _coefficients_ indicating how much each original variable contributes to the linear combination. This is the _Eigenvector_ of the covariance matrix (more on this later). $y_{i1},\ldots,y_{ip}$ are the values of _original_ variables $1,\ldots,p$ for object $i$.
+
+The new variables are called, depending on the type of method, **principal components**, factors or discriminant functions. They are extracted so that the first explains most of the variance in the original variables, the second explains most of the remaining variance after the first has been extracted but is _independent_ of (uncorrelated with) the first ... and so on. The number of new variables $k$ is the same as the number of original variables $p$, although the variance is usually consolidated in the first few new variables. The unknown coefficients $u_{1k},\ldots,u_{pk}$ are determined via so called **Eigenanalysis** (see below).
+
+A graphical explanation of what PCA does is axis rotation.
+
+[...]
+
+### Eigenanalysis
+
+The vector of coefficients $\begin{pmatrix}u_{1k},\ldots,u_{pk}\end{pmatrix}^T$ in Equation \@ref(eq:lincomb) is called the $k$th **Eigenvector**. This is found so that the following equation holds:^[An example - though one that doesn't involve a covariance matrix! - is: $\begin{pmatrix}2&3\\2&1\end{pmatrix}\cdot\begin{pmatrix}3\\2\end{pmatrix}=\begin{pmatrix}12\\8\end{pmatrix}=4\cdot\begin{pmatrix}3\\2\end{pmatrix}$.]
+
+$$\begin{equation}
+\mathbf{C}\cdot\begin{pmatrix}
+u_{1k}\\u_{2k}\\\vdots\\u_{pk}
+\end{pmatrix}=\lambda_k\cdot\begin{pmatrix}
+u_{1k}\\u_{2k}\\\vdots\\u_{pk}
+\end{pmatrix}
+(\#eq:eigen)
+\end{equation}$$
+
+$\mathbf{C}$ is the covariance matrix and $\lambda_1,\ldots,\lambda_k$ are the so called **Eigenvalues**, which equal the amount of variance explained by each new variable. The sum of variances (Eigenvalues) of the new variables equals the sum of variances of the original variables.
+
+[...]
+
+The Eigenanalysis can be carried out, i.e. the Eigenvectors and Eigenvalues determined, on the covariance matrix $\mathbf{C}$ or the correlation matrix $\mathbf{R}$ using _Spectral Decomposition (Eigendecomposition)_ or on the data matrix (raw, centred or standardised) using _Singular Value Decomposition_, which is the more general method. We don't go into the details of these techniques here.
+
+If the Eigenanalysis is carried out on the covariance matrix $\mathbf{C}$ then $\sum_{j=1}^{k}\lambda_j=Tr(\mathbf{C})$, i.e. the sum of the Eigenvalues is the trace of $\mathbf{C}$. The **trace** is defined as the sum of the diagonal elements of a matrix, i.e. here the sum of the variances of the original _centred_ variables. This isappropriate when the variables are measured in comparable units and differences in variance make an important contribution to interpretation.
+
+If the Eigenanalysis is carried out on the correlation matrix $\mathbf{R}$ then $\sum_{j=1}^{k}\lambda_j=Tr(\mathbf{R})$, i.e. the sum of the variances of the original _standardised_ variables: $y^*=\frac{y-\mu}{\sigma}$ so that $\mu^*=0$ and $\sigma^*=1$. Compare Chapter \@ref(math). This is necessary when variables are measured in very different units or scales, otherwise variables with large values/variances may dominate the results.
+
+In the stream chemistry example we best work with standardised data because variances are orders of magnitude different.^[You could try it yourself either way to see what difference it makes.] The model for the new variables (Equation \@ref(eq:lincomb)) is:
+
+$$\begin{equation}
+z_{ik}=u_{1k}\cdot\left(NO_3\right)_i+u_{2k}\cdot\left(TON\right)_i+u_{3k}\cdot\left(TN\right)_i+u_{4k}\cdot\left(NH_4\right)_i+u_{5k}\cdot\left(\log(DOC)\right)_i+u_{6k}\cdot\left(SO_4\right)_i+u_{7k}\cdot\left(\log(Cl)\right)_i+u_{8k}\cdot\left(Ca\right)_i+u_{9k}\cdot\left(Mg\right)_i+u_{10k}\cdot\left(\log(H)\right)_i
+(\#eq:lincombstreams)
+\end{equation}$$
+
+```{r echo=TRUE}
+prcomp(streams_log[,6:15], scale=TRUE)
+```
+
+
+## Multivariate ANOVA (MANOVA) {#manova}
+
+## Discriminant Function Analysis (DFA) {#dfa}

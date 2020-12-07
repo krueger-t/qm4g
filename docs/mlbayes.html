@@ -24,7 +24,7 @@
 <meta name="author" content="Tobias Krueger" />
 
 
-<meta name="date" content="2020-11-26" />
+<meta name="date" content="2020-12-07" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -190,10 +190,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="7.6" data-path="glms.html"><a href="glms.html#overdisp"><i class="fa fa-check"></i><b>7.6</b> Over-dispersion</a></li>
 </ul></li>
 <li class="chapter" data-level="8" data-path="multivariate.html"><a href="multivariate.html"><i class="fa fa-check"></i><b>8</b> Multivariate methods</a><ul>
-<li class="chapter" data-level="8.1" data-path="multivariate.html"><a href="multivariate.html#cluster-analysis"><i class="fa fa-check"></i><b>8.1</b> Cluster analysis</a></li>
-<li class="chapter" data-level="8.2" data-path="multivariate.html"><a href="multivariate.html#principal-component-analysis-pca"><i class="fa fa-check"></i><b>8.2</b> Principal Component Analysis (PCA)</a></li>
-<li class="chapter" data-level="8.3" data-path="multivariate.html"><a href="multivariate.html#multivariate-anova-manova"><i class="fa fa-check"></i><b>8.3</b> Multivariate ANOVA (MANOVA)</a></li>
-<li class="chapter" data-level="8.4" data-path="multivariate.html"><a href="multivariate.html#discriminant-function-analysis-dfa"><i class="fa fa-check"></i><b>8.4</b> Discriminant Function Analysis (DFA)</a></li>
+<li class="chapter" data-level="8.1" data-path="multivariate.html"><a href="multivariate.html#clusteranalysis"><i class="fa fa-check"></i><b>8.1</b> Cluster analysis</a><ul>
+<li class="chapter" data-level="8.1.1" data-path="multivariate.html"><a href="multivariate.html#the-kmeans-algorithm"><i class="fa fa-check"></i><b>8.1.1</b> The <em>kmeans</em> algorithm</a></li>
+<li class="chapter" data-level="8.1.2" data-path="multivariate.html"><a href="multivariate.html#hierarchical-methods"><i class="fa fa-check"></i><b>8.1.2</b> Hierarchical methods</a></li>
+</ul></li>
+<li class="chapter" data-level="8.2" data-path="multivariate.html"><a href="multivariate.html#pca"><i class="fa fa-check"></i><b>8.2</b> Principal Component Analysis (PCA)</a><ul>
+<li class="chapter" data-level="8.2.1" data-path="multivariate.html"><a href="multivariate.html#from-univariate-normal-to-multivariate-normal"><i class="fa fa-check"></i><b>8.2.1</b> From univariate normal to multivariate normal</a></li>
+<li class="chapter" data-level="8.2.2" data-path="multivariate.html"><a href="multivariate.html#linear-combination-of-variables"><i class="fa fa-check"></i><b>8.2.2</b> Linear combination of variables</a></li>
+<li class="chapter" data-level="8.2.3" data-path="multivariate.html"><a href="multivariate.html#eigenanalysis"><i class="fa fa-check"></i><b>8.2.3</b> Eigenanalysis</a></li>
+</ul></li>
+<li class="chapter" data-level="8.3" data-path="multivariate.html"><a href="multivariate.html#manova"><i class="fa fa-check"></i><b>8.3</b> Multivariate ANOVA (MANOVA)</a></li>
+<li class="chapter" data-level="8.4" data-path="multivariate.html"><a href="multivariate.html#dfa"><i class="fa fa-check"></i><b>8.4</b> Discriminant Function Analysis (DFA)</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="solutions-to-exercises.html"><a href="solutions-to-exercises.html"><i class="fa fa-check"></i>Solutions to exercises</a><ul>
 <li class="chapter" data-level="" data-path="solutions-to-exercises.html"><a href="solutions-to-exercises.html#answer-to-q1"><i class="fa fa-check"></i>Answer to Q1</a></li>
@@ -371,10 +378,10 @@ Figure 6.1: Bayesian updating: The prior PDF of a hypothetical parameter <span c
 <div class="sourceCode" id="cb118"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb118-1"><a href="mlbayes.html#cb118-1"></a><span class="co"># summarise posterior</span></span>
 <span id="cb118-2"><a href="mlbayes.html#cb118-2"></a><span class="kw">posterior_summary</span>(yield_fit, <span class="dt">pars =</span> <span class="kw">c</span>(<span class="st">&#39;soiltype1&#39;</span>,<span class="st">&#39;soiltype2&#39;</span>,<span class="st">&#39;soiltype3&#39;</span>,<span class="st">&#39;sigma&#39;</span>))</span></code></pre></div>
 <pre><code>##              Estimate Est.Error      Q2.5     Q97.5
-## b_soiltype1  9.893665 1.1153216  7.725540 12.093434
-## b_soiltype2 11.513626 1.1295391  9.266821 13.774575
-## b_soiltype3 14.281347 1.1686737 11.966247 16.591372
-## sigma        3.537272 0.4930218  2.744179  4.641307</code></pre>
+## b_soiltype1  9.915792 1.1512475  7.602761 12.228036
+## b_soiltype2 11.505041 1.1349487  9.251969 13.777522
+## b_soiltype3 14.288702 1.1250285 12.044883 16.468347
+## sigma        3.549096 0.5134979  2.710401  4.722174</code></pre>
 <p>This output gives us the median of the posterior for each parameter (“Estimate”), the standard error of that estimate via the standard deviation of the posterior (“Est.Error”) and the central 95% compatibility interval between the bounds “Q2.5” and “Q97.5”. The central parameter estimates are essentially the same as in the frequentist approach (Chapter <a href="categoricalvars.html#categoricalvars">4</a>). The standard errors are slightly higher than the frequentist estimate of 1.08, and not homogeneous. The residual standard deviation, here <span class="math inline">\(\sigma\)</span>, is slightly higher than the frequentist estimate of <span class="math inline">\(\sqrt{\frac{SSE}{n-k}}=\sqrt{11.7}=3.4\)</span>.</p>
 <p>These are just summaries. To get a sense of the full posterior we need to extract the numerical samples of the posterior and then we can plot these as histograms, for example. Note, these are discrete approximations of the posterior PDFs, which already for moderately complex problems don’t exist in closed form, so working with samples is the most general and often the only option.</p>
 <div class="sourceCode" id="cb120"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb120-1"><a href="mlbayes.html#cb120-1"></a><span class="co"># extract posterior samples</span></span>
@@ -392,13 +399,13 @@ Figure 6.1: Bayesian updating: The prior PDF of a hypothetical parameter <span c
 <span id="cb121-5"><a href="mlbayes.html#cb121-5"></a><span class="co"># express these differences as median and 95% compatibility interval</span></span>
 <span id="cb121-6"><a href="mlbayes.html#cb121-6"></a><span class="kw">quantile</span>(s<span class="op">$</span>b_soiltype2<span class="op">-</span>s<span class="op">$</span>b_soiltype1, <span class="dt">probs =</span> <span class="kw">c</span>(<span class="fl">0.025</span>, <span class="fl">0.5</span>, <span class="fl">0.975</span>))</span></code></pre></div>
 <pre><code>##      2.5%       50%     97.5% 
-## -1.515715  1.635141  4.786755</code></pre>
+## -1.439621  1.557710  4.715988</code></pre>
 <div class="sourceCode" id="cb123"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb123-1"><a href="mlbayes.html#cb123-1"></a><span class="kw">quantile</span>(s<span class="op">$</span>b_soiltype3<span class="op">-</span>s<span class="op">$</span>b_soiltype1, <span class="dt">probs =</span> <span class="kw">c</span>(<span class="fl">0.025</span>, <span class="fl">0.5</span>, <span class="fl">0.975</span>))</span></code></pre></div>
 <pre><code>##     2.5%      50%    97.5% 
-## 1.283738 4.406384 7.595949</code></pre>
+## 1.120923 4.379288 7.535135</code></pre>
 <div class="sourceCode" id="cb125"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb125-1"><a href="mlbayes.html#cb125-1"></a><span class="kw">quantile</span>(s<span class="op">$</span>b_soiltype3<span class="op">-</span>s<span class="op">$</span>b_soiltype2, <span class="dt">probs =</span> <span class="kw">c</span>(<span class="fl">0.025</span>, <span class="fl">0.5</span>, <span class="fl">0.975</span>))</span></code></pre></div>
 <pre><code>##       2.5%        50%      97.5% 
-## -0.4889519  2.7614096  5.9762148</code></pre>
+## -0.3361721  2.7717930  5.8957226</code></pre>
 <p><img src="qm4g_files/figure-html/unnamed-chunk-29-1.png" width="33%" /><img src="qm4g_files/figure-html/unnamed-chunk-29-2.png" width="33%" /><img src="qm4g_files/figure-html/unnamed-chunk-29-3.png" width="33%" />
 We see that the only yield difference that is uniquely positive at the 95% compatibility level is that between soil types 3 and 1 - sand and loam. All other compatibility intervals overlap with zero meaning there are sizable probabilities of the differences going in either direction. In frequentist language we would call these differences insignificant, but looking at the full posterior distribution of the differences is much more useful than the binary split.</p>
 <p>All in all, this example shows how for simple models frequentist and Bayesian inference with uninformative priors yield essentially the same conclusions, although the Bayesian probabilities are much more intuitive to interpret and easier to post-process into any quantities of interest.</p>
