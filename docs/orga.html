@@ -24,7 +24,7 @@
 <meta name="author" content="Tobias Krueger" />
 
 
-<meta name="date" content="2020-12-09" />
+<meta name="date" content="2020-12-10" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -51,6 +51,10 @@
 
 
 <script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+<link href="libs/bsTable-3.3.7/bootstrapTable.min.css" rel="stylesheet" />
+<script src="libs/bsTable-3.3.7/bootstrapTable.js"></script>
 
 
 <style type="text/css">
@@ -199,8 +203,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="8.2.2" data-path="multivariate.html"><a href="multivariate.html#linear-combination-of-variables"><i class="fa fa-check"></i><b>8.2.2</b> Linear combination of variables</a></li>
 <li class="chapter" data-level="8.2.3" data-path="multivariate.html"><a href="multivariate.html#eigenanalysis"><i class="fa fa-check"></i><b>8.2.3</b> Eigenanalysis</a></li>
 </ul></li>
-<li class="chapter" data-level="8.3" data-path="multivariate.html"><a href="multivariate.html#manova"><i class="fa fa-check"></i><b>8.3</b> Multivariate ANOVA (MANOVA)</a></li>
-<li class="chapter" data-level="8.4" data-path="multivariate.html"><a href="multivariate.html#dfa"><i class="fa fa-check"></i><b>8.4</b> Discriminant Function Analysis (DFA)</a></li>
+<li class="chapter" data-level="8.3" data-path="multivariate.html"><a href="multivariate.html#manova"><i class="fa fa-check"></i><b>8.3</b> Multivariate ANOVA (MANOVA)</a><ul>
+<li class="chapter" data-level="8.3.1" data-path="multivariate.html"><a href="multivariate.html#steps-of-manova"><i class="fa fa-check"></i><b>8.3.1</b> Steps of MANOVA</a></li>
+<li class="chapter" data-level="8.3.2" data-path="multivariate.html"><a href="multivariate.html#null-hypothesis-test-of-manova"><i class="fa fa-check"></i><b>8.3.2</b> Null hypothesis test of MANOVA</a></li>
+</ul></li>
+<li class="chapter" data-level="8.4" data-path="multivariate.html"><a href="multivariate.html#dfa"><i class="fa fa-check"></i><b>8.4</b> Discriminant Function Analysis (DFA)</a><ul>
+<li class="chapter" data-level="8.4.1" data-path="multivariate.html"><a href="multivariate.html#classification"><i class="fa fa-check"></i><b>8.4.1</b> Classification</a></li>
+<li class="chapter" data-level="8.4.2" data-path="multivariate.html"><a href="multivariate.html#leave-one-out-cross-validation"><i class="fa fa-check"></i><b>8.4.2</b> Leave-one-out cross-validation</a></li>
+</ul></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="solutions-to-exercises.html"><a href="solutions-to-exercises.html"><i class="fa fa-check"></i>Solutions to exercises</a><ul>
 <li class="chapter" data-level="" data-path="solutions-to-exercises.html"><a href="solutions-to-exercises.html#answer-to-q1"><i class="fa fa-check"></i>Answer to Q1</a></li>
@@ -255,112 +265,236 @@ Figure 1.1: Maps of annual average precipitation (left) and annual average air t
 <div id="topics" class="section level2">
 <h2><span class="header-section-number">1.2</span> Topics</h2>
 <p>The timing of topics is shown in Table <a href="orga.html#tab:syllabus">1.1</a>.</p>
-<table>
-<caption><span id="tab:syllabus">Table 1.1: </span>Schedule of <em>Quantitative Methods for Geographers</em>.</caption>
-<colgroup>
-<col width="3%" />
-<col width="32%" />
-<col width="32%" />
-<col width="31%" />
-</colgroup>
+<table class=" lightable-paper lightable-hover" style='font-size: 12px; font-family: "Arial Narrow", arial, helvetica, sans-serif; margin-left: auto; margin-right: auto;'>
+<caption style="font-size: initial !important;">
+<span id="tab:syllabus">Table 1.1: </span>Schedule of <em>Quantitative Methods for Geographers</em>.
+</caption>
 <thead>
-<tr class="header">
-<th align="right">Week</th>
-<th align="left">Reading</th>
-<th align="left">Monday seminar</th>
-<th align="left">Wednesday PC lab</th>
+<tr>
+<th style="text-align:right;">
+Week
+</th>
+<th style="text-align:left;">
+Reading
+</th>
+<th style="text-align:left;">
+Monday seminar
+</th>
+<th style="text-align:left;">
+Wednesday PC lab
+</th>
 </tr>
 </thead>
 <tbody>
-<tr class="odd">
-<td align="right">1</td>
-<td align="left">Organisational matters</td>
-<td align="left">no class due to Dies Academicus</td>
-<td align="left">Introduction to R</td>
+<tr>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+Organisational matters
+</td>
+<td style="text-align:left;">
+no class due to Dies Academicus
+</td>
+<td style="text-align:left;">
+Introduction to R
+</td>
 </tr>
-<tr class="even">
-<td align="right">2</td>
-<td align="left">Mathematical preliminaries</td>
-<td align="left">Introductions</td>
-<td align="left">Data manipulation and import/export with R</td>
+<tr>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+Mathematical preliminaries
+</td>
+<td style="text-align:left;">
+Introductions
+</td>
+<td style="text-align:left;">
+Data manipulation and import/export with R
+</td>
 </tr>
-<tr class="odd">
-<td align="right">3</td>
-<td align="left">The linear model</td>
-<td align="left">Mathematical preliminaries</td>
-<td align="left">Visualization and data manipulation with R</td>
+<tr>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:left;">
+The linear model
+</td>
+<td style="text-align:left;">
+Mathematical preliminaries
+</td>
+<td style="text-align:left;">
+Visualization and data manipulation with R
+</td>
 </tr>
-<tr class="even">
-<td align="right">4</td>
-<td align="left">Categorical variables (ANOVA) and dummy coding</td>
-<td align="left">The linear model</td>
-<td align="left">Linear regression</td>
+<tr>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:left;">
+Categorical variables (ANOVA) and dummy coding
+</td>
+<td style="text-align:left;">
+The linear model
+</td>
+<td style="text-align:left;">
+Linear regression
+</td>
 </tr>
-<tr class="odd">
-<td align="right">5</td>
-<td align="left">Multiple linear regression</td>
-<td align="left">Categorical variables (ANOVA) and dummy coding</td>
-<td align="left">Hypothesis testing and ANOVA</td>
+<tr>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:left;">
+Multiple linear regression
+</td>
+<td style="text-align:left;">
+Categorical variables (ANOVA) and dummy coding
+</td>
+<td style="text-align:left;">
+Hypothesis testing and ANOVA
+</td>
 </tr>
-<tr class="even">
-<td align="right">6</td>
-<td align="left">Maximum Likelihood and outlook to Bayesian statistics</td>
-<td align="left">Multiple linear regression</td>
-<td align="left">Multiple linear regression</td>
+<tr>
+<td style="text-align:right;">
+6
+</td>
+<td style="text-align:left;">
+Maximum Likelihood and outlook to Bayesian statistics
+</td>
+<td style="text-align:left;">
+Multiple linear regression
+</td>
+<td style="text-align:left;">
+Multiple linear regression
+</td>
 </tr>
-<tr class="odd">
-<td align="right">7</td>
-<td align="left">Generalized linear models I</td>
-<td align="left">Maximum Likelihood and outlook to Bayesian statistics</td>
-<td align="left">Outlook to machine learning</td>
+<tr>
+<td style="text-align:right;">
+7
+</td>
+<td style="text-align:left;">
+Generalized linear models I
+</td>
+<td style="text-align:left;">
+Maximum Likelihood and outlook to Bayesian statistics
+</td>
+<td style="text-align:left;">
+Outlook to machine learning
+</td>
 </tr>
-<tr class="even">
-<td align="right">8</td>
-<td align="left">Generalized linear models II</td>
-<td align="left">Generalized linear models I</td>
-<td align="left">Generalized linear models I</td>
+<tr>
+<td style="text-align:right;">
+8
+</td>
+<td style="text-align:left;">
+Generalized linear models II
+</td>
+<td style="text-align:left;">
+Generalized linear models I
+</td>
+<td style="text-align:left;">
+Generalized linear models I
+</td>
 </tr>
-<tr class="odd">
-<td align="right">9</td>
-<td align="left">Multivariate methods I</td>
-<td align="left">Generalized linear models II</td>
-<td align="left">Generalized linear models II</td>
+<tr>
+<td style="text-align:right;">
+9
+</td>
+<td style="text-align:left;">
+Multivariate methods I
+</td>
+<td style="text-align:left;">
+Generalized linear models II
+</td>
+<td style="text-align:left;">
+Generalized linear models II
+</td>
 </tr>
-<tr class="even">
-<td align="right">10</td>
-<td align="left">Multivariate methods II</td>
-<td align="left">Multivariate methods I</td>
-<td align="left">Principal Component Analysis</td>
+<tr>
+<td style="text-align:right;">
+10
+</td>
+<td style="text-align:left;">
+Multivariate methods II
+</td>
+<td style="text-align:left;">
+Multivariate methods I
+</td>
+<td style="text-align:left;">
+Principal Component Analysis
+</td>
 </tr>
-<tr class="odd">
-<td align="right">11</td>
-<td align="left">tbc</td>
-<td align="left">Multivariate methods II</td>
-<td align="left">Discriminant Function Analysis and model validation</td>
+<tr>
+<td style="text-align:right;">
+11
+</td>
+<td style="text-align:left;">
+tbc
+</td>
+<td style="text-align:left;">
+Multivariate methods II
+</td>
+<td style="text-align:left;">
+Discriminant Function Analysis and model validation
+</td>
 </tr>
-<tr class="even">
-<td align="right">12</td>
-<td align="left">tbc</td>
-<td align="left">Understanding spatial data (Tobia)</td>
-<td align="left">Spatial data and cluster analysis in R</td>
+<tr>
+<td style="text-align:right;">
+12
+</td>
+<td style="text-align:left;">
+tbc
+</td>
+<td style="text-align:left;">
+Understanding spatial data (Tobia)
+</td>
+<td style="text-align:left;">
+Spatial data and cluster analysis in R
+</td>
 </tr>
-<tr class="odd">
-<td align="right">13</td>
-<td align="left">tbc</td>
-<td align="left">Point pattern analysis (Tobia)</td>
-<td align="left">Point pattern analysis and spatial auto-correlation</td>
+<tr>
+<td style="text-align:right;">
+13
+</td>
+<td style="text-align:left;">
+tbc
+</td>
+<td style="text-align:left;">
+Point pattern analysis (Tobia)
+</td>
+<td style="text-align:left;">
+Point pattern analysis and spatial auto-correlation
+</td>
 </tr>
-<tr class="even">
-<td align="right">14</td>
-<td align="left">tbc</td>
-<td align="left">Spatial autocorrelation and interpolation (Tobia)</td>
-<td align="left">Semivariogram analysis and kriging</td>
+<tr>
+<td style="text-align:right;">
+14
+</td>
+<td style="text-align:left;">
+tbc
+</td>
+<td style="text-align:left;">
+Spatial autocorrelation and interpolation (Tobia)
+</td>
+<td style="text-align:left;">
+Semivariogram analysis and kriging
+</td>
 </tr>
-<tr class="odd">
-<td align="right">15</td>
-<td align="left">tbc</td>
-<td align="left">Spatial weights and linear modeling (Tobia)</td>
-<td align="left">Spatial regression models</td>
+<tr>
+<td style="text-align:right;">
+15
+</td>
+<td style="text-align:left;">
+tbc
+</td>
+<td style="text-align:left;">
+Spatial weights and linear modeling (Tobia)
+</td>
+<td style="text-align:left;">
+Spatial regression models
+</td>
 </tr>
 </tbody>
 </table>

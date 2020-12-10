@@ -31,14 +31,14 @@ The timing of topics is shown in Table \@ref(tab:syllabus).
 
 ```{r include=FALSE}
 library("readxl")
+library("kableExtra")
 tab_syllabus <- read_excel("tabs/syllabus.xlsx")
 ```
 
 ```{r syllabus, echo=FALSE}
-knitr::kable(
-  tab_syllabus, booktabs = TRUE,
-  caption = 'Schedule of _Quantitative Methods for Geographers_.'
-)
+tab_syllabus %>%
+  kbl(caption = 'Schedule of _Quantitative Methods for Geographers_.', booktabs = TRUE) %>%
+  kable_paper("hover", font_size=12)
 ```
 
 ## Format

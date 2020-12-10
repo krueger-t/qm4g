@@ -140,10 +140,9 @@ The **variance-covariance matrix** (or just covariance matrix) is a matrix of as
 
 $$\begin{equation}
 \mathbf{C}=\begin{pmatrix}
-\frac{\sum_{i=1}^{n}\left(y_{i1}-\bar y_1\right)^2}{n-1} & \frac{\sum_{i=1}^{n}\left(y_{i2}-\bar y_2\right)\cdot\left(y_{i1}-\bar y_1\right)}{n-1} & \cdots & \frac{\sum_{i=1}^{n}\left(y_{ip}-\bar y_p\right)\cdot\left(y_{i1}-\bar y_1\right)}{n-1} \\
-\frac{\sum_{i=1}^{n}\left(y_{i1}-\bar y_1\right)\cdot\left(y_{i2}-\bar y_2\right)}{n-1} & \frac{\sum_{i=1}^{n}\left(y_{i2}-\bar y_2\right)^2}{n-1} & \cdots & \frac{\sum_{i=1}^{n}\left(y_{ip}-\bar y_p\right)\cdot\left(y_{i2}-\bar y_2\right)}{n-1} \\
-\vdots & \vdots & \ddots & \vdots \\
-\frac{\sum_{i=1}^{n}\left(y_{i1}-\bar y_1\right)\cdot\left(y_{ip}-\bar y_p\right)}{n-1} & \frac{\sum_{i=1}^{n}\left(y_{i2}-\bar y_2\right)\cdot\left(y_{ip}-\bar y_p\right)}{n-1} & \cdots & \frac{\sum_{i=1}^{n}\left(y_{ip}-\bar y_p\right)^2}{n-1}
+\frac{\sum_{i=1}^{n}\left(y_{i1}-\bar y_1\right)^2}{n-1} & \cdots & \frac{\sum_{i=1}^{n}\left(y_{ip}-\bar y_p\right)\cdot\left(y_{i1}-\bar y_1\right)}{n-1} \\
+\vdots & \ddots & \vdots \\
+\frac{\sum_{i=1}^{n}\left(y_{i1}-\bar y_1\right)\cdot\left(y_{ip}-\bar y_p\right)}{n-1} & \cdots & \frac{\sum_{i=1}^{n}\left(y_{ip}-\bar y_p\right)^2}{n-1}
 \end{pmatrix}
 (\#eq:covmatrix)
 \end{equation}$$
@@ -152,12 +151,11 @@ Normalising the variance-covariance terms in Equation \@ref(eq:covmatrix) by the
 
 $$\begin{equation}
 \mathbf{R}=\begin{pmatrix}
-\frac{\sum_{i=1}^{n}\left(y_{i1}-\bar y_1\right)^2}{\sqrt{\sum_{i=1}^{n}\left(y_{i1}-\bar y_1\right)^2\cdot\sum_{i=1}^{n}\left(y_{i1}-\bar y_1\right)^2}} & \frac{\sum_{i=1}^{n}\left(y_{i2}-\bar y_2\right)\cdot\left(y_{i1}-\bar y_1\right)}{\sqrt{\sum_{i=1}^{n}\left(y_{i2}-\bar y_2\right)^2\cdot\sum_{i=1}^{n}\left(y_{i1}-\bar y_1\right)^2}} & \cdots & \frac{\sum_{i=1}^{n}\left(y_{ip}-\bar y_p\right)\cdot\left(y_{i1}-\bar y_1\right)}{\sqrt{\sum_{i=1}^{n}\left(y_{ip}-\bar y_p\right)^2\cdot\sum_{i=1}^{n}\left(y_{i1}-\bar y_1\right)^2}} \\
-\frac{\sum_{i=1}^{n}\left(y_{i1}-\bar y_1\right)\cdot\left(y_{i2}-\bar y_2\right)}{\sqrt{\sum_{i=1}^{n}\left(y_{i1}-\bar y_1\right)^2\cdot\sum_{i=1}^{n}\left(y_{i2}-\bar y_2\right)^2}} & \frac{\sum_{i=1}^{n}\left(y_{i2}-\bar y_2\right)^2}{\sqrt{\sum_{i=1}^{n}\left(y_{i2}-\bar y_2\right)^2\cdot\sum_{i=1}^{n}\left(y_{i2}-\bar y_2\right)^2}} & \cdots & \frac{\sum_{i=1}^{n}\left(y_{ip}-\bar y_p\right)\cdot\left(y_{i2}-\bar y_2\right)}{\sqrt{\sum_{i=1}^{n}\left(y_{ip}-\bar y_p\right)^2\cdot\sum_{i=1}^{n}\left(y_{i2}-\bar y_2\right)^2}} \\
-\vdots & \vdots & \ddots & \vdots \\
-\frac{\sum_{i=1}^{n}\left(y_{i1}-\bar y_1\right)\cdot\left(y_{ip}-\bar y_p\right)}{\sqrt{\sum_{i=1}^{n}\left(y_{i1}-\bar y_1\right)^2\cdot\sum_{i=1}^{n}\left(y_{ip}-\bar y_p\right)^2}} & \frac{\sum_{i=1}^{n}\left(y_{i2}-\bar y_2\right)\cdot\left(y_{ip}-\bar y_p\right)}{\sqrt{\sum_{i=1}^{n}\left(y_{i2}-\bar y_2\right)^2\cdot\sum_{i=1}^{n}\left(y_{ip}-\bar y_p\right)^2}} & \cdots & \frac{\sum_{i=1}^{n}\left(y_{ip}-\bar y_p\right)^2}{\sqrt{\sum_{i=1}^{n}\left(y_{ip}-\bar y_p\right)^2\cdot\sum_{i=1}^{n}\left(y_{ip}-\bar y_p\right)^2}}
+\frac{\sum_{i=1}^{n}\left(y_{i1}-\bar y_1\right)^2}{\sqrt{\sum_{i=1}^{n}\left(y_{i1}-\bar y_1\right)^2\cdot\sum_{i=1}^{n}\left(y_{i1}-\bar y_1\right)^2}} & \cdots & \frac{\sum_{i=1}^{n}\left(y_{ip}-\bar y_p\right)\cdot\left(y_{i1}-\bar y_1\right)}{\sqrt{\sum_{i=1}^{n}\left(y_{ip}-\bar y_p\right)^2\cdot\sum_{i=1}^{n}\left(y_{i1}-\bar y_1\right)^2}} \\
+\vdots & \ddots & \vdots \\
+\frac{\sum_{i=1}^{n}\left(y_{i1}-\bar y_1\right)\cdot\left(y_{ip}-\bar y_p\right)}{\sqrt{\sum_{i=1}^{n}\left(y_{i1}-\bar y_1\right)^2\cdot\sum_{i=1}^{n}\left(y_{ip}-\bar y_p\right)^2}} & \cdots & \frac{\sum_{i=1}^{n}\left(y_{ip}-\bar y_p\right)^2}{\sqrt{\sum_{i=1}^{n}\left(y_{ip}-\bar y_p\right)^2\cdot\sum_{i=1}^{n}\left(y_{ip}-\bar y_p\right)^2}}
 \end{pmatrix}
-(\#eq:covmatrix)
+(\#eq:corrmatrix)
 \end{equation}$$
 
 Let's look at the associations between the variables in the stream chemistry dataset:
@@ -210,7 +208,7 @@ The new variables are called (depending on the method) **principal components**,
 
 A graphical explanation of what PCA does is **axis rotation**. We illustrate this with an example in 2D from @green1997, cited in @quinn2002; total biomass of red land crabs against number of burrows at ten forested sites on Christmas Island (Figure \@ref(fig:crabs1)). When the data are centred then the origin is where the individual means intersect (the centroid); the original axes are the black lines in the plots. Through PCA, the original axes are now rotated such that the 1st new one (PC1 in red) goes in the direction of the greatest spread of points and the 2nd new axis (PC2 in red), still perpendicular, covers the secondary variation. This is also the principle with more dimensions, though we cannot visualise it anymore.
 
-```{r crabs1, echo=FALSE, fig.align='center', fig.cap='Total biomass of red land crabs against number of burrows at ten forested sites on Christmas Island. When the data are centred then the origin is where the individual means intersect (the centroid); the original axes are the black lines in the plots. Through PCA, the original axes are now rotated such that the 1st new one (PC1 in red) goes in the direction of the greatest spread of points and the 2nd new axis (PC2 in red), still perpendicular, covers the secondary variation. For one data point, marked by the cross, the new coordinates in PC1 and PC2 direction are marked in blue and green, respectively. After: @quinn2002, based on data by @green1997.', out.width='100%'}
+```{r crabs1, echo=FALSE, fig.align='center', fig.cap='Total biomass of red land crabs against number of burrows at ten forested sites on Christmas Island. When the data are centred then the origin is where the individual means intersect (the centroid); the original axes are the black lines in the plots. Through PCA, the original axes are now rotated such that the 1st new one (PC1 in red) goes in the direction of the greatest spread of points and the 2nd new axis (PC2 in red), still perpendicular, covers the secondary variation. For one data point, marked by the cross, the new coordinates in PC1 and PC2 direction are marked in blue and green, respectively. After: @quinn2002, based on data by @green1997.'}
 # load crabs data
 crabs <- read.table("data/crabs.txt",header=T)
 # PCA
@@ -270,7 +268,7 @@ knitr::include_graphics('figs/Coordinate_system_rotation_svg.svg')
 
 The vector of coefficients $\begin{pmatrix}u_{1k}&\ldots&u_{pk}\end{pmatrix}^T$ in Equation \@ref(eq:lincomb) is called the $k$th **Eigenvector**. The Eigenvectors span the new coordinate system after rotation as illustrated in Figure \@ref(fig:crabs2): The first Eigenvector is $\color{blue}{\begin{pmatrix}u_{11}&u_{21}\end{pmatrix}^T}$ and the second Eigenvector is $\color{green}{\begin{pmatrix}u_{12}&u_{22}\end{pmatrix}^T}$.
 
-```{r crabs2, echo=FALSE, fig.align='center', fig.cap='PCA of the crabs dataset as axis rotation. The two **Eigenvectors** spanning the new coordinate system are marked in blue and green. After: @quinn2002, based on data by @green1997.', out.width='100%'}
+```{r crabs2, echo=FALSE, fig.align='center', fig.cap='PCA of the crabs dataset as axis rotation. The two **Eigenvectors** spanning the new coordinate system are marked in blue and green. After: @quinn2002, based on data by @green1997.'}
 # square
 par(pty="s")
 # data
@@ -375,4 +373,247 @@ We could also use the PCs as predictors in a regression model. This is especiall
 
 ## Multivariate ANOVA (MANOVA) {#manova}
 
+MANOVA extends ANOVA to the case of multiple response variables. Let's remind ourselves (compare Chapter \@ref(categoricalvars)) that the categorical predictor variables are called **factors**, the categories of each factor are called **levels**, **groups** or **treatments**. And the parameters are called **effects**. Where ANOVA asks whether _means_ across factor levels (groups) are significantly different (compare the yields example from Chapter \@ref(categoricalvars)), MANOVA asks whether _centroids_ across factor levels (groups) are significantly different, taking all response variables together.
+
+We illustrate **single-factor MANOVA** with a marine sediment dataset from @haynes1995, cited in @quinn2002. We use this dataset to test for differences between sites in trace metal concentrations in marine sediments off the Victorian coast in southern Australia:
+```{r echo=TRUE}
+# load sediments data
+sediments <- read.table("data/sediments.txt",header=T)
+sediments
+```
+
+"Delray Beach" is a site of a proposed wastewater outfall, and "Seaspray" and "Woodside" are two possible control sites. At each site, two sediment cores were taken at four randomly chosen locations and analysed for trace metals (CU=copper, PB=lead, NI=nickel, MN=manganese). The results from the two cores were averaged. So we have $n=12$ objects here, the rows, and $p=4$ response variables, the columns. MANOVA tests for the effects of site on the response variables _taken together_. A first thing to do - as always - is to look at the scatterplot matrix, with datapoints coloured by site:
+```{r include=FALSE}
+example(pairs)
+```
+```{r echo=TRUE, out.width='80%'}
+pairs(sediments[,2:5], diag.panel = panel.hist, lower.panel = panel.cor,
+      pch=21, bg=c("black","red","blue")[as.factor(sediments$site)])
+```
+
+We notice strong correlations between variables. And log-transformation of all variables looks like a good idea to make the residuals later on adhere better to the normality assumption:
+```{r echo=TRUE, out.width='80%'}
+sediments_log <- sediments
+sediments_log[,2:5] <- log(sediments[,2:5])
+pairs(sediments_log[,2:5], diag.panel = panel.hist, lower.panel = panel.cor,
+      pch=21, bg=c("black","red","blue")[as.factor(sediments_log$site)])
+```
+
+The best single discriminator of the groups seems to be manganese; this will be confirmed by DFA in Chapter \@ref(dfa). The covariance and correlation matrices look as follows:
+```{r echo=TRUE}
+cov(sediments_log[,2:5])
+cor(sediments_log[,2:5])
+```
+
+Like PCA, MANOVA begins by centring the variables and deriving new linear combinations through Equation \@ref(eq:lincomb). For the sediments data, the equation is:
+$$\begin{equation}
+z_{ik}=u_{1k}\cdot(\log Cu)_i+u_{2k}\cdot(\log Pb)_i+u_{3k}\cdot(\log Ni)_i+u_{4k}\cdot(\log Mn)_i
+(\#eq:lincombsed)
+\end{equation}$$
+
+MANOVA finds the linear combination $z_k$ of response variables which _maximises the between-group variance:within-group variance ratio_ of the data. This is called the **1st discriminant function**; similar, but not identical, to the 1st principal component in PCA.^[As we will see in Chapter \@ref(dfa), the mathematics of MANOVA and DFA are identical.] The Null hypothesis of MANOVA is that there are no differences between factor level centroids. Before testing this hypothesis, MANOVA proceeds through the following steps.
+
+### Steps of MANOVA
+
+The first step is to calculate sums-of-squares-and-cross-products (SSCP) matrices:
+
+1. The **total matrix** $\mathbf T$, replacing SSY of ANOVA (compare Figure \@ref(fig:anovassysse),left)^[Note, the total matrix is the covariance matrix without division by $n-1$; the diagonals are the SSYs of the individual variables.]
+
+$$\begin{equation}
+\mathbf T=\begin{pmatrix}
+\sum_{i=1}^{n}\left(y_{i1}-\bar y_1\right)^2 & \cdots & \sum_{i=1}^{n}\left(y_{ip}-\bar y_p\right)\cdot\left(y_{i1}-\bar y_1\right) \\
+\vdots & \ddots & \vdots \\
+\sum_{i=1}^{n}\left(y_{i1}-\bar y_1\right)\cdot\left(y_{ip}-\bar y_p\right) & \cdots & \sum_{i=1}^{n}\left(y_{ip}-\bar y_p\right)^2
+\end{pmatrix}
+(\#eq:totalmatrix)
+\end{equation}$$
+
+2. The **error (or residual) matrix** $\mathbf E$ ("within-group SSCP"), replacing SSE of ANOVA (compare Figure \@ref(fig:anovassysse),right)^[Note, the diagonals of the residual matrix are the SSEs of the individual variables.]
+
+$$\begin{equation}
+\mathbf E=\begin{pmatrix}
+\sum_{j=1}^{k}\sum_{i=1}^{n_j}\left(y_{ji1}-\bar y_{j1}\right)^2 & \cdots & \sum_{j=1}^{k}\sum_{i=1}^{n_j}\left(y_{jip}-\bar y_{jp}\right)\cdot\left(y_{ji1}-\bar y_{j1}\right) \\
+\vdots & \ddots & \vdots \\
+\sum_{j=1}^{k}\sum_{i=1}^{n_j}\left(y_{ji1}-\bar y_{j1}\right)\cdot\left(y_{jip}-\bar y_{jp}\right) & \cdots & \sum_{j=1}^{k}\sum_{i=1}^{n_j}\left(y_{jip}-\bar y_{jp}\right)^2
+\end{pmatrix}
+(\#eq:errormatrix)
+\end{equation}$$
+
+3. The **hypothesis (or effect) matrix** $\mathbf H=\mathbf T-\mathbf E$ ("between-group SSCP"), replacing SSA of ANOVA
+
+The second step is to calculate the **between-group SSCP:within-group SSCP ratio**:
+$$\begin{equation}
+\mathbf H\cdot\mathbf E^{-1}
+(\#eq:heinv)
+\end{equation}$$
+
+This replaces the F statistic $\frac{\frac{SSA}{k-1}}{\frac{SSE}{n-k}}$ of ANOVA.
+
+The third step is to perform an Eigenanalysis of the resulting matrix $\mathbf H\cdot\mathbf E^{-1}$, like in PCA.^[By comparison, in PCA the Eigenanalysis is done on the covariance or correlation matrix.] The resulting Eigenvectors contain the coefficients $u$ of  Equation \@ref(eq:lincombsed). Their Eigenvalues measure how much of the between-group SSCP:within-group SSCP ratio is explained by each Eigenvector. As with PCA, the sum of the Eigenvalues is the trace of the matrix $\mathbf H\cdot\mathbf E^{-1}$: $Tr\left(\mathbf H\cdot\mathbf E^{-1}\right)=\sum_{i=1}^{p}diag\left(\mathbf H\cdot\mathbf E^{-1}\right)$, i.e. the sum of the univariate between-group SSCP:within-group SSCP ratios.
+
+Fourth, the linear combination producing the largest eigenvalue maximises the between-group variance:within-group variance ratio, with the Eigenvector containing the coefficients $u$.
+
+Let's perform the MANOVA for the marine sediment example:
+```{r echo=TRUE}
+# perform MANOVA
+sediments_fit <- manova(cbind(CU,PB,NI,MN) ~ site, data=sediments_log)
+```
+
+The SSCP matrices are:
+```{r echo=TRUE}
+# extract SSCP matrices
+summary(sediments_fit)$SS
+```
+
+"Site" is the effect matrix in our case and "Residuals" is the residual matrix. Hence $\mathbf H\cdot\mathbf E^{-1}$ is:
+```{r echo=TRUE}
+# calculate H E^-1
+H <- summary(sediments_fit)$SS$site
+E <- summary(sediments_fit)$SS$Residuals
+H_E <- H %*% solve(E)
+```
+
+The Eigenvalues of $\mathbf H\cdot\mathbf E^{-1}$ are:
+```{r echo=TRUE}
+# extract Eigenvalues
+summary(sediments_fit)$Eigenvalues
+```
+
+We see that the 1st discriminant function has the largest Eigenvalue and thus maximises the between group variance:within group variance ratio.
+
+### Null hypothesis test of MANOVA
+
+The null hypothesis that there are no differences between factor level centroids can be tested using a function of the largest Eigenvalue of $\mathbf H\cdot\mathbf E^{-1}$, i.e. the Eigenvalue of the 1st discriminant function, as the test statistic. This is also called **Roy's largest root**. The sampling distribution of this statistic is not well understood, however, so it is usually treated as an _approximate_ F statistic, following an F-distribution (analogous to ANOVA). Other choices of the test statistic are possible.
+
+Among these is a function of **Wilk's lambda**:
+$$\begin{equation}
+\frac{|\mathbf E|}{|\mathbf T|}
+(\#eq:wilkslambda)
+\end{equation}$$
+
+Wilk's lambda is a measure of how much variance remains _unexplained_ by the model, with smaller values indicating greater group differences. $|M|$ is the so called **determinant** of a matrix $M$, the generalised variance of that matrix, e.g.:
+$$\begin{equation}
+\begin{vmatrix}
+a & b & c \\
+d & e & f \\
+g & h & i \\
+\end{vmatrix}=(a\cdot e\cdot i+b\cdot f\cdot g+c\cdot d\cdot h)-(c\cdot e\cdot g+b\cdot d\cdot i+a\cdot f\cdot h)
+(\#eq:determinant)
+\end{equation}$$
+
+The determinant fulfills the same role as the trace, it just uses more information from the matrix.
+
+Another choice is a function of the **Pillai trace**:
+$$\begin{equation}
+Tr\left(\mathbf H\cdot\mathbf T^{-1}\right)
+(\#eq:pillaitrace)
+\end{equation}$$
+
+This measures of how much variance is _explained_ by the model, with greater values indicating greater group differences.
+
+A fourth choice is a function of the **Hotelling-Lawley trace**:
+$$\begin{equation}
+\frac{|\mathbf H|}{|\mathbf E|}=Tr\left(\mathbf H\cdot\mathbf E^{-1}\right)
+(\#eq:hltrace)
+\end{equation}$$
+
+This measures the ratio of _explained to unexplained_ variance, with greater values indicating greater group differences.
+
+Since the sampling distributions of these statistics are not well understood either, they are again treated as _approximate_ F statistics, following an F-distribution. In practice it is advised to look at all of these variants of the test statistic to see if the results are consistent.
+
+In the marine sediments example, the four test statistics give comparable results, though the test statistic based on the Pillai trace wouldn't meet the conventional significance level of 0.01:
+```{r echo=TRUE}
+summary(sediments_fit, test ="Roy")
+summary(sediments_fit, test ="Wilks")
+summary(sediments_fit, test ="Pillai")
+summary(sediments_fit, test ="Hotelling-Lawley")
+```
+
+We may still conclude that the trace metal signatures at the sites (summarised by the centroids) are significantly different.
+
 ## Discriminant Function Analysis (DFA) {#dfa}
+
+DFA and MANOVA are mathematically identical, though DFA emphasises _classification_ and _prediction_, and MANOVA tests hypotheses about group differences. MANOVA tests whether centroids across factor levels (groups) are significantly different, using the 1st discriminant function, a linear combination of all response variables. DFA uses all discriminant functions to calculate the _probability of correctly assigning observations to their pre-determined groups_, e.g. sites in the marine sediment example.
+
+MANOVA is usually the first step in DFA because if the difference between group centroids is not significant then the discriminant functions will not be very useful for separating groups and therefore classifying observations. DFA is also used to _classify new observations into one of the groups_, calculating some measure of success of classification. DFA goes further than MANOVA in that it uses not only the 1st discriminant function but also additional discriminant functions to classify observations into groups.
+
+In our marine sediments example, we already saw in the last section that the 1st discriminant function has the largest Eigenvalue and thus maximises the between group variance:within group variance ratio, hence separates the three sites best. We can now plot the discriminant functions using DFA:
+```{r echo=TRUE, message=FALSE, warning=FALSE, out.width='80%'}
+# use linear discriminant function analysis which is available from the MASS package
+library(MASS)
+sediments_dfa <- lda(sediments_log[,2:5], sediments_log$site)
+# plot discriminant functions
+plot(sediments_dfa, xlim=c(-5,5), xlab="DF1", ylab="DF2")
+```
+
+We see that DF1 separates the three sites pretty well, better than the original variables in the scatterplot matrix in the previous section. DF2 adds little to this separation, as could already be seen in its comparably small Eigenvalue. The Eigenvalues of DF3 and DF4 are so small that they are considered zero and not displayed here.^[In fact, the MANOVA estimated the Eigenvalues of DF3 and DF4 to be negative, which is a numerical error that happens at these very small numbers.]
+
+Looking at the Eigenvectors, the 4th original variable (Mn) contributes most to the 1st discriminant function - it is the best single discriminator - as could be seen already in the scatterplot matrix in the previous section:
+```{r echo=TRUE}
+# extract Eigenvectors
+sediments_dfa$scaling
+```
+
+### Classification
+
+Now we use the DFs to classify objects to (known) groups. For every measurement (object $i$), three classification scores are calculated, one for every site (group $j$). The classification scores are mathematically relate to the discriminant functions (Eigenvectors $\mathbf{u_k}$). See @quinn2002 for details. The maximum classification score determines the group classification for every object. From this, for every object a probability of belonging to each of the groups is calculated:
+```{r echo=TRUE}
+# predict group membership
+sediments_pred <- predict(sediments_dfa)
+# extract probabilities
+sediments_pred$posterior
+```
+
+We see that we can recover the original group membership this way: the first four samples have highest probability to be from Delray, the next four from Seaspray and the last four from Woodside. We can see this by constructing a contingency table:
+```{r echo=TRUE}
+# contingency table of prediction:group matches
+table(sediments_pred$class, sediments_log$site)
+```
+
+### Leave-one-out cross-validation
+
+Predicting the training data is no big deal. A more severe test of the classification approach is out-of-sample prediction ("validation"), which in small datasets we approximate by leave-one-out cross-validation (LOOCV). The algorithm is as follows:
+
+1. For every measurement (object $i$), do a DFA using only the remaining measurements (leaving object $i$ out)
+2. Classify object $i$ with the corresponding classification equations
+3. Repeat for all measurements
+
+LOOCV is implemented in the `lda()` function when we set the argument `CV=TRUE`:
+```{r echo=TRUE}
+# run DFA in LOOCV mode
+sediments_dfa2 <- lda(sediments_log[,2:5], sediments_log$site, CV=TRUE)
+# extract probabilities
+# we don't have to go via predict() in LOOCV mode
+sediments_dfa2$posterior
+```
+
+Now the classification is less than perfect, as can be seen in the contingency table:
+```{r echo=TRUE}
+# contingency table of LOOCV prediction:group matches
+table(sediments_dfa2$class, sediments_log$site)
+```
+
+A useful diagnostic, for this and other classification problems is the **confusion matrix** (Table \@ref(tab:confusion)).
+
+```{r include=FALSE}
+library("readxl")
+library("kableExtra")
+tab_confusion <- read_excel("tabs/confusion.xlsx")
+tab_confusion2 <- read_excel("tabs/confusion_sediments.xlsx")
+```
+
+```{r confusion, echo=FALSE}
+opts <- options(knitr.kable.NA = "")
+tab_confusion %>%
+  kbl(caption = 'Confusion matrix. Type I error means incorrectly rejecting a true null hypothesis (detecting an effect that is not present). Type II error means failing to reject a false null hypothesis (failing to detect an effect that is present).', booktabs = TRUE) %>%
+  kable_paper("hover", font_size=12)
+```
+
+Filled in for the marine sediments example this is Table \@ref(tab:confusion2).
+
+```{r confusion2, echo=FALSE}
+opts <- options(knitr.kable.NA = "")
+tab_confusion2 %>%
+  kbl(caption = 'Confusion matrix for marine sediments example.', booktabs = TRUE) %>%
+  kable_paper("hover", font_size=12)
+```

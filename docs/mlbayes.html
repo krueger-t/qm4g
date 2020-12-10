@@ -24,7 +24,7 @@
 <meta name="author" content="Tobias Krueger" />
 
 
-<meta name="date" content="2020-12-09" />
+<meta name="date" content="2020-12-10" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -51,6 +51,10 @@
 
 
 <script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+<link href="libs/bsTable-3.3.7/bootstrapTable.min.css" rel="stylesheet" />
+<script src="libs/bsTable-3.3.7/bootstrapTable.js"></script>
 
 
 <style type="text/css">
@@ -199,8 +203,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="8.2.2" data-path="multivariate.html"><a href="multivariate.html#linear-combination-of-variables"><i class="fa fa-check"></i><b>8.2.2</b> Linear combination of variables</a></li>
 <li class="chapter" data-level="8.2.3" data-path="multivariate.html"><a href="multivariate.html#eigenanalysis"><i class="fa fa-check"></i><b>8.2.3</b> Eigenanalysis</a></li>
 </ul></li>
-<li class="chapter" data-level="8.3" data-path="multivariate.html"><a href="multivariate.html#manova"><i class="fa fa-check"></i><b>8.3</b> Multivariate ANOVA (MANOVA)</a></li>
-<li class="chapter" data-level="8.4" data-path="multivariate.html"><a href="multivariate.html#dfa"><i class="fa fa-check"></i><b>8.4</b> Discriminant Function Analysis (DFA)</a></li>
+<li class="chapter" data-level="8.3" data-path="multivariate.html"><a href="multivariate.html#manova"><i class="fa fa-check"></i><b>8.3</b> Multivariate ANOVA (MANOVA)</a><ul>
+<li class="chapter" data-level="8.3.1" data-path="multivariate.html"><a href="multivariate.html#steps-of-manova"><i class="fa fa-check"></i><b>8.3.1</b> Steps of MANOVA</a></li>
+<li class="chapter" data-level="8.3.2" data-path="multivariate.html"><a href="multivariate.html#null-hypothesis-test-of-manova"><i class="fa fa-check"></i><b>8.3.2</b> Null hypothesis test of MANOVA</a></li>
+</ul></li>
+<li class="chapter" data-level="8.4" data-path="multivariate.html"><a href="multivariate.html#dfa"><i class="fa fa-check"></i><b>8.4</b> Discriminant Function Analysis (DFA)</a><ul>
+<li class="chapter" data-level="8.4.1" data-path="multivariate.html"><a href="multivariate.html#classification"><i class="fa fa-check"></i><b>8.4.1</b> Classification</a></li>
+<li class="chapter" data-level="8.4.2" data-path="multivariate.html"><a href="multivariate.html#leave-one-out-cross-validation"><i class="fa fa-check"></i><b>8.4.2</b> Leave-one-out cross-validation</a></li>
+</ul></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="solutions-to-exercises.html"><a href="solutions-to-exercises.html"><i class="fa fa-check"></i>Solutions to exercises</a><ul>
 <li class="chapter" data-level="" data-path="solutions-to-exercises.html"><a href="solutions-to-exercises.html#answer-to-q1"><i class="fa fa-check"></i>Answer to Q1</a></li>
@@ -377,11 +387,11 @@ Figure 6.1: Bayesian updating: The prior PDF of a hypothetical parameter <span c
 <p>Let’s look at the parameter estimates:</p>
 <div class="sourceCode" id="cb118"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb118-1"><a href="mlbayes.html#cb118-1"></a><span class="co"># summarise posterior</span></span>
 <span id="cb118-2"><a href="mlbayes.html#cb118-2"></a><span class="kw">posterior_summary</span>(yield_fit, <span class="dt">pars =</span> <span class="kw">c</span>(<span class="st">&#39;soiltype1&#39;</span>,<span class="st">&#39;soiltype2&#39;</span>,<span class="st">&#39;soiltype3&#39;</span>,<span class="st">&#39;sigma&#39;</span>))</span></code></pre></div>
-<pre><code>##              Estimate Est.Error     Q2.5     Q97.5
-## b_soiltype1  9.868744 1.1491780  7.65735 12.128527
-## b_soiltype2 11.533790 1.1342225  9.35621 13.741673
-## b_soiltype3 14.319539 1.1296812 12.10642 16.605378
-## sigma        3.554342 0.5120502  2.71116  4.707998</code></pre>
+<pre><code>##              Estimate Est.Error      Q2.5     Q97.5
+## b_soiltype1  9.899864 1.0845552  7.772191 12.050872
+## b_soiltype2 11.516936 1.1407729  9.340132 13.810540
+## b_soiltype3 14.300261 1.1047097 12.123462 16.486633
+## sigma        3.537467 0.5014564  2.711780  4.652201</code></pre>
 <p>This output gives us the median of the posterior for each parameter (“Estimate”), the standard error of that estimate via the standard deviation of the posterior (“Est.Error”) and the central 95% compatibility interval between the bounds “Q2.5” and “Q97.5”. The central parameter estimates are essentially the same as in the frequentist approach (Chapter <a href="categoricalvars.html#categoricalvars">4</a>). The standard errors are slightly higher than the frequentist estimate of 1.08, and not homogeneous. The residual standard deviation, here <span class="math inline">\(\sigma\)</span>, is slightly higher than the frequentist estimate of <span class="math inline">\(\sqrt{\frac{SSE}{n-k}}=\sqrt{11.7}=3.4\)</span>.</p>
 <p>These are just summaries. To get a sense of the full posterior we need to extract the numerical samples of the posterior and then we can plot these as histograms, for example. Note, these are discrete approximations of the posterior PDFs, which already for moderately complex problems don’t exist in closed form, so working with samples is the most general and often the only option.</p>
 <div class="sourceCode" id="cb120"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb120-1"><a href="mlbayes.html#cb120-1"></a><span class="co"># extract posterior samples</span></span>
@@ -399,13 +409,13 @@ Figure 6.1: Bayesian updating: The prior PDF of a hypothetical parameter <span c
 <span id="cb121-5"><a href="mlbayes.html#cb121-5"></a><span class="co"># express these differences as median and 95% compatibility interval</span></span>
 <span id="cb121-6"><a href="mlbayes.html#cb121-6"></a><span class="kw">quantile</span>(s<span class="op">$</span>b_soiltype2<span class="op">-</span>s<span class="op">$</span>b_soiltype1, <span class="dt">probs =</span> <span class="kw">c</span>(<span class="fl">0.025</span>, <span class="fl">0.5</span>, <span class="fl">0.975</span>))</span></code></pre></div>
 <pre><code>##      2.5%       50%     97.5% 
-## -1.612101  1.687863  4.925589</code></pre>
+## -1.374227  1.603782  4.790630</code></pre>
 <div class="sourceCode" id="cb123"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb123-1"><a href="mlbayes.html#cb123-1"></a><span class="kw">quantile</span>(s<span class="op">$</span>b_soiltype3<span class="op">-</span>s<span class="op">$</span>b_soiltype1, <span class="dt">probs =</span> <span class="kw">c</span>(<span class="fl">0.025</span>, <span class="fl">0.5</span>, <span class="fl">0.975</span>))</span></code></pre></div>
 <pre><code>##     2.5%      50%    97.5% 
-## 1.371415 4.453818 7.792569</code></pre>
+## 1.412691 4.387361 7.343556</code></pre>
 <div class="sourceCode" id="cb125"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb125-1"><a href="mlbayes.html#cb125-1"></a><span class="kw">quantile</span>(s<span class="op">$</span>b_soiltype3<span class="op">-</span>s<span class="op">$</span>b_soiltype2, <span class="dt">probs =</span> <span class="kw">c</span>(<span class="fl">0.025</span>, <span class="fl">0.5</span>, <span class="fl">0.975</span>))</span></code></pre></div>
 <pre><code>##       2.5%        50%      97.5% 
-## -0.4338231  2.7567297  5.9669770</code></pre>
+## -0.3395331  2.7688457  5.9246100</code></pre>
 <p><img src="qm4g_files/figure-html/unnamed-chunk-29-1.png" width="33%" /><img src="qm4g_files/figure-html/unnamed-chunk-29-2.png" width="33%" /><img src="qm4g_files/figure-html/unnamed-chunk-29-3.png" width="33%" />
 We see that the only yield difference that is uniquely positive at the 95% compatibility level is that between soil types 3 and 1 - sand and loam. All other compatibility intervals overlap with zero meaning there are sizable probabilities of the differences going in either direction. In frequentist language we would call these differences insignificant, but looking at the full posterior distribution of the differences is much more useful than the binary split.</p>
 <p>All in all, this example shows how for simple models frequentist and Bayesian inference with uninformative priors yield essentially the same conclusions, although the Bayesian probabilities are much more intuitive to interpret and easier to post-process into any quantities of interest.</p>
