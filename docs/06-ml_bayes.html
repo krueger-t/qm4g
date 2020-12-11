@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 6 Probabilistic underpinnings | Quantitative Methods for Geographers</title>
+  <meta name="description" content="This is the script of the course ‘Quantitative Methods for Geographers’ run at the Geography Department of Humboldt-Universität zu Berlin." />
+  <meta name="generator" content="bookdown 0.20 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 6 Probabilistic underpinnings | Quantitative Methods for Geographers" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="This is the script of the course ‘Quantitative Methods for Geographers’ run at the Geography Department of Humboldt-Universität zu Berlin." />
+  <meta name="github-repo" content="krueger-t/qm4g" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 6 Probabilistic underpinnings | Quantitative Methods for Geographers" />
+  
+  <meta name="twitter:description" content="This is the script of the course ‘Quantitative Methods for Geographers’ run at the Geography Department of Humboldt-Universität zu Berlin." />
+  
+
+<meta name="author" content="Tobias Krueger" />
+
+
+<meta name="date" content="2020-12-11" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="05-multiple_lin_reg.html"/>
+<link rel="next" href="07-glms.html"/>
+<script src="libs/jquery/jquery.min.js"></script>
+<link href="libs/gitbook/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<script src="libs/accessible-code-block/empty-anchor.js"></script>
+<script src="libs/kePrint/kePrint.js"></script>
+<link href="libs/lightable/lightable.css" rel="stylesheet" />
+<link href="libs/bsTable/bootstrapTable.min.css" rel="stylesheet" />
+<script src="libs/bsTable/bootstrapTable.js"></script>
+
+
+<style type="text/css">
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="css/style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Quantitative Methods for Geographers</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a></li>
+<li class="chapter" data-level="1" data-path="01-orga.html"><a href="01-orga.html"><i class="fa fa-check"></i><b>1</b> Organisational matters</a></li>
+<li class="chapter" data-level="2" data-path="02-math.html"><a href="02-math.html"><i class="fa fa-check"></i><b>2</b> Mathematical preliminaries</a></li>
+<li class="chapter" data-level="3" data-path="03-lin_reg.html"><a href="03-lin_reg.html"><i class="fa fa-check"></i><b>3</b> Linear regression</a></li>
+<li class="chapter" data-level="4" data-path="04-categorical_vars.html"><a href="04-categorical_vars.html"><i class="fa fa-check"></i><b>4</b> Categorical predictors</a></li>
+<li class="chapter" data-level="5" data-path="05-multiple_lin_reg.html"><a href="05-multiple_lin_reg.html"><i class="fa fa-check"></i><b>5</b> Multiple linear regression</a></li>
+<li class="chapter" data-level="6" data-path="06-ml_bayes.html"><a href="06-ml_bayes.html"><i class="fa fa-check"></i><b>6</b> Probabilistic underpinnings</a></li>
+<li class="chapter" data-level="7" data-path="07-glms.html"><a href="07-glms.html"><i class="fa fa-check"></i><b>7</b> Generalised Linear Models (GLMs)</a></li>
+<li class="chapter" data-level="8" data-path="08-multivariate.html"><a href="08-multivariate.html"><i class="fa fa-check"></i><b>8</b> Multivariate methods</a></li>
+<li class="chapter" data-level="" data-path="09-solutions.html"><a href="09-solutions.html"><i class="fa fa-check"></i>Solutions to exercises</a></li>
+<li class="chapter" data-level="" data-path="10-refs.html"><a href="10-refs.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Quantitative Methods for Geographers</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="mlbayes" class="section level1">
+<h1><span class="header-section-number">Chapter 6</span> Probabilistic underpinnings</h1>
+<p>In this chapter we will see how the assumptions of linear regression - which are needed for the quantification of uncertainty in our results - come about. We will first derive the Least Squares parameter estimators from Maximum Likelihood theory (the historically dominant approach) before giving an introduction to the more general approach of Bayesian statistics. The latter is the focus of my course <em>Applied Statistical Modelling</em> in the summer term and also features at a basic level in <em>Risk and Uncertainty in Science and Policy</em> (offered summers and winters).</p>
+<div id="ml" class="section level2">
+<h2><span class="header-section-number">6.1</span> Inference via Maximum Likelihood</h2>
+<p>The so called <strong>likelihood</strong> of parameters conditional on some calibration data is defined as the probability of the data conditional on the parameters (and implicitly the model):
+<span class="math display" id="eq:lnorm1">\[\begin{equation}
+L(\boldsymbol{\theta}|\mathbf{y})=\Pr(\mathbf{y}|\boldsymbol{\theta})
+\tag{6.1}
+\end{equation}\]</span></p>
+<p><span class="math inline">\(\boldsymbol{\theta}\)</span> is a vector of parameters, in the case of linear regression <span class="math inline">\(\boldsymbol{\theta}=\begin{pmatrix}\beta_0 &amp; \beta_1 &amp; \sigma\end{pmatrix}\)</span>, and <span class="math inline">\(\mathbf{y}\)</span> is a vector of response data points <span class="math inline">\(y_i\)</span>. If all <span class="math inline">\(y_i\)</span> are <strong>independent</strong> - here comes the first assumption of linear regression - then the joint probability in Equation <a href="06-ml_bayes.html#eq:lnorm1">(6.1)</a> equals the product of the individual probabilities:
+<span class="math display" id="eq:lnorm2">\[\begin{equation}
+L(\boldsymbol{\theta}|\mathbf{y})=\prod_{i=1}^{n}\Pr(y_i|\boldsymbol{\theta})
+\tag{6.2}
+\end{equation}\]</span>
+This follows from the <em>product rule</em> of probability calculus.</p>
+<p>If we further assume the residuals of the linear model to be <strong>normally distributed</strong> then the likelihood is:
+<span class="math display" id="eq:lnorm3">\[\begin{equation}
+L(\beta_0,\beta_1,\sigma|\mathbf{y})=\prod_{i=1}^{n}\frac{1}{\sigma\cdot\sqrt{2\cdot\pi}}\cdot\exp\left(\frac{\left(y_i-\beta_0-\beta_1\cdot x_i\right)^2}{-2\cdot\sigma^2}\right)
+\tag{6.3}
+\end{equation}\]</span></p>
+<p>This means, the probability of individual data points to arise given certain parameter values, <span class="math inline">\(\Pr(y_i|\boldsymbol{\theta})\)</span>, is <span class="math inline">\(\frac{1}{\sigma\cdot\sqrt{2\cdot\pi}}\cdot\exp\left(\frac{\left(y_i-\beta_0-\beta_1\cdot x_i\right)^2}{-2\cdot\sigma^2}\right)\)</span>. This is the formula of the probability density function (pdf) of the normal distribution, <span class="math inline">\(\frac{1}{\sigma\cdot\sqrt{2\cdot\pi}}\cdot\exp\left(\frac{\left(y_i-\mu\right)^2}{-2\cdot\sigma^2}\right)\)</span>, with <span class="math inline">\(\mu\)</span> being substituted with the linear predictor <span class="math inline">\(\beta_0+\beta_1\cdot x_i\)</span>.</p>
+<p>In effect, we’re saying that the response data are normally distributed, with the mean represented by the linear model, i.e. not constant but changing as a function of the predictor <span class="math inline">\(x_i\)</span>:
+<span class="math display" id="eq:ynorm">\[\begin{equation}
+y_i\sim N\left(\beta_0+\beta_1\cdot x_i,\sigma\right)
+\tag{6.4}
+\end{equation}\]</span></p>
+<p>Put differently, Equation <a href="06-ml_bayes.html#eq:ynorm">(6.4)</a> arises from combining the linear model <span class="math inline">\(y_i=\beta_0+\beta_1\cdot x_i+\epsilon_i\)</span> with the normality assumption for the residuals <span class="math inline">\(\epsilon_i\sim N(0,\sigma)\)</span>. Note, the mean of the residual distribution is zero because - based on our fundamental assumption that <strong>the model is correct</strong> - on average we expect no deviation from the regression line. Please spend some time understanding how the likelihood function is constructed - this is useful for understanding many advanced techniques later on.</p>
+<p>On our way to construct the maximum likelihood estimates, getting rid of the product operator in Equation <a href="06-ml_bayes.html#eq:lnorm3">(6.3)</a> yields:
+<span class="math display" id="eq:lnorm4">\[\begin{equation}
+L(\beta_0,\beta_1,\sigma|\mathbf{y})=\frac{1}{\left(\sigma\cdot\sqrt{2\cdot\pi}\right)^n}\cdot\exp\left(\frac{-1}{2\cdot\sigma^2}\cdot\sum_{i=1}^{n}\left(y_i-\beta_0-\beta_1\cdot x_i\right)^2\right)
+\tag{6.5}
+\end{equation}\]</span>
+Compare exercises in chapter <a href="02-math.html#math">2</a>.</p>
+<p>The <strong>log-likelihood</strong> is often mathematically easier to handle, while locations of maxima (this is all about maximum likelihood) remain unchanged:
+<span class="math display" id="eq:loglnorm1">\[\begin{equation}
+\log L(\beta_0,\beta_1,\sigma|\mathbf{y})=\log\left(\sigma^{-n}\cdot (2\cdot\pi)^{-\frac{n}{2}}\right)-\frac{1}{2\cdot\sigma^2}\cdot\sum_{i=1}^{n}\left(y_i-\beta_0-\beta_1\cdot x_i\right)^2
+\tag{6.6}
+\end{equation}\]</span>
+<span class="math display" id="eq:loglnorm2">\[\begin{equation}
+\log L(\beta_0,\beta_1,\sigma|\mathbf{y})=-n\cdot \log (\sigma)-\frac{n}{2}\cdot\log(2\cdot\pi)-\frac{1}{2\cdot\sigma^2}\cdot\sum_{i=1}^{n}\left(y_i-\beta_0-\beta_1\cdot x_i\right)^2
+\tag{6.7}
+\end{equation}\]</span>
+Compare logarithm calculus of chapter <a href="02-math.html#math">2</a>.</p>
+<p>The maximum likelihood is where all partial derivatives with respect to the parameters are zero: <span class="math inline">\(\frac{\partial\log L}{\partial \beta_0}=0\)</span> and <span class="math inline">\(\frac{\partial\log L}{\partial \beta_1}=0\)</span> and <span class="math inline">\(\frac{\partial\log L}{\partial \sigma}=0\)</span>. This yields:
+<span class="math display" id="eq:loglb0">\[\begin{equation}
+\frac{\partial\log L\left(\beta_0,\beta_1,\sigma\right)}{\partial \beta_0}=\frac{1}{\sigma^2}\cdot \sum_{i=1}^{n}\left(y_i-\beta_0-\beta_1 \cdot x_i\right)=0
+\tag{6.8}
+\end{equation}\]</span>
+<span class="math display" id="eq:loglb1">\[\begin{equation}
+\frac{\partial\log L\left(\beta_0,\beta_1,\sigma\right)}{\partial \beta_1}=\frac{1}{\sigma^2}\cdot \sum_{i=1}^{n}x_i\cdot\left(y_i-\beta_0-\beta_1 \cdot x_i\right)=0
+\tag{6.9}
+\end{equation}\]</span>
+Hence, the maximum likelihood estimator for <span class="math inline">\(\beta_0\)</span> and <span class="math inline">\(\beta_1\)</span> under normal residuals is identical to the Least Squares parameter estimator (Equations <a href="03-lin_reg.html#eq:sseb0">(3.11)</a> and <a href="03-lin_reg.html#eq:sseb1">(3.12)</a> in chapter <a href="03-lin_reg.html#linreg">3</a>).</p>
+<p>For <span class="math inline">\(\sigma\)</span>, we have:
+<span class="math display" id="eq:loglsigma1">\[\begin{equation}
+\frac{\partial\log L\left(\beta_0,\beta_1,\sigma\right)}{\partial \sigma}=-\frac{n}{\sigma}+\frac{1}{\sigma^3}\cdot\sum_{i=1}^{n}\left(y_i-\beta_0-\beta_1 \cdot x_i\right)^2=0
+\tag{6.10}
+\end{equation}\]</span>
+<span class="math display" id="eq:loglsigma2">\[\begin{equation}
+\frac{\partial\log L\left(\beta_0,\beta_1,\sigma\right)}{\partial \sigma}=-n\cdot\sigma^2+\sum_{i=1}^{n}\left(y_i-\beta_0-\beta_1 \cdot x_i\right)^2=0
+\tag{6.11}
+\end{equation}\]</span></p>
+<p>This yields the estimator:
+<span class="math display" id="eq:sigma">\[\begin{equation}
+\sigma=\sqrt{\frac{SSE}{n}}
+\tag{6.12}
+\end{equation}\]</span>
+Note, the Least Squares estimator is <span class="math inline">\(s=\sqrt{\frac{SSE}{df_{SSE}}}=\sqrt{\frac{SSE}{n-2}}\)</span>, which doesn’t make much of a difference for large <span class="math inline">\(n\)</span>.</p>
+<p>Now it should be clear that the assumptions underpinning linear regression come from maximum likelihood theory; even if parameter estimators can be motivated via Least Squares, their standard errors, confidence intervals and significance tests rely on the assumptions that the residuals be independent and identically distributed according to a normal distribution (“iid normal”). In chapter <a href="07-glms.html#glms">7</a> we will see how we can expand these assumptions, by making other distributional choices in Equation <a href="06-ml_bayes.html#eq:ynorm">(6.4)</a> as well as transformations of the linear model inside those distributions. We will effectively construct different likelihood functions - different formulations of <span class="math inline">\(\Pr(y_i|\boldsymbol{\theta})\)</span> in Equation <a href="06-ml_bayes.html#eq:lnorm2">(6.2)</a> - motivated by our conceptualisation of the process that generates the response data at hand.</p>
+</div>
+<div id="bayes" class="section level2">
+<h2><span class="header-section-number">6.2</span> Outlook: Bayesian inference</h2>
+<p>Bayesian statistics is based on a different philosophical understanding of probability than classic (so called frequentist) statistics, even if both share the same probability calculus. In <strong>frequentist statistics</strong>, probability is a <strong>long-run relative frequency</strong>. For example, if we toss a fair coin a thousand times then we will see approximately 500 heads and 500 tails; we say the probability of heads is <span class="math inline">\(\frac{500}{1000}=0.5\)</span>. Of course 1000 tosses is not really enough to approach 0.5, so probability in this sense is defined mathematically as the limit when <span class="math inline">\(n\)</span>, the number of tosses in the example, goes to infinity.</p>
+<p>In <strong>Bayesian statistics</strong><a href="#fn9" class="footnote-ref" id="fnref9"><sup>9</sup></a>, probability is a <strong>degree of plausibility of a proposition</strong>, like that the coin will come up heads in our example. This degree of plausibility is informed by some observed (long-run) behaviour, like repeated tossing of the coin, but also other sources, like physical reasoning about the coin. In simple games of chance like coin tossing - processes that can be repeated a large number of times - it’s hard to see the philosophical difference between the two types of probability and the two types of statistics. Where the difference is clearer - and important - is in the uncertain information we construct around statistical estimates, i.e. confidence intervals in frequentist statistics. Most important, however, are the many cases where there is no long-run relative frequency at all (or we cannot observe it). Consider, for example, the probability of exceeding a 1.5 degree Celsius rise in global average temperature by the end of this century; this is not a frequentist probability but a Bayesian one - a degree of plausibility given some data, models and other information that go into these kinds of assessments.</p>
+<div id="frequentist-sampling-distributions" class="section level3">
+<h3><span class="header-section-number">6.2.1</span> Frequentist sampling distributions</h3>
+<p>Now on to uncertainty estimates, where I said the differences between frequentist and Bayesian probability matters. Frequentist estimates like means, test statistics (t-test, F-test, …) and regression parameters all come with so called <strong>sampling distributions</strong>; probability density functions (PDFs) that describe the variation in those estimates if the estimation procedure were repeated an infinite number of times. These are PDFs in a long-run relative frequency sense.</p>
+<p>For the <strong>mean</strong>, if the population from which data <span class="math inline">\(x\)</span> are a sample (of size <span class="math inline">\(n\)</span>) is <em>normally distributed</em> with mean <span class="math inline">\(\mu\)</span> and standard deviation <span class="math inline">\(\sigma\)</span>, we can show mathematically that the deviation of the estimate <span class="math inline">\(\hat \mu=\bar x\)</span> from the unknown <span class="math inline">\(\mu\)</span>, scaled by the standard error <span class="math inline">\(s_{\hat \mu}=\frac{s}{\sqrt{n}}\)</span> (with <span class="math inline">\(s=\sqrt{\frac{1}{n-1}\cdot\sum_{i=1}^{n}\left(x_i-\bar x\right)^2}\)</span> being the standard deviation of <span class="math inline">\(x\)</span>) would follow a t-distribution in <em>repeated sampling</em> with parameter <span class="math inline">\(n-1\)</span>:
+<span class="math display" id="eq:muhat">\[\begin{equation}
+\frac{\hat \mu-\mu}{s_{\hat \mu}}\sim t_{n-1}
+\tag{6.13}
+\end{equation}\]</span></p>
+<p>For the <strong>t-test statistic</strong>, the sampling distribution is similar. If two samples came from <em>normal populations</em> with <em>identical means</em>, the Null hypothesis of the t-test, then the scaled difference between the two mean estimates would follow a t-distribution with parameter <span class="math inline">\(n_1+n_2-2\)</span> in <em>repeated sampling</em>:
+<span class="math display" id="eq:ts">\[\begin{equation}
+t_s=\frac{\hat \mu_1-\hat \mu_2}{\sqrt{s_{\hat\mu_1}^2+s_{\hat\mu_2}^2}}\sim t_{n_1+n_2-2}
+\tag{4.6}
+\end{equation}\]</span></p>
+<p>The <strong>F-test statistic</strong>, the ratio of two variance estimates <span class="math inline">\(\hat\sigma_1\)</span> and <span class="math inline">\(\hat\sigma_2\)</span>, would follow a F-distribution<a href="#fn10" class="footnote-ref" id="fnref10"><sup>10</sup></a> in <em>repeated sampling</em> if the two samples came from <em>normal populations</em> with <em>identical variances</em> (the Null hypothesis of the F-test):
+<span class="math display" id="eq:fs">\[\begin{equation}
+F_s=\frac{\hat \sigma_1^2}{\hat \sigma_2^2}\sim F_{n_1-1;n_2-1}
+\tag{6.14}
+\end{equation}\]</span></p>
+<p>Finally, the <strong>regression parameter estimates</strong> too would vary around the true parameter value according to a t-distribution in <em>repeated sampling</em> if the <em>residuals were normally distributed</em> (see chapter <a href="06-ml_bayes.html#ml">6.1</a>):
+<span class="math display" id="eq:betahat">\[\begin{equation}
+\frac{\hat \beta-\beta}{s_{\hat \beta}}\sim t_{n-2}
+\tag{6.15}
+\end{equation}\]</span></p>
+<p>Based on these sampling distributions we can now construct <strong>confidence intervals</strong> (and p-values for tests), which we will only do here for the case of regression parameters, repeating what we did in Chapter <a href="03-lin_reg.html#linreg">3</a>:
+<span class="math display" id="eq:cib">\[\begin{equation}
+\Pr\left(\hat\beta-t_{n-2;0.975} \cdot s_{\hat\beta}\leq \beta\leq \hat\beta+t_{n-2;0.975} \cdot s_{\hat\beta}\right)=0.95
+\tag{6.16}
+\end{equation}\]</span></p>
+<p>As mentioned in Chapter <a href="03-lin_reg.html#linreg">3</a>, this is the central interval in which the true parameter value <span class="math inline">\(\beta\)</span> lies with a probability of 0.95. But this is a <em>frequentist probability</em>, meaning that in an assumed infinite number of regression experiments the 95% confidence interval captures the true parameter value in 95% of the cases. It is some measure of confidence, but <em>not</em> a probability of the true parameter value lying within the confidence interval for any one experiment. This, by contrast, is what the Bayesian approach provides, as we will see next.</p>
+</div>
+<div id="bayesian-posterior-distributions" class="section level3">
+<h3><span class="header-section-number">6.2.2</span> Bayesian posterior distributions</h3>
+<p>The Bayesian approach gives us an actual probability density function (PDF) of the parameters <span class="math inline">\(\boldsymbol{\theta}\)</span>, i.e. degrees of plausibility for different values of these parameters. This is the so called <strong>posterior distribution</strong>
+<span class="math inline">\(\Pr(\boldsymbol{\theta}|\mathbf{y})\)</span>, i.e. the probability distribution of the parameters conditional on the data <span class="math inline">\(\mathbf{y}\)</span> at hand. Posterior here means “after seeing the data”.</p>
+<p>We get the posterior distribution from <strong>Bayes rule</strong>:<a href="#fn11" class="footnote-ref" id="fnref11"><sup>11</sup></a>
+<span class="math display" id="eq:bayesrule">\[\begin{equation}
+\Pr(\boldsymbol{\theta}|\mathbf{y})=\frac{\Pr(\mathbf{y}|\boldsymbol{\theta})\cdot\Pr(\boldsymbol{\theta})}{\int\Pr(\mathbf{y}|\boldsymbol{\theta})\cdot\Pr(\boldsymbol{\theta})\;d\boldsymbol{\theta}}
+\tag{6.17}
+\end{equation}\]</span></p>
+<p>Bayes rule involves the <strong>likelihood function</strong> <span class="math inline">\(\Pr(\mathbf{y}|\boldsymbol{\theta})\)</span>, which we already know from maximum likelihood estimation (Equation <a href="06-ml_bayes.html#eq:lnorm1">(6.1)</a>). But this time the <em>complete</em> likelihood function is used, not just its maximum. Bayes rule also requires us to specify a probability distribution of the parameters unconditioned on the data, the so called <strong>prior distribution</strong> <span class="math inline">\(\Pr(\boldsymbol{\theta})\)</span>. The denominator in Equation <a href="06-ml_bayes.html#eq:bayesrule">(6.17)</a> can be viewed simply as a normalising constant and we don’t have to worry about it much.</p>
+<p>The likelihood function is the same that we would use in the frequentist approach - just that we use it fully here. So for a linear model with assumed iid normal residuals the likelihood function is Equation <a href="06-ml_bayes.html#eq:lnorm3">(6.3)</a>. We will see other choices in Chapter <a href="07-glms.html#glms">7</a>. The prior distribution is the only new choice and requires some thought. The prior is meant to capture our uncertainty about plausible parameter values before considering the data at hand. Ideally, this is informed by previous experience and can thus be “informative”, i.e. the PDF is narrowly centred on certain values. If we don’t have any clue about plausible parameter values then we might use an “uninformative” prior, e.g. a uniform distribution over the real line or some plausible range. For simple problems this gives the same results as maximum likelihood estimation, but with the different meaning of probability discussed above. Using uniform priors can, however, be numerically unstable. In practice, we will most likely resort to “weakly informative” priors in regression problems, e.g. wide normal distributions for the parameters centred on zero. Weakly informative means that we need moderately strong evidence in the data to pull the parameter estimates away from zero (no effect), which is an efficient measure against overfitting.</p>
+What happens in Bayesian inference can be illustrated with Figure <a href="06-ml_bayes.html#fig:updating">6.1</a>: The prior is effectively <em>updated</em> by the likelihood to yield the posterior. The likelihood thereby encodes the information in the data about plausible parameter values, mediated by our model of the data generation process, e.g. the linear model with iid normal residuals to stay with our example of linear regression.
+<div class="figure" style="text-align: center"><span id="fig:updating"></span>
+<img src="figs/Bayesian_updating.jpg" alt="Bayesian updating: The prior PDF of a hypothetical parameter $\theta$ (green) is updated by the likelihood function (blue) to yield the posterior PDF (red). We see clearly how the posterior is a compromise between the prior and the likelihood." width="80%" />
+<p class="caption">
+Figure 6.1: Bayesian updating: The prior PDF of a hypothetical parameter <span class="math inline">\(\theta\)</span> (green) is updated by the likelihood function (blue) to yield the posterior PDF (red). We see clearly how the posterior is a compromise between the prior and the likelihood.
+</p>
+</div>
+<p>From the posterior, confidence interval-like metrics can be calculated, though these are called <strong>compatibility intervals</strong> in Bayesian statistics according to recent terminology.<a href="#fn12" class="footnote-ref" id="fnref12"><sup>12</sup></a> This is generally done numerically by sampling from the posterior - we will do this below. Once we’ve got our head round this it’s quite straightforward. And we have direct probabilistic estimates of the parameters, without having to invoke any sampling distributions.<a href="#fn13" class="footnote-ref" id="fnref13"><sup>13</sup></a></p>
+</div>
+<div id="a-bayesian-analysis-of-the-yield-dataset" class="section level3">
+<h3><span class="header-section-number">6.2.3</span> A Bayesian analysis of the yield dataset</h3>
+<p>Let’s illustrate the Bayesian approach briefly for the yield dataset of Chapter <a href="04-categorical_vars.html#categoricalvars">4</a>. Implementation details, prior choices, model comparison and more complex models will be covered in <em>Applied Statistical Modelling</em> in the summer term. We use the <code>brms</code> package as the interface from <em>R</em> to the Bayesian inference engine <a href="https://mc-stan.org/">Stan</a>:<a href="#fn14" class="footnote-ref" id="fnref14"><sup>14</sup></a></p>
+<div class="sourceCode" id="cb115"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb115-1"><a href="06-ml_bayes.html#cb115-1"></a><span class="co"># load brms package</span></span>
+<span id="cb115-2"><a href="06-ml_bayes.html#cb115-2"></a><span class="kw">library</span>(brms)</span>
+<span id="cb115-3"><a href="06-ml_bayes.html#cb115-3"></a><span class="co"># load yields data</span></span>
+<span id="cb115-4"><a href="06-ml_bayes.html#cb115-4"></a>yields &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="st">&quot;data/yields.txt&quot;</span>,<span class="dt">header=</span>T)</span>
+<span id="cb115-5"><a href="06-ml_bayes.html#cb115-5"></a><span class="co"># expand to a long variable &quot;yield&quot; and a index variable &quot;soiltype&quot;</span></span>
+<span id="cb115-6"><a href="06-ml_bayes.html#cb115-6"></a>yields_long &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">yield =</span> <span class="kw">c</span>(yields<span class="op">$</span>sand, yields<span class="op">$</span>clay, yields<span class="op">$</span>loam),</span>
+<span id="cb115-7"><a href="06-ml_bayes.html#cb115-7"></a>                          <span class="dt">soiltype =</span> <span class="kw">as.factor</span>(<span class="kw">c</span>(<span class="kw">rep</span>(<span class="dv">1</span>,<span class="dv">10</span>), <span class="kw">rep</span>(<span class="dv">2</span>,<span class="dv">10</span>), <span class="kw">rep</span>(<span class="dv">3</span>,<span class="dv">10</span>))))</span>
+<span id="cb115-8"><a href="06-ml_bayes.html#cb115-8"></a><span class="co"># fit linear model using brms with default priors</span></span>
+<span id="cb115-9"><a href="06-ml_bayes.html#cb115-9"></a>yield_fit &lt;-<span class="st"> </span><span class="kw">brm</span>(yield <span class="op">~</span><span class="st"> </span><span class="dv">0</span> <span class="op">+</span><span class="st"> </span>soiltype, <span class="dt">data =</span> yields_long,</span>
+<span id="cb115-10"><a href="06-ml_bayes.html#cb115-10"></a>                 <span class="dt">family =</span> <span class="kw">gaussian</span>(), <span class="dt">silent =</span> <span class="ot">TRUE</span>, <span class="dt">refresh =</span> <span class="dv">0</span>)</span></code></pre></div>
+<p>We have fitted the model using default priors so let’s check quickly which these are:</p>
+<div class="sourceCode" id="cb116"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb116-1"><a href="06-ml_bayes.html#cb116-1"></a><span class="co"># check default priors</span></span>
+<span id="cb116-2"><a href="06-ml_bayes.html#cb116-2"></a><span class="kw">prior_summary</span>(yield_fit)</span></code></pre></div>
+<pre><code>##                 prior class      coef group resp dpar
+##                (flat)     b                          
+##                (flat)     b soiltype1                
+##                (flat)     b soiltype2                
+##                (flat)     b soiltype3                
+##  student_t(3, 0, 4.4) sigma                          
+##  nlpar bound       source
+##                   default
+##              (vectorized)
+##              (vectorized)
+##              (vectorized)
+##                   default</code></pre>
+<p>This rather cryptic output tells us that <code>brms</code> has used flat, i.e. uniform, priors for the three parameters, which are the unique means for the three soil types (compare Chapter <a href="04-categorical_vars.html#categoricalvars">4</a>), and a t-distribution with 3 degrees of freedom, centred on 0 and scaled by 4.4, as prior for <span class="math inline">\(\sigma\)</span>.</p>
+<p>Let’s look at the parameter estimates:</p>
+<div class="sourceCode" id="cb118"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb118-1"><a href="06-ml_bayes.html#cb118-1"></a><span class="co"># summarise posterior</span></span>
+<span id="cb118-2"><a href="06-ml_bayes.html#cb118-2"></a><span class="kw">posterior_summary</span>(yield_fit, <span class="dt">pars =</span> <span class="kw">c</span>(<span class="st">&#39;soiltype1&#39;</span>,<span class="st">&#39;soiltype2&#39;</span>,<span class="st">&#39;soiltype3&#39;</span>,<span class="st">&#39;sigma&#39;</span>))</span></code></pre></div>
+<pre><code>##             Estimate Est.Error   Q2.5  Q97.5
+## b_soiltype1    9.884    1.1413  7.680 12.093
+## b_soiltype2   11.510    1.1145  9.316 13.725
+## b_soiltype3   14.286    1.1241 12.064 16.500
+## sigma          3.531    0.4847  2.723  4.598</code></pre>
+<p>This output gives us the median of the posterior for each parameter (“Estimate”), the standard error of that estimate via the standard deviation of the posterior (“Est.Error”) and the central 95% compatibility interval between the bounds “Q2.5” and “Q97.5”. The central parameter estimates are essentially the same as in the frequentist approach (Chapter <a href="04-categorical_vars.html#categoricalvars">4</a>). The standard errors are slightly higher than the frequentist estimate of 1.08, and not homogeneous. The residual standard deviation, here <span class="math inline">\(\sigma\)</span>, is slightly higher than the frequentist estimate of <span class="math inline">\(\sqrt{\frac{SSE}{n-k}}=\sqrt{11.7}=3.4\)</span>.</p>
+<p>These are just summaries. To get a sense of the full posterior we need to extract the numerical samples of the posterior and then we can plot these as histograms, for example. Note, these are discrete approximations of the posterior PDFs, which already for moderately complex problems don’t exist in closed form, so working with samples is the most general and often the only option.</p>
+<div class="sourceCode" id="cb120"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb120-1"><a href="06-ml_bayes.html#cb120-1"></a><span class="co"># extract posterior samples</span></span>
+<span id="cb120-2"><a href="06-ml_bayes.html#cb120-2"></a>s &lt;-<span class="st"> </span><span class="kw">posterior_samples</span>(yield_fit, <span class="dt">pars =</span> <span class="kw">c</span>(<span class="st">&#39;soiltype1&#39;</span>,<span class="st">&#39;soiltype2&#39;</span>,<span class="st">&#39;soiltype3&#39;</span>,<span class="st">&#39;sigma&#39;</span>))</span>
+<span id="cb120-3"><a href="06-ml_bayes.html#cb120-3"></a><span class="co"># plot parameter posteriors as histograms</span></span>
+<span id="cb120-4"><a href="06-ml_bayes.html#cb120-4"></a><span class="kw">hist</span>(s<span class="op">$</span>b_soiltype1, <span class="dt">freq =</span> <span class="ot">FALSE</span>)</span>
+<span id="cb120-5"><a href="06-ml_bayes.html#cb120-5"></a><span class="kw">hist</span>(s<span class="op">$</span>b_soiltype2, <span class="dt">freq =</span> <span class="ot">FALSE</span>)</span>
+<span id="cb120-6"><a href="06-ml_bayes.html#cb120-6"></a><span class="kw">hist</span>(s<span class="op">$</span>b_soiltype3, <span class="dt">freq =</span> <span class="ot">FALSE</span>)</span></code></pre></div>
+<p><img src="qm4g_files/figure-html/unnamed-chunk-28-1.png" width="33%" /><img src="qm4g_files/figure-html/unnamed-chunk-28-2.png" width="33%" /><img src="qm4g_files/figure-html/unnamed-chunk-28-3.png" width="33%" /></p>
+<p>The beauty now is that we can calculate a probability distribution of the average yield differences between soil types, without having to worry about the two-sample t-test we did back in Chapter <a href="04-categorical_vars.html#categoricalvars">4</a> and its sampling distribution and all that. It’s very simple:</p>
+<div class="sourceCode" id="cb121"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb121-1"><a href="06-ml_bayes.html#cb121-1"></a><span class="co"># plot average yield differences between soil types as histograms</span></span>
+<span id="cb121-2"><a href="06-ml_bayes.html#cb121-2"></a><span class="kw">hist</span>(s<span class="op">$</span>b_soiltype2<span class="op">-</span>s<span class="op">$</span>b_soiltype1, <span class="dt">freq =</span> <span class="ot">FALSE</span>)</span>
+<span id="cb121-3"><a href="06-ml_bayes.html#cb121-3"></a><span class="kw">hist</span>(s<span class="op">$</span>b_soiltype3<span class="op">-</span>s<span class="op">$</span>b_soiltype1, <span class="dt">freq =</span> <span class="ot">FALSE</span>)</span>
+<span id="cb121-4"><a href="06-ml_bayes.html#cb121-4"></a><span class="kw">hist</span>(s<span class="op">$</span>b_soiltype3<span class="op">-</span>s<span class="op">$</span>b_soiltype2, <span class="dt">freq =</span> <span class="ot">FALSE</span>)</span>
+<span id="cb121-5"><a href="06-ml_bayes.html#cb121-5"></a><span class="co"># express these differences as median and 95% compatibility interval</span></span>
+<span id="cb121-6"><a href="06-ml_bayes.html#cb121-6"></a><span class="kw">quantile</span>(s<span class="op">$</span>b_soiltype2<span class="op">-</span>s<span class="op">$</span>b_soiltype1, <span class="dt">probs =</span> <span class="kw">c</span>(<span class="fl">0.025</span>, <span class="fl">0.5</span>, <span class="fl">0.975</span>))</span></code></pre></div>
+<pre><code>##   2.5%    50%  97.5% 
+## -1.457  1.609  4.826</code></pre>
+<div class="sourceCode" id="cb123"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb123-1"><a href="06-ml_bayes.html#cb123-1"></a><span class="kw">quantile</span>(s<span class="op">$</span>b_soiltype3<span class="op">-</span>s<span class="op">$</span>b_soiltype1, <span class="dt">probs =</span> <span class="kw">c</span>(<span class="fl">0.025</span>, <span class="fl">0.5</span>, <span class="fl">0.975</span>))</span></code></pre></div>
+<pre><code>##  2.5%   50% 97.5% 
+## 1.285 4.406 7.581</code></pre>
+<div class="sourceCode" id="cb125"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb125-1"><a href="06-ml_bayes.html#cb125-1"></a><span class="kw">quantile</span>(s<span class="op">$</span>b_soiltype3<span class="op">-</span>s<span class="op">$</span>b_soiltype2, <span class="dt">probs =</span> <span class="kw">c</span>(<span class="fl">0.025</span>, <span class="fl">0.5</span>, <span class="fl">0.975</span>))</span></code></pre></div>
+<pre><code>##    2.5%     50%   97.5% 
+## -0.4051  2.7732  5.9452</code></pre>
+<p><img src="qm4g_files/figure-html/unnamed-chunk-29-1.png" width="33%" /><img src="qm4g_files/figure-html/unnamed-chunk-29-2.png" width="33%" /><img src="qm4g_files/figure-html/unnamed-chunk-29-3.png" width="33%" />
+We see that the only yield difference that is uniquely positive at the 95% compatibility level is that between soil types 3 and 1 - sand and loam. All other compatibility intervals overlap with zero meaning there are sizable probabilities of the differences going in either direction. In frequentist language we would call these differences insignificant, but looking at the full posterior distribution of the differences is much more useful than the binary split.</p>
+<p>All in all, this example shows how for simple models frequentist and Bayesian inference with uninformative priors yield essentially the same conclusions, although the Bayesian probabilities are much more intuitive to interpret and easier to post-process into any quantities of interest.</p>
+
+</div>
+</div>
+</div>
+<div class="footnotes">
+<hr />
+<ol start="9">
+<li id="fn9"><p>Bayesian statistics is named after 18th century Presbyterian minister <strong>Thomas Bayes</strong>, who conducted a famous inferential experiment by applying what was later called Bayes rule. This type of inferential reasoning, however, predates Bayes and there were more influential figures since, but somehow the name stuck. Not even Bayes rule is anything special; it arises simply from rearranging the product rule of probability calculus.<a href="06-ml_bayes.html#fnref9" class="footnote-back">↩︎</a></p></li>
+<li id="fn10"><p>These tests got their names from the sampling distributions of their test statistics.<a href="06-ml_bayes.html#fnref10" class="footnote-back">↩︎</a></p></li>
+<li id="fn11"><p>As said previously, Bayes rule is just the rearranged <strong>product rule</strong> of basic probability calculus: <span class="math inline">\(\Pr(A,B)=\Pr(A|B)\cdot\Pr(B)=\Pr(B|A)\cdot\Pr(A)\)</span><a href="06-ml_bayes.html#fnref11" class="footnote-back">↩︎</a></p></li>
+<li id="fn12"><p><span class="citation">Gelman, Hill, and Vehtari (<a href="#ref-gelman2020" role="doc-biblioref">2020</a>)</span>; alternative terms are “uncertainty intervals” or, somewhat outdated, “credible intervals”.<a href="06-ml_bayes.html#fnref12" class="footnote-back">↩︎</a></p></li>
+<li id="fn13"><p>Note, another problem with frequentist statistics is that, even if sampling distributions may provide useful approximations of real-world uncertainties, already for moderately complex models there exist no closed-form sampling distributions. Here the Bayesian approach, and its numerical sampling, are much more general.<a href="06-ml_bayes.html#fnref13" class="footnote-back">↩︎</a></p></li>
+<li id="fn14"><p>Other packages are available, most notably <code>rstanarm</code>, which is a little more intuitive but less comprehensive.<a href="06-ml_bayes.html#fnref14" class="footnote-back">↩︎</a></p></li>
+</ol>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="05-multiple_lin_reg.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="07-glms.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook/js/app.min.js"></script>
+<script src="libs/gitbook/js/lunr.js"></script>
+<script src="libs/gitbook/js/clipboard.min.js"></script>
+<script src="libs/gitbook/js/plugin-search.js"></script>
+<script src="libs/gitbook/js/plugin-sharing.js"></script>
+<script src="libs/gitbook/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook/js/jquery.highlight.js"></script>
+<script src="libs/gitbook/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": true,
+"facebook": false,
+"twitter": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "none"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
