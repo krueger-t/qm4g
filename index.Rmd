@@ -12,6 +12,19 @@ github-repo: krueger-t/qm4g
 description: "This is the script of the course 'Quantitative Methods for Geographers' run at the Geography Department of Humboldt-Universität zu Berlin."
 ---
 
+```{r setup, include=FALSE}
+ options(
+   htmltools.dir.version = FALSE, formatR.indent = 2,
+   width = 55, digits = 4, warnPartialMatchAttr = FALSE, warnPartialMatchDollar = FALSE
+ )
+
+ lapply(c(), function(pkg) {
+   if (system.file(package = pkg) == '') install.packages(pkg)
+ })
+```
+
 # Preface {-}
 
 This is the script of the course 'Quantitative Methods for Geographers' run at the Geography Department of Humboldt-Universität zu Berlin.
+
+**Acknowledgements:** Many thanks to Kassandra Jensch und Maeve Smyth for their help in making this script.
