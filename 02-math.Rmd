@@ -160,59 +160,77 @@ If the original data $y$ were normally distributed (like we set it up for the pl
 
 The **first derivative** of a function $f(x)$, written as $f'(x)$ or $\frac{df(x)}{dx}$, can be interpreted graphically as the slope of that function, i.e. the tangent line of a certain point of the function (Figure \@ref(fig:derivative), left).
 
-```{r derivative, echo=FALSE, fig.align='center', fig.cap='Left: Tangent line of function $f(x)$. Centre: Secant line of function $f(x)$ between point $f\\left(x_0\\right)$ and point $f\\left(x_0+h\\right)$; the horizontal distance between these two points is $\\Delta x$ and the vertical distance is $\\Delta f(x)$. Right: Set of secant lines of function $f(x)$ between point $f\\left(x_0\\right)$ and point $f\\left(x_0+h\\right)$ for progressively decreasing increments $h$. <br><small>By derivative work: Pbroks13 (talk)Tangent-calculus.png: Rhythm - Tangent-calculus.png, CC BY-SA 3.0, https://commons.wikimedia.org/w/index.php?curid=4369975; Pbroks13 (talk)Secant-calculus.png: Shizhao - Secant-calculus.png, CC BY-SA 3.0, https://commons.wikimedia.org/w/index.php?curid=4369993; Pbroks13 (talk)Lim-secant.png: The original uploader was CSTAR at English Wikipedia. - Lim-secant.png, CC BY-SA 3.0, https://commons.wikimedia.org/w/index.php?curid=4370022.</small>', fig.show='hold', out.width='33%'}
-knitr::include_graphics(c('figs/Tangent-calculus.svg','figs/Secant-calculus.svg','figs/Lim-secant.svg'))
-
-
-x <- seq(1,30)
+```{r derivative, echo=FALSE, fig.align='center', fig.cap='Left: Tangent line of function $f(x)$ at point $x_0$. Centre: Secant line of function $f(x)$ between point $x_0$ and point $x_0+h$; the horizontal distance between these two points is $\\Delta x$ and the vertical distance is $\\Delta f(x)$. Right: Set of secant lines of function $f(x)$ between point $x_0$ and point $x_0+h$ for progressively decreasing increments $h$.', fig.show='hold', out.width='33%'}
+# define quadratic function
 fx <- function(x) {
   y <- x^2
   return(y)
 }
-
-
-# slope at x = 0.6
-slp <- 2*0.5
-
-# y for x = 0.6
-yval <- 0.5^2
-
-# calculate intercept of tangent with y-axis
-# yval = slp*x + int
-int <- yval - slp*0.5
-
-
-# calculate intercept of secant with y-axis, for given slope = 1.5
-# yval = slp*x + int
-int2 <- yval - 1.5*0.5
-int2
-
-# calculate intermediate secant lines:
-int3 <- yval - 1.4*0.5
-int4 <- yval - 1.3*0.5
-
-
-par(mfrow=c(1,3))
-plot(fx, pch = 19, type = "l", col = "darkgreen")
-abline(a = int, b = slp, col = "purple")
-
-plot(fx, pch = 19, type = "l", col = "darkgreen")
-abline(a = int2, b = 1.5, col = "purple")
-
-plot(fx, pch = 19, type = "l", col = "darkgreen")
-abline(a = int2, b = 1.5, col = "purple")
-abline(a = int3, b = 1.4, col = "purple")
-abline(a = int4, b = 1.3, col = "purple")
-
-
-#annotation <- data.frame(
-#  x = 2,
-#  y = 20,
-#  label = "tangent line"
-#)
-
-#p + geom_text(data = annotation, aes(x=x, y=y, label=label), colour = "black", size = 7)
-# doesn't work, simply returns NULL. Taken from https://www.r-graph-gallery.com/233-add-annotations-on-ggplot2-chart.html
+# slope at x = 0.3
+slp <- 2*0.3
+# y for x = 0.3
+yval <- 0.3^2
+# calculate intercept of tangent
+int <- yval - slp*0.3
+# calculate intercept of secant with slope = 1.2
+slp2 <- 1.2
+int2 <- yval - slp2*0.3
+# corresponding x via pq-formula and y
+xval2 <- slp2/2 + sqrt((-slp2/2)^2+int2)
+yval2 <- xval2^2
+# calculate intercept of secant with slope = 1
+slp3 <- 1
+int3 <- yval - slp3*0.3
+# corresponding x via pq-formula and y
+xval3 <- slp3/2 + sqrt((-slp3/2)^2+int3)
+yval3 <- xval3^2
+# calculate intercept of secant with slope = 0.8
+slp4 <- 0.8
+int4 <- yval - slp4*0.3
+# corresponding x via pq-formula and y
+xval4 <- slp4/2 + sqrt((-slp4/2)^2+int4)
+yval4 <- xval4^2
+# left plot
+plot(fx, pch = 19, type = "l", col = "black", lwd = 3,
+     xlab = "x", ylab = "f(x)")
+abline(a = int, b = slp, col = "red", lwd = 2)
+lines(c(0.3, 0.3), c(-0.1,yval), lwd = 1, lty = 2)
+text(0.3, -0.1, expression(x[0]), xpd = TRUE)
+# centre plot
+plot(fx, pch = 19, type = "l", col = "black", lwd = 3,
+     xlab = "x", ylab = "f(x)")
+abline(a = int2, b = slp2, col = "red", lwd = 2)
+lines(c(0.3, 0.3), c(-0.1,yval), lwd = 1, lty = 2)
+lines(c(xval2, xval2), c(-0.1,yval2), lwd = 1, lty = 2)
+lines(c(-0.1, 0.3), c(yval,yval), lwd = 1, lty = 2)
+lines(c(-0.1, xval2), c(yval2,yval2), lwd = 1, lty = 2)
+text(0.3, -0.1, expression(x[0]), xpd = TRUE)
+text(xval2, -0.1, expression(x[0]+h), xpd = TRUE)
+text(0, yval+0.05, expression(f(x[0])), xpd = TRUE, adj = 0)
+text(0, yval2+0.05, expression(f(x[0]+h)), xpd = TRUE, adj = 0)
+#right plot
+plot(fx, pch = 19, type = "l", col = "black", lwd = 3,
+     xlab = "x", ylab = "f(x)")
+abline(a = int, b = slp, col = "red", lwd = 2)
+abline(a = int2, b = slp2, col = "red", lwd = 2)
+abline(a = int3, b = slp3, col = "red", lwd = 2)
+abline(a = int4, b = slp4, col = "red", lwd = 2)
+lines(c(0.3, 0.3), c(-0.1,yval), lwd = 1, lty = 2)
+lines(c(xval2, xval2), c(-0.1,yval2), lwd = 1, lty = 2)
+lines(c(xval3, xval3), c(-0.1,yval3), lwd = 1, lty = 2)
+lines(c(xval4, xval4), c(-0.1,yval4), lwd = 1, lty = 2)
+lines(c(-0.1, 0.3), c(yval,yval), lwd = 1, lty = 2)
+lines(c(-0.1, xval2), c(yval2,yval2), lwd = 1, lty = 2)
+lines(c(-0.1, xval3), c(yval3,yval3), lwd = 1, lty = 2)
+lines(c(-0.1, xval4), c(yval4,yval4), lwd = 1, lty = 2)
+text(0.3, -0.1, expression(x[0]), xpd = TRUE)
+text(xval2, -0.1, expression(x[0]+h), xpd = TRUE)
+text(xval3, -0.1, expression(x[0]+h^1), xpd = TRUE)
+text(xval4, -0.1, expression(x[0]+h^2), xpd = TRUE)
+text(0, yval+0.05, expression(f(x[0])), xpd = TRUE, adj = 0)
+text(0, yval2+0.05, expression(f(x[0]+h)), xpd = TRUE, adj = 0)
+text(0, yval3+0.05, expression(f(x[0]+h^1)), xpd = TRUE, adj = 0)
+text(0, yval4+0.05, expression(f(x[0]+h^2)), xpd = TRUE, adj = 0)
 ```
 
 Mathematically, the slope amounts to the limiting value of the ratio of the (vertical) increment of the function, $\Delta f(x)$, for an (horizontal) increment of $x$, $\Delta x$, for $\Delta x$ approaching zero, $\Delta x \to 0$:

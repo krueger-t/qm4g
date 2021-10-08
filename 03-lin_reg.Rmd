@@ -4,6 +4,10 @@
 
 The questions we wish to answer with linear regression are of the kind depicted in Figure \@ref(fig:motivation): What drives spatial variation in annual average precipitation and annual average temperature? In the case of precipitation the drivers seem to be continentality and elevation, while temperature appears to be dominantly controlled by elevation only. Linear regression examines this question by modelling a response variable against one or more predictor variables, while the relationship between the two is linear in its parameters.
 
+```{r motivation, echo=FALSE, fig.align='center', fig.cap='Maps of annual average precipitation (left) and annual average air temperature (right) over Germany from 1961 to 1990. Source: https://www.dwd.de/EN/climate_environment/climateatlas/climateatlas_node.html.', fig.show='hold', out.width='50%'}
+knitr::include_graphics(c('figs/precip_D.png','figs/temp_D.png'))
+```
+
 ## The linear model
 
 The most general from of a **linear model** is:

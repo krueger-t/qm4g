@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Chapter 2 Mathematical preliminaries | Quantitative Methods for Geographers</title>
+  <title>Chapter 1 Mathematical preliminaries | Quantitative Methods for Geographers</title>
   <meta name="description" content="This is the script of the course ‘Quantitative Methods for Geographers’ run at the Geography Department of Humboldt-Universität zu Berlin." />
-  <meta name="generator" content="bookdown 0.20 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Chapter 2 Mathematical preliminaries | Quantitative Methods for Geographers" />
+  <meta property="og:title" content="Chapter 1 Mathematical preliminaries | Quantitative Methods for Geographers" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   <meta name="github-repo" content="krueger-t/qm4g" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 2 Mathematical preliminaries | Quantitative Methods for Geographers" />
+  <meta name="twitter:title" content="Chapter 1 Mathematical preliminaries | Quantitative Methods for Geographers" />
   
   <meta name="twitter:description" content="This is the script of the course ‘Quantitative Methods for Geographers’ run at the Geography Department of Humboldt-Universität zu Berlin." />
   
@@ -24,14 +24,14 @@
 <meta name="author" content="Tobias Krueger" />
 
 
-<meta name="date" content="2020-12-11" />
+<meta name="date" content="2021-10-08" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="01-orga.html"/>
+<link rel="prev" href="index.html"/>
 <link rel="next" href="03-lin_reg.html"/>
 <script src="libs/jquery/jquery.min.js"></script>
 <link href="libs/gitbook/css/style.css" rel="stylesheet" />
@@ -139,14 +139,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <li class="divider"></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a></li>
-<li class="chapter" data-level="1" data-path="01-orga.html"><a href="01-orga.html"><i class="fa fa-check"></i><b>1</b> Organisational matters</a></li>
-<li class="chapter" data-level="2" data-path="02-math.html"><a href="02-math.html"><i class="fa fa-check"></i><b>2</b> Mathematical preliminaries</a></li>
-<li class="chapter" data-level="3" data-path="03-lin_reg.html"><a href="03-lin_reg.html"><i class="fa fa-check"></i><b>3</b> Linear regression</a></li>
-<li class="chapter" data-level="4" data-path="04-categorical_vars.html"><a href="04-categorical_vars.html"><i class="fa fa-check"></i><b>4</b> Categorical predictors</a></li>
-<li class="chapter" data-level="5" data-path="05-multiple_lin_reg.html"><a href="05-multiple_lin_reg.html"><i class="fa fa-check"></i><b>5</b> Multiple linear regression</a></li>
-<li class="chapter" data-level="6" data-path="06-ml_bayes.html"><a href="06-ml_bayes.html"><i class="fa fa-check"></i><b>6</b> Probabilistic underpinnings</a></li>
-<li class="chapter" data-level="7" data-path="07-glms.html"><a href="07-glms.html"><i class="fa fa-check"></i><b>7</b> Generalised Linear Models (GLMs)</a></li>
-<li class="chapter" data-level="8" data-path="08-multivariate.html"><a href="08-multivariate.html"><i class="fa fa-check"></i><b>8</b> Multivariate methods</a></li>
+<li class="chapter" data-level="1" data-path="02-math.html"><a href="02-math.html"><i class="fa fa-check"></i><b>1</b> Mathematical preliminaries</a></li>
+<li class="chapter" data-level="2" data-path="03-lin_reg.html"><a href="03-lin_reg.html"><i class="fa fa-check"></i><b>2</b> Linear regression</a></li>
+<li class="chapter" data-level="3" data-path="04-categorical_vars.html"><a href="04-categorical_vars.html"><i class="fa fa-check"></i><b>3</b> Categorical predictors</a></li>
+<li class="chapter" data-level="4" data-path="05-multiple_lin_reg.html"><a href="05-multiple_lin_reg.html"><i class="fa fa-check"></i><b>4</b> Multiple linear regression</a></li>
+<li class="chapter" data-level="5" data-path="06-ml_bayes.html"><a href="06-ml_bayes.html"><i class="fa fa-check"></i><b>5</b> Probabilistic underpinnings</a></li>
+<li class="chapter" data-level="6" data-path="07-glms.html"><a href="07-glms.html"><i class="fa fa-check"></i><b>6</b> Generalised Linear Models (GLMs)</a></li>
+<li class="chapter" data-level="7" data-path="08-multivariate.html"><a href="08-multivariate.html"><i class="fa fa-check"></i><b>7</b> Multivariate methods</a></li>
 <li class="chapter" data-level="" data-path="09-solutions.html"><a href="09-solutions.html"><i class="fa fa-check"></i>Solutions to exercises</a></li>
 <li class="chapter" data-level="" data-path="10-refs.html"><a href="10-refs.html"><i class="fa fa-check"></i>References</a></li>
 <li class="divider"></li>
@@ -170,23 +169,23 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
             <section class="normal" id="section-">
 <div id="math" class="section level1">
-<h1><span class="header-section-number">Chapter 2</span> Mathematical preliminaries</h1>
+<h1><span class="header-section-number">Chapter 1</span> Mathematical preliminaries</h1>
 <p>In this chapter we get a few mathematical preliminaries out of the way that are important for later chapters. If you feel rusty on any of these then please read up on them elsewhere.</p>
 <div id="logarithm-and-exponentiation" class="section level2">
-<h2><span class="header-section-number">2.1</span> Logarithm and exponentiation</h2>
-<p>The following is inspired by <span class="citation">Gelman and Nolan (<a href="#ref-gelman2002" role="doc-biblioref">2002</a>)</span>. Suppose you have an amoeba that takes one hour to divide (Figure <a href="02-math.html#fig:amoeba">2.1</a>), and then the two amoebas each divide in one more hour, and so forth. What is the equation of the number of amoebas, <span class="math inline">\(y\)</span>, as a function of time, <span class="math inline">\(t\)</span> (in hours)?</p>
+<h2><span class="header-section-number">1.1</span> Logarithm and exponentiation</h2>
+<p>The following is inspired by <span class="citation">Gelman and Nolan (<a href="#ref-gelman2002" role="doc-biblioref">2002</a>)</span>. Suppose you have an amoeba that takes one hour to divide (Figure <a href="02-math.html#fig:amoeba">1.1</a>), and then the two amoebas each divide in one more hour, and so forth. What is the equation of the number of amoebas, <span class="math inline">\(y\)</span>, as a function of time, <span class="math inline">\(t\)</span> (in hours)?</p>
 <div class="figure" style="text-align: center"><span id="fig:amoeba"></span>
 <img src="figs/amoeba.jpg" alt="Amoeba dividing. Source: http://www.gutenberg.org/files/18451/18451-h/images/illus002.jpg." width="80%" />
 <p class="caption">
-Figure 2.1: Amoeba dividing. Source: <a href="http://www.gutenberg.org/files/18451/18451-h/images/illus002.jpg" class="uri">http://www.gutenberg.org/files/18451/18451-h/images/illus002.jpg</a>.
+Figure 1.1: Amoeba dividing. Source: <a href="http://www.gutenberg.org/files/18451/18451-h/images/illus002.jpg" class="uri">http://www.gutenberg.org/files/18451/18451-h/images/illus002.jpg</a>.
 </p>
 </div>
 <p>The equation is:
 <span class="math display" id="eq:exp">\[\begin{equation}
 y=2^t
-\tag{2.1}
+\tag{1.1}
 \end{equation}\]</span>
-This is an <strong>exponential function</strong> with <strong>base</strong> 2 and <strong>exponent</strong> <span class="math inline">\(t\)</span>. Figure <a href="02-math.html#fig:explog">2.2</a> shows two plots of this function. (Don’t worry, you will start to understand the R code better as you progress in the PC labs.)</p>
+This is an <strong>exponential function</strong> with <strong>base</strong> 2 and <strong>exponent</strong> <span class="math inline">\(t\)</span>. Figure <a href="02-math.html#fig:explog">1.2</a> shows two plots of this function. (Don’t worry, you will start to understand the R code better as you progress in the PC labs.)</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="02-math.html#cb1-1"></a>t &lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="dv">1</span>, <span class="dv">6</span>)</span>
 <span id="cb1-2"><a href="02-math.html#cb1-2"></a>y &lt;-<span class="st"> </span><span class="dv">2</span><span class="op">^</span>t</span>
 <span id="cb1-3"><a href="02-math.html#cb1-3"></a><span class="kw">plot</span>(t, y, <span class="dt">pch =</span> <span class="dv">19</span>, <span class="dt">type =</span> <span class="st">&#39;b&#39;</span>)</span>
@@ -194,95 +193,95 @@ This is an <strong>exponential function</strong> with <strong>base</strong> 2 an
 <div class="figure" style="text-align: center"><span id="fig:explog"></span>
 <img src="qm4g_files/figure-html/explog-1.png" alt="Left: Plot of Equation 2.1. Right: Plot of Equation 2.1 on logarithmic scale." width="50%" /><img src="qm4g_files/figure-html/explog-2.png" alt="Left: Plot of Equation 2.1. Right: Plot of Equation 2.1 on logarithmic scale." width="50%" />
 <p class="caption">
-Figure 2.2: Left: Plot of Equation 2.1. Right: Plot of Equation 2.1 on logarithmic scale.
+Figure 1.2: Left: Plot of Equation 2.1. Right: Plot of Equation 2.1 on logarithmic scale.
 </p>
 </div>
 <p>The inverse of the exponential function is the <strong>logarithmic function</strong>:
 <span class="math display" id="eq:inv">\[\begin{equation}
 log(y)=log(2^t)=t \cdot log(2)
-\tag{2.2}
+\tag{1.2}
 \end{equation}\]</span>
-Since the logarithm of <span class="math inline">\(y\)</span> is a linear function of <span class="math inline">\(t\)</span> (Equation <a href="02-math.html#eq:inv">(2.2)</a>), the right-hand side of Figure <a href="02-math.html#fig:explog">2.2</a> (<span class="math inline">\(y\)</span> on logarithmic scale) displays a straight line.</p>
+Since the logarithm of <span class="math inline">\(y\)</span> is a linear function of <span class="math inline">\(t\)</span> (Equation <a href="02-math.html#eq:inv">(1.2)</a>), the right-hand side of Figure <a href="02-math.html#fig:explog">1.2</a> (<span class="math inline">\(y\)</span> on logarithmic scale) displays a straight line.</p>
 <p>Common bases of the logarithmic function are:
 <span class="math display" id="eq:lb">\[\begin{equation}
 log_2\left(2^t\right)=lb\left(2^t\right)=t
-\tag{2.3}
+\tag{1.3}
 \end{equation}\]</span>
 This is called the binary logarithm (lb).</p>
 <p><span class="math display" id="eq:lg">\[\begin{equation}
 log_{10}\left(10^t\right)=lg\left(10^t\right)=t
-\tag{2.4}
+\tag{1.4}
 \end{equation}\]</span>
 This is called the common logarithm (lg).</p>
 <p><span class="math display" id="eq:ln">\[\begin{equation}
 log_e\left(e^t\right)=ln\left(e^t\right)=t
-\tag{2.5}
+\tag{1.5}
 \end{equation}\]</span>
 This is called the natural logarithm (ln) with <span class="math inline">\(e \approx 2.7183\)</span> being Euler’s constant.</p>
 <p>Note, programming often uses a different notation, which will also be used from now on in this course:
 <span class="math display" id="eq:lnlog">\[\begin{equation}
 ln()=log()
-\tag{2.6}
+\tag{1.6}
 \end{equation}\]</span>
 <span class="math display" id="eq:eexp">\[\begin{equation}
 e^t=\exp(t)
-\tag{2.7}
+\tag{1.7}
 \end{equation}\]</span></p>
 <p>Basic rules for exponentiation are:
 <span class="math display" id="eq:exprule1">\[\begin{equation}
 a^m \cdot a^n=a^{m+n}
-\tag{2.8}
+\tag{1.8}
 \end{equation}\]</span>
 <span class="math display" id="eq:exprule2">\[\begin{equation}
 a^n \cdot b^n=(a \cdot b)^n
-\tag{2.9}
+\tag{1.9}
 \end{equation}\]</span>
 <span class="math display" id="eq:exprule3">\[\begin{equation}
 \frac{a^m}{a^n}=a^{m-n}
-\tag{2.10}
+\tag{1.10}
 \end{equation}\]</span>
 <span class="math display" id="eq:exprule4">\[\begin{equation}
 \frac{a^n}{b^n}=\left(\frac{a}{b}\right)^n
-\tag{2.11}
+\tag{1.11}
 \end{equation}\]</span>
 <span class="math display" id="eq:exprule5">\[\begin{equation}
 \left(a^m\right)^n=a^{m \cdot n}
-\tag{2.12}
+\tag{1.12}
 \end{equation}\]</span></p>
 <p>At this point it is also useful to remind ourselves of the meaning of the sum and product symbols:
 <span class="math display" id="eq:sum">\[\begin{equation}
 \sum_{i=1}^{n}x_i=x_1+x_2+\ldots+x_n
-\tag{2.13}
+\tag{1.13}
 \end{equation}\]</span>
 This signifies the <strong>sum</strong> of all <span class="math inline">\(x_i\)</span> for <span class="math inline">\(i\)</span> taking integer values from 1 to <span class="math inline">\(n\)</span>.
 <span class="math display" id="eq:prod">\[\begin{equation}
 \prod_{i=1}^{n}x_i=x_1 \cdot x_2 \cdot \ldots \cdot x_n
-\tag{2.14}
+\tag{1.14}
 \end{equation}\]</span>
 This signifies the <strong>product</strong> of all <span class="math inline">\(x_i\)</span> for <span class="math inline">\(i\)</span> taking integer values from 1 to <span class="math inline">\(n\)</span>.</p>
 <p>The basic rules of logarithm are:
 <span class="math display" id="eq:logrule1">\[\begin{equation}
 log(u \cdot v)=log(u)+log(v)
-\tag{2.15}
+\tag{1.15}
 \end{equation}\]</span>
 <span class="math display" id="eq:logrule2">\[\begin{equation}
 log\left(\frac{u}{v}\right)=log(u)-log(v)
-\tag{2.16}
+\tag{1.16}
 \end{equation}\]</span>
 <span class="math display" id="eq:logrule3">\[\begin{equation}
 log\left(u^r\right)=r \cdot log(u)
-\tag{2.17}
+\tag{1.17}
 \end{equation}\]</span></p>
 </div>
 <div id="centring-and-standardisation" class="section level2">
-<h2><span class="header-section-number">2.2</span> Centring and standardisation</h2>
-<p>Centring and standardisation are used to transform different datasets onto the same scale. We will need this for the multivariate methods in later sessions (Chapter <a href="08-multivariate.html#multivariate">8</a>).</p>
+<h2><span class="header-section-number">1.2</span> Centring and standardisation</h2>
+<p>Centring and standardisation are used to transform different datasets onto the same scale. We will need this for the multivariate methods in later sessions (Chapter <a href="08-multivariate.html#multivariate">7</a>).</p>
 <p><strong>Centring</strong> means subtracting from every data point <span class="math inline">\(y\)</span> the overall mean of the dataset <span class="math inline">\(\bar{y}\)</span>:
 <span class="math display" id="eq:centring">\[\begin{equation}
 y^*=y-\bar{y}
-\tag{2.18}
+\tag{1.18}
 \end{equation}\]</span>
-This yields new data points <span class="math inline">\(y^*\)</span> and a new mean <span class="math inline">\(\bar{y^*}=0\)</span> while the standard deviation of the transformed data remains the same: <span class="math inline">\(s_{y^*}=s_y\)</span>. Centring thus <em>shifts</em> the data histogram to be centred on zero, but does not change its shape (Figure <a href="02-math.html#fig:rawcentred">2.3</a>).</p>
+This yields new data points <span class="math inline">\(y^*\)</span> and a new mean <span class="math inline">\(\bar{y^*}=0\)</span> while the standard deviation of the transformed data remains the same: <span class="math inline">\(s_{y^*}=s_y\)</span>. Centring thus <em>shifts</em> the data histogram to be centred on zero, but does not change its shape (Figure <a href="02-math.html#fig:rawcentred">1.3</a>).</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="02-math.html#cb2-1"></a><span class="co"># draw random sample of size 1000 from normal distribution with mean 1 and standard deviation 2, i.e. y~N(1,2)</span></span>
 <span id="cb2-2"><a href="02-math.html#cb2-2"></a>y &lt;-<span class="st"> </span><span class="kw">rnorm</span>(<span class="dv">1000</span>, <span class="dt">mean =</span> <span class="dv">1</span>, <span class="dt">sd =</span> <span class="dv">2</span>)</span>
 <span id="cb2-3"><a href="02-math.html#cb2-3"></a><span class="co"># mean</span></span>
@@ -300,15 +299,15 @@ This yields new data points <span class="math inline">\(y^*\)</span> and a new m
 <div class="figure" style="text-align: center"><span id="fig:rawcentred"></span>
 <img src="qm4g_files/figure-html/rawcentred-1.png" alt="Histogram of dataset $y$ (left) and centred dataset $y^*$ (right). The vertical line represents the mean." width="50%" /><img src="qm4g_files/figure-html/rawcentred-2.png" alt="Histogram of dataset $y$ (left) and centred dataset $y^*$ (right). The vertical line represents the mean." width="50%" />
 <p class="caption">
-Figure 2.3: Histogram of dataset <span class="math inline">\(y\)</span> (left) and centred dataset <span class="math inline">\(y^*\)</span> (right). The vertical line represents the mean.
+Figure 1.3: Histogram of dataset <span class="math inline">\(y\)</span> (left) and centred dataset <span class="math inline">\(y^*\)</span> (right). The vertical line represents the mean.
 </p>
 </div>
 <p><strong>Standardisation</strong> means subtracting from every data point <span class="math inline">\(y\)</span> the overall mean of the dataset <span class="math inline">\(\bar{y}\)</span> and additionally dividing by the standard deviation <span class="math inline">\(s_y\)</span>:
 <span class="math display" id="eq:standardisation">\[\begin{equation}
 y^*=\frac{y-\bar{y}}{s_y}
-\tag{2.19}
+\tag{1.19}
 \end{equation}\]</span>
-This yields new data points <span class="math inline">\(y^*\)</span>, a new mean <span class="math inline">\(\bar{y^*}=0\)</span> and a new standard deviation <span class="math inline">\(s_{y^*}=1\)</span>. Standardisation thus shifts the data histogram to be centred on zero and expands or contracts it to have unit standard deviation (Figure <a href="02-math.html#fig:rawstandardised">2.4</a>).</p>
+This yields new data points <span class="math inline">\(y^*\)</span>, a new mean <span class="math inline">\(\bar{y^*}=0\)</span> and a new standard deviation <span class="math inline">\(s_{y^*}=1\)</span>. Standardisation thus shifts the data histogram to be centred on zero and expands or contracts it to have unit standard deviation (Figure <a href="02-math.html#fig:rawstandardised">1.4</a>).</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="02-math.html#cb3-1"></a><span class="co"># histogram, raw</span></span>
 <span id="cb3-2"><a href="02-math.html#cb3-2"></a><span class="kw">hist</span>(y, <span class="dt">freq =</span> <span class="ot">FALSE</span>, <span class="dt">xlim =</span> <span class="kw">c</span>(<span class="op">-</span><span class="dv">10</span>,<span class="dv">10</span>), <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="fl">0.4</span>), <span class="dt">main =</span> <span class="st">&quot;&quot;</span>, </span>
 <span id="cb3-3"><a href="02-math.html#cb3-3"></a>     <span class="dt">xlab =</span> <span class="st">&quot;y&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;relative frequency&quot;</span>)</span>
@@ -320,40 +319,40 @@ This yields new data points <span class="math inline">\(y^*\)</span>, a new mean
 <div class="figure" style="text-align: center"><span id="fig:rawstandardised"></span>
 <img src="qm4g_files/figure-html/rawstandardised-1.png" alt="Histogram of dataset $y$ (left) and standardised dataset $y^*$ (right). The vertical line represents the mean." width="50%" /><img src="qm4g_files/figure-html/rawstandardised-2.png" alt="Histogram of dataset $y$ (left) and standardised dataset $y^*$ (right). The vertical line represents the mean." width="50%" />
 <p class="caption">
-Figure 2.4: Histogram of dataset <span class="math inline">\(y\)</span> (left) and standardised dataset <span class="math inline">\(y^*\)</span> (right). The vertical line represents the mean.
+Figure 1.4: Histogram of dataset <span class="math inline">\(y\)</span> (left) and standardised dataset <span class="math inline">\(y^*\)</span> (right). The vertical line represents the mean.
 </p>
 </div>
 <p>If the original data <span class="math inline">\(y\)</span> were normally distributed (like we set it up for the plots above) then standardisation would transform <span class="math inline">\(y\)</span> to the scale of the standard normal distribution, i.e. a normal distribution with mean 0 and standard deviation 1. If you feel rusty on the normal distribution (or probability distributions in general) then Wikipedia is as good a source as any: <a href="https://en.wikipedia.org/wiki/Normal_distribution" class="uri">https://en.wikipedia.org/wiki/Normal_distribution</a>.</p>
 </div>
 <div id="derivatives" class="section level2">
-<h2><span class="header-section-number">2.3</span> Derivatives</h2>
-<p>The <strong>first derivative</strong> of a function <span class="math inline">\(f(x)\)</span>, written as <span class="math inline">\(f&#39;(x)\)</span> or <span class="math inline">\(\frac{df(x)}{dx}\)</span>, can be interpreted graphically as the slope of that function, i.e. the tangent line of a certain point of the function (Figure <a href="02-math.html#fig:derivative">2.5</a>, left).</p>
+<h2><span class="header-section-number">1.3</span> Derivatives</h2>
+<p>The <strong>first derivative</strong> of a function <span class="math inline">\(f(x)\)</span>, written as <span class="math inline">\(f&#39;(x)\)</span> or <span class="math inline">\(\frac{df(x)}{dx}\)</span>, can be interpreted graphically as the slope of that function, i.e. the tangent line of a certain point of the function (Figure <a href="02-math.html#fig:derivative">1.5</a>, left).</p>
 <div class="figure" style="text-align: center"><span id="fig:derivative"></span>
-<img src="figs/Tangent-calculus.svg" alt="Left: Tangent line of function $f(x)$. Centre: Secant line of function $f(x)$ between point $f\left(x_0\right)$ and point $f\left(x_0+h\right)$; the horizontal distance between these two points is $\Delta x$ and the vertical distance is $\Delta f(x)$. Right: Set of secant lines of function $f(x)$ between point $f\left(x_0\right)$ and point $f\left(x_0+h\right)$ for progressively decreasing increments $h$. &lt;br&gt;&lt;small&gt;By derivative work: Pbroks13 (talk)Tangent-calculus.png: Rhythm - Tangent-calculus.png, CC BY-SA 3.0, https://commons.wikimedia.org/w/index.php?curid=4369975; Pbroks13 (talk)Secant-calculus.png: Shizhao - Secant-calculus.png, CC BY-SA 3.0, https://commons.wikimedia.org/w/index.php?curid=4369993; Pbroks13 (talk)Lim-secant.png: The original uploader was CSTAR at English Wikipedia. - Lim-secant.png, CC BY-SA 3.0, https://commons.wikimedia.org/w/index.php?curid=4370022.&lt;/small&gt;" width="33%" /><img src="figs/Secant-calculus.svg" alt="Left: Tangent line of function $f(x)$. Centre: Secant line of function $f(x)$ between point $f\left(x_0\right)$ and point $f\left(x_0+h\right)$; the horizontal distance between these two points is $\Delta x$ and the vertical distance is $\Delta f(x)$. Right: Set of secant lines of function $f(x)$ between point $f\left(x_0\right)$ and point $f\left(x_0+h\right)$ for progressively decreasing increments $h$. &lt;br&gt;&lt;small&gt;By derivative work: Pbroks13 (talk)Tangent-calculus.png: Rhythm - Tangent-calculus.png, CC BY-SA 3.0, https://commons.wikimedia.org/w/index.php?curid=4369975; Pbroks13 (talk)Secant-calculus.png: Shizhao - Secant-calculus.png, CC BY-SA 3.0, https://commons.wikimedia.org/w/index.php?curid=4369993; Pbroks13 (talk)Lim-secant.png: The original uploader was CSTAR at English Wikipedia. - Lim-secant.png, CC BY-SA 3.0, https://commons.wikimedia.org/w/index.php?curid=4370022.&lt;/small&gt;" width="33%" /><img src="figs/Lim-secant.svg" alt="Left: Tangent line of function $f(x)$. Centre: Secant line of function $f(x)$ between point $f\left(x_0\right)$ and point $f\left(x_0+h\right)$; the horizontal distance between these two points is $\Delta x$ and the vertical distance is $\Delta f(x)$. Right: Set of secant lines of function $f(x)$ between point $f\left(x_0\right)$ and point $f\left(x_0+h\right)$ for progressively decreasing increments $h$. &lt;br&gt;&lt;small&gt;By derivative work: Pbroks13 (talk)Tangent-calculus.png: Rhythm - Tangent-calculus.png, CC BY-SA 3.0, https://commons.wikimedia.org/w/index.php?curid=4369975; Pbroks13 (talk)Secant-calculus.png: Shizhao - Secant-calculus.png, CC BY-SA 3.0, https://commons.wikimedia.org/w/index.php?curid=4369993; Pbroks13 (talk)Lim-secant.png: The original uploader was CSTAR at English Wikipedia. - Lim-secant.png, CC BY-SA 3.0, https://commons.wikimedia.org/w/index.php?curid=4370022.&lt;/small&gt;" width="33%" />
+<img src="qm4g_files/figure-html/derivative-1.png" alt="Left: Tangent line of function $f(x)$ at point $x_0$. Centre: Secant line of function $f(x)$ between point $x_0$ and point $x_0+h$; the horizontal distance between these two points is $\Delta x$ and the vertical distance is $\Delta f(x)$. Right: Set of secant lines of function $f(x)$ between point $x_0$ and point $x_0+h$ for progressively decreasing increments $h$." width="33%" /><img src="qm4g_files/figure-html/derivative-2.png" alt="Left: Tangent line of function $f(x)$ at point $x_0$. Centre: Secant line of function $f(x)$ between point $x_0$ and point $x_0+h$; the horizontal distance between these two points is $\Delta x$ and the vertical distance is $\Delta f(x)$. Right: Set of secant lines of function $f(x)$ between point $x_0$ and point $x_0+h$ for progressively decreasing increments $h$." width="33%" /><img src="qm4g_files/figure-html/derivative-3.png" alt="Left: Tangent line of function $f(x)$ at point $x_0$. Centre: Secant line of function $f(x)$ between point $x_0$ and point $x_0+h$; the horizontal distance between these two points is $\Delta x$ and the vertical distance is $\Delta f(x)$. Right: Set of secant lines of function $f(x)$ between point $x_0$ and point $x_0+h$ for progressively decreasing increments $h$." width="33%" />
 <p class="caption">
-Figure 2.5: Left: Tangent line of function <span class="math inline">\(f(x)\)</span>. Centre: Secant line of function <span class="math inline">\(f(x)\)</span> between point <span class="math inline">\(f\left(x_0\right)\)</span> and point <span class="math inline">\(f\left(x_0+h\right)\)</span>; the horizontal distance between these two points is <span class="math inline">\(\Delta x\)</span> and the vertical distance is <span class="math inline">\(\Delta f(x)\)</span>. Right: Set of secant lines of function <span class="math inline">\(f(x)\)</span> between point <span class="math inline">\(f\left(x_0\right)\)</span> and point <span class="math inline">\(f\left(x_0+h\right)\)</span> for progressively decreasing increments <span class="math inline">\(h\)</span>. <br><small>By derivative work: Pbroks13 (talk)Tangent-calculus.png: Rhythm - Tangent-calculus.png, CC BY-SA 3.0, <a href="https://commons.wikimedia.org/w/index.php?curid=4369975" class="uri">https://commons.wikimedia.org/w/index.php?curid=4369975</a>; Pbroks13 (talk)Secant-calculus.png: Shizhao - Secant-calculus.png, CC BY-SA 3.0, <a href="https://commons.wikimedia.org/w/index.php?curid=4369993" class="uri">https://commons.wikimedia.org/w/index.php?curid=4369993</a>; Pbroks13 (talk)Lim-secant.png: The original uploader was CSTAR at English Wikipedia. - Lim-secant.png, CC BY-SA 3.0, <a href="https://commons.wikimedia.org/w/index.php?curid=4370022" class="uri">https://commons.wikimedia.org/w/index.php?curid=4370022</a>.</small>
+Figure 1.5: Left: Tangent line of function <span class="math inline">\(f(x)\)</span> at point <span class="math inline">\(x_0\)</span>. Centre: Secant line of function <span class="math inline">\(f(x)\)</span> between point <span class="math inline">\(x_0\)</span> and point <span class="math inline">\(x_0+h\)</span>; the horizontal distance between these two points is <span class="math inline">\(\Delta x\)</span> and the vertical distance is <span class="math inline">\(\Delta f(x)\)</span>. Right: Set of secant lines of function <span class="math inline">\(f(x)\)</span> between point <span class="math inline">\(x_0\)</span> and point <span class="math inline">\(x_0+h\)</span> for progressively decreasing increments <span class="math inline">\(h\)</span>.
 </p>
 </div>
 <p>Mathematically, the slope amounts to the limiting value of the ratio of the (vertical) increment of the function, <span class="math inline">\(\Delta f(x)\)</span>, for an (horizontal) increment of <span class="math inline">\(x\)</span>, <span class="math inline">\(\Delta x\)</span>, for <span class="math inline">\(\Delta x\)</span> approaching zero, <span class="math inline">\(\Delta x \to 0\)</span>:
 <span class="math display" id="eq:derivative1">\[\begin{equation}
 f&#39;(x)=\frac{df(x)}{dx}=\lim_{\Delta x \to 0}\frac{\Delta f(x)}{\Delta x}
-\tag{2.20}
+\tag{1.20}
 \end{equation}\]</span></p>
-<p>This can be visualised as a secant line of the function between two points, <span class="math inline">\(x_0\)</span> and <span class="math inline">\(x_0+h\)</span> (Figure <a href="02-math.html#fig:derivative">2.5</a>, centre), whose slope is:
+<p>This can be visualised as a secant line of the function between two points, <span class="math inline">\(x_0\)</span> and <span class="math inline">\(x_0+h\)</span> (Figure <a href="02-math.html#fig:derivative">1.5</a>, centre), whose slope is:
 <span class="math display" id="eq:derivative2">\[\begin{equation}
 \frac{\Delta f(x)}{\Delta x}=\frac{f\left(x_0+h\right)-f\left(x_0\right)}{\left(x_0+h\right)-\left(x_0\right)}=\frac{f\left(x_0+h\right)-f\left(x_0\right)}{h}
-\tag{2.21}
+\tag{1.21}
 \end{equation}\]</span></p>
-<p>As <span class="math inline">\(h\)</span> approaches zero (Figure <a href="02-math.html#fig:derivative">2.5</a>, right) we reach the limiting value of the slope at point <span class="math inline">\(x_0\)</span>, which is the first derivative:
+<p>As <span class="math inline">\(h\)</span> approaches zero (Figure <a href="02-math.html#fig:derivative">1.5</a>, right) we reach the limiting value of the slope at point <span class="math inline">\(x_0\)</span>, which is the first derivative:
 <span class="math display" id="eq:derivative3">\[\begin{equation}
 \frac{df(x)}{dx}=\lim_{h \to 0}\frac{f\left(x_0+h\right)-f\left(x_0\right)}{h}
-\tag{2.22}
+\tag{1.22}
 \end{equation}\]</span></p>
-<p>The first derivative is useful for finding <strong>minima</strong>, <strong>maxima</strong> and <strong>inflexion points</strong> of a function, because this is where the slope is zero, <span class="math inline">\(\frac{df(x)}{dx}=0\)</span> (Figure <a href="02-math.html#fig:minmax">2.6</a>). The <strong>second derivative</strong>, measuring the curvature of the function, tells us whether these points are minima <span class="math inline">\(\left(\frac{d^2f(x)}{dx^2}&gt;0\right)\)</span>, maxima <span class="math inline">\(\left(\frac{d^2f(x)}{dx^2}&lt;0\right)\)</span> or inflexion points <span class="math inline">\(\left(\frac{d^2f(x)}{dx^2}=0\right)\)</span>, but often we already know that a function has only a single minimum or maximum and then we do not need the second derivative.</p>
+<p>The first derivative is useful for finding <strong>minima</strong>, <strong>maxima</strong> and <strong>inflexion points</strong> of a function, because this is where the slope is zero, <span class="math inline">\(\frac{df(x)}{dx}=0\)</span> (Figure <a href="02-math.html#fig:minmax">1.6</a>). The <strong>second derivative</strong>, measuring the curvature of the function, tells us whether these points are minima <span class="math inline">\(\left(\frac{d^2f(x)}{dx^2}&gt;0\right)\)</span>, maxima <span class="math inline">\(\left(\frac{d^2f(x)}{dx^2}&lt;0\right)\)</span> or inflexion points <span class="math inline">\(\left(\frac{d^2f(x)}{dx^2}=0\right)\)</span>, but often we already know that a function has only a single minimum or maximum and then we do not need the second derivative.</p>
 <div class="figure" style="text-align: center"><span id="fig:minmax"></span>
 <img src="figs/derivative4.gif" alt="Use of first and second derivative to determine minima, maxima and inflexion points of a function. Source: http://hyperphysics.phy-astr.gsu.edu/hbase/math/maxmin.html." width="80%" />
 <p class="caption">
-Figure 2.6: Use of first and second derivative to determine minima, maxima and inflexion points of a function. Source: <a href="http://hyperphysics.phy-astr.gsu.edu/hbase/math/maxmin.html" class="uri">http://hyperphysics.phy-astr.gsu.edu/hbase/math/maxmin.html</a>.
+Figure 1.6: Use of first and second derivative to determine minima, maxima and inflexion points of a function. Source: <a href="http://hyperphysics.phy-astr.gsu.edu/hbase/math/maxmin.html" class="uri">http://hyperphysics.phy-astr.gsu.edu/hbase/math/maxmin.html</a>.
 </p>
 </div>
 <p>The differentiation rules are listed below:</p>
@@ -365,10 +364,10 @@ Figure 2.6: Use of first and second derivative to determine minima, maxima and i
 <p>Chain rule: If <span class="math inline">\(y=f[g(t)]\)</span> then <span class="math inline">\(\frac{dy}{dt}=\frac{df[g]}{dg} \cdot \frac{dg}{dt}\)</span>, i.e. “outer times inner derivative”.</p>
 </div>
 <div id="matrix-algebra" class="section level2">
-<h2><span class="header-section-number">2.4</span> Matrix algebra</h2>
+<h2><span class="header-section-number">1.4</span> Matrix algebra</h2>
 <p>The following is based on <span class="citation">Tabachnick and Fidell (<a href="#ref-tabachnick2013" role="doc-biblioref">2013</a>)</span>.</p>
 <div id="simple-matrix-operations" class="section level3">
-<h3><span class="header-section-number">2.4.1</span> Simple matrix operations</h3>
+<h3><span class="header-section-number">1.4.1</span> Simple matrix operations</h3>
 <p>Let <span class="math inline">\(\mathbf{A}\)</span> and <span class="math inline">\(\mathbf{B}\)</span> be matrices:</p>
 <p><span class="math display">\[\mathbf{A} =
 \begin{pmatrix}
@@ -449,7 +448,7 @@ c &amp; f &amp; i
 \]</span></p>
 </div>
 <div id="matrix-multiplication" class="section level3">
-<h3><span class="header-section-number">2.4.2</span> Matrix multiplication</h3>
+<h3><span class="header-section-number">1.4.2</span> Matrix multiplication</h3>
 <p>Now, the multiplication of two matrices is the only operation that is a bit complicated at first. It may be best to consider an example to work out the rules:</p>
 <p><span class="math display">\[\begin{eqnarray}
 \mathbf{A} \cdot \mathbf{B}&amp;=&amp;
@@ -548,10 +547,10 @@ g \cdot a + h \cdot b + i \cdot c &amp; g \cdot d + h \cdot e + i \cdot f &amp; 
 35 &amp; 7 &amp; 65
 \end{pmatrix}
 \end{eqnarray}\]</span></p>
-<p>This last matrix is symmetrical, i.e. mirrored along its diagonal. Diagonal elements are so called <strong>sums of squares</strong>, off-diagonal elements are so called <strong>cross-products</strong>. This will be useful later on when working with variance-covariance matrices in Chapter <a href="08-multivariate.html#multivariate">8</a>.</p>
+<p>This last matrix is symmetrical, i.e. mirrored along its diagonal. Diagonal elements are so called <strong>sums of squares</strong>, off-diagonal elements are so called <strong>cross-products</strong>. This will be useful later on when working with variance-covariance matrices in Chapter <a href="08-multivariate.html#multivariate">7</a>.</p>
 </div>
 <div id="matrix-division-inverse-of-a-matrix-identity-matrix" class="section level3">
-<h3><span class="header-section-number">2.4.3</span> Matrix division, inverse of a matrix, identity matrix</h3>
+<h3><span class="header-section-number">1.4.3</span> Matrix division, inverse of a matrix, identity matrix</h3>
 <p><strong>Division of two matrices</strong> means multiplication of one matrix with the so called inverse of the other, here <span class="math inline">\(\mathbf{B}^{-1}\)</span>:</p>
 <p><span class="math display">\[\frac{\mathbf{A}}{\mathbf{B}} = \mathbf{A} \cdot \mathbf{B}^{-1}\]</span></p>
 <p>The <strong>inverse of a matrix</strong> is different to the transpose. It is rather complicated to calculate, using in most cases numerical (and not analytical) techniques that we do not go into here. At the most general level, the inverse is found so that the following equation holds:</p>
@@ -567,13 +566,13 @@ g \cdot a + h \cdot b + i \cdot c &amp; g \cdot d + h \cdot e + i \cdot f &amp; 
 </div>
 </div>
 <div id="exercises" class="section level2">
-<h2><span class="header-section-number">2.5</span> Exercises</h2>
+<h2><span class="header-section-number">1.5</span> Exercises</h2>
 <div id="exercise-1" class="section level3 unnumbered">
 <h3>Exercise 1</h3>
 <p>Apply the rules in the script to the following equation to get rid of the product operator, and then simplify the resultant equation as much as you can:</p>
 <p><span class="math display" id="eq:ex1">\[\begin{equation}
 \prod_{i=1}^{n}\frac{1}{\sigma \cdot \sqrt{2 \cdot \pi}} \cdot \exp\left(\frac{\left(y_i - \beta_0 - \beta_1 \cdot x_i\right)^2}{-2 \cdot \sigma^2}\right)=
-\tag{2.23}
+\tag{1.23}
 \end{equation}\]</span></p>
 </div>
 <div id="exercise-2" class="section level3 unnumbered">
@@ -581,7 +580,7 @@ g \cdot a + h \cdot b + i \cdot c &amp; g \cdot d + h \cdot e + i \cdot f &amp; 
 <p>Apply the differentiation rules in the script to take the derivative of the following equation:</p>
 <p><span class="math display" id="eq:ex2">\[\begin{equation}
 \frac{d\sum_{i=1}^{n}\left(y_i - \beta_0 - \beta_1 \cdot x_i\right)^2}{d\beta_0}=
-\tag{2.24}
+\tag{1.24}
 \end{equation}\]</span></p>
 </div>
 <div id="exercise-3" class="section level3 unnumbered">
@@ -607,7 +606,7 @@ g \cdot a + h \cdot b + i \cdot c &amp; g \cdot d + h \cdot e + i \cdot f &amp; 
           </div>
         </div>
       </div>
-<a href="01-orga.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="index.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
 <a href="03-lin_reg.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
