@@ -259,7 +259,7 @@ knitr::include_graphics('figs/derivative4.gif')
 
 The differentiation rules are listed below:
 
-If $y=f(t)=t^a$ then $\frac{dy}{dt}=a \cdot t^{a-1}$, i.e. multiplying the function with the exponent and reducing the exponent by one gives you the derivative of $f(x)$.
+If $y=f(t)=t^a$ then $\frac{dy}{dt}=a \cdot t^{a-1}$, i.e. multiplying the function with the exponent and reducing the exponent by one gives you the derivative of $f(t)$.
 
 Constant factor rule: If $y=c \cdot u(t)$ then $\frac{dy}{dt}=c \cdot \frac{du}{dt}$.
 
@@ -479,7 +479,7 @@ g \cdot a + h \cdot b + i \cdot c & g \cdot d + h \cdot e + i \cdot f & g^2 + h^
 \end{pmatrix}
 \end{eqnarray}$$
 
-This last matrix is symmetrical, i.e. mirrored along its diagonal. Diagonal elements are so called **sums of squares**, off-diagonal elements are so called **cross-products**. This will be useful later on when working with variance-covariance matrices in Chapter \@ref(multivariate).
+This last matrix is symmetrical, i.e. mirrored along its diagonal. The diagonal elements here are so called **sums of squares**, off-diagonal elements are so called **cross-products**. This will be useful later on when working with variance-covariance matrices in Chapter \@ref(multivariate).
 
 ### Matrix division, inverse of a matrix, identity matrix
 
