@@ -85,7 +85,6 @@ fig:yields
 eq:effform
 eq:levform
 fig:anovassysse
-fig:yields3d
 eq:dummyanova
 tab:oneway
 fig:perfectssysse

@@ -51,6 +51,23 @@
 
 
 <script src="libs/accessible-code-block/empty-anchor.js"></script>
+<script src="libs/htmlwidgets/htmlwidgets.js"></script>
+<script src="libs/rglWebGL-binding/rglWebGL.js"></script>
+<link href="libs/rglwidgetClass/rgl.css" rel="stylesheet" />
+<script src="libs/rglwidgetClass/rglClass.src.js"></script>
+<script src="libs/rglwidgetClass/utils.src.js"></script>
+<script src="libs/rglwidgetClass/subscenes.src.js"></script>
+<script src="libs/rglwidgetClass/shaders.src.js"></script>
+<script src="libs/rglwidgetClass/textures.src.js"></script>
+<script src="libs/rglwidgetClass/projection.src.js"></script>
+<script src="libs/rglwidgetClass/mouse.src.js"></script>
+<script src="libs/rglwidgetClass/init.src.js"></script>
+<script src="libs/rglwidgetClass/pieces.src.js"></script>
+<script src="libs/rglwidgetClass/draw.src.js"></script>
+<script src="libs/rglwidgetClass/controls.src.js"></script>
+<script src="libs/rglwidgetClass/selection.src.js"></script>
+<script src="libs/rglwidgetClass/rglTimer.src.js"></script>
+<script src="libs/CanvasMatrix4/CanvasMatrix.src.js"></script>
 <script src="libs/kePrint/kePrint.js"></script>
 <link href="libs/lightable/lightable.css" rel="stylesheet" />
 <link href="libs/bsTable/bootstrapTable.min.css" rel="stylesheet" />
@@ -184,11 +201,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><strong>Divisive</strong>, starting with a single cluster of all objects (data points) and then splitting this step by step until all objects are in different clusters</li>
 </ol>
 <p>Let’s illustrate the principles of these methods with the Iris dataset that is available from <em>R</em>, on which cluster analysis can be used to separate taxonomic groups. The dataset consists of a sample of Iris flowers for which the lengths and widths of their sepals and petals were measured. Sepals and petals are two different kinds of leaves in the flower. The question is: <em>Can we separate clusters of flowers that are sufficiently different with respect to these four features?</em> This then could form the basis of deriving taxonomic groups; indeed this is a typical approach in botany. To get a sense of the dataset let’s first plot a scatterplot matrix:</p>
-<div class="sourceCode" id="cb148"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb148-1"><a href="08-multivariate.html#cb148-1"></a><span class="co"># load Iris dataset</span></span>
-<span id="cb148-2"><a href="08-multivariate.html#cb148-2"></a><span class="kw">data</span>(iris)</span>
-<span id="cb148-3"><a href="08-multivariate.html#cb148-3"></a><span class="co"># scatterplot matrix</span></span>
-<span id="cb148-4"><a href="08-multivariate.html#cb148-4"></a><span class="kw">plot</span>(iris[,<span class="dv">1</span><span class="op">:</span><span class="dv">4</span>])</span></code></pre></div>
-<p><img src="qm4g_files/figure-html/unnamed-chunk-36-1.png" width="80%" /></p>
+<div class="sourceCode" id="cb151"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb151-1"><a href="08-multivariate.html#cb151-1"></a><span class="co"># load Iris dataset</span></span>
+<span id="cb151-2"><a href="08-multivariate.html#cb151-2"></a><span class="kw">data</span>(iris)</span>
+<span id="cb151-3"><a href="08-multivariate.html#cb151-3"></a><span class="co"># scatterplot matrix</span></span>
+<span id="cb151-4"><a href="08-multivariate.html#cb151-4"></a><span class="kw">plot</span>(iris[,<span class="dv">1</span><span class="op">:</span><span class="dv">4</span>])</span></code></pre></div>
+<p><img src="qm4g_files/figure-html/unnamed-chunk-38-1.png" width="80%" /></p>
 <p>We can already see at least two clusters. In some dimensions (petal length and width) they are more apart than in others (sepal length and width). Let’s formalise this analysis using the <em>kmeans</em> algorithm and afterwards look briefly at what hierarchical methods do.</p>
 <div id="the-kmeans-algorithm" class="section level3">
 <h3><span class="header-section-number">7.1.1</span> The <em>kmeans</em> algorithm</h3>
@@ -208,40 +225,40 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ol>
 <p>Often the Euclidean distance is used as a measure of (dis)similarity but others can be specified as well.</p>
 <p>We have to tell the algorithm how many clusters we want. Let’s use two to begin with (because that was our intuition earlier):</p>
-<div class="sourceCode" id="cb149"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb149-1"><a href="08-multivariate.html#cb149-1"></a><span class="co"># run kmeans algorithm on Iris data asking for 2 clusters</span></span>
-<span id="cb149-2"><a href="08-multivariate.html#cb149-2"></a>iris_fit2 &lt;-<span class="st"> </span><span class="kw">kmeans</span>(iris[,<span class="dv">1</span><span class="op">:</span><span class="dv">4</span>], <span class="dt">centers=</span><span class="dv">2</span>)</span>
-<span id="cb149-3"><a href="08-multivariate.html#cb149-3"></a><span class="co"># scatterplot matrix</span></span>
-<span id="cb149-4"><a href="08-multivariate.html#cb149-4"></a><span class="kw">plot</span>(iris[,<span class="dv">1</span><span class="op">:</span><span class="dv">4</span>], <span class="dt">col=</span>iris_fit2<span class="op">$</span>cluster)</span></code></pre></div>
-<p><img src="qm4g_files/figure-html/unnamed-chunk-37-1.png" width="80%" /></p>
-<p>Two clusters didn’t seem enough to reproduce the separation we see visually. Let’s increase the number of clusters to three:</p>
-<div class="sourceCode" id="cb150"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb150-1"><a href="08-multivariate.html#cb150-1"></a><span class="co"># run kmeans algorithm on Iris data asking for 3 clusters</span></span>
-<span id="cb150-2"><a href="08-multivariate.html#cb150-2"></a>iris_fit3 &lt;-<span class="st"> </span><span class="kw">kmeans</span>(iris[,<span class="dv">1</span><span class="op">:</span><span class="dv">4</span>], <span class="dt">centers=</span><span class="dv">3</span>)</span>
-<span id="cb150-3"><a href="08-multivariate.html#cb150-3"></a><span class="co"># scatterplot matrix</span></span>
-<span id="cb150-4"><a href="08-multivariate.html#cb150-4"></a><span class="kw">plot</span>(iris[,<span class="dv">1</span><span class="op">:</span><span class="dv">4</span>], <span class="dt">col=</span>iris_fit3<span class="op">$</span>cluster)</span></code></pre></div>
-<p><img src="qm4g_files/figure-html/unnamed-chunk-38-1.png" width="80%" /></p>
-<p>I think we would be happy with this visually. But are there perhaps even more clusters? When to stop? A useful stopping criterion is to look at the inflexion point where the total intra-cluster sum of squares (Equation <a href="08-multivariate.html#eq:intraclusterss">(7.1)</a>) does not change much anymore with increasing <span class="math inline">\(k\)</span> in a so called <strong>screeplot</strong><a href="#fn24" class="footnote-ref" id="fnref24"><sup>24</sup></a>:</p>
-<div class="sourceCode" id="cb151"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb151-1"><a href="08-multivariate.html#cb151-1"></a><span class="co"># specify vector of clusters</span></span>
-<span id="cb151-2"><a href="08-multivariate.html#cb151-2"></a>clusters &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">:</span><span class="dv">10</span></span>
-<span id="cb151-3"><a href="08-multivariate.html#cb151-3"></a><span class="co"># initialise corresponding vector of total intra-cluster sum of squares</span></span>
-<span id="cb151-4"><a href="08-multivariate.html#cb151-4"></a>ticss &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="ot">NA</span>, <span class="dv">10</span>)</span>
-<span id="cb151-5"><a href="08-multivariate.html#cb151-5"></a><span class="co"># loop through vector of clusters</span></span>
-<span id="cb151-6"><a href="08-multivariate.html#cb151-6"></a><span class="cf">for</span>(i <span class="cf">in</span> clusters){</span>
-<span id="cb151-7"><a href="08-multivariate.html#cb151-7"></a>  <span class="co"># run kmeans</span></span>
-<span id="cb151-8"><a href="08-multivariate.html#cb151-8"></a>  iris_fit &lt;-<span class="st"> </span><span class="kw">kmeans</span>(iris[,<span class="dv">1</span><span class="op">:</span><span class="dv">4</span>], <span class="dt">centers=</span>i)</span>
-<span id="cb151-9"><a href="08-multivariate.html#cb151-9"></a>  <span class="co"># collect total intra-cluster sum of squares</span></span>
-<span id="cb151-10"><a href="08-multivariate.html#cb151-10"></a>  ticss[i] &lt;-<span class="st"> </span>iris_fit<span class="op">$</span>tot.withinss</span>
-<span id="cb151-11"><a href="08-multivariate.html#cb151-11"></a>}</span>
-<span id="cb151-12"><a href="08-multivariate.html#cb151-12"></a><span class="co"># plot total intra-cluster sum of squares against clusters</span></span>
-<span id="cb151-13"><a href="08-multivariate.html#cb151-13"></a><span class="kw">plot</span>(clusters, ticss, <span class="dt">pch =</span> <span class="dv">19</span>, <span class="dt">type =</span> <span class="st">&#39;b&#39;</span>, <span class="dt">xlab =</span> <span class="st">&quot;Number of clusters&quot;</span>,</span>
-<span id="cb151-14"><a href="08-multivariate.html#cb151-14"></a>     <span class="dt">ylab =</span> <span class="st">&quot;Total intra-cluster sum of squares&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb152"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb152-1"><a href="08-multivariate.html#cb152-1"></a><span class="co"># run kmeans algorithm on Iris data asking for 2 clusters</span></span>
+<span id="cb152-2"><a href="08-multivariate.html#cb152-2"></a>iris_fit2 &lt;-<span class="st"> </span><span class="kw">kmeans</span>(iris[,<span class="dv">1</span><span class="op">:</span><span class="dv">4</span>], <span class="dt">centers=</span><span class="dv">2</span>)</span>
+<span id="cb152-3"><a href="08-multivariate.html#cb152-3"></a><span class="co"># scatterplot matrix</span></span>
+<span id="cb152-4"><a href="08-multivariate.html#cb152-4"></a><span class="kw">plot</span>(iris[,<span class="dv">1</span><span class="op">:</span><span class="dv">4</span>], <span class="dt">col=</span>iris_fit2<span class="op">$</span>cluster)</span></code></pre></div>
 <p><img src="qm4g_files/figure-html/unnamed-chunk-39-1.png" width="80%" /></p>
+<p>Two clusters didn’t seem enough to reproduce the separation we see visually. Let’s increase the number of clusters to three:</p>
+<div class="sourceCode" id="cb153"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb153-1"><a href="08-multivariate.html#cb153-1"></a><span class="co"># run kmeans algorithm on Iris data asking for 3 clusters</span></span>
+<span id="cb153-2"><a href="08-multivariate.html#cb153-2"></a>iris_fit3 &lt;-<span class="st"> </span><span class="kw">kmeans</span>(iris[,<span class="dv">1</span><span class="op">:</span><span class="dv">4</span>], <span class="dt">centers=</span><span class="dv">3</span>)</span>
+<span id="cb153-3"><a href="08-multivariate.html#cb153-3"></a><span class="co"># scatterplot matrix</span></span>
+<span id="cb153-4"><a href="08-multivariate.html#cb153-4"></a><span class="kw">plot</span>(iris[,<span class="dv">1</span><span class="op">:</span><span class="dv">4</span>], <span class="dt">col=</span>iris_fit3<span class="op">$</span>cluster)</span></code></pre></div>
+<p><img src="qm4g_files/figure-html/unnamed-chunk-40-1.png" width="80%" /></p>
+<p>I think we would be happy with this visually. But are there perhaps even more clusters? When to stop? A useful stopping criterion is to look at the inflexion point where the total intra-cluster sum of squares (Equation <a href="08-multivariate.html#eq:intraclusterss">(7.1)</a>) does not change much anymore with increasing <span class="math inline">\(k\)</span> in a so called <strong>screeplot</strong><a href="#fn24" class="footnote-ref" id="fnref24"><sup>24</sup></a>:</p>
+<div class="sourceCode" id="cb154"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb154-1"><a href="08-multivariate.html#cb154-1"></a><span class="co"># specify vector of clusters</span></span>
+<span id="cb154-2"><a href="08-multivariate.html#cb154-2"></a>clusters &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">:</span><span class="dv">10</span></span>
+<span id="cb154-3"><a href="08-multivariate.html#cb154-3"></a><span class="co"># initialise corresponding vector of total intra-cluster sum of squares</span></span>
+<span id="cb154-4"><a href="08-multivariate.html#cb154-4"></a>ticss &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="ot">NA</span>, <span class="dv">10</span>)</span>
+<span id="cb154-5"><a href="08-multivariate.html#cb154-5"></a><span class="co"># loop through vector of clusters</span></span>
+<span id="cb154-6"><a href="08-multivariate.html#cb154-6"></a><span class="cf">for</span>(i <span class="cf">in</span> clusters){</span>
+<span id="cb154-7"><a href="08-multivariate.html#cb154-7"></a>  <span class="co"># run kmeans</span></span>
+<span id="cb154-8"><a href="08-multivariate.html#cb154-8"></a>  iris_fit &lt;-<span class="st"> </span><span class="kw">kmeans</span>(iris[,<span class="dv">1</span><span class="op">:</span><span class="dv">4</span>], <span class="dt">centers=</span>i)</span>
+<span id="cb154-9"><a href="08-multivariate.html#cb154-9"></a>  <span class="co"># collect total intra-cluster sum of squares</span></span>
+<span id="cb154-10"><a href="08-multivariate.html#cb154-10"></a>  ticss[i] &lt;-<span class="st"> </span>iris_fit<span class="op">$</span>tot.withinss</span>
+<span id="cb154-11"><a href="08-multivariate.html#cb154-11"></a>}</span>
+<span id="cb154-12"><a href="08-multivariate.html#cb154-12"></a><span class="co"># plot total intra-cluster sum of squares against clusters</span></span>
+<span id="cb154-13"><a href="08-multivariate.html#cb154-13"></a><span class="kw">plot</span>(clusters, ticss, <span class="dt">pch =</span> <span class="dv">19</span>, <span class="dt">type =</span> <span class="st">&#39;b&#39;</span>, <span class="dt">xlab =</span> <span class="st">&quot;Number of clusters&quot;</span>,</span>
+<span id="cb154-14"><a href="08-multivariate.html#cb154-14"></a>     <span class="dt">ylab =</span> <span class="st">&quot;Total intra-cluster sum of squares&quot;</span>)</span></code></pre></div>
+<p><img src="qm4g_files/figure-html/unnamed-chunk-41-1.png" width="80%" /></p>
 <p>We can see that beyond three clusters the improvement in separation is minimal, so we would leave it at three. This, it turns out, matches almost perfectly the official taxonomic separation of the Iris dataset:</p>
-<div class="sourceCode" id="cb152"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb152-1"><a href="08-multivariate.html#cb152-1"></a><span class="co"># contingency table of cluster:species matches</span></span>
-<span id="cb152-2"><a href="08-multivariate.html#cb152-2"></a><span class="kw">table</span>(iris_fit3<span class="op">$</span>cluster, iris<span class="op">$</span>Species)</span></code></pre></div>
+<div class="sourceCode" id="cb155"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb155-1"><a href="08-multivariate.html#cb155-1"></a><span class="co"># contingency table of cluster:species matches</span></span>
+<span id="cb155-2"><a href="08-multivariate.html#cb155-2"></a><span class="kw">table</span>(iris_fit3<span class="op">$</span>cluster, iris<span class="op">$</span>Species)</span></code></pre></div>
 <pre><code>##    
 ##     setosa versicolor virginica
-##   1     50          0         0
-##   2      0         48        14
+##   1      0         48        14
+##   2     50          0         0
 ##   3      0          2        36</code></pre>
 <p>The separation of Iris versicolor and Iris virginica, however, is not perfect.</p>
 </div>
@@ -255,22 +272,22 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>Repeat step 3 until a single cluster is build</li>
 </ol>
 <p>The result is a <strong>dendrogram</strong>, whose “height” is the distance between clusters, e.g. in Ward’s method the increase in the intra-cluster sum of squares of the clusters being merged:</p>
-<div class="sourceCode" id="cb154"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb154-1"><a href="08-multivariate.html#cb154-1"></a><span class="co"># construct dissimilarity matrix for Iris data</span></span>
-<span id="cb154-2"><a href="08-multivariate.html#cb154-2"></a>iris_dist &lt;-<span class="st"> </span><span class="kw">dist</span>(iris[,<span class="dv">1</span><span class="op">:</span><span class="dv">4</span>])</span>
-<span id="cb154-3"><a href="08-multivariate.html#cb154-3"></a><span class="co"># run hierarchical clustering with Ward&#39;s method</span></span>
-<span id="cb154-4"><a href="08-multivariate.html#cb154-4"></a>iris_fith &lt;-<span class="st"> </span><span class="kw">hclust</span>(iris_dist, <span class="dt">method=</span><span class="st">&quot;ward.D2&quot;</span>)</span>
-<span id="cb154-5"><a href="08-multivariate.html#cb154-5"></a><span class="co"># dendrogram</span></span>
-<span id="cb154-6"><a href="08-multivariate.html#cb154-6"></a><span class="kw">plot</span>(iris_fith)</span></code></pre></div>
-<p><img src="qm4g_files/figure-html/unnamed-chunk-41-1.png" width="80%" /></p>
+<div class="sourceCode" id="cb157"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb157-1"><a href="08-multivariate.html#cb157-1"></a><span class="co"># construct dissimilarity matrix for Iris data</span></span>
+<span id="cb157-2"><a href="08-multivariate.html#cb157-2"></a>iris_dist &lt;-<span class="st"> </span><span class="kw">dist</span>(iris[,<span class="dv">1</span><span class="op">:</span><span class="dv">4</span>])</span>
+<span id="cb157-3"><a href="08-multivariate.html#cb157-3"></a><span class="co"># run hierarchical clustering with Ward&#39;s method</span></span>
+<span id="cb157-4"><a href="08-multivariate.html#cb157-4"></a>iris_fith &lt;-<span class="st"> </span><span class="kw">hclust</span>(iris_dist, <span class="dt">method=</span><span class="st">&quot;ward.D2&quot;</span>)</span>
+<span id="cb157-5"><a href="08-multivariate.html#cb157-5"></a><span class="co"># dendrogram</span></span>
+<span id="cb157-6"><a href="08-multivariate.html#cb157-6"></a><span class="kw">plot</span>(iris_fith)</span></code></pre></div>
+<p><img src="qm4g_files/figure-html/unnamed-chunk-43-1.png" width="80%" /></p>
 <p>Again we can see the three clearly separate clusters, beyond which any further separation is ambiguous.</p>
 </div>
 </div>
 <div id="pca" class="section level2">
 <h2><span class="header-section-number">7.2</span> Principal Component Analysis (PCA)</h2>
 <p>To illustrate PCA I will use a dataset from <span class="citation">Lovett, Weathers, and Sobczak (<a href="#ref-lovett2000" role="doc-biblioref">2000</a>)</span>, cited in <span class="citation">Quinn and Keough (<a href="#ref-quinn2002" role="doc-biblioref">2002</a>)</span>, that consists of stream chemistry measurements from 38 forested catchments in the Catskill Mountains, New York:</p>
-<div class="sourceCode" id="cb155"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb155-1"><a href="08-multivariate.html#cb155-1"></a><span class="co"># load stream chemistry data</span></span>
-<span id="cb155-2"><a href="08-multivariate.html#cb155-2"></a>streams &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="st">&quot;data/streams.txt&quot;</span>,<span class="dt">header=</span>T)</span>
-<span id="cb155-3"><a href="08-multivariate.html#cb155-3"></a><span class="kw">head</span>(streams)</span></code></pre></div>
+<div class="sourceCode" id="cb158"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb158-1"><a href="08-multivariate.html#cb158-1"></a><span class="co"># load stream chemistry data</span></span>
+<span id="cb158-2"><a href="08-multivariate.html#cb158-2"></a>streams &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="st">&quot;data/streams.txt&quot;</span>,<span class="dt">header=</span>T)</span>
+<span id="cb158-3"><a href="08-multivariate.html#cb158-3"></a><span class="kw">head</span>(streams)</span></code></pre></div>
 <pre><code>##    catchm_name max_elev sample_elev stream_length
 ## 1   Santa_Cruz     1006         680          1680
 ## 2      Colgate     1216         628          3912
@@ -321,17 +338,17 @@ Figure 7.1: Left: Histogram of calcium concentration measurements from stream ch
 \tag{7.3}
 \end{equation}\]</span></p>
 <p>Let’s look at the associations between the variables in the stream chemistry dataset:</p>
-<div class="sourceCode" id="cb157"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb157-1"><a href="08-multivariate.html#cb157-1"></a><span class="kw">pairs</span>(streams[,<span class="dv">6</span><span class="op">:</span><span class="dv">15</span>], <span class="dt">diag.panel =</span> panel.hist)</span></code></pre></div>
-<p><img src="qm4g_files/figure-html/unnamed-chunk-44-1.png" width="672" /></p>
+<div class="sourceCode" id="cb160"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb160-1"><a href="08-multivariate.html#cb160-1"></a><span class="kw">pairs</span>(streams[,<span class="dv">6</span><span class="op">:</span><span class="dv">15</span>], <span class="dt">diag.panel =</span> panel.hist)</span></code></pre></div>
+<p><img src="qm4g_files/figure-html/unnamed-chunk-46-1.png" width="672" /></p>
 <p>First of all we notice the non-normality of DOC, Cl and H (at least; in principle this diagnosis is ambiguous). Hence we log-transform these three variables to make them adhere better to normality:</p>
-<div class="sourceCode" id="cb158"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb158-1"><a href="08-multivariate.html#cb158-1"></a>streams_log &lt;-<span class="st"> </span>streams</span>
-<span id="cb158-2"><a href="08-multivariate.html#cb158-2"></a>streams_log<span class="op">$</span>DOC &lt;-<span class="st"> </span><span class="kw">log</span>(streams<span class="op">$</span>DOC)</span>
-<span id="cb158-3"><a href="08-multivariate.html#cb158-3"></a>streams_log<span class="op">$</span>CL &lt;-<span class="st"> </span><span class="kw">log</span>(streams<span class="op">$</span>CL)</span>
-<span id="cb158-4"><a href="08-multivariate.html#cb158-4"></a>streams_log<span class="op">$</span>H &lt;-<span class="st"> </span><span class="kw">log</span>(streams<span class="op">$</span>H)</span>
-<span id="cb158-5"><a href="08-multivariate.html#cb158-5"></a><span class="kw">pairs</span>(streams_log[,<span class="dv">6</span><span class="op">:</span><span class="dv">15</span>], <span class="dt">diag.panel =</span> panel.hist)</span></code></pre></div>
-<p><img src="qm4g_files/figure-html/unnamed-chunk-45-1.png" width="672" /></p>
+<div class="sourceCode" id="cb161"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb161-1"><a href="08-multivariate.html#cb161-1"></a>streams_log &lt;-<span class="st"> </span>streams</span>
+<span id="cb161-2"><a href="08-multivariate.html#cb161-2"></a>streams_log<span class="op">$</span>DOC &lt;-<span class="st"> </span><span class="kw">log</span>(streams<span class="op">$</span>DOC)</span>
+<span id="cb161-3"><a href="08-multivariate.html#cb161-3"></a>streams_log<span class="op">$</span>CL &lt;-<span class="st"> </span><span class="kw">log</span>(streams<span class="op">$</span>CL)</span>
+<span id="cb161-4"><a href="08-multivariate.html#cb161-4"></a>streams_log<span class="op">$</span>H &lt;-<span class="st"> </span><span class="kw">log</span>(streams<span class="op">$</span>H)</span>
+<span id="cb161-5"><a href="08-multivariate.html#cb161-5"></a><span class="kw">pairs</span>(streams_log[,<span class="dv">6</span><span class="op">:</span><span class="dv">15</span>], <span class="dt">diag.panel =</span> panel.hist)</span></code></pre></div>
+<p><img src="qm4g_files/figure-html/unnamed-chunk-47-1.png" width="672" /></p>
 <p>We then notice a positive correlation between NO3 and TN; most of the total nitrogen in streams actually comes in the form of nitrate. We notice a positive correlation between Ca and Mg; both are characteristic of alkaline waters and often appear together. We notice a positive correlation between Mg (and Ca) and SO4; magnesium (and calcium) often appear as Mg(Ca)-sulphate. And we notice a negative correlation between Ca and H; calcium is characteristic of alkaline waters, i.e. waters that have a high pH, hence a low hydrogen concentration. These associations are reflected in the covariance matrix:</p>
-<div class="sourceCode" id="cb159"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb159-1"><a href="08-multivariate.html#cb159-1"></a><span class="kw">cov</span>(streams_log[,<span class="dv">6</span><span class="op">:</span><span class="dv">15</span>])</span></code></pre></div>
+<div class="sourceCode" id="cb162"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb162-1"><a href="08-multivariate.html#cb162-1"></a><span class="kw">cov</span>(streams_log[,<span class="dv">6</span><span class="op">:</span><span class="dv">15</span>])</span></code></pre></div>
 <pre><code>##          NO3       TON      TN      NH4      DOC
 ## NO3  74.1885 -4.367084 68.5691 -1.21607  0.26400
 ## TON  -4.3671  1.636707 -2.5259  0.14817  0.07964
@@ -355,7 +372,7 @@ Figure 7.1: Left: Histogram of calcium concentration measurements from stream ch
 ## MG  19.8258  1.01104  27.0328  26.2495 -1.883364
 ## H   -1.6000 -0.08046  -7.6395  -1.8834  0.454193</code></pre>
 <p>In particular, <span class="math inline">\(cov(NO3,TN)=68.57\)</span>, <span class="math inline">\(cov(SO4,MG)=19.83\)</span> and <span class="math inline">\(cov(CA,H)=-7.64\)</span>. However, at the scale of covariances we cannot judge the strengths of the associations, because the magnitude of the covariance is determined by the diagonal variance terms of the respective variables. We need to normalise by those variances, i.e. look at the correlation matrix:</p>
-<div class="sourceCode" id="cb161"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb161-1"><a href="08-multivariate.html#cb161-1"></a><span class="kw">cor</span>(streams_log[,<span class="dv">6</span><span class="op">:</span><span class="dv">15</span>])</span></code></pre></div>
+<div class="sourceCode" id="cb164"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb164-1"><a href="08-multivariate.html#cb164-1"></a><span class="kw">cor</span>(streams_log[,<span class="dv">6</span><span class="op">:</span><span class="dv">15</span>])</span></code></pre></div>
 <pre><code>##          NO3       TON       TN      NH4      DOC
 ## NO3  1.00000 -0.396312  0.98287 -0.19283  0.09091
 ## TON -0.39631  1.000000 -0.24376  0.15818  0.18462
@@ -446,8 +463,8 @@ u_{1k}\\u_{2k}\\\vdots\\u_{pk}
 <p>If the Eigenanalysis is carried out on the covariance matrix <span class="math inline">\(\mathbf{C}\)</span> then <span class="math inline">\(\sum_{j=1}^{k}\lambda_j=Tr(\mathbf{C})\)</span>, i.e. the sum of the Eigenvalues is the trace of <span class="math inline">\(\mathbf{C}\)</span>. The <strong>trace</strong> is defined as the sum of the diagonal elements of a matrix, i.e. here the sum of the variances of the original <em>centred</em> variables. This isappropriate when the variables are measured in comparable units and differences in variance make an important contribution to interpretation.</p>
 <p>If the Eigenanalysis is carried out on the correlation matrix <span class="math inline">\(\mathbf{R}\)</span> then <span class="math inline">\(\sum_{j=1}^{k}\lambda_j=Tr(\mathbf{R})\)</span>, i.e. the sum of the variances of the original <em>standardised</em> variables: <span class="math inline">\(y^*=\frac{y-\mu}{\sigma}\)</span> so that <span class="math inline">\(\mu^*=0\)</span> and <span class="math inline">\(\sigma^*=1\)</span>. Compare Chapter <a href="02-math.html#math">1</a>. This is necessary when variables are measured in very different units or scales, otherwise variables with large values/variances may dominate the results.</p>
 <p>In the stream chemistry example we best work with standardised data because variances are orders of magnitude different.<a href="#fn27" class="footnote-ref" id="fnref27"><sup>27</sup></a> We use the <code>prcomp()</code> function on the data matrix, and tell it to standardise the variables by <code>scale=TRUE</code>. To only centre the variables we’d use <code>center=TRUE</code> and <code>scale=FALSE</code> (which is the default).</p>
-<div class="sourceCode" id="cb163"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb163-1"><a href="08-multivariate.html#cb163-1"></a>streams_pca &lt;-<span class="st"> </span><span class="kw">prcomp</span>(streams_log[,<span class="dv">6</span><span class="op">:</span><span class="dv">15</span>], <span class="dt">scale=</span><span class="ot">TRUE</span>)</span>
-<span id="cb163-2"><a href="08-multivariate.html#cb163-2"></a>streams_pca</span></code></pre></div>
+<div class="sourceCode" id="cb166"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb166-1"><a href="08-multivariate.html#cb166-1"></a>streams_pca &lt;-<span class="st"> </span><span class="kw">prcomp</span>(streams_log[,<span class="dv">6</span><span class="op">:</span><span class="dv">15</span>], <span class="dt">scale=</span><span class="ot">TRUE</span>)</span>
+<span id="cb166-2"><a href="08-multivariate.html#cb166-2"></a>streams_pca</span></code></pre></div>
 <pre><code>## Standard deviations (1, .., p=10):
 ##  [1] 1.85038 1.57255 1.08217 0.96516 0.86381 0.80397
 ##  [7] 0.61930 0.36161 0.30237 0.04784
@@ -476,23 +493,23 @@ u_{1k}\\u_{2k}\\\vdots\\u_{pk}
 ## MG  -0.1421 -0.1313  0.41741  0.63807 -0.031886
 ## H   -0.3425  0.0924 -0.53606  0.42495  0.008250</code></pre>
 <p>In the output, what’s called “standard deviations” are the square roots of the Eigenvalues of the principal components (PCs). So squaring them yields the Eigenvalues:</p>
-<div class="sourceCode" id="cb165"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb165-1"><a href="08-multivariate.html#cb165-1"></a>ev &lt;-<span class="st"> </span>streams_pca<span class="op">$</span>sdev<span class="op">^</span><span class="dv">2</span></span>
-<span id="cb165-2"><a href="08-multivariate.html#cb165-2"></a>ev</span></code></pre></div>
+<div class="sourceCode" id="cb168"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb168-1"><a href="08-multivariate.html#cb168-1"></a>ev &lt;-<span class="st"> </span>streams_pca<span class="op">$</span>sdev<span class="op">^</span><span class="dv">2</span></span>
+<span id="cb168-2"><a href="08-multivariate.html#cb168-2"></a>ev</span></code></pre></div>
 <pre><code>##  [1] 3.423924 2.472900 1.171093 0.931534 0.746173
 ##  [6] 0.646363 0.383537 0.130760 0.091428 0.002288</code></pre>
 <p>We can verify that in this example the Eigenvalues sum to 10, which is the trace of the correlation matrix:</p>
-<div class="sourceCode" id="cb167"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb167-1"><a href="08-multivariate.html#cb167-1"></a><span class="kw">sum</span>(ev)</span></code></pre></div>
+<div class="sourceCode" id="cb170"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb170-1"><a href="08-multivariate.html#cb170-1"></a><span class="kw">sum</span>(ev)</span></code></pre></div>
 <pre><code>## [1] 10</code></pre>
 <p>By normalising the Eigenvalues by 10 we get the fraction of original variance explained by each PC:</p>
-<div class="sourceCode" id="cb169"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb169-1"><a href="08-multivariate.html#cb169-1"></a>ev<span class="op">/</span><span class="kw">sum</span>(ev)<span class="op">*</span><span class="dv">100</span></span></code></pre></div>
+<div class="sourceCode" id="cb172"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb172-1"><a href="08-multivariate.html#cb172-1"></a>ev<span class="op">/</span><span class="kw">sum</span>(ev)<span class="op">*</span><span class="dv">100</span></span></code></pre></div>
 <pre><code>##  [1] 34.23924 24.72900 11.71093  9.31534  7.46173
 ##  [6]  6.46363  3.83537  1.30760  0.91428  0.02288</code></pre>
 <p>Plotting the Eigenvalues in a <strong>screeplot</strong> shows that the bulk of the original variance is consolidated in the first three PCs; together they explain 71% of the original variance:</p>
-<div class="sourceCode" id="cb171"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb171-1"><a href="08-multivariate.html#cb171-1"></a><span class="kw">plot</span>(<span class="kw">seq</span>(<span class="dv">1</span>,<span class="dv">10</span>,<span class="dv">1</span>), ev, <span class="dt">pch =</span> <span class="dv">19</span>, <span class="dt">type =</span> <span class="st">&#39;b&#39;</span>, <span class="dt">ylim=</span><span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">4</span>),</span>
-<span id="cb171-2"><a href="08-multivariate.html#cb171-2"></a>     <span class="dt">xlab=</span><span class="st">&quot;Principal Component&quot;</span>, <span class="dt">ylab=</span><span class="st">&quot;Eigenvalue&quot;</span>)</span></code></pre></div>
-<p><img src="qm4g_files/figure-html/unnamed-chunk-52-1.png" width="80%" /></p>
+<div class="sourceCode" id="cb174"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb174-1"><a href="08-multivariate.html#cb174-1"></a><span class="kw">plot</span>(<span class="kw">seq</span>(<span class="dv">1</span>,<span class="dv">10</span>,<span class="dv">1</span>), ev, <span class="dt">pch =</span> <span class="dv">19</span>, <span class="dt">type =</span> <span class="st">&#39;b&#39;</span>, <span class="dt">ylim=</span><span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">4</span>),</span>
+<span id="cb174-2"><a href="08-multivariate.html#cb174-2"></a>     <span class="dt">xlab=</span><span class="st">&quot;Principal Component&quot;</span>, <span class="dt">ylab=</span><span class="st">&quot;Eigenvalue&quot;</span>)</span></code></pre></div>
+<p><img src="qm4g_files/figure-html/unnamed-chunk-54-1.png" width="80%" /></p>
 <p>What’s called “rotation” in the output are the Eigenvectors, measuring how much much each original variable contributes to the PCs. We look at the Eigenvectors of the first three PCs only here:</p>
-<div class="sourceCode" id="cb172"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb172-1"><a href="08-multivariate.html#cb172-1"></a>streams_pca<span class="op">$</span>rotation[,<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>]</span></code></pre></div>
+<div class="sourceCode" id="cb175"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb175-1"><a href="08-multivariate.html#cb175-1"></a>streams_pca<span class="op">$</span>rotation[,<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>]</span></code></pre></div>
 <pre><code>##         PC1      PC2       PC3
 ## NO3 -0.2608  0.51883  0.048949
 ## TON  0.1471 -0.29927  0.515134
@@ -505,24 +522,24 @@ u_{1k}\\u_{2k}\\\vdots\\u_{pk}
 ## MG   0.4716  0.01539  0.300889
 ## H   -0.3972 -0.28149  0.005572</code></pre>
 <p>We see that SO4, log(Cl) and Mg load strongly positively on PC1 and log(H) loads strongly negatively. It seems PC1 distinguishes alkaline from acidic sites. NO3, total nitrogen and Ca load strongly positively on PC2. The correlation between total nitrogen and NO3 is again apparent. My interpretation is that PC2 distinguishes subsurface (high Ca, high nitrogen) from surface water sites. Total organic nitrogen and log(dissolved organic carbon) load strongly positively on PC3 and NH4 loads strongly negatively. PC3 might distinguish organic from mineralised (surface) water sites. We can also visualise this in so called <strong>biplots</strong>:</p>
-<div class="sourceCode" id="cb174"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb174-1"><a href="08-multivariate.html#cb174-1"></a><span class="kw">biplot</span>(streams_pca, <span class="dt">choices=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
-<span id="cb174-2"><a href="08-multivariate.html#cb174-2"></a><span class="kw">biplot</span>(streams_pca, <span class="dt">choices=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">3</span>))</span>
-<span id="cb174-3"><a href="08-multivariate.html#cb174-3"></a><span class="kw">biplot</span>(streams_pca, <span class="dt">choices=</span><span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">3</span>))</span></code></pre></div>
-<p><img src="qm4g_files/figure-html/unnamed-chunk-54-1.png" width="33%" /><img src="qm4g_files/figure-html/unnamed-chunk-54-2.png" width="33%" /><img src="qm4g_files/figure-html/unnamed-chunk-54-3.png" width="33%" /></p>
+<div class="sourceCode" id="cb177"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb177-1"><a href="08-multivariate.html#cb177-1"></a><span class="kw">biplot</span>(streams_pca, <span class="dt">choices=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
+<span id="cb177-2"><a href="08-multivariate.html#cb177-2"></a><span class="kw">biplot</span>(streams_pca, <span class="dt">choices=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">3</span>))</span>
+<span id="cb177-3"><a href="08-multivariate.html#cb177-3"></a><span class="kw">biplot</span>(streams_pca, <span class="dt">choices=</span><span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">3</span>))</span></code></pre></div>
+<p><img src="qm4g_files/figure-html/unnamed-chunk-56-1.png" width="33%" /><img src="qm4g_files/figure-html/unnamed-chunk-56-2.png" width="33%" /><img src="qm4g_files/figure-html/unnamed-chunk-56-3.png" width="33%" /></p>
 <p>In these plots we see the original data points (black numbers) in PC space. The red vectors show the contributions of the original variables to the PCs. Vectors close together in all three dimensions indicate correlation; we can see this best here for NO3 and total nitrogen.</p>
 <p>Lastly, in order to shows what we can do with the PCs, we extract the values of the first three PCs and plot them against the other catchment characteristics in the dataset:</p>
-<div class="sourceCode" id="cb175"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb175-1"><a href="08-multivariate.html#cb175-1"></a><span class="kw">library</span>(latex2exp)</span>
-<span id="cb175-2"><a href="08-multivariate.html#cb175-2"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="dv">3</span>){</span>
-<span id="cb175-3"><a href="08-multivariate.html#cb175-3"></a>  <span class="kw">plot</span>(streams_pca<span class="op">$</span>x[,i],streams_log<span class="op">$</span>max_elev, <span class="dt">xlab=</span><span class="kw">paste</span>(<span class="st">&quot;PC&quot;</span>,i), <span class="dt">ylab=</span><span class="st">&quot;Max. elevation&quot;</span>,</span>
-<span id="cb175-4"><a href="08-multivariate.html#cb175-4"></a>       <span class="dt">main=</span><span class="kw">TeX</span>(<span class="kw">paste</span>(<span class="st">&quot;$</span><span class="ch">\\</span><span class="st">rho$=&quot;</span>,<span class="kw">round</span>(<span class="kw">cor</span>(streams_pca<span class="op">$</span>x[,i],streams_log<span class="op">$</span>sample_elev),<span class="dt">digits=</span><span class="dv">3</span>))))</span>
-<span id="cb175-5"><a href="08-multivariate.html#cb175-5"></a>  <span class="kw">plot</span>(streams_pca<span class="op">$</span>x[,i],streams_log<span class="op">$</span>sample_elev, <span class="dt">xlab=</span><span class="kw">paste</span>(<span class="st">&quot;PC&quot;</span>,i), <span class="dt">ylab=</span><span class="st">&quot;Sample elevation&quot;</span>,</span>
-<span id="cb175-6"><a href="08-multivariate.html#cb175-6"></a>       <span class="dt">main=</span><span class="kw">TeX</span>(<span class="kw">paste</span>(<span class="st">&quot;$</span><span class="ch">\\</span><span class="st">rho$=&quot;</span>,<span class="kw">round</span>(<span class="kw">cor</span>(streams_pca<span class="op">$</span>x[,i],streams_log<span class="op">$</span>stream_length),<span class="dt">digits=</span><span class="dv">3</span>))))</span>
-<span id="cb175-7"><a href="08-multivariate.html#cb175-7"></a>  <span class="kw">plot</span>(streams_pca<span class="op">$</span>x[,i],streams_log<span class="op">$</span>stream_length, <span class="dt">xlab=</span><span class="kw">paste</span>(<span class="st">&quot;PC&quot;</span>,i), <span class="dt">ylab=</span><span class="st">&quot;Stream length&quot;</span>,</span>
-<span id="cb175-8"><a href="08-multivariate.html#cb175-8"></a>       <span class="dt">main=</span><span class="kw">TeX</span>(<span class="kw">paste</span>(<span class="st">&quot;$</span><span class="ch">\\</span><span class="st">rho$=&quot;</span>,<span class="kw">round</span>(<span class="kw">cor</span>(streams_pca<span class="op">$</span>x[,i],streams_log<span class="op">$</span>catchm_area),<span class="dt">digits=</span><span class="dv">3</span>))))</span>
-<span id="cb175-9"><a href="08-multivariate.html#cb175-9"></a>  <span class="kw">plot</span>(streams_pca<span class="op">$</span>x[,i],streams_log<span class="op">$</span>catchm_area, <span class="dt">xlab=</span><span class="kw">paste</span>(<span class="st">&quot;PC&quot;</span>,i), <span class="dt">ylab=</span><span class="st">&quot;Catchment area&quot;</span>,</span>
-<span id="cb175-10"><a href="08-multivariate.html#cb175-10"></a>       <span class="dt">main=</span><span class="kw">TeX</span>(<span class="kw">paste</span>(<span class="st">&quot;$</span><span class="ch">\\</span><span class="st">rho$=&quot;</span>,<span class="kw">round</span>(<span class="kw">cor</span>(streams_pca<span class="op">$</span>x[,i],streams_log<span class="op">$</span>max_elev),<span class="dt">digits=</span><span class="dv">3</span>))))</span>
-<span id="cb175-11"><a href="08-multivariate.html#cb175-11"></a>}</span></code></pre></div>
-<p><img src="qm4g_files/figure-html/unnamed-chunk-55-1.png" width="25%" /><img src="qm4g_files/figure-html/unnamed-chunk-55-2.png" width="25%" /><img src="qm4g_files/figure-html/unnamed-chunk-55-3.png" width="25%" /><img src="qm4g_files/figure-html/unnamed-chunk-55-4.png" width="25%" /><img src="qm4g_files/figure-html/unnamed-chunk-55-5.png" width="25%" /><img src="qm4g_files/figure-html/unnamed-chunk-55-6.png" width="25%" /><img src="qm4g_files/figure-html/unnamed-chunk-55-7.png" width="25%" /><img src="qm4g_files/figure-html/unnamed-chunk-55-8.png" width="25%" /><img src="qm4g_files/figure-html/unnamed-chunk-55-9.png" width="25%" /><img src="qm4g_files/figure-html/unnamed-chunk-55-10.png" width="25%" /><img src="qm4g_files/figure-html/unnamed-chunk-55-11.png" width="25%" /><img src="qm4g_files/figure-html/unnamed-chunk-55-12.png" width="25%" /></p>
+<div class="sourceCode" id="cb178"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb178-1"><a href="08-multivariate.html#cb178-1"></a><span class="kw">library</span>(latex2exp)</span>
+<span id="cb178-2"><a href="08-multivariate.html#cb178-2"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="dv">3</span>){</span>
+<span id="cb178-3"><a href="08-multivariate.html#cb178-3"></a>  <span class="kw">plot</span>(streams_pca<span class="op">$</span>x[,i],streams_log<span class="op">$</span>max_elev, <span class="dt">xlab=</span><span class="kw">paste</span>(<span class="st">&quot;PC&quot;</span>,i), <span class="dt">ylab=</span><span class="st">&quot;Max. elevation&quot;</span>,</span>
+<span id="cb178-4"><a href="08-multivariate.html#cb178-4"></a>       <span class="dt">main=</span><span class="kw">TeX</span>(<span class="kw">paste</span>(<span class="st">&quot;$</span><span class="ch">\\</span><span class="st">rho$=&quot;</span>,<span class="kw">round</span>(<span class="kw">cor</span>(streams_pca<span class="op">$</span>x[,i],streams_log<span class="op">$</span>sample_elev),<span class="dt">digits=</span><span class="dv">3</span>))))</span>
+<span id="cb178-5"><a href="08-multivariate.html#cb178-5"></a>  <span class="kw">plot</span>(streams_pca<span class="op">$</span>x[,i],streams_log<span class="op">$</span>sample_elev, <span class="dt">xlab=</span><span class="kw">paste</span>(<span class="st">&quot;PC&quot;</span>,i), <span class="dt">ylab=</span><span class="st">&quot;Sample elevation&quot;</span>,</span>
+<span id="cb178-6"><a href="08-multivariate.html#cb178-6"></a>       <span class="dt">main=</span><span class="kw">TeX</span>(<span class="kw">paste</span>(<span class="st">&quot;$</span><span class="ch">\\</span><span class="st">rho$=&quot;</span>,<span class="kw">round</span>(<span class="kw">cor</span>(streams_pca<span class="op">$</span>x[,i],streams_log<span class="op">$</span>stream_length),<span class="dt">digits=</span><span class="dv">3</span>))))</span>
+<span id="cb178-7"><a href="08-multivariate.html#cb178-7"></a>  <span class="kw">plot</span>(streams_pca<span class="op">$</span>x[,i],streams_log<span class="op">$</span>stream_length, <span class="dt">xlab=</span><span class="kw">paste</span>(<span class="st">&quot;PC&quot;</span>,i), <span class="dt">ylab=</span><span class="st">&quot;Stream length&quot;</span>,</span>
+<span id="cb178-8"><a href="08-multivariate.html#cb178-8"></a>       <span class="dt">main=</span><span class="kw">TeX</span>(<span class="kw">paste</span>(<span class="st">&quot;$</span><span class="ch">\\</span><span class="st">rho$=&quot;</span>,<span class="kw">round</span>(<span class="kw">cor</span>(streams_pca<span class="op">$</span>x[,i],streams_log<span class="op">$</span>catchm_area),<span class="dt">digits=</span><span class="dv">3</span>))))</span>
+<span id="cb178-9"><a href="08-multivariate.html#cb178-9"></a>  <span class="kw">plot</span>(streams_pca<span class="op">$</span>x[,i],streams_log<span class="op">$</span>catchm_area, <span class="dt">xlab=</span><span class="kw">paste</span>(<span class="st">&quot;PC&quot;</span>,i), <span class="dt">ylab=</span><span class="st">&quot;Catchment area&quot;</span>,</span>
+<span id="cb178-10"><a href="08-multivariate.html#cb178-10"></a>       <span class="dt">main=</span><span class="kw">TeX</span>(<span class="kw">paste</span>(<span class="st">&quot;$</span><span class="ch">\\</span><span class="st">rho$=&quot;</span>,<span class="kw">round</span>(<span class="kw">cor</span>(streams_pca<span class="op">$</span>x[,i],streams_log<span class="op">$</span>max_elev),<span class="dt">digits=</span><span class="dv">3</span>))))</span>
+<span id="cb178-11"><a href="08-multivariate.html#cb178-11"></a>}</span></code></pre></div>
+<p><img src="qm4g_files/figure-html/unnamed-chunk-57-1.png" width="25%" /><img src="qm4g_files/figure-html/unnamed-chunk-57-2.png" width="25%" /><img src="qm4g_files/figure-html/unnamed-chunk-57-3.png" width="25%" /><img src="qm4g_files/figure-html/unnamed-chunk-57-4.png" width="25%" /><img src="qm4g_files/figure-html/unnamed-chunk-57-5.png" width="25%" /><img src="qm4g_files/figure-html/unnamed-chunk-57-6.png" width="25%" /><img src="qm4g_files/figure-html/unnamed-chunk-57-7.png" width="25%" /><img src="qm4g_files/figure-html/unnamed-chunk-57-8.png" width="25%" /><img src="qm4g_files/figure-html/unnamed-chunk-57-9.png" width="25%" /><img src="qm4g_files/figure-html/unnamed-chunk-57-10.png" width="25%" /><img src="qm4g_files/figure-html/unnamed-chunk-57-11.png" width="25%" /><img src="qm4g_files/figure-html/unnamed-chunk-57-12.png" width="25%" /></p>
 <p>On top of these plots are the linear correlation coefficients <span class="math inline">\(\rho\)</span> as a first indication of associations between PCs and other catchment characteristics. The strongest correlation is that between PC1 and max. elevation. Given our interpretation of PC1 from above we can conclude that waters tend to get more acidic (less alkaline) with elevation, perhaps because these sites are less influenced by human activity that tends to introduce alkalinity through agricultural or urban runoff and discharges.</p>
 <p>We could also use the PCs as predictors in a regression model. This is especially useful for predictors that are highly correlated; these we can consolidate in a few PCs that then serve as independent predictors. Interpretation, however - as the stream chemistry example demonstrates - may be challenging.</p>
 </div>
@@ -531,9 +548,9 @@ u_{1k}\\u_{2k}\\\vdots\\u_{pk}
 <h2><span class="header-section-number">7.3</span> Multivariate ANOVA (MANOVA)</h2>
 <p>MANOVA extends ANOVA to the case of multiple response variables. Let’s remind ourselves (compare Chapter <a href="04-categorical_vars.html#categoricalvars">3</a>) that the categorical predictor variables are called <strong>factors</strong>, the categories of each factor are called <strong>levels</strong>, <strong>groups</strong> or <strong>treatments</strong>. And the parameters are called <strong>effects</strong>. Where ANOVA asks whether <em>means</em> across factor levels (groups) are significantly different (compare the yields example from Chapter <a href="04-categorical_vars.html#categoricalvars">3</a>), MANOVA asks whether <em>centroids</em> across factor levels (groups) are significantly different, taking all response variables together.</p>
 <p>We illustrate <strong>single-factor MANOVA</strong> with a marine sediment dataset from <span class="citation">Haynes et al. (<a href="#ref-haynes1995" role="doc-biblioref">1995</a>)</span>, cited in <span class="citation">Quinn and Keough (<a href="#ref-quinn2002" role="doc-biblioref">2002</a>)</span>. We use this dataset to test for differences between sites in trace metal concentrations in marine sediments off the Victorian coast in southern Australia:</p>
-<div class="sourceCode" id="cb176"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb176-1"><a href="08-multivariate.html#cb176-1"></a><span class="co"># load sediments data</span></span>
-<span id="cb176-2"><a href="08-multivariate.html#cb176-2"></a>sediments &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="st">&quot;data/sediments.txt&quot;</span>,<span class="dt">header=</span>T)</span>
-<span id="cb176-3"><a href="08-multivariate.html#cb176-3"></a>sediments</span></code></pre></div>
+<div class="sourceCode" id="cb179"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb179-1"><a href="08-multivariate.html#cb179-1"></a><span class="co"># load sediments data</span></span>
+<span id="cb179-2"><a href="08-multivariate.html#cb179-2"></a>sediments &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="st">&quot;data/sediments.txt&quot;</span>,<span class="dt">header=</span>T)</span>
+<span id="cb179-3"><a href="08-multivariate.html#cb179-3"></a>sediments</span></code></pre></div>
 <pre><code>##        site    CU    PB    NI    MN
 ## 1    Delray  7.15 12.00  7.40 137.0
 ## 2    Delray  5.85  6.35  7.05 106.5
@@ -548,23 +565,23 @@ u_{1k}\\u_{2k}\\\vdots\\u_{pk}
 ## 11 Woodside 18.20 13.85 15.30 256.0
 ## 12 Woodside  7.60  9.35  9.25 440.0</code></pre>
 <p>“Delray Beach” is a site of a proposed wastewater outfall, and “Seaspray” and “Woodside” are two possible control sites. At each site, two sediment cores were taken at four randomly chosen locations and analysed for trace metals (CU=copper, PB=lead, NI=nickel, MN=manganese). The results from the two cores were averaged. So we have <span class="math inline">\(n=12\)</span> objects here, the rows, and <span class="math inline">\(p=4\)</span> response variables, the columns. MANOVA tests for the effects of site on the response variables <em>taken together</em>. A first thing to do - as always - is to look at the scatterplot matrix, with datapoints coloured by site:</p>
-<div class="sourceCode" id="cb178"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb178-1"><a href="08-multivariate.html#cb178-1"></a><span class="kw">pairs</span>(sediments[,<span class="dv">2</span><span class="op">:</span><span class="dv">5</span>], <span class="dt">diag.panel =</span> panel.hist, <span class="dt">lower.panel =</span> panel.cor,</span>
-<span id="cb178-2"><a href="08-multivariate.html#cb178-2"></a>      <span class="dt">pch=</span><span class="dv">21</span>, <span class="dt">bg=</span><span class="kw">c</span>(<span class="st">&quot;black&quot;</span>,<span class="st">&quot;red&quot;</span>,<span class="st">&quot;blue&quot;</span>)[<span class="kw">as.factor</span>(sediments<span class="op">$</span>site)])</span></code></pre></div>
-<p><img src="qm4g_files/figure-html/unnamed-chunk-58-1.png" width="80%" /></p>
+<div class="sourceCode" id="cb181"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb181-1"><a href="08-multivariate.html#cb181-1"></a><span class="kw">pairs</span>(sediments[,<span class="dv">2</span><span class="op">:</span><span class="dv">5</span>], <span class="dt">diag.panel =</span> panel.hist, <span class="dt">lower.panel =</span> panel.cor,</span>
+<span id="cb181-2"><a href="08-multivariate.html#cb181-2"></a>      <span class="dt">pch=</span><span class="dv">21</span>, <span class="dt">bg=</span><span class="kw">c</span>(<span class="st">&quot;black&quot;</span>,<span class="st">&quot;red&quot;</span>,<span class="st">&quot;blue&quot;</span>)[<span class="kw">as.factor</span>(sediments<span class="op">$</span>site)])</span></code></pre></div>
+<p><img src="qm4g_files/figure-html/unnamed-chunk-60-1.png" width="80%" /></p>
 <p>We notice strong correlations between variables. And log-transformation of all variables looks like a good idea to make the residuals later on adhere better to the normality assumption:</p>
-<div class="sourceCode" id="cb179"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb179-1"><a href="08-multivariate.html#cb179-1"></a>sediments_log &lt;-<span class="st"> </span>sediments</span>
-<span id="cb179-2"><a href="08-multivariate.html#cb179-2"></a>sediments_log[,<span class="dv">2</span><span class="op">:</span><span class="dv">5</span>] &lt;-<span class="st"> </span><span class="kw">log</span>(sediments[,<span class="dv">2</span><span class="op">:</span><span class="dv">5</span>])</span>
-<span id="cb179-3"><a href="08-multivariate.html#cb179-3"></a><span class="kw">pairs</span>(sediments_log[,<span class="dv">2</span><span class="op">:</span><span class="dv">5</span>], <span class="dt">diag.panel =</span> panel.hist, <span class="dt">lower.panel =</span> panel.cor,</span>
-<span id="cb179-4"><a href="08-multivariate.html#cb179-4"></a>      <span class="dt">pch=</span><span class="dv">21</span>, <span class="dt">bg=</span><span class="kw">c</span>(<span class="st">&quot;black&quot;</span>,<span class="st">&quot;red&quot;</span>,<span class="st">&quot;blue&quot;</span>)[<span class="kw">as.factor</span>(sediments_log<span class="op">$</span>site)])</span></code></pre></div>
-<p><img src="qm4g_files/figure-html/unnamed-chunk-59-1.png" width="80%" /></p>
+<div class="sourceCode" id="cb182"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb182-1"><a href="08-multivariate.html#cb182-1"></a>sediments_log &lt;-<span class="st"> </span>sediments</span>
+<span id="cb182-2"><a href="08-multivariate.html#cb182-2"></a>sediments_log[,<span class="dv">2</span><span class="op">:</span><span class="dv">5</span>] &lt;-<span class="st"> </span><span class="kw">log</span>(sediments[,<span class="dv">2</span><span class="op">:</span><span class="dv">5</span>])</span>
+<span id="cb182-3"><a href="08-multivariate.html#cb182-3"></a><span class="kw">pairs</span>(sediments_log[,<span class="dv">2</span><span class="op">:</span><span class="dv">5</span>], <span class="dt">diag.panel =</span> panel.hist, <span class="dt">lower.panel =</span> panel.cor,</span>
+<span id="cb182-4"><a href="08-multivariate.html#cb182-4"></a>      <span class="dt">pch=</span><span class="dv">21</span>, <span class="dt">bg=</span><span class="kw">c</span>(<span class="st">&quot;black&quot;</span>,<span class="st">&quot;red&quot;</span>,<span class="st">&quot;blue&quot;</span>)[<span class="kw">as.factor</span>(sediments_log<span class="op">$</span>site)])</span></code></pre></div>
+<p><img src="qm4g_files/figure-html/unnamed-chunk-61-1.png" width="80%" /></p>
 <p>The best single discriminator of the groups seems to be manganese; this will be confirmed by DFA in Chapter <a href="08-multivariate.html#dfa">7.4</a>. The covariance and correlation matrices look as follows:</p>
-<div class="sourceCode" id="cb180"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb180-1"><a href="08-multivariate.html#cb180-1"></a><span class="kw">cov</span>(sediments_log[,<span class="dv">2</span><span class="op">:</span><span class="dv">5</span>])</span></code></pre></div>
+<div class="sourceCode" id="cb183"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb183-1"><a href="08-multivariate.html#cb183-1"></a><span class="kw">cov</span>(sediments_log[,<span class="dv">2</span><span class="op">:</span><span class="dv">5</span>])</span></code></pre></div>
 <pre><code>##         CU      PB     NI     MN
 ## CU 0.17591 0.07361 0.1011 0.1421
 ## PB 0.07361 0.25382 0.1074 0.1485
 ## NI 0.10106 0.10741 0.1209 0.1190
 ## MN 0.14214 0.14848 0.1190 0.2795</code></pre>
-<div class="sourceCode" id="cb182"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb182-1"><a href="08-multivariate.html#cb182-1"></a><span class="kw">cor</span>(sediments_log[,<span class="dv">2</span><span class="op">:</span><span class="dv">5</span>])</span></code></pre></div>
+<div class="sourceCode" id="cb185"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb185-1"><a href="08-multivariate.html#cb185-1"></a><span class="kw">cor</span>(sediments_log[,<span class="dv">2</span><span class="op">:</span><span class="dv">5</span>])</span></code></pre></div>
 <pre><code>##        CU     PB     NI     MN
 ## CU 1.0000 0.3483 0.6930 0.6411
 ## PB 0.3483 1.0000 0.6131 0.5575
@@ -613,11 +630,11 @@ z_{ik}=u_{1k}\cdot(\log Cu)_i+u_{2k}\cdot(\log Pb)_i+u_{3k}\cdot(\log Ni)_i+u_{4
 <p>The third step is to perform an Eigenanalysis of the resulting matrix <span class="math inline">\(\mathbf H\cdot\mathbf E^{-1}\)</span>, like in PCA.<a href="#fn31" class="footnote-ref" id="fnref31"><sup>31</sup></a> The resulting Eigenvectors contain the coefficients <span class="math inline">\(u\)</span> of Equation <a href="08-multivariate.html#eq:lincombsed">(7.10)</a>. Their Eigenvalues measure how much of the between-group SSCP:within-group SSCP ratio is explained by each Eigenvector. As with PCA, the sum of the Eigenvalues is the trace of the matrix <span class="math inline">\(\mathbf H\cdot\mathbf E^{-1}\)</span>: <span class="math inline">\(Tr\left(\mathbf H\cdot\mathbf E^{-1}\right)=\sum_{i=1}^{p}diag\left(\mathbf H\cdot\mathbf E^{-1}\right)\)</span>, i.e. the sum of the univariate between-group SSCP:within-group SSCP ratios.</p>
 <p>Fourth, the linear combination producing the largest eigenvalue maximises the between-group variance:within-group variance ratio, with the Eigenvector containing the coefficients <span class="math inline">\(u\)</span>.</p>
 <p>Let’s perform the MANOVA for the marine sediment example:</p>
-<div class="sourceCode" id="cb184"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb184-1"><a href="08-multivariate.html#cb184-1"></a><span class="co"># perform MANOVA</span></span>
-<span id="cb184-2"><a href="08-multivariate.html#cb184-2"></a>sediments_fit &lt;-<span class="st"> </span><span class="kw">manova</span>(<span class="kw">cbind</span>(CU,PB,NI,MN) <span class="op">~</span><span class="st"> </span>site, <span class="dt">data=</span>sediments_log)</span></code></pre></div>
+<div class="sourceCode" id="cb187"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb187-1"><a href="08-multivariate.html#cb187-1"></a><span class="co"># perform MANOVA</span></span>
+<span id="cb187-2"><a href="08-multivariate.html#cb187-2"></a>sediments_fit &lt;-<span class="st"> </span><span class="kw">manova</span>(<span class="kw">cbind</span>(CU,PB,NI,MN) <span class="op">~</span><span class="st"> </span>site, <span class="dt">data=</span>sediments_log)</span></code></pre></div>
 <p>The SSCP matrices are:</p>
-<div class="sourceCode" id="cb185"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb185-1"><a href="08-multivariate.html#cb185-1"></a><span class="co"># extract SSCP matrices</span></span>
-<span id="cb185-2"><a href="08-multivariate.html#cb185-2"></a><span class="kw">summary</span>(sediments_fit)<span class="op">$</span>SS</span></code></pre></div>
+<div class="sourceCode" id="cb188"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb188-1"><a href="08-multivariate.html#cb188-1"></a><span class="co"># extract SSCP matrices</span></span>
+<span id="cb188-2"><a href="08-multivariate.html#cb188-2"></a><span class="kw">summary</span>(sediments_fit)<span class="op">$</span>SS</span></code></pre></div>
 <pre><code>## $site
 ##        CU     PB     NI    MN
 ## CU 1.0381 0.8039 0.8717 1.621
@@ -632,13 +649,13 @@ z_{ik}=u_{1k}\cdot(\log Cu)_i+u_{2k}\cdot(\log Pb)_i+u_{3k}\cdot(\log Ni)_i+u_{4
 ## NI  0.240000 0.163232  0.4549 -0.13642
 ## MN -0.057919 0.175914 -0.1364  0.49218</code></pre>
 <p>“Site” is the effect matrix in our case and “Residuals” is the residual matrix. Hence <span class="math inline">\(\mathbf H\cdot\mathbf E^{-1}\)</span> is:</p>
-<div class="sourceCode" id="cb187"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb187-1"><a href="08-multivariate.html#cb187-1"></a><span class="co"># calculate H E^-1</span></span>
-<span id="cb187-2"><a href="08-multivariate.html#cb187-2"></a>H &lt;-<span class="st"> </span><span class="kw">summary</span>(sediments_fit)<span class="op">$</span>SS<span class="op">$</span>site</span>
-<span id="cb187-3"><a href="08-multivariate.html#cb187-3"></a>E &lt;-<span class="st"> </span><span class="kw">summary</span>(sediments_fit)<span class="op">$</span>SS<span class="op">$</span>Residuals</span>
-<span id="cb187-4"><a href="08-multivariate.html#cb187-4"></a>H_E &lt;-<span class="st"> </span>H <span class="op">%*%</span><span class="st"> </span><span class="kw">solve</span>(E)</span></code></pre></div>
+<div class="sourceCode" id="cb190"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb190-1"><a href="08-multivariate.html#cb190-1"></a><span class="co"># calculate H E^-1</span></span>
+<span id="cb190-2"><a href="08-multivariate.html#cb190-2"></a>H &lt;-<span class="st"> </span><span class="kw">summary</span>(sediments_fit)<span class="op">$</span>SS<span class="op">$</span>site</span>
+<span id="cb190-3"><a href="08-multivariate.html#cb190-3"></a>E &lt;-<span class="st"> </span><span class="kw">summary</span>(sediments_fit)<span class="op">$</span>SS<span class="op">$</span>Residuals</span>
+<span id="cb190-4"><a href="08-multivariate.html#cb190-4"></a>H_E &lt;-<span class="st"> </span>H <span class="op">%*%</span><span class="st"> </span><span class="kw">solve</span>(E)</span></code></pre></div>
 <p>The Eigenvalues of <span class="math inline">\(\mathbf H\cdot\mathbf E^{-1}\)</span> are:</p>
-<div class="sourceCode" id="cb188"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb188-1"><a href="08-multivariate.html#cb188-1"></a><span class="co"># extract Eigenvalues</span></span>
-<span id="cb188-2"><a href="08-multivariate.html#cb188-2"></a><span class="kw">summary</span>(sediments_fit)<span class="op">$</span>Eigenvalues</span></code></pre></div>
+<div class="sourceCode" id="cb191"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb191-1"><a href="08-multivariate.html#cb191-1"></a><span class="co"># extract Eigenvalues</span></span>
+<span id="cb191-2"><a href="08-multivariate.html#cb191-2"></a><span class="kw">summary</span>(sediments_fit)<span class="op">$</span>Eigenvalues</span></code></pre></div>
 <pre><code>##       [,1]   [,2]       [,3]       [,4]
 ## site 9.979 0.5703 -3.809e-16 -3.809e-16</code></pre>
 <p>We see that the 1st discriminant function has the largest Eigenvalue and thus maximises the between group variance:within group variance ratio.</p>
@@ -675,28 +692,28 @@ Tr\left(\mathbf H\cdot\mathbf T^{-1}\right)
 <p>This measures the ratio of <em>explained to unexplained</em> variance, with greater values indicating greater group differences.</p>
 <p>Since the sampling distributions of these statistics are not well understood either, they are again treated as <em>approximate</em> F statistics, following an F-distribution. In practice it is advised to look at all of these variants of the test statistic to see if the results are consistent.</p>
 <p>In the marine sediments example, the four test statistics give comparable results, though the test statistic based on the Pillai trace wouldn’t meet the conventional significance level of 0.01:</p>
-<div class="sourceCode" id="cb190"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb190-1"><a href="08-multivariate.html#cb190-1"></a><span class="kw">summary</span>(sediments_fit, <span class="dt">test =</span><span class="st">&quot;Roy&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb193"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb193-1"><a href="08-multivariate.html#cb193-1"></a><span class="kw">summary</span>(sediments_fit, <span class="dt">test =</span><span class="st">&quot;Roy&quot;</span>)</span></code></pre></div>
 <pre><code>##           Df  Roy approx F num Df den Df  Pr(&gt;F)    
 ## site       2 9.98     17.5      4      7 0.00095 ***
 ## Residuals  9                                        
 ## ---
 ## Signif. codes:  
 ## 0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
-<div class="sourceCode" id="cb192"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb192-1"><a href="08-multivariate.html#cb192-1"></a><span class="kw">summary</span>(sediments_fit, <span class="dt">test =</span><span class="st">&quot;Wilks&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb195"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb195-1"><a href="08-multivariate.html#cb195-1"></a><span class="kw">summary</span>(sediments_fit, <span class="dt">test =</span><span class="st">&quot;Wilks&quot;</span>)</span></code></pre></div>
 <pre><code>##           Df Wilks approx F num Df den Df Pr(&gt;F)   
 ## site       2 0.058     4.73      8     12 0.0082 **
 ## Residuals  9                                       
 ## ---
 ## Signif. codes:  
 ## 0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
-<div class="sourceCode" id="cb194"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb194-1"><a href="08-multivariate.html#cb194-1"></a><span class="kw">summary</span>(sediments_fit, <span class="dt">test =</span><span class="st">&quot;Pillai&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb197"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb197-1"><a href="08-multivariate.html#cb197-1"></a><span class="kw">summary</span>(sediments_fit, <span class="dt">test =</span><span class="st">&quot;Pillai&quot;</span>)</span></code></pre></div>
 <pre><code>##           Df Pillai approx F num Df den Df Pr(&gt;F)  
 ## site       2   1.27     3.06      8     14  0.032 *
 ## Residuals  9                                       
 ## ---
 ## Signif. codes:  
 ## 0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
-<div class="sourceCode" id="cb196"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb196-1"><a href="08-multivariate.html#cb196-1"></a><span class="kw">summary</span>(sediments_fit, <span class="dt">test =</span><span class="st">&quot;Hotelling-Lawley&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb199"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb199-1"><a href="08-multivariate.html#cb199-1"></a><span class="kw">summary</span>(sediments_fit, <span class="dt">test =</span><span class="st">&quot;Hotelling-Lawley&quot;</span>)</span></code></pre></div>
 <pre><code>##           Df Hotelling-Lawley approx F num Df den Df
 ## site       2             10.6     6.59      8     10
 ## Residuals  9                                        
@@ -714,16 +731,16 @@ Tr\left(\mathbf H\cdot\mathbf T^{-1}\right)
 <p>DFA and MANOVA are mathematically identical, though DFA emphasises <em>classification</em> and <em>prediction</em>, and MANOVA tests hypotheses about group differences. MANOVA tests whether centroids across factor levels (groups) are significantly different, using the 1st discriminant function, a linear combination of all response variables. DFA uses all discriminant functions to calculate the <em>probability of correctly assigning observations to their pre-determined groups</em>, e.g. sites in the marine sediment example.</p>
 <p>MANOVA is usually the first step in DFA because if the difference between group centroids is not significant then the discriminant functions will not be very useful for separating groups and therefore classifying observations. DFA is also used to <em>classify new observations into one of the groups</em>, calculating some measure of success of classification. DFA goes further than MANOVA in that it uses not only the 1st discriminant function but also additional discriminant functions to classify observations into groups.</p>
 <p>In our marine sediments example, we already saw in the last section that the 1st discriminant function has the largest Eigenvalue and thus maximises the between group variance:within group variance ratio, hence separates the three sites best. We can now plot the discriminant functions using DFA:</p>
-<div class="sourceCode" id="cb198"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb198-1"><a href="08-multivariate.html#cb198-1"></a><span class="co"># use linear discriminant function analysis which is available from the MASS package</span></span>
-<span id="cb198-2"><a href="08-multivariate.html#cb198-2"></a><span class="kw">library</span>(MASS)</span>
-<span id="cb198-3"><a href="08-multivariate.html#cb198-3"></a>sediments_dfa &lt;-<span class="st"> </span><span class="kw">lda</span>(sediments_log[,<span class="dv">2</span><span class="op">:</span><span class="dv">5</span>], sediments_log<span class="op">$</span>site)</span>
-<span id="cb198-4"><a href="08-multivariate.html#cb198-4"></a><span class="co"># plot discriminant functions</span></span>
-<span id="cb198-5"><a href="08-multivariate.html#cb198-5"></a><span class="kw">plot</span>(sediments_dfa, <span class="dt">xlim=</span><span class="kw">c</span>(<span class="op">-</span><span class="dv">5</span>,<span class="dv">5</span>), <span class="dt">xlab=</span><span class="st">&quot;DF1&quot;</span>, <span class="dt">ylab=</span><span class="st">&quot;DF2&quot;</span>)</span></code></pre></div>
-<p><img src="qm4g_files/figure-html/unnamed-chunk-66-1.png" width="80%" /></p>
+<div class="sourceCode" id="cb201"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb201-1"><a href="08-multivariate.html#cb201-1"></a><span class="co"># use linear discriminant function analysis which is available from the MASS package</span></span>
+<span id="cb201-2"><a href="08-multivariate.html#cb201-2"></a><span class="kw">library</span>(MASS)</span>
+<span id="cb201-3"><a href="08-multivariate.html#cb201-3"></a>sediments_dfa &lt;-<span class="st"> </span><span class="kw">lda</span>(sediments_log[,<span class="dv">2</span><span class="op">:</span><span class="dv">5</span>], sediments_log<span class="op">$</span>site)</span>
+<span id="cb201-4"><a href="08-multivariate.html#cb201-4"></a><span class="co"># plot discriminant functions</span></span>
+<span id="cb201-5"><a href="08-multivariate.html#cb201-5"></a><span class="kw">plot</span>(sediments_dfa, <span class="dt">xlim=</span><span class="kw">c</span>(<span class="op">-</span><span class="dv">5</span>,<span class="dv">5</span>), <span class="dt">xlab=</span><span class="st">&quot;DF1&quot;</span>, <span class="dt">ylab=</span><span class="st">&quot;DF2&quot;</span>)</span></code></pre></div>
+<p><img src="qm4g_files/figure-html/unnamed-chunk-68-1.png" width="80%" /></p>
 <p>We see that DF1 separates the three sites pretty well, better than the original variables in the scatterplot matrix in the previous section. DF2 adds little to this separation, as could already be seen in its comparably small Eigenvalue. The Eigenvalues of DF3 and DF4 are so small that they are considered zero and not displayed here.<a href="#fn32" class="footnote-ref" id="fnref32"><sup>32</sup></a></p>
 <p>Looking at the Eigenvectors, the 4th original variable (Mn) contributes most to the 1st discriminant function - it is the best single discriminator - as could be seen already in the scatterplot matrix in the previous section:</p>
-<div class="sourceCode" id="cb199"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb199-1"><a href="08-multivariate.html#cb199-1"></a><span class="co"># extract Eigenvectors</span></span>
-<span id="cb199-2"><a href="08-multivariate.html#cb199-2"></a>sediments_dfa<span class="op">$</span>scaling</span></code></pre></div>
+<div class="sourceCode" id="cb202"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb202-1"><a href="08-multivariate.html#cb202-1"></a><span class="co"># extract Eigenvectors</span></span>
+<span id="cb202-2"><a href="08-multivariate.html#cb202-2"></a>sediments_dfa<span class="op">$</span>scaling</span></code></pre></div>
 <pre><code>##        LD1    LD2
 ## CU -0.5440  1.316
 ## PB  0.2147 -2.190
@@ -732,10 +749,10 @@ Tr\left(\mathbf H\cdot\mathbf T^{-1}\right)
 <div id="classification" class="section level3">
 <h3><span class="header-section-number">7.4.1</span> Classification</h3>
 <p>Now we use the DFs to classify objects to (known) groups. For every measurement (object <span class="math inline">\(i\)</span>), three classification scores are calculated, one for every site (group <span class="math inline">\(j\)</span>). The classification scores are mathematically relate to the discriminant functions (Eigenvectors <span class="math inline">\(\mathbf{u_k}\)</span>). See <span class="citation">Quinn and Keough (<a href="#ref-quinn2002" role="doc-biblioref">2002</a>)</span> for details. The maximum classification score determines the group classification for every object. From this, for every object a probability of belonging to each of the groups is calculated:</p>
-<div class="sourceCode" id="cb201"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb201-1"><a href="08-multivariate.html#cb201-1"></a><span class="co"># predict group membership</span></span>
-<span id="cb201-2"><a href="08-multivariate.html#cb201-2"></a>sediments_pred &lt;-<span class="st"> </span><span class="kw">predict</span>(sediments_dfa)</span>
-<span id="cb201-3"><a href="08-multivariate.html#cb201-3"></a><span class="co"># extract probabilities</span></span>
-<span id="cb201-4"><a href="08-multivariate.html#cb201-4"></a>sediments_pred<span class="op">$</span>posterior</span></code></pre></div>
+<div class="sourceCode" id="cb204"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb204-1"><a href="08-multivariate.html#cb204-1"></a><span class="co"># predict group membership</span></span>
+<span id="cb204-2"><a href="08-multivariate.html#cb204-2"></a>sediments_pred &lt;-<span class="st"> </span><span class="kw">predict</span>(sediments_dfa)</span>
+<span id="cb204-3"><a href="08-multivariate.html#cb204-3"></a><span class="co"># extract probabilities</span></span>
+<span id="cb204-4"><a href="08-multivariate.html#cb204-4"></a>sediments_pred<span class="op">$</span>posterior</span></code></pre></div>
 <pre><code>##          Delray  Seaspray  Woodside
 ##  [1,] 9.554e-01 4.461e-02 4.340e-09
 ##  [2,] 9.996e-01 4.344e-04 2.164e-12
@@ -750,8 +767,8 @@ Tr\left(\mathbf H\cdot\mathbf T^{-1}\right)
 ## [11,] 3.126e-07 2.704e-02 9.730e-01
 ## [12,] 3.719e-08 1.929e-03 9.981e-01</code></pre>
 <p>We see that we can recover the original group membership this way: the first four samples have highest probability to be from Delray, the next four from Seaspray and the last four from Woodside. We can see this by constructing a contingency table:</p>
-<div class="sourceCode" id="cb203"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb203-1"><a href="08-multivariate.html#cb203-1"></a><span class="co"># contingency table of prediction:group matches</span></span>
-<span id="cb203-2"><a href="08-multivariate.html#cb203-2"></a><span class="kw">table</span>(sediments_pred<span class="op">$</span>class, sediments_log<span class="op">$</span>site)</span></code></pre></div>
+<div class="sourceCode" id="cb206"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb206-1"><a href="08-multivariate.html#cb206-1"></a><span class="co"># contingency table of prediction:group matches</span></span>
+<span id="cb206-2"><a href="08-multivariate.html#cb206-2"></a><span class="kw">table</span>(sediments_pred<span class="op">$</span>class, sediments_log<span class="op">$</span>site)</span></code></pre></div>
 <pre><code>##           
 ##            Delray Seaspray Woodside
 ##   Delray        4        0        0
@@ -767,11 +784,11 @@ Tr\left(\mathbf H\cdot\mathbf T^{-1}\right)
 <li>Repeat for all measurements</li>
 </ol>
 <p>LOOCV is implemented in the <code>lda()</code> function when we set the argument <code>CV=TRUE</code>:</p>
-<div class="sourceCode" id="cb205"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb205-1"><a href="08-multivariate.html#cb205-1"></a><span class="co"># run DFA in LOOCV mode</span></span>
-<span id="cb205-2"><a href="08-multivariate.html#cb205-2"></a>sediments_dfa2 &lt;-<span class="st"> </span><span class="kw">lda</span>(sediments_log[,<span class="dv">2</span><span class="op">:</span><span class="dv">5</span>], sediments_log<span class="op">$</span>site, <span class="dt">CV=</span><span class="ot">TRUE</span>)</span>
-<span id="cb205-3"><a href="08-multivariate.html#cb205-3"></a><span class="co"># extract probabilities</span></span>
-<span id="cb205-4"><a href="08-multivariate.html#cb205-4"></a><span class="co"># we don&#39;t have to go via predict() in LOOCV mode</span></span>
-<span id="cb205-5"><a href="08-multivariate.html#cb205-5"></a>sediments_dfa2<span class="op">$</span>posterior</span></code></pre></div>
+<div class="sourceCode" id="cb208"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb208-1"><a href="08-multivariate.html#cb208-1"></a><span class="co"># run DFA in LOOCV mode</span></span>
+<span id="cb208-2"><a href="08-multivariate.html#cb208-2"></a>sediments_dfa2 &lt;-<span class="st"> </span><span class="kw">lda</span>(sediments_log[,<span class="dv">2</span><span class="op">:</span><span class="dv">5</span>], sediments_log<span class="op">$</span>site, <span class="dt">CV=</span><span class="ot">TRUE</span>)</span>
+<span id="cb208-3"><a href="08-multivariate.html#cb208-3"></a><span class="co"># extract probabilities</span></span>
+<span id="cb208-4"><a href="08-multivariate.html#cb208-4"></a><span class="co"># we don&#39;t have to go via predict() in LOOCV mode</span></span>
+<span id="cb208-5"><a href="08-multivariate.html#cb208-5"></a>sediments_dfa2<span class="op">$</span>posterior</span></code></pre></div>
 <pre><code>##          Delray  Seaspray  Woodside
 ##  [1,] 7.534e-01 2.466e-01 1.329e-07
 ##  [2,] 9.992e-01 7.610e-04 9.005e-12
@@ -786,8 +803,8 @@ Tr\left(\mathbf H\cdot\mathbf T^{-1}\right)
 ## [11,] 3.654e-06 7.148e-01 2.852e-01
 ## [12,] 1.000e+00 3.851e-09 6.456e-33</code></pre>
 <p>Now the classification is less than perfect, as can be seen in the contingency table:</p>
-<div class="sourceCode" id="cb207"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb207-1"><a href="08-multivariate.html#cb207-1"></a><span class="co"># contingency table of LOOCV prediction:group matches</span></span>
-<span id="cb207-2"><a href="08-multivariate.html#cb207-2"></a><span class="kw">table</span>(sediments_dfa2<span class="op">$</span>class, sediments_log<span class="op">$</span>site)</span></code></pre></div>
+<div class="sourceCode" id="cb210"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb210-1"><a href="08-multivariate.html#cb210-1"></a><span class="co"># contingency table of LOOCV prediction:group matches</span></span>
+<span id="cb210-2"><a href="08-multivariate.html#cb210-2"></a><span class="kw">table</span>(sediments_dfa2<span class="op">$</span>class, sediments_log<span class="op">$</span>site)</span></code></pre></div>
 <pre><code>##           
 ##            Delray Seaspray Woodside
 ##   Delray        3        1        1

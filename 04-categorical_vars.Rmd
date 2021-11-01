@@ -4,7 +4,7 @@ The linear model where the _predictor variables are categorical_ - so called **f
 
 As an example we will look at a dataset of crop yields for different soil types from @crawley2012 - see Figure \@ref(fig:yields) - asking the question: _Does soil type significantly affect crop yield?_
 
-```{r, setup, echo=FALSE, message=FALSE}
+```{r echo=FALSE, message=FALSE}
 options(rgl.useNULL=TRUE)
 library(rgl)
 library(knitr)
@@ -46,7 +46,6 @@ y_{ji}=\mu_j+\epsilon_{ji}
 
 ```{r anovassysse, echo=FALSE, fig.align='center', fig.cap='Left: Variation of data points around overall mean $\\mu$, summarised by $SSY$. Right: Variation of data points around individual means $\\mu_1, \\mu_2, \\mu_3$, summarised by $SSE$.', fig.show='hold', out.width='50%'}
 
-
 yields %>%
   pivot_longer(everything()) %>%
   mutate(mean = mean(value)) %>% 
@@ -67,9 +66,6 @@ yields %>%
   scale_color_manual(breaks = c("sand", "clay", "loam"),
                         values=c("green", "red", "blue")) +
   annotate('text', 31, 11.5, label="italic(mu)", parse=TRUE, size=7) 
-
-
-
 
 yields %>%
   pivot_longer(everything()) %>%
@@ -95,8 +91,7 @@ yields %>%
   annotate('text', 11, 9.5, label="italic(mu)[1]", parse=TRUE, size=7) +
   annotate('text', 21, 11, label="italic(mu)[2]", parse=TRUE, size=7) +
   annotate('text', 31, 13.5, label="italic(mu)[3]", parse=TRUE, size=7)
-  
-  
+
 #knitr::include_graphics(c('figs/anova_ssy.png','figs/anova_sse.png'))
 ```
 
@@ -114,13 +109,12 @@ yields2
 ```
 When "clay" is 1 and "loam" is 0 then we are in the clay category, when "clay" is 0 and "loam" is
 1 then we are in the loam category, and if both are 0 we are in the "sand" category. This is visualised in 3D in Figure
-[4.3](\#yields3d).
+[3.3](\#yields3d).
 
 ```{r yields3d, echo=FALSE, fig.align='center', fig.cap='3D representation of the dummy coding of the yields dataset.', out.width='88%', webgl=TRUE}
 #knitr::include_graphics('figs/yields3d.jpg')
 
 knit_hooks$set(webgl = hook_webgl)
-
 
 plot3d(x = yields2$clay, y = yields2$loam, z = yields2$yield, type="p", col="black", xlab="clay", ylab="loam", zlab="yield", lwd=15, size = 5)
 
@@ -131,7 +125,7 @@ z <- c(mean(yields$clay),mean(yields$sand),mean(yields$loam))
 lines3d(x,y,z, col = "red")
 ```
 Figure
-[4.3](\#yields3d)
+[3.3](\#yields3d): 3D representation of the dummy coding of the yields dataset.
 
 Now we can use the familiar linear model, but with two predictors, to represent ANOVA:
 $$\begin{equation}
@@ -139,14 +133,14 @@ y_i=\beta_0+\beta_1\cdot x_{i1}+\beta_2\cdot x_{i2}+\epsilon_i
 (\#eq:dummyanova)
 \end{equation}$$
 In this formulation, $x_1$ is the indicator variable "clay" and $x_2$ is the indicator variable "loam". Both can only take values of 0 and 1, they are binary. Hence, looking at Figure
-[4.3](\#yields3d), when both $x_1$ and $x_2$ are 0 then we are in the front corner of the plot where we see the yield data for "sand". The model is then reduced to $y_i=\beta_0+\epsilon_i$, with $\beta_0$ being the mean yield for "sand".
+[3.3](\#yields3d), when both $x_1$ and $x_2$ are 0 then we are in the front corner of the plot where we see the yield data for "sand". The model is then reduced to $y_i=\beta_0+\epsilon_i$, with $\beta_0$ being the mean yield for "sand".
 
 When $x_1=0$ and $x_2=1$ then we are in the left corner of Figure
-[4.3](\#yields3d) where we see the "loam" yields. The model is then $y_i=\beta_0+\beta_2+\epsilon_i$ with $\beta_0+\beta_2$ being the mean yield for "loam".
+[3.3](\#yields3d) where we see the "loam" yields. The model is then $y_i=\beta_0+\beta_2+\epsilon_i$ with $\beta_0+\beta_2$ being the mean yield for "loam".
 
 Finally, when $x_1=1$ and $x_2=0$ then we are in the right corner of Figure
-[4.3](\#yields3d) where we see the "clay" yields. The model is then $y_i=\beta_0+\beta_1+\epsilon_i$ with $\beta_0+\beta_1$ being the mean yield for "clay". $\beta_1$ and $\beta_2$ are thus increments added to what's called the base category (in this case "sand") to arrive at the new means for "clay" and "loam", respectively. This is symbolised by the red lines in Figure
-[4.3](\#yields3d). We are basically modelling unique means for each factor level; Equations \@ref(eq:dummyanova) and \@ref(eq:levform) are equivalent.
+[3.3](\#yields3d) where we see the "clay" yields. The model is then $y_i=\beta_0+\beta_1+\epsilon_i$ with $\beta_0+\beta_1$ being the mean yield for "clay". $\beta_1$ and $\beta_2$ are thus increments added to what's called the base category (in this case "sand") to arrive at the new means for "clay" and "loam", respectively. This is symbolised by the red lines in Figure
+[3.3](\#yields3d). We are basically modelling unique means for each factor level; Equations \@ref(eq:dummyanova) and \@ref(eq:levform) are equivalent.
 
 If you remember, we already looked at an ANOVA table under linear regression (chapter \@ref(linreg)). Let's now see how this is essentially similar to the actual ANOVA, while noting some key differences. Table \@ref(tab:oneway) shows the one-way ANOVA table.
 

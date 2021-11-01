@@ -51,6 +51,23 @@
 
 
 <script src="libs/accessible-code-block/empty-anchor.js"></script>
+<script src="libs/htmlwidgets/htmlwidgets.js"></script>
+<script src="libs/rglWebGL-binding/rglWebGL.js"></script>
+<link href="libs/rglwidgetClass/rgl.css" rel="stylesheet" />
+<script src="libs/rglwidgetClass/rglClass.src.js"></script>
+<script src="libs/rglwidgetClass/utils.src.js"></script>
+<script src="libs/rglwidgetClass/subscenes.src.js"></script>
+<script src="libs/rglwidgetClass/shaders.src.js"></script>
+<script src="libs/rglwidgetClass/textures.src.js"></script>
+<script src="libs/rglwidgetClass/projection.src.js"></script>
+<script src="libs/rglwidgetClass/mouse.src.js"></script>
+<script src="libs/rglwidgetClass/init.src.js"></script>
+<script src="libs/rglwidgetClass/pieces.src.js"></script>
+<script src="libs/rglwidgetClass/draw.src.js"></script>
+<script src="libs/rglwidgetClass/controls.src.js"></script>
+<script src="libs/rglwidgetClass/selection.src.js"></script>
+<script src="libs/rglwidgetClass/rglTimer.src.js"></script>
+<script src="libs/CanvasMatrix4/CanvasMatrix.src.js"></script>
 <script src="libs/kePrint/kePrint.js"></script>
 <link href="libs/lightable/lightable.css" rel="stylesheet" />
 <link href="libs/bsTable/bootstrapTable.min.css" rel="stylesheet" />
@@ -628,11 +645,16 @@ Figure 6.10: Left: Pearson residuals of the log-linear model fit to the birds da
 <h2><span class="header-section-number">6.6</span> Over-dispersion</h2>
 <p>The residuals of the log-linear model of the birds data still show a pattern; after standardisation they still increase with increasing mean response (Figure <a href="07-glms.html#fig:pearsonres">6.10</a>, left). Remember that in the Poisson model the variance is modelled to increase 1:1 with the mean response (Figure <a href="07-glms.html#fig:birds">6.6</a>). If we see the actual variance in our birds data increasing at a greater rate, then we say the data are <strong>over-dispersed</strong>.</p>
 <p>In such cases we might use the so called <strong>negative-binomial model</strong> which has two parameters: <span class="math inline">\(\mu\)</span>, which is equal to the mean, and <span class="math inline">\(\theta\)</span>, which modulates the variance in the form of <span class="math inline">\(\mu+\frac{\mu^2}{\theta}\)</span>, i.e. the variance is now a non-linear function of the the mean, and not equal to the mean as in the Poisson model. This allows for over-dispersion.<a href="#fn22" class="footnote-ref" id="fnref22"><sup>22</sup></a> The negative-binomial is available through the <code>MASS</code> package in <em>R</em>. Let’s see how it fits the birds data:</p>
-<div class="sourceCode" id="cb139"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb139-1"><a href="07-glms.html#cb139-1"></a><span class="kw">library</span>(<span class="st">&quot;MASS&quot;</span>)</span>
-<span id="cb139-2"><a href="07-glms.html#cb139-2"></a><span class="co"># fit negative-binomial model with log-link to birds data</span></span>
-<span id="cb139-3"><a href="07-glms.html#cb139-3"></a>birds_fit2 &lt;-<span class="st"> </span><span class="kw">glm.nb</span>(y <span class="op">~</span><span class="st"> </span>relief, <span class="dt">link =</span> log, <span class="dt">data =</span> birds)</span>
-<span id="cb139-4"><a href="07-glms.html#cb139-4"></a><span class="co"># summarise regression</span></span>
-<span id="cb139-5"><a href="07-glms.html#cb139-5"></a><span class="kw">summary</span>(birds_fit2)</span></code></pre></div>
+<div class="sourceCode" id="cb139"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb139-1"><a href="07-glms.html#cb139-1"></a><span class="kw">library</span>(<span class="st">&quot;MASS&quot;</span>)</span></code></pre></div>
+<pre><code>## 
+## Attaching package: &#39;MASS&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:dplyr&#39;:
+## 
+##     select</code></pre>
+<div class="sourceCode" id="cb142"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb142-1"><a href="07-glms.html#cb142-1"></a><span class="co"># fit negative-binomial model with log-link to birds data</span></span>
+<span id="cb142-2"><a href="07-glms.html#cb142-2"></a>birds_fit2 &lt;-<span class="st"> </span><span class="kw">glm.nb</span>(y <span class="op">~</span><span class="st"> </span>relief, <span class="dt">link =</span> log, <span class="dt">data =</span> birds)</span>
+<span id="cb142-3"><a href="07-glms.html#cb142-3"></a><span class="co"># summarise regression</span></span>
+<span id="cb142-4"><a href="07-glms.html#cb142-4"></a><span class="kw">summary</span>(birds_fit2)</span></code></pre></div>
 <pre><code>## 
 ## Call:
 ## glm.nb(formula = y ~ relief, data = birds, link = log, init.theta = 11.71533906)
@@ -663,40 +685,40 @@ Figure 6.10: Left: Pearson residuals of the log-linear model fit to the birds da
 ## 
 ##  2 x log-likelihood:  -675.88</code></pre>
 <p>The parameters of the linear predictor are very similar to those of the Poisson model. Hence the modelled mean response looks very similar:</p>
-<div class="sourceCode" id="cb141"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb141-1"><a href="07-glms.html#cb141-1"></a><span class="co"># plot negative-binomial fit</span></span>
-<span id="cb141-2"><a href="07-glms.html#cb141-2"></a><span class="kw">plot</span>(birds<span class="op">$</span>relief, birds<span class="op">$</span>y, <span class="dt">pch =</span> <span class="dv">19</span>, <span class="dt">type =</span> <span class="st">&#39;p&#39;</span>, <span class="dt">xlim=</span><span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">5</span>), <span class="dt">ylim=</span><span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">600</span>),</span>
-<span id="cb141-3"><a href="07-glms.html#cb141-3"></a>     <span class="dt">xlab=</span><span class="st">&#39;Average relief&#39;</span>, <span class="dt">ylab=</span><span class="st">&#39;Number of bird species&#39;</span>)</span>
-<span id="cb141-4"><a href="07-glms.html#cb141-4"></a>newdat &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">relief=</span><span class="kw">seq</span>(<span class="dv">0</span>,<span class="dv">5</span>,<span class="fl">0.01</span>))</span>
-<span id="cb141-5"><a href="07-glms.html#cb141-5"></a>y_new &lt;-<span class="st"> </span><span class="kw">predict</span>(birds_fit2, <span class="dt">newdata=</span>newdat, <span class="dt">type =</span> <span class="st">&quot;response&quot;</span>)</span>
-<span id="cb141-6"><a href="07-glms.html#cb141-6"></a><span class="kw">lines</span>(newdat<span class="op">$</span>relief, y_new, <span class="dt">lwd =</span> <span class="dv">3</span>, <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>)</span></code></pre></div>
-<p><img src="qm4g_files/figure-html/unnamed-chunk-32-1.png" width="80%" /></p>
+<div class="sourceCode" id="cb144"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb144-1"><a href="07-glms.html#cb144-1"></a><span class="co"># plot negative-binomial fit</span></span>
+<span id="cb144-2"><a href="07-glms.html#cb144-2"></a><span class="kw">plot</span>(birds<span class="op">$</span>relief, birds<span class="op">$</span>y, <span class="dt">pch =</span> <span class="dv">19</span>, <span class="dt">type =</span> <span class="st">&#39;p&#39;</span>, <span class="dt">xlim=</span><span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">5</span>), <span class="dt">ylim=</span><span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">600</span>),</span>
+<span id="cb144-3"><a href="07-glms.html#cb144-3"></a>     <span class="dt">xlab=</span><span class="st">&#39;Average relief&#39;</span>, <span class="dt">ylab=</span><span class="st">&#39;Number of bird species&#39;</span>)</span>
+<span id="cb144-4"><a href="07-glms.html#cb144-4"></a>newdat &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">relief=</span><span class="kw">seq</span>(<span class="dv">0</span>,<span class="dv">5</span>,<span class="fl">0.01</span>))</span>
+<span id="cb144-5"><a href="07-glms.html#cb144-5"></a>y_new &lt;-<span class="st"> </span><span class="kw">predict</span>(birds_fit2, <span class="dt">newdata=</span>newdat, <span class="dt">type =</span> <span class="st">&quot;response&quot;</span>)</span>
+<span id="cb144-6"><a href="07-glms.html#cb144-6"></a><span class="kw">lines</span>(newdat<span class="op">$</span>relief, y_new, <span class="dt">lwd =</span> <span class="dv">3</span>, <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>)</span></code></pre></div>
+<p><img src="qm4g_files/figure-html/unnamed-chunk-34-1.png" width="80%" /></p>
 <p>But now we have the additional dispersion parameter <span class="math inline">\(\theta\)</span>, which comes out at 11.72 for the birds data, which leads to a better coverage of the response distribution compared to the Poisson model:</p>
-<div class="sourceCode" id="cb142"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb142-1"><a href="07-glms.html#cb142-1"></a><span class="co"># plot overall response distribution for negative-binomial fit</span></span>
-<span id="cb142-2"><a href="07-glms.html#cb142-2"></a><span class="kw">plot</span>(h0, <span class="dt">freq =</span> <span class="ot">FALSE</span>, <span class="dt">col =</span> <span class="st">&quot;gray&quot;</span>, <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="dv">0</span>,<span class="fl">0.02</span>),</span>
-<span id="cb142-3"><a href="07-glms.html#cb142-3"></a>     <span class="dt">main =</span> <span class="st">&quot;overall negative-binomial model&quot;</span>, <span class="dt">xlab =</span> <span class="st">&quot;Number of bird species&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;pdf&quot;</span>)</span>
-<span id="cb142-4"><a href="07-glms.html#cb142-4"></a><span class="kw">curve</span>((</span>
-<span id="cb142-5"><a href="07-glms.html#cb142-5"></a>        <span class="kw">dnbinom</span>(x, <span class="dt">mu=</span><span class="kw">predict</span>(birds_fit2, <span class="dt">newdata=</span><span class="kw">data.frame</span>(<span class="dt">relief=</span><span class="fl">0.5760</span>),</span>
-<span id="cb142-6"><a href="07-glms.html#cb142-6"></a>                              <span class="dt">type =</span> <span class="st">&quot;response&quot;</span>), <span class="dt">size=</span>birds_fit2<span class="op">$</span>theta) <span class="op">+</span></span>
-<span id="cb142-7"><a href="07-glms.html#cb142-7"></a><span class="st">                </span><span class="kw">dnbinom</span>(x, <span class="dt">mu=</span><span class="kw">predict</span>(birds_fit2, <span class="dt">newdata=</span><span class="kw">data.frame</span>(<span class="dt">relief=</span><span class="fl">1.5690</span>),</span>
-<span id="cb142-8"><a href="07-glms.html#cb142-8"></a>                                      <span class="dt">type =</span> <span class="st">&quot;response&quot;</span>), <span class="dt">size=</span>birds_fit2<span class="op">$</span>theta) <span class="op">+</span></span>
-<span id="cb142-9"><a href="07-glms.html#cb142-9"></a><span class="st">                </span><span class="kw">dnbinom</span>(x, <span class="dt">mu=</span><span class="kw">predict</span>(birds_fit2, <span class="dt">newdata=</span><span class="kw">data.frame</span>(<span class="dt">relief=</span><span class="fl">2.4510</span>),</span>
-<span id="cb142-10"><a href="07-glms.html#cb142-10"></a>                                      <span class="dt">type =</span> <span class="st">&quot;response&quot;</span>), <span class="dt">size=</span>birds_fit2<span class="op">$</span>theta) <span class="op">+</span></span>
-<span id="cb142-11"><a href="07-glms.html#cb142-11"></a><span class="st">                </span><span class="kw">dnbinom</span>(x, <span class="dt">mu=</span><span class="kw">predict</span>(birds_fit2, <span class="dt">newdata=</span><span class="kw">data.frame</span>(<span class="dt">relief=</span><span class="fl">3.6090</span>),</span>
-<span id="cb142-12"><a href="07-glms.html#cb142-12"></a>                                      <span class="dt">type =</span> <span class="st">&quot;response&quot;</span>), <span class="dt">size=</span>birds_fit2<span class="op">$</span>theta))<span class="op">/</span><span class="dv">4</span>,</span>
-<span id="cb142-13"><a href="07-glms.html#cb142-13"></a>      <span class="dt">add=</span><span class="ot">TRUE</span>, <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>, <span class="dt">type =</span> <span class="st">&#39;b&#39;</span>)</span></code></pre></div>
-<p><img src="qm4g_files/figure-html/unnamed-chunk-33-1.png" width="80%" /></p>
+<div class="sourceCode" id="cb145"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb145-1"><a href="07-glms.html#cb145-1"></a><span class="co"># plot overall response distribution for negative-binomial fit</span></span>
+<span id="cb145-2"><a href="07-glms.html#cb145-2"></a><span class="kw">plot</span>(h0, <span class="dt">freq =</span> <span class="ot">FALSE</span>, <span class="dt">col =</span> <span class="st">&quot;gray&quot;</span>, <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="dv">0</span>,<span class="fl">0.02</span>),</span>
+<span id="cb145-3"><a href="07-glms.html#cb145-3"></a>     <span class="dt">main =</span> <span class="st">&quot;overall negative-binomial model&quot;</span>, <span class="dt">xlab =</span> <span class="st">&quot;Number of bird species&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;pdf&quot;</span>)</span>
+<span id="cb145-4"><a href="07-glms.html#cb145-4"></a><span class="kw">curve</span>((</span>
+<span id="cb145-5"><a href="07-glms.html#cb145-5"></a>        <span class="kw">dnbinom</span>(x, <span class="dt">mu=</span><span class="kw">predict</span>(birds_fit2, <span class="dt">newdata=</span><span class="kw">data.frame</span>(<span class="dt">relief=</span><span class="fl">0.5760</span>),</span>
+<span id="cb145-6"><a href="07-glms.html#cb145-6"></a>                              <span class="dt">type =</span> <span class="st">&quot;response&quot;</span>), <span class="dt">size=</span>birds_fit2<span class="op">$</span>theta) <span class="op">+</span></span>
+<span id="cb145-7"><a href="07-glms.html#cb145-7"></a><span class="st">                </span><span class="kw">dnbinom</span>(x, <span class="dt">mu=</span><span class="kw">predict</span>(birds_fit2, <span class="dt">newdata=</span><span class="kw">data.frame</span>(<span class="dt">relief=</span><span class="fl">1.5690</span>),</span>
+<span id="cb145-8"><a href="07-glms.html#cb145-8"></a>                                      <span class="dt">type =</span> <span class="st">&quot;response&quot;</span>), <span class="dt">size=</span>birds_fit2<span class="op">$</span>theta) <span class="op">+</span></span>
+<span id="cb145-9"><a href="07-glms.html#cb145-9"></a><span class="st">                </span><span class="kw">dnbinom</span>(x, <span class="dt">mu=</span><span class="kw">predict</span>(birds_fit2, <span class="dt">newdata=</span><span class="kw">data.frame</span>(<span class="dt">relief=</span><span class="fl">2.4510</span>),</span>
+<span id="cb145-10"><a href="07-glms.html#cb145-10"></a>                                      <span class="dt">type =</span> <span class="st">&quot;response&quot;</span>), <span class="dt">size=</span>birds_fit2<span class="op">$</span>theta) <span class="op">+</span></span>
+<span id="cb145-11"><a href="07-glms.html#cb145-11"></a><span class="st">                </span><span class="kw">dnbinom</span>(x, <span class="dt">mu=</span><span class="kw">predict</span>(birds_fit2, <span class="dt">newdata=</span><span class="kw">data.frame</span>(<span class="dt">relief=</span><span class="fl">3.6090</span>),</span>
+<span id="cb145-12"><a href="07-glms.html#cb145-12"></a>                                      <span class="dt">type =</span> <span class="st">&quot;response&quot;</span>), <span class="dt">size=</span>birds_fit2<span class="op">$</span>theta))<span class="op">/</span><span class="dv">4</span>,</span>
+<span id="cb145-13"><a href="07-glms.html#cb145-13"></a>      <span class="dt">add=</span><span class="ot">TRUE</span>, <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>, <span class="dt">type =</span> <span class="st">&#39;b&#39;</span>)</span></code></pre></div>
+<p><img src="qm4g_files/figure-html/unnamed-chunk-35-1.png" width="80%" /></p>
 <p>AIC - indicative of predictive performance - is a lot better compared to the Poisson model, even if Pseudo-<span class="math inline">\(r^2\)</span> is a little worse:</p>
-<div class="sourceCode" id="cb143"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb143-1"><a href="07-glms.html#cb143-1"></a>birds_fit2<span class="op">$</span>aic</span></code></pre></div>
+<div class="sourceCode" id="cb146"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb146-1"><a href="07-glms.html#cb146-1"></a>birds_fit2<span class="op">$</span>aic</span></code></pre></div>
 <pre><code>## [1] 681.9</code></pre>
-<div class="sourceCode" id="cb145"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb145-1"><a href="07-glms.html#cb145-1"></a>pseudo_r2 &lt;-<span class="st"> </span><span class="dv">1</span> <span class="op">-</span><span class="st"> </span>birds_fit2<span class="op">$</span>deviance <span class="op">/</span><span class="st"> </span>birds_fit2<span class="op">$</span>null.deviance</span>
-<span id="cb145-2"><a href="07-glms.html#cb145-2"></a>pseudo_r2</span></code></pre></div>
+<div class="sourceCode" id="cb148"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb148-1"><a href="07-glms.html#cb148-1"></a>pseudo_r2 &lt;-<span class="st"> </span><span class="dv">1</span> <span class="op">-</span><span class="st"> </span>birds_fit2<span class="op">$</span>deviance <span class="op">/</span><span class="st"> </span>birds_fit2<span class="op">$</span>null.deviance</span>
+<span id="cb148-2"><a href="07-glms.html#cb148-2"></a>pseudo_r2</span></code></pre></div>
 <pre><code>## [1] 0.542</code></pre>
 <p>The residuals show some improvement, but not much:</p>
-<div class="sourceCode" id="cb147"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb147-1"><a href="07-glms.html#cb147-1"></a><span class="co"># plot Pearson residuals of negative-binomial fit</span></span>
-<span id="cb147-2"><a href="07-glms.html#cb147-2"></a><span class="kw">plot</span>(birds_fit2<span class="op">$</span>fitted.values, <span class="kw">resid</span>(birds_fit2, <span class="dt">type =</span> <span class="st">&#39;pearson&#39;</span>),</span>
-<span id="cb147-3"><a href="07-glms.html#cb147-3"></a>     <span class="dt">pch =</span> <span class="dv">19</span>, <span class="dt">type =</span> <span class="st">&#39;p&#39;</span>, <span class="dt">xlim=</span><span class="kw">c</span>(<span class="dv">100</span>,<span class="dv">400</span>), <span class="dt">ylim=</span><span class="kw">c</span>(<span class="op">-</span><span class="dv">3</span>,<span class="dv">3</span>),</span>
-<span id="cb147-4"><a href="07-glms.html#cb147-4"></a>     <span class="dt">xlab=</span><span class="st">&#39;Number of bird species&#39;</span>, <span class="dt">ylab=</span><span class="st">&#39;Residuals&#39;</span>)</span></code></pre></div>
-<p><img src="qm4g_files/figure-html/unnamed-chunk-35-1.png" width="80%" /></p>
+<div class="sourceCode" id="cb150"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb150-1"><a href="07-glms.html#cb150-1"></a><span class="co"># plot Pearson residuals of negative-binomial fit</span></span>
+<span id="cb150-2"><a href="07-glms.html#cb150-2"></a><span class="kw">plot</span>(birds_fit2<span class="op">$</span>fitted.values, <span class="kw">resid</span>(birds_fit2, <span class="dt">type =</span> <span class="st">&#39;pearson&#39;</span>),</span>
+<span id="cb150-3"><a href="07-glms.html#cb150-3"></a>     <span class="dt">pch =</span> <span class="dv">19</span>, <span class="dt">type =</span> <span class="st">&#39;p&#39;</span>, <span class="dt">xlim=</span><span class="kw">c</span>(<span class="dv">100</span>,<span class="dv">400</span>), <span class="dt">ylim=</span><span class="kw">c</span>(<span class="op">-</span><span class="dv">3</span>,<span class="dv">3</span>),</span>
+<span id="cb150-4"><a href="07-glms.html#cb150-4"></a>     <span class="dt">xlab=</span><span class="st">&#39;Number of bird species&#39;</span>, <span class="dt">ylab=</span><span class="st">&#39;Residuals&#39;</span>)</span></code></pre></div>
+<p><img src="qm4g_files/figure-html/unnamed-chunk-37-1.png" width="80%" /></p>
 <p>It seems we have reached the limit here of what we can achieve with just a single predictor. Further improvements should only be expected if we introduce additional predictors of the number of bird species.</p>
 
 </div>

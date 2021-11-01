@@ -51,6 +51,23 @@
 
 
 <script src="libs/accessible-code-block/empty-anchor.js"></script>
+<script src="libs/htmlwidgets/htmlwidgets.js"></script>
+<script src="libs/rglWebGL-binding/rglWebGL.js"></script>
+<link href="libs/rglwidgetClass/rgl.css" rel="stylesheet" />
+<script src="libs/rglwidgetClass/rglClass.src.js"></script>
+<script src="libs/rglwidgetClass/utils.src.js"></script>
+<script src="libs/rglwidgetClass/subscenes.src.js"></script>
+<script src="libs/rglwidgetClass/shaders.src.js"></script>
+<script src="libs/rglwidgetClass/textures.src.js"></script>
+<script src="libs/rglwidgetClass/projection.src.js"></script>
+<script src="libs/rglwidgetClass/mouse.src.js"></script>
+<script src="libs/rglwidgetClass/init.src.js"></script>
+<script src="libs/rglwidgetClass/pieces.src.js"></script>
+<script src="libs/rglwidgetClass/draw.src.js"></script>
+<script src="libs/rglwidgetClass/controls.src.js"></script>
+<script src="libs/rglwidgetClass/selection.src.js"></script>
+<script src="libs/rglwidgetClass/rglTimer.src.js"></script>
+<script src="libs/CanvasMatrix4/CanvasMatrix.src.js"></script>
 <script src="libs/kePrint/kePrint.js"></script>
 <link href="libs/lightable/lightable.css" rel="stylesheet" />
 <link href="libs/bsTable/bootstrapTable.min.css" rel="stylesheet" />
@@ -349,7 +366,7 @@ AIC=-2\cdot logL\left(\hat\beta, \hat\sigma|\mathbf{y}\right)+2\cdot p
 <span id="cb66-7"><a href="05-multiple_lin_reg.html#cb66-7"></a><span class="co"># residual QQ-plot</span></span>
 <span id="cb66-8"><a href="05-multiple_lin_reg.html#cb66-8"></a><span class="kw">qqnorm</span>(<span class="kw">residuals</span>(ozone_fit))</span>
 <span id="cb66-9"><a href="05-multiple_lin_reg.html#cb66-9"></a><span class="kw">qqline</span>(<span class="kw">residuals</span>(ozone_fit))</span></code></pre></div>
-<p><img src="qm4g_files/figure-html/unnamed-chunk-13-1.png" width="50%" /><img src="qm4g_files/figure-html/unnamed-chunk-13-2.png" width="50%" /><img src="qm4g_files/figure-html/unnamed-chunk-13-3.png" width="50%" /><img src="qm4g_files/figure-html/unnamed-chunk-13-4.png" width="50%" /></p>
+<p><img src="qm4g_files/figure-html/unnamed-chunk-15-1.png" width="50%" /><img src="qm4g_files/figure-html/unnamed-chunk-15-2.png" width="50%" /><img src="qm4g_files/figure-html/unnamed-chunk-15-3.png" width="50%" /><img src="qm4g_files/figure-html/unnamed-chunk-15-4.png" width="50%" /></p>
 <p>The residuals are heteroscedastic and right-skewed, which is something we might be able to fix by log-transforming the response. This is something to try in any case when the response varies over orders of magnitude <span class="citation">(Gelman, Hill, and Vehtari <a href="#ref-gelman2020" role="doc-biblioref">2020</a>)</span>.</p>
 <div class="sourceCode" id="cb67"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb67-1"><a href="05-multiple_lin_reg.html#cb67-1"></a><span class="co"># add log-transform of ozone to data.frame</span></span>
 <span id="cb67-2"><a href="05-multiple_lin_reg.html#cb67-2"></a>ozone_std<span class="op">$</span>log_ozone &lt;-<span class="st"> </span><span class="kw">log</span>(ozone_std<span class="op">$</span>ozone)</span>
@@ -383,7 +400,7 @@ AIC=-2\cdot logL\left(\hat\beta, \hat\sigma|\mathbf{y}\right)+2\cdot p
 <span id="cb69-3"><a href="05-multiple_lin_reg.html#cb69-3"></a><span class="kw">hist</span>(<span class="kw">residuals</span>(log_ozone_fit))</span>
 <span id="cb69-4"><a href="05-multiple_lin_reg.html#cb69-4"></a><span class="kw">qqnorm</span>(<span class="kw">residuals</span>(log_ozone_fit))</span>
 <span id="cb69-5"><a href="05-multiple_lin_reg.html#cb69-5"></a><span class="kw">qqline</span>(<span class="kw">residuals</span>(log_ozone_fit))</span></code></pre></div>
-<p><img src="qm4g_files/figure-html/unnamed-chunk-15-1.png" width="50%" /><img src="qm4g_files/figure-html/unnamed-chunk-15-2.png" width="50%" /><img src="qm4g_files/figure-html/unnamed-chunk-15-3.png" width="50%" /><img src="qm4g_files/figure-html/unnamed-chunk-15-4.png" width="50%" /></p>
+<p><img src="qm4g_files/figure-html/unnamed-chunk-17-1.png" width="50%" /><img src="qm4g_files/figure-html/unnamed-chunk-17-2.png" width="50%" /><img src="qm4g_files/figure-html/unnamed-chunk-17-3.png" width="50%" /><img src="qm4g_files/figure-html/unnamed-chunk-17-4.png" width="50%" /></p>
 <p>Finally, the AIC of the log-ozone model got a lot better compared to the ozone model (remember that a smaller AIC indicates a better model):</p>
 <div class="sourceCode" id="cb70"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb70-1"><a href="05-multiple_lin_reg.html#cb70-1"></a><span class="kw">AIC</span>(ozone_fit)</span></code></pre></div>
 <pre><code>## [1] 998.6</code></pre>
@@ -476,7 +493,7 @@ AIC=-2\cdot logL\left(\hat\beta, \hat\sigma|\mathbf{y}\right)+2\cdot p
 <span id="cb86-3"><a href="05-multiple_lin_reg.html#cb86-3"></a><span class="kw">hist</span>(<span class="kw">residuals</span>(log_ozone_fit3))</span>
 <span id="cb86-4"><a href="05-multiple_lin_reg.html#cb86-4"></a><span class="kw">qqnorm</span>(<span class="kw">residuals</span>(log_ozone_fit3))</span>
 <span id="cb86-5"><a href="05-multiple_lin_reg.html#cb86-5"></a><span class="kw">qqline</span>(<span class="kw">residuals</span>(log_ozone_fit3))</span></code></pre></div>
-<p><img src="qm4g_files/figure-html/unnamed-chunk-20-1.png" width="50%" /><img src="qm4g_files/figure-html/unnamed-chunk-20-2.png" width="50%" /><img src="qm4g_files/figure-html/unnamed-chunk-20-3.png" width="50%" /><img src="qm4g_files/figure-html/unnamed-chunk-20-4.png" width="50%" /></p>
+<p><img src="qm4g_files/figure-html/unnamed-chunk-22-1.png" width="50%" /><img src="qm4g_files/figure-html/unnamed-chunk-22-2.png" width="50%" /><img src="qm4g_files/figure-html/unnamed-chunk-22-3.png" width="50%" /><img src="qm4g_files/figure-html/unnamed-chunk-22-4.png" width="50%" /></p>
 <p>The model that we settled with is:
 <span class="math display" id="eq:ozonemod">\[\begin{equation}
 \log(ozone)=3.4+0.2\cdot rad_{std}+0.5\cdot temp_{std}-0.2\cdot wind_{std}-0.1\cdot temp_{std}\cdot wind_{std}+\epsilon
@@ -567,7 +584,7 @@ Figure 4.5: Childrens’ IQ score against their mothers’ IQ score, with symbol
 <span id="cb113-3"><a href="05-multiple_lin_reg.html#cb113-3"></a><span class="kw">hist</span>(<span class="kw">residuals</span>(iq_fit5))</span>
 <span id="cb113-4"><a href="05-multiple_lin_reg.html#cb113-4"></a><span class="kw">qqnorm</span>(<span class="kw">residuals</span>(iq_fit5))</span>
 <span id="cb113-5"><a href="05-multiple_lin_reg.html#cb113-5"></a><span class="kw">qqline</span>(<span class="kw">residuals</span>(iq_fit5))</span></code></pre></div>
-<p><img src="qm4g_files/figure-html/unnamed-chunk-23-1.png" width="50%" /><img src="qm4g_files/figure-html/unnamed-chunk-23-2.png" width="50%" /><img src="qm4g_files/figure-html/unnamed-chunk-23-3.png" width="50%" /><img src="qm4g_files/figure-html/unnamed-chunk-23-4.png" width="50%" /></p>
+<p><img src="qm4g_files/figure-html/unnamed-chunk-25-1.png" width="50%" /><img src="qm4g_files/figure-html/unnamed-chunk-25-2.png" width="50%" /><img src="qm4g_files/figure-html/unnamed-chunk-25-3.png" width="50%" /><img src="qm4g_files/figure-html/unnamed-chunk-25-4.png" width="50%" /></p>
 <p>Let’s plot the six variants to look at the meaning of interactions once more (Figure <a href="05-multiple_lin_reg.html#fig:iqmod">4.6</a>).</p>
 <div class="sourceCode" id="cb114"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb114-1"><a href="05-multiple_lin_reg.html#cb114-1"></a><span class="co"># Null model</span></span>
 <span id="cb114-2"><a href="05-multiple_lin_reg.html#cb114-2"></a><span class="kw">plot</span>(iq_cen<span class="op">$</span>mom_iq, iq_cen<span class="op">$</span>kid_score, <span class="dt">pch =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">20</span>)[iq_cen<span class="op">$</span>mom_hs<span class="op">+</span><span class="dv">1</span>],</span>
