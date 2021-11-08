@@ -27,6 +27,6 @@ description: "This is the script of the course 'Quantitative Methods for Geograp
 
 This is the script of the course 'Quantitative Methods for Geographers' run at the Geography Department of Humboldt-Universität zu Berlin.
 
-**Acknowledgements:** Many thanks to Kassandra Jensch und Maeve Smyth for their help in making this script.
+**Acknowledgements:** Many thanks to Kassandra Jensch, Maeve Smyth and Friedrich Busch for their help in making this script.
 
 **License:** This script is licensed under the Creative Commons Zero v1.0 Universal license. You can learn the details [here](https://github.com/krueger-t/qm4g/blob/main/LICENSE). In short, you can use my work. Just make sure you give me the appropriate credit the same way you would for any other scholarly resource.

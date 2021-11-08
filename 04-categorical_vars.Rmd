@@ -107,7 +107,7 @@ yields2 <- data.frame(yield = c(yields$sand, yields$clay, yields$loam),
                       loam = c(rep(0,10), rep(0,10), rep(1,10)))
 yields2
 ```
-When "clay" is 1 and "loam" is 0 then we are in the clay category, when "clay" is 0 and "loam" is 1 then we are in the loam category, and if both are 0 we are in the "sand" category. This can be visualised in 3D:
+When "clay" is 1 and "loam" is 0 then we are in the clay category, when "clay" is 0 and "loam" is 1 then we are in the loam category, and if both are 0 we are in the "sand" category. This can be visualised in 3D (you can rotate this cube using the cursor):
 
 ```{r yields3d, echo=FALSE, fig.align='center', fig.cap='3D representation of the dummy coding of the yields dataset.', out.width='88%', webgl=TRUE}
 #knitr::include_graphics('figs/yields3d.jpg')
