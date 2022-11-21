@@ -161,13 +161,12 @@ qqnorm(residuals(log_ozone_fit))
 qqline(residuals(log_ozone_fit))
 ```
 
-Finally, the AIC of the log-ozone model got a lot better compared to the ozone model (remember that a smaller AIC indicates a better model):
+The AIC of the log-ozone model is:^[Note, we cannot compare AIC values of log-ozone and un-transformed ozone models without correcting for the response data transformation.]
 ```{r echo=TRUE}
-AIC(ozone_fit)
 AIC(log_ozone_fit)
 ```
 
-So we can proceed from this base model and see if adding interactions improves fit $\left(r^2\right)$ and predictive performance (AIC). We start by adding the interaction of the largest effects [@gelman2020]:
+We now proceed from this base model and see if adding interactions improves fit $\left(r^2\right)$ and predictive performance (AIC). We start by adding the interaction of the largest effects [@gelman2020]:
 ```{r echo=TRUE}
 log_ozone_fit2 <- lm(log_ozone ~ rad*temp+wind, data = ozone_std)
 summary(log_ozone_fit2)

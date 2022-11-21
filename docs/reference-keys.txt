@@ -79,7 +79,6 @@ fig:anscombefit
 fig:anscomberes1
 fig:anscomberes2
 fig:anscombeqq
-fig:qq
 fig:anscomberes3
 fig:yields
 eq:effform

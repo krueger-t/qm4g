@@ -13,7 +13,7 @@
           fullset = [].concat(control.fullset),
           i, j, subsceneid,
           adds = [], deletes = [];
-      if (isNaN(value))
+      if (rglwidgetClass.missing(value))
         value = control.value = 0;
       if (control.accumulate)
         for (i=0; i <= value; i++)
@@ -45,8 +45,8 @@
           entries = [].concat(control.entries),
           ncol = entries.length,
           nrow = values.length/ncol,
-          properties = this.repeatToLen(control.properties, ncol),
-          objids = this.repeatToLen(control.objids, ncol),
+          properties = rglwidgetClass.repeatToLen(control.properties, ncol),
+          objids = rglwidgetClass.repeatToLen(control.objids, ncol),
           property, objid = objids[0],
           obj = this.getObj(objid),
           propvals, i, j, v1, v2, p, entry, gl, needsBinding,
@@ -166,8 +166,8 @@
       if (!ncol)
         return;
 
-      vertices = this.repeatToLen(vertices, ncol);
-      attributes = this.repeatToLen(attributes, ncol);
+      vertices = rglwidgetClass.repeatToLen(vertices, ncol);
+      attributes = rglwidgetClass.repeatToLen(attributes, ncol);
 
       if (direct)
         interp = false;
@@ -213,7 +213,7 @@
           }
         }
         if (!varies)
-          this.initObj(control.objid);
+          this.initObjId(control.objid);
       }
       propvals = obj.values;
       aliases = obj.alias;
@@ -342,7 +342,7 @@
           }
         }
         if (!varies)
-          this.initObj(objid);
+          this.initObjId(objid);
       }
       for (l = 0; l < nobjs; l++) {
         objid = objids[l];
@@ -562,7 +562,7 @@
         Object.keys(objs).forEach(function(key){
           key = parseInt(key, 10);
           self.scene.objects[key] = objs[key];
-          self.initObj(key);
+          self.initObjId(key);
           var obj = self.getObj(key),
               subs = [].concat(obj.inSubscenes), k;
           allsubs = allsubs.concat(subs);

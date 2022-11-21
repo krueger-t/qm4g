@@ -1,4 +1,24 @@
-
+    /**
+     * Methods related to textures
+     * @name ___METHODS_FOR_TEXTURES___
+     * @memberof rglwidgetClass
+     * @kind function
+     * @instance
+     */
+     
+    rglwidgetClass.prototype.getTexFilter = function(filter) {
+      var gl = this.gl || this.initGL();
+      switch(filter) {
+        case "nearest": return gl.NEAREST;
+        case "linear": return gl.LINEAR;
+        case "nearest.mipmap.nearest": return gl.NEAREST_MIPMAP_NEAREST;
+        case "linear.mipmap.nearest": return gl.LINEAR_MIPMAP_NEAREST;
+        case "nearest.mipmap.linear": return gl.NEAREST_MIPMAP_LINEAR;
+        case "linear.mipmap.linear": return gl.LINEAR_MIPMAP_LINEAR;
+        default: console.error("Unknown filter: "+filter);
+      }
+    };
+     
     /**
      * Handle a texture after its image has been loaded
      * @param { Object } texture - the gl texture object
@@ -38,6 +58,7 @@
           self = this;
 
        image.onload = function() {
+
          var w = image.width,
              h = image.height,
              canvasX = self.getPowerOfTwo(w),
@@ -52,8 +73,13 @@
          ctx.imageSmoothingEnabled = true;
          ctx.drawImage(image, 0, 0, canvasX, canvasY);
          self.handleLoadedTexture(texture, canvas);
-         self.drawScene();
+         self.texturesLoading -= 1;
+         if (!self.texturesLoading)
+           self.drawScene();
        };
+       if (!self.texturesLoading)
+         self.texturesLoading = 0; // may have been undefined
+       self.texturesLoading += 1;
        image.src = uri;
      };
 
@@ -93,9 +119,9 @@
                fontString = "italic " + fontString;
              return fontString;
            };
-       cex = this.repeatToLen(cex, text.length);
-       family = this.repeatToLen(family, text.length);
-       font = this.repeatToLen(font, text.length);
+       cex = rglwidgetClass.repeatToLen(cex, text.length);
+       family = rglwidgetClass.repeatToLen(family, text.length);
+       font = rglwidgetClass.repeatToLen(font, text.length);
 
        canvasX = 1;
        line = -1;

@@ -1,4 +1,11 @@
-
+    /**
+     * Methods related to selection
+     * @name ___METHODS_FOR_SELECTION___
+     * @memberof rglwidgetClass
+     * @kind function
+     * @instance
+     */
+     
     /**
      * Respond to brush change
      */
@@ -33,7 +40,7 @@
       	      continue;
       	    }
       	    v = [].concat(obj.vertices[k]).concat(1.0);
-            v = this.multVM(v, this.prmvMatrix);
+            v = rglwidgetClass.multVM(v, this.prmvMatrix);
             x = v[0]/v[3];
             y = v[1]/v[3];
             z = v[2]/v[3];

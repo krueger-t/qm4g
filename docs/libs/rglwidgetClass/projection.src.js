@@ -1,4 +1,11 @@
-
+    /**
+     * Methods related to projections
+     * @name ___METHODS_FOR_PROJECTIONS___
+     * @memberof rglwidgetClass
+     * @kind function
+     * @instance
+     */
+     
     /**
      * Get the viewport
      */
@@ -100,39 +107,30 @@
     rglwidgetClass.prototype.setmodelMatrix = function(id) {
       var subscene = this.getObj(id),
           embedding = subscene.embeddings.model;
-      if (embedding !== "inherit") {
-        var scale = subscene.par3d.scale,
-            bbox = subscene.par3d.bbox,
+      if (embedding === "replace") {
+        var bbox = subscene.par3d.bbox,
             center = [(bbox[0]+bbox[1])/2,
                       (bbox[2]+bbox[3])/2,
                       (bbox[4]+bbox[5])/2];
-         this.mvMatrix.translate(-center[0], -center[1], -center[2]);
-         this.mvMatrix.scale(scale[0], scale[1], scale[2]);
-         this.mvMatrix.multRight( subscene.par3d.userMatrix );
-       }
-       if (embedding !== "replace")
-         this.setmodelMatrix(subscene.parent);
+        this.mvMatrix.translate(-center[0], -center[1], -center[2]);
+      }
+      if (embedding !== "inherit") {
+        var scale = subscene.par3d.scale;
+        this.mvMatrix.scale(scale[0], scale[1], scale[2]);
+        this.mvMatrix.multRight( subscene.par3d.userMatrix );
+      }
+      if (embedding !== "replace")
+        this.setmodelMatrix(subscene.parent);
      };
 
     /**
      * Set the normals matrix for a subscene
      * @param { number } subsceneid - id of the subscene
      */
-    rglwidgetClass.prototype.setnormMatrix = function(subsceneid) {
-       var self = this,
-       recurse = function(id) {
-         var sub = self.getObj(id),
-             embedding = sub.embeddings.model;
-         if (embedding !== "inherit") {
-           var scale = sub.par3d.scale;
-           self.normMatrix.scale(1/scale[0], 1/scale[1], 1/scale[2]);
-           self.normMatrix.multRight(sub.par3d.userMatrix);
-         }
-         if (embedding !== "replace")
-           recurse(sub.parent);
-       };
-       self.normMatrix.makeIdentity();
-       recurse(subsceneid);
+     rglwidgetClass.prototype.setnormMatrix2 = function() {
+       this.normMatrix = new CanvasMatrix4(this.mvMatrix);
+       this.normMatrix.invert();
+       this.normMatrix.transpose();
      };
 
     /**
@@ -143,3 +141,8 @@
        this.prmvMatrix.multRight( this.prMatrix );
      };
 
+    rglwidgetClass.prototype.setInvPrMatrix = function() {
+      this.invPrMatrix = new CanvasMatrix4( this.prMatrix );
+      this.invPrMatrix.invert();
+      this.invPrMatrix.transpose();
+    };

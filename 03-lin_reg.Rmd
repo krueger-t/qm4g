@@ -458,30 +458,7 @@ qqnorm(residuals(fit4), xlim = c(-4, 4), ylim = c(-4, 4))
 qqline(residuals(fit4))
 ```
 
-In the QQ plot, every data point represents a certain quantile of the empirical distribution. This quantile (after standardisation) is plotted (vertical axis) against the value of that quantile expected under a standard normal distribution (horizontal axis). The resultant shapes say something about the distribution of the residuals (Figure \@ref(fig:qq)), e.g. in case of a normal distribution they all fall on a straight line. In the Anscombe dataset, the only clearly non-normal dataset seems to be #3 (bottom-left). This would have to be formally tested using the Kolmogorov-Smirnov test or the Shapiro-Wilk test, for example.
-
-```{r qq, echo=TRUE, fig.align='center', fig.cap='Characteristic shapes of the QQ plot and what they mean for the residuals in our case. Note, I couldn\'t find an easy distribution that has thinner tails than the normal, but such case would exhibit an S-shape, just like the thick-tailed variant mirrored on the diagonal line.', fig.show='hold', out.width='50%'}
-# 1) simulate normal data
-x_norm <- rnorm(100, 0, 1)
-# QQ plot
-qqnorm(x_norm, xlim = c(-4, 4), ylim = c(-4, 4), main='Normal data')
-qqline(x_norm)
-# 2) simulate right-skewed data
-x_right <- rlnorm(100, 0, 1)
-# QQ plot
-qqnorm(x_right, xlim = c(-4, 4), ylim = c(-2, 6), main='Right-skewed data')
-qqline(x_right)
-# 3) simulate left-skewed data
-x_left <- -x_right
-# QQ plot
-qqnorm(x_left, xlim = c(-4, 4), ylim = c(-6, 2), main='Left-skewed data')
-qqline(x_left)
-# 4) simulate thick-tailed data
-x_thick <- rcauchy(100, 0, 1)
-# QQ plot
-qqnorm(x_thick, xlim = c(-4, 4), ylim = c(-8, 8), main='Thick-tailed data')
-qqline(x_thick)
-```
+In the QQ plot, every data point represents a certain quantile of the empirical distribution. This quantile (after standardisation) is plotted (vertical axis) against the value of that quantile expected under a standard normal distribution (horizontal axis). The resultant shapes say something about the distribution of the residuals. You can explore possible shapes using this [QQ plot app](https://xiongge.shinyapps.io/QQplots/). In case of a normal distribution, the residuals all fall on a straight line. In the Anscombe dataset, the only clearly non-normal dataset seems to be #3 (bottom-left). This would have to be formally tested using the Kolmogorov-Smirnov test or the Shapiro-Wilk test, for example.
 
 The non-normality of dataset 3 becomes apparent also in the residual histograms (Figure \@ref(fig:anscomberes3)). They also emphasize the outlier in dataset 3. Note, it is generally difficult to reject the hypothesis of normally distributed residuals with so few data points.
 
