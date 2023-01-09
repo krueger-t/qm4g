@@ -23,7 +23,7 @@
 <meta name="author" content="Tobias Krueger" />
 
 
-<meta name="date" content="2022-11-21" />
+<meta name="date" content="2023-01-09" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -49,7 +49,6 @@
 
 
 
-<script src="libs/accessible-code-block/empty-anchor.js"></script>
 <link href="libs/anchor-sections/anchor-sections.css" rel="stylesheet" />
 <link href="libs/anchor-sections/anchor-sections-hash.css" rel="stylesheet" />
 <script src="libs/anchor-sections/anchor-sections.js"></script>
@@ -419,18 +418,18 @@ void main(void) {
 
 
 <style type="text/css">
-code.sourceCode > span { display: inline-block; line-height: 1.25; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-code.sourceCode > span:empty { height: 1.2em; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
-code.sourceCode { white-space: pre; position: relative; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
 pre.sourceCode { margin: 0; }
 @media screen {
 div.sourceCode { overflow: auto; }
 }
 @media print {
-code.sourceCode { white-space: pre-wrap; }
-code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -450,13 +449,13 @@ pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-le
 div.sourceCode
   {   }
 @media screen {
-code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
 code span.at { color: #7d9029; } /* Attribute */
 code span.bn { color: #40a070; } /* BaseN */
-code span.bu { } /* BuiltIn */
+code span.bu { color: #008000; } /* BuiltIn */
 code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
 code span.ch { color: #4070a0; } /* Char */
 code span.cn { color: #880000; } /* Constant */
@@ -469,7 +468,7 @@ code span.er { color: #ff0000; font-weight: bold; } /* Error */
 code span.ex { } /* Extension */
 code span.fl { color: #40a070; } /* Float */
 code span.fu { color: #06287e; } /* Function */
-code span.im { } /* Import */
+code span.im { color: #008000; font-weight: bold; } /* Import */
 code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
 code span.kw { color: #007020; font-weight: bold; } /* Keyword */
 code span.op { color: #666666; } /* Operator */
@@ -483,6 +482,28 @@ code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
 
 <link rel="stylesheet" href="css/style.css" type="text/css" />
 </head>
@@ -530,9 +551,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="linreg" class="section level1 hasAnchor">
+<div id="linreg" class="section level1 hasAnchor" number="2">
 <h1><span class="header-section-number">Chapter 2</span> Linear regression<a href="03-lin_reg.html#linreg" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<div id="motivation" class="section level2 hasAnchor">
+<div id="motivation" class="section level2 hasAnchor" number="2.1">
 <h2><span class="header-section-number">2.1</span> Motivation<a href="03-lin_reg.html#motivation" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>The questions we wish to answer with linear regression are of the kind depicted in Figure <a href="03-lin_reg.html#fig:motivation">2.1</a>: What drives spatial variation in annual average precipitation and annual average temperature? In the case of precipitation the main drivers seem to be continentality and elevation, plus a few minor drivers, while temperature appears to be dominantly controlled by elevation only. Linear regression examines this question by modelling a response variable against one or more predictor variables, while the relationship between the two is linear in its parameters.</p>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:motivation"></span>
@@ -542,7 +563,7 @@ Figure 2.1: Maps of annual average precipitation (left) and annual average air t
 </p>
 </div>
 </div>
-<div id="the-linear-model" class="section level2 hasAnchor">
+<div id="the-linear-model" class="section level2 hasAnchor" number="2.2">
 <h2><span class="header-section-number">2.2</span> The linear model<a href="03-lin_reg.html#the-linear-model" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>The most general form of a <strong>linear model</strong> is:</p>
 <p><span class="math display" id="eq:linmod">\[\begin{equation}
@@ -598,6 +619,11 @@ y = \mathbf{X} \cdot \beta + \epsilon
 <p>When we talk about the linear model, the response variable is always continuous, while the predictor variables can be continuous, categorical or mixed. In principle, each of these variants can be treated mathematically in the same way, e.g. all can be analysed using the <code>lm()</code> function in R. However, historically different names have been established for these variants, which are worth mentioning here to avoid confusion (Tables <a href="03-lin_reg.html#tab:variants1">2.1</a> and <a href="03-lin_reg.html#tab:variants2">2.2</a>).</p>
 <table>
 <caption><span id="tab:variants1">Table 2.1: </span> Historical names for the variants of the linear model, depending on whether the predictors are continuous, categorical or mixed. The response is always continuous.</caption>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
 <thead>
 <tr class="header">
 <th align="center">Continuous<br>predictors</th>
@@ -641,42 +667,42 @@ y = \mathbf{X} \cdot \beta + \epsilon
 </tbody>
 </table>
 </div>
-<div id="description-versus-prediction" class="section level2 hasAnchor">
+<div id="description-versus-prediction" class="section level2 hasAnchor" number="2.3">
 <h2><span class="header-section-number">2.3</span> Description versus prediction<a href="03-lin_reg.html#description-versus-prediction" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>The primary purpose of regression analysis is the description (or explanation) of the data in terms of a general relationship pertaining to the population that these data are sampled from. Being a property of the population, this relationship should then also allow us to make predictions, but we need to be careful. Consider the relationship between year and world record time for the men’s mile depicted in Figure <a href="03-lin_reg.html#fig:mile">2.3</a>. When the predictor is time, as shown here, regression becomes a form of trend analysis, in this case of how the record time in the male competition decreased over the years. We will talk about the R code and output further below, here we’re just interested in the linear predictions.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="03-lin_reg.html#cb4-1"></a><span class="co"># load mile data from remote repository</span></span>
-<span id="cb4-2"><a href="03-lin_reg.html#cb4-2"></a>mile &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;https://raw.githubusercontent.com/avehtari/ROS-Examples/master/Mile/data/mile.csv&quot;</span>, <span class="dt">header=</span><span class="ot">TRUE</span>)</span>
-<span id="cb4-3"><a href="03-lin_reg.html#cb4-3"></a><span class="co"># fit linear model to data from 1st half of 20th century</span></span>
-<span id="cb4-4"><a href="03-lin_reg.html#cb4-4"></a>fit1 &lt;-<span class="st"> </span><span class="kw">lm</span>(seconds <span class="op">~</span><span class="st"> </span>year, <span class="dt">data =</span> mile[mile<span class="op">$</span>year<span class="op">&lt;</span><span class="dv">1950</span>,])</span>
-<span id="cb4-5"><a href="03-lin_reg.html#cb4-5"></a><span class="co"># extract information about parameter estimates</span></span>
-<span id="cb4-6"><a href="03-lin_reg.html#cb4-6"></a><span class="kw">coef</span>(<span class="kw">summary</span>(fit1))</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="03-lin_reg.html#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># load mile data from remote repository</span></span>
+<span id="cb4-2"><a href="03-lin_reg.html#cb4-2" aria-hidden="true" tabindex="-1"></a>mile <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;https://raw.githubusercontent.com/avehtari/ROS-Examples/master/Mile/data/mile.csv&quot;</span>, <span class="at">header=</span><span class="cn">TRUE</span>)</span>
+<span id="cb4-3"><a href="03-lin_reg.html#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co"># fit linear model to data from 1st half of 20th century</span></span>
+<span id="cb4-4"><a href="03-lin_reg.html#cb4-4" aria-hidden="true" tabindex="-1"></a>fit1 <span class="ot">&lt;-</span> <span class="fu">lm</span>(seconds <span class="sc">~</span> year, <span class="at">data =</span> mile[mile<span class="sc">$</span>year<span class="sc">&lt;</span><span class="dv">1950</span>,])</span>
+<span id="cb4-5"><a href="03-lin_reg.html#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="co"># extract information about parameter estimates</span></span>
+<span id="cb4-6"><a href="03-lin_reg.html#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="fu">coef</span>(<span class="fu">summary</span>(fit1))</span></code></pre></div>
 <pre><code>##             Estimate Std. Error t value  Pr(&gt;|t|)
 ## (Intercept) 912.2340   67.90140  13.435 3.615e-08
 ## year         -0.3439    0.03509  -9.798 9.059e-07</code></pre>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="03-lin_reg.html#cb6-1"></a><span class="co"># fit linear model to complete dataset</span></span>
-<span id="cb6-2"><a href="03-lin_reg.html#cb6-2"></a>fit2 &lt;-<span class="st"> </span><span class="kw">lm</span>(seconds <span class="op">~</span><span class="st"> </span>year, <span class="dt">data =</span> mile)</span>
-<span id="cb6-3"><a href="03-lin_reg.html#cb6-3"></a><span class="kw">coef</span>(<span class="kw">summary</span>(fit2))</span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="03-lin_reg.html#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># fit linear model to complete dataset</span></span>
+<span id="cb6-2"><a href="03-lin_reg.html#cb6-2" aria-hidden="true" tabindex="-1"></a>fit2 <span class="ot">&lt;-</span> <span class="fu">lm</span>(seconds <span class="sc">~</span> year, <span class="at">data =</span> mile)</span>
+<span id="cb6-3"><a href="03-lin_reg.html#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="fu">coef</span>(<span class="fu">summary</span>(fit2))</span></code></pre></div>
 <pre><code>##             Estimate Std. Error t value  Pr(&gt;|t|)
 ## (Intercept) 1006.876     21.532   46.76 1.361e-29
 ## year          -0.393      0.011  -35.73 3.780e-26</code></pre>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="03-lin_reg.html#cb8-1"></a><span class="co"># plot fit for 1st half of 20th century</span></span>
-<span id="cb8-2"><a href="03-lin_reg.html#cb8-2"></a><span class="kw">plot</span>(mile<span class="op">$</span>year[mile<span class="op">$</span>year<span class="op">&lt;</span><span class="dv">1950</span>], mile<span class="op">$</span>seconds[mile<span class="op">$</span>year<span class="op">&lt;</span><span class="dv">1950</span>],</span>
-<span id="cb8-3"><a href="03-lin_reg.html#cb8-3"></a>     <span class="dt">xlim =</span> <span class="kw">c</span>(<span class="dv">1900</span>, <span class="dv">2000</span>), <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="dv">200</span>, <span class="dv">260</span>),</span>
-<span id="cb8-4"><a href="03-lin_reg.html#cb8-4"></a>     <span class="dt">pch =</span> <span class="dv">19</span>, <span class="dt">type =</span> <span class="st">&#39;p&#39;</span>,</span>
-<span id="cb8-5"><a href="03-lin_reg.html#cb8-5"></a>     <span class="dt">xlab =</span> <span class="st">&quot;Year&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;World record, men&#39;s mile (seconds)&quot;</span>)</span>
-<span id="cb8-6"><a href="03-lin_reg.html#cb8-6"></a><span class="kw">abline</span>(<span class="kw">coef</span>(fit1), <span class="dt">lwd =</span> <span class="dv">3</span>, <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>)</span>
-<span id="cb8-7"><a href="03-lin_reg.html#cb8-7"></a><span class="co"># plot extrapolation to 2nd half of 20th century</span></span>
-<span id="cb8-8"><a href="03-lin_reg.html#cb8-8"></a><span class="kw">plot</span>(mile<span class="op">$</span>year, mile<span class="op">$</span>seconds,</span>
-<span id="cb8-9"><a href="03-lin_reg.html#cb8-9"></a>     <span class="dt">xlim =</span> <span class="kw">c</span>(<span class="dv">1900</span>, <span class="dv">2000</span>), <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="dv">200</span>, <span class="dv">260</span>),</span>
-<span id="cb8-10"><a href="03-lin_reg.html#cb8-10"></a>     <span class="dt">pch =</span> <span class="dv">19</span>, <span class="dt">type =</span> <span class="st">&#39;p&#39;</span>,</span>
-<span id="cb8-11"><a href="03-lin_reg.html#cb8-11"></a>     <span class="dt">xlab =</span> <span class="st">&quot;Year&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;World record, men&#39;s mile (seconds)&quot;</span>)</span>
-<span id="cb8-12"><a href="03-lin_reg.html#cb8-12"></a><span class="kw">abline</span>(<span class="kw">coef</span>(fit1), <span class="dt">lwd =</span> <span class="dv">3</span>, <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>)</span>
-<span id="cb8-13"><a href="03-lin_reg.html#cb8-13"></a><span class="co"># plot all-data fit until 2050</span></span>
-<span id="cb8-14"><a href="03-lin_reg.html#cb8-14"></a><span class="kw">plot</span>(mile<span class="op">$</span>year, mile<span class="op">$</span>seconds,</span>
-<span id="cb8-15"><a href="03-lin_reg.html#cb8-15"></a>     <span class="dt">xlim =</span> <span class="kw">c</span>(<span class="dv">1900</span>, <span class="dv">2050</span>), <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="dv">200</span>, <span class="dv">260</span>),</span>
-<span id="cb8-16"><a href="03-lin_reg.html#cb8-16"></a>     <span class="dt">pch =</span> <span class="dv">19</span>, <span class="dt">type =</span> <span class="st">&#39;p&#39;</span>,</span>
-<span id="cb8-17"><a href="03-lin_reg.html#cb8-17"></a>     <span class="dt">xlab =</span> <span class="st">&quot;Year&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;World record, men&#39;s mile (seconds)&quot;</span>)</span>
-<span id="cb8-18"><a href="03-lin_reg.html#cb8-18"></a><span class="kw">abline</span>(<span class="kw">coef</span>(fit2), <span class="dt">lwd =</span> <span class="dv">3</span>, <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="03-lin_reg.html#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># plot fit for 1st half of 20th century</span></span>
+<span id="cb8-2"><a href="03-lin_reg.html#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(mile<span class="sc">$</span>year[mile<span class="sc">$</span>year<span class="sc">&lt;</span><span class="dv">1950</span>], mile<span class="sc">$</span>seconds[mile<span class="sc">$</span>year<span class="sc">&lt;</span><span class="dv">1950</span>],</span>
+<span id="cb8-3"><a href="03-lin_reg.html#cb8-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">1900</span>, <span class="dv">2000</span>), <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">200</span>, <span class="dv">260</span>),</span>
+<span id="cb8-4"><a href="03-lin_reg.html#cb8-4" aria-hidden="true" tabindex="-1"></a>     <span class="at">pch =</span> <span class="dv">19</span>, <span class="at">type =</span> <span class="st">&#39;p&#39;</span>,</span>
+<span id="cb8-5"><a href="03-lin_reg.html#cb8-5" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">&quot;Year&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;World record, men&#39;s mile (seconds)&quot;</span>)</span>
+<span id="cb8-6"><a href="03-lin_reg.html#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="fu">coef</span>(fit1), <span class="at">lwd =</span> <span class="dv">3</span>, <span class="at">col =</span> <span class="st">&quot;red&quot;</span>)</span>
+<span id="cb8-7"><a href="03-lin_reg.html#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="co"># plot extrapolation to 2nd half of 20th century</span></span>
+<span id="cb8-8"><a href="03-lin_reg.html#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(mile<span class="sc">$</span>year, mile<span class="sc">$</span>seconds,</span>
+<span id="cb8-9"><a href="03-lin_reg.html#cb8-9" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">1900</span>, <span class="dv">2000</span>), <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">200</span>, <span class="dv">260</span>),</span>
+<span id="cb8-10"><a href="03-lin_reg.html#cb8-10" aria-hidden="true" tabindex="-1"></a>     <span class="at">pch =</span> <span class="dv">19</span>, <span class="at">type =</span> <span class="st">&#39;p&#39;</span>,</span>
+<span id="cb8-11"><a href="03-lin_reg.html#cb8-11" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">&quot;Year&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;World record, men&#39;s mile (seconds)&quot;</span>)</span>
+<span id="cb8-12"><a href="03-lin_reg.html#cb8-12" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="fu">coef</span>(fit1), <span class="at">lwd =</span> <span class="dv">3</span>, <span class="at">col =</span> <span class="st">&quot;red&quot;</span>)</span>
+<span id="cb8-13"><a href="03-lin_reg.html#cb8-13" aria-hidden="true" tabindex="-1"></a><span class="co"># plot all-data fit until 2050</span></span>
+<span id="cb8-14"><a href="03-lin_reg.html#cb8-14" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(mile<span class="sc">$</span>year, mile<span class="sc">$</span>seconds,</span>
+<span id="cb8-15"><a href="03-lin_reg.html#cb8-15" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">1900</span>, <span class="dv">2050</span>), <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">200</span>, <span class="dv">260</span>),</span>
+<span id="cb8-16"><a href="03-lin_reg.html#cb8-16" aria-hidden="true" tabindex="-1"></a>     <span class="at">pch =</span> <span class="dv">19</span>, <span class="at">type =</span> <span class="st">&#39;p&#39;</span>,</span>
+<span id="cb8-17"><a href="03-lin_reg.html#cb8-17" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">&quot;Year&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;World record, men&#39;s mile (seconds)&quot;</span>)</span>
+<span id="cb8-18"><a href="03-lin_reg.html#cb8-18" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="fu">coef</span>(fit2), <span class="at">lwd =</span> <span class="dv">3</span>, <span class="at">col =</span> <span class="st">&quot;red&quot;</span>)</span></code></pre></div>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:mile"></span>
 <img src="qm4g_files/figure-html/mile-1.png" alt="Left: Trend of the world record for the men`s mile over the first half of the 20th century (description). Centre: Extrapolation of this trend over the 2nd half of the 20th century (prediction). Right: Extrapolation of the overall trend until the year 2050 (longer prediction). After: @wainer2009" width="33%" /><img src="qm4g_files/figure-html/mile-2.png" alt="Left: Trend of the world record for the men`s mile over the first half of the 20th century (description). Centre: Extrapolation of this trend over the 2nd half of the 20th century (prediction). Right: Extrapolation of the overall trend until the year 2050 (longer prediction). After: @wainer2009" width="33%" /><img src="qm4g_files/figure-html/mile-3.png" alt="Left: Trend of the world record for the men`s mile over the first half of the 20th century (description). Centre: Extrapolation of this trend over the 2nd half of the 20th century (prediction). Right: Extrapolation of the overall trend until the year 2050 (longer prediction). After: @wainer2009" width="33%" />
 <p class="caption">
@@ -685,7 +711,7 @@ Figure 2.3: Left: Trend of the world record for the men`s mile over the first ha
 </div>
 <p>The world record for the men`s mile improved linearly over the first half of the 20th century (Figure <a href="03-lin_reg.html#fig:mile">2.3</a>, left). This trend provides a remarkably accurate fit for the second half of the century as well (Figure <a href="03-lin_reg.html#fig:mile">2.3</a>, centre). However, for how long can the world record continue to improve at the same rate (Figure <a href="03-lin_reg.html#fig:mile">2.3</a>, right)? This example clearly shows that the scope for prediction by regression lies within certain bounds, and highlights the limits of these simple models for making distant predictions (e.g. in time and space). In the case of the world record we would expect the rate of improvement to decline with time, i.e. the world record to level off, which calls for a non-linear model.</p>
 </div>
-<div id="linear-regression" class="section level2 hasAnchor">
+<div id="linear-regression" class="section level2 hasAnchor" number="2.4">
 <h2><span class="header-section-number">2.4</span> Linear Regression<a href="03-lin_reg.html#linear-regression" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Typically, regression problems are solved, i.e. the lines in Figures <a href="03-lin_reg.html#fig:linreggraph">2.2</a> and <a href="03-lin_reg.html#fig:mile">2.3</a> are fitted to the data, by minimising the Sum of Squared Errors (SSE) between the regression line and the data points. This method has become known as <strong>Least Squares</strong>. Graphically, it means that in Figure <a href="03-lin_reg.html#fig:linreggraph">2.2</a> we try different lines with different intercepts <span class="math inline">\(\left(\beta_0\right)\)</span> and slopes <span class="math inline">\(\left(\beta_1\right)\)</span> and ultimately choose the one where the sum over all vertical distances <span class="math inline">\(\epsilon_i\)</span> squared is smallest. Mathematically, SSE is defined as:</p>
 <p><span class="math display" id="eq:sse">\[\begin{equation}
@@ -743,7 +769,7 @@ Note, at some point we have renamed <span class="math inline">\(\beta_0\)</span>
 Where <span class="math inline">\(SSX=\sum_{i=1}^{n}\left(x_i-\bar{x}\right)^2\)</span> and <span class="math inline">\(SSXY=\sum_{i=1}^{n}\left(x_i-\bar{x}\right) \cdot \left(y_i-\bar{y}\right)\)</span>. Note, analogously <span class="math inline">\(SSY=\sum_{i=1}^{n}\left(y_i-\bar{y}\right)^2\)</span>. Equation <a href="03-lin_reg.html#eq:b13">(2.20)</a> is an exact solution for <span class="math inline">\(\hat\beta_1\)</span>.</p>
 <p>We then insert Equation <a href="03-lin_reg.html#eq:b13">(2.20)</a> back into Equation <a href="03-lin_reg.html#eq:sse">(2.10)</a> and have an exact solution for <span class="math inline">\(\hat\beta_0\)</span>.</p>
 </div>
-<div id="significance-of-regression" class="section level2 hasAnchor">
+<div id="significance-of-regression" class="section level2 hasAnchor" number="2.5">
 <h2><span class="header-section-number">2.5</span> Significance of regression<a href="03-lin_reg.html#significance-of-regression" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Having estimates for the regression parameters we need to ask ourselves whether these estimates are statistically significant or could have arisen by chance from the (assumed) random process of sampling the data. We do this via <strong>Analysis of Variance (ANOVA)</strong>, which begins by constructing the ANOVA table (Table <a href="03-lin_reg.html#tab:anova">2.3</a>). This is often done in the background in software like R and not actually looked at that much.</p>
 <table style="width:100%;">
@@ -810,7 +836,7 @@ Figure 2.5: Cumulative distribution function (CDF) of the F-distribution of the 
 </div>
 <p>The correct interpretation of the p-value is a bit tricky. In the words of philosopher of science Ian <span class="citation">Hacking (<a href="#ref-hacking2001" role="doc-biblioref">2001</a>)</span>, if we have a p-value of say 0.01 this means “either the Null hypothesis is true, in which case something unusual happened by chance (probability 1%), or the Null hypothesis is false.” This means, strictly speaking, the p-value is not the probability of the Null hypothesis being true; it is the probability of the data to come about if the Null hypothesis were true. If this is a very low probability then we think this tells us something about the Null hypothesis (that perhaps we should reject it), but in a roundabout way. Note, in the case of linear regression, the Null model is <span class="math inline">\(\beta_1=0\)</span>, i.e. <span class="math inline">\(y=\beta_0\)</span> with <span class="math inline">\(\hat\beta_0=\bar{y}\)</span>, which means the overall mean is the best model summarising the data (Figure <a href="03-lin_reg.html#fig:ssysse">2.4</a>, left).</p>
 </div>
-<div id="confidence-in-parameter-estimates" class="section level2 hasAnchor">
+<div id="confidence-in-parameter-estimates" class="section level2 hasAnchor" number="2.6">
 <h2><span class="header-section-number">2.6</span> Confidence in parameter estimates<a href="03-lin_reg.html#confidence-in-parameter-estimates" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Having established the statistical significance of the regression, we should look at the uncertainty around the parameter estimates. In classic linear regression this uncertainty is conceptualised as arising purely from the random sampling process; the data at hand are just one possibility of many, and in each alternative case the parameter estimates would have turned out slightly different. The linear model itself is assumed to be correct.</p>
 <p>The first step in establishing how confident we should be that the parameter estimates are correct is the calculation of <strong>standard errors</strong>. For <span class="math inline">\(\hat\beta_0\)</span> this is (derivation not shown here):</p>
@@ -900,7 +926,7 @@ Figure 2.7: Schematic of the t-test of significance of parameter estimates. The 
 </p>
 </div>
 </div>
-<div id="goodness-of-fit" class="section level2 hasAnchor">
+<div id="goodness-of-fit" class="section level2 hasAnchor" number="2.7">
 <h2><span class="header-section-number">2.7</span> Goodness of fit<a href="03-lin_reg.html#goodness-of-fit" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>The final step in regression analysis is assessing the goodness of fit of the linear model. In the first instance this may be done through the <strong>coefficient of determination</strong> <span class="math inline">\(\left(r^2\right)\)</span>, which is defined as the proportion of variation (in y-direction) that is explained by the model:</p>
 <p><span class="math display" id="eq:r2">\[\begin{equation}
@@ -914,11 +940,11 @@ As can be seen, when the model fails to explain more variation than the total va
 \tag{2.36}
 \end{equation}\]</span></p>
 <p>The coefficient of determination alone, however, is insufficient for assessing goodness of fit. Consider the four datasets depicted in Figure <a href="03-lin_reg.html#fig:anscomberaw">2.8</a>, which together form the <span class="citation">Anscombe (<a href="#ref-anscombe1973" role="doc-biblioref">1973</a>)</span> dataset.</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="03-lin_reg.html#cb9-1"></a><span class="co"># plot 4 individual datasets</span></span>
-<span id="cb9-2"><a href="03-lin_reg.html#cb9-2"></a><span class="kw">plot</span>(anscombe<span class="op">$</span>x1, anscombe<span class="op">$</span>y1, <span class="dt">xlim =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">20</span>), <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">14</span>), <span class="dt">pch =</span> <span class="dv">19</span>, <span class="dt">type =</span> <span class="st">&#39;p&#39;</span>)</span>
-<span id="cb9-3"><a href="03-lin_reg.html#cb9-3"></a><span class="kw">plot</span>(anscombe<span class="op">$</span>x2, anscombe<span class="op">$</span>y2, <span class="dt">xlim =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">20</span>), <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">14</span>), <span class="dt">pch =</span> <span class="dv">19</span>, <span class="dt">type =</span> <span class="st">&#39;p&#39;</span>)</span>
-<span id="cb9-4"><a href="03-lin_reg.html#cb9-4"></a><span class="kw">plot</span>(anscombe<span class="op">$</span>x3, anscombe<span class="op">$</span>y3, <span class="dt">xlim =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">20</span>), <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">14</span>), <span class="dt">pch =</span> <span class="dv">19</span>, <span class="dt">type =</span> <span class="st">&#39;p&#39;</span>)</span>
-<span id="cb9-5"><a href="03-lin_reg.html#cb9-5"></a><span class="kw">plot</span>(anscombe<span class="op">$</span>x4, anscombe<span class="op">$</span>y4, <span class="dt">xlim =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">20</span>), <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">14</span>), <span class="dt">pch =</span> <span class="dv">19</span>, <span class="dt">type =</span> <span class="st">&#39;p&#39;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="03-lin_reg.html#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># plot 4 individual datasets</span></span>
+<span id="cb9-2"><a href="03-lin_reg.html#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(anscombe<span class="sc">$</span>x1, anscombe<span class="sc">$</span>y1, <span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">20</span>), <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">14</span>), <span class="at">pch =</span> <span class="dv">19</span>, <span class="at">type =</span> <span class="st">&#39;p&#39;</span>)</span>
+<span id="cb9-3"><a href="03-lin_reg.html#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(anscombe<span class="sc">$</span>x2, anscombe<span class="sc">$</span>y2, <span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">20</span>), <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">14</span>), <span class="at">pch =</span> <span class="dv">19</span>, <span class="at">type =</span> <span class="st">&#39;p&#39;</span>)</span>
+<span id="cb9-4"><a href="03-lin_reg.html#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(anscombe<span class="sc">$</span>x3, anscombe<span class="sc">$</span>y3, <span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">20</span>), <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">14</span>), <span class="at">pch =</span> <span class="dv">19</span>, <span class="at">type =</span> <span class="st">&#39;p&#39;</span>)</span>
+<span id="cb9-5"><a href="03-lin_reg.html#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(anscombe<span class="sc">$</span>x4, anscombe<span class="sc">$</span>y4, <span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">20</span>), <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">14</span>), <span class="at">pch =</span> <span class="dv">19</span>, <span class="at">type =</span> <span class="st">&#39;p&#39;</span>)</span></code></pre></div>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:anscomberaw"></span>
 <img src="qm4g_files/figure-html/anscomberaw-1.png" alt="The four @anscombe1973 datasets." width="50%" /><img src="qm4g_files/figure-html/anscomberaw-2.png" alt="The four @anscombe1973 datasets." width="50%" /><img src="qm4g_files/figure-html/anscomberaw-3.png" alt="The four @anscombe1973 datasets." width="50%" /><img src="qm4g_files/figure-html/anscomberaw-4.png" alt="The four @anscombe1973 datasets." width="50%" />
 <p class="caption">
@@ -926,46 +952,46 @@ Figure 2.8: The four <span class="citation">Anscombe (<a href="#ref-anscombe1973
 </p>
 </div>
 <p>The individual datasets have purposely been constructed to yield virtually the same parameter estimates and coefficients of determination, despite wildly different relationships between <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> (Figure <a href="03-lin_reg.html#fig:anscombefit">2.9</a>):</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="03-lin_reg.html#cb10-1"></a><span class="co"># perform individual regressions</span></span>
-<span id="cb10-2"><a href="03-lin_reg.html#cb10-2"></a>fit1 &lt;-<span class="st"> </span><span class="kw">lm</span>(y1 <span class="op">~</span><span class="st"> </span>x1, <span class="dt">data =</span> anscombe)</span>
-<span id="cb10-3"><a href="03-lin_reg.html#cb10-3"></a>fit2 &lt;-<span class="st"> </span><span class="kw">lm</span>(y2 <span class="op">~</span><span class="st"> </span>x2, <span class="dt">data =</span> anscombe)</span>
-<span id="cb10-4"><a href="03-lin_reg.html#cb10-4"></a>fit3 &lt;-<span class="st"> </span><span class="kw">lm</span>(y3 <span class="op">~</span><span class="st"> </span>x3, <span class="dt">data =</span> anscombe)</span>
-<span id="cb10-5"><a href="03-lin_reg.html#cb10-5"></a>fit4 &lt;-<span class="st"> </span><span class="kw">lm</span>(y4 <span class="op">~</span><span class="st"> </span>x4, <span class="dt">data =</span> anscombe)</span>
-<span id="cb10-6"><a href="03-lin_reg.html#cb10-6"></a><span class="co"># extract information about parameter estimates and R2</span></span>
-<span id="cb10-7"><a href="03-lin_reg.html#cb10-7"></a><span class="kw">coef</span>(<span class="kw">summary</span>(fit1))</span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="03-lin_reg.html#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># perform individual regressions</span></span>
+<span id="cb10-2"><a href="03-lin_reg.html#cb10-2" aria-hidden="true" tabindex="-1"></a>fit1 <span class="ot">&lt;-</span> <span class="fu">lm</span>(y1 <span class="sc">~</span> x1, <span class="at">data =</span> anscombe)</span>
+<span id="cb10-3"><a href="03-lin_reg.html#cb10-3" aria-hidden="true" tabindex="-1"></a>fit2 <span class="ot">&lt;-</span> <span class="fu">lm</span>(y2 <span class="sc">~</span> x2, <span class="at">data =</span> anscombe)</span>
+<span id="cb10-4"><a href="03-lin_reg.html#cb10-4" aria-hidden="true" tabindex="-1"></a>fit3 <span class="ot">&lt;-</span> <span class="fu">lm</span>(y3 <span class="sc">~</span> x3, <span class="at">data =</span> anscombe)</span>
+<span id="cb10-5"><a href="03-lin_reg.html#cb10-5" aria-hidden="true" tabindex="-1"></a>fit4 <span class="ot">&lt;-</span> <span class="fu">lm</span>(y4 <span class="sc">~</span> x4, <span class="at">data =</span> anscombe)</span>
+<span id="cb10-6"><a href="03-lin_reg.html#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="co"># extract information about parameter estimates and R2</span></span>
+<span id="cb10-7"><a href="03-lin_reg.html#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="fu">coef</span>(<span class="fu">summary</span>(fit1))</span></code></pre></div>
 <pre><code>##             Estimate Std. Error t value Pr(&gt;|t|)
 ## (Intercept)   3.0001     1.1247   2.667  0.02573
 ## x1            0.5001     0.1179   4.241  0.00217</code></pre>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="03-lin_reg.html#cb12-1"></a><span class="kw">summary</span>(fit1)<span class="op">$</span>r.squared</span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="03-lin_reg.html#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit1)<span class="sc">$</span>r.squared</span></code></pre></div>
 <pre><code>## [1] 0.6665</code></pre>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="03-lin_reg.html#cb14-1"></a><span class="kw">coef</span>(<span class="kw">summary</span>(fit2))</span></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="03-lin_reg.html#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">coef</span>(<span class="fu">summary</span>(fit2))</span></code></pre></div>
 <pre><code>##             Estimate Std. Error t value Pr(&gt;|t|)
 ## (Intercept)    3.001      1.125   2.667 0.025759
 ## x2             0.500      0.118   4.239 0.002179</code></pre>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="03-lin_reg.html#cb16-1"></a><span class="kw">summary</span>(fit2)<span class="op">$</span>r.squared</span></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="03-lin_reg.html#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit2)<span class="sc">$</span>r.squared</span></code></pre></div>
 <pre><code>## [1] 0.6662</code></pre>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="03-lin_reg.html#cb18-1"></a><span class="kw">coef</span>(<span class="kw">summary</span>(fit3))</span></code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="03-lin_reg.html#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">coef</span>(<span class="fu">summary</span>(fit3))</span></code></pre></div>
 <pre><code>##             Estimate Std. Error t value Pr(&gt;|t|)
 ## (Intercept)   3.0025     1.1245   2.670 0.025619
 ## x3            0.4997     0.1179   4.239 0.002176</code></pre>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="03-lin_reg.html#cb20-1"></a><span class="kw">summary</span>(fit3)<span class="op">$</span>r.squared</span></code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="03-lin_reg.html#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit3)<span class="sc">$</span>r.squared</span></code></pre></div>
 <pre><code>## [1] 0.6663</code></pre>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="03-lin_reg.html#cb22-1"></a><span class="kw">coef</span>(<span class="kw">summary</span>(fit4))</span></code></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="03-lin_reg.html#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">coef</span>(<span class="fu">summary</span>(fit4))</span></code></pre></div>
 <pre><code>##             Estimate Std. Error t value Pr(&gt;|t|)
 ## (Intercept)   3.0017     1.1239   2.671 0.025590
 ## x4            0.4999     0.1178   4.243 0.002165</code></pre>
-<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="03-lin_reg.html#cb24-1"></a><span class="kw">summary</span>(fit4)<span class="op">$</span>r.squared</span></code></pre></div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="03-lin_reg.html#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit4)<span class="sc">$</span>r.squared</span></code></pre></div>
 <pre><code>## [1] 0.6667</code></pre>
 <p>In these summary tables, “(Intercept)” stands for <span class="math inline">\(\beta_0\)</span>, while “x1” to “x4” stand for <span class="math inline">\(\beta_1\)</span>. The column “Estimate” gives <span class="math inline">\(\hat\beta_0\)</span> and <span class="math inline">\(\hat\beta_1\)</span>, the column “Std. Error” gives <span class="math inline">\(s_{\hat\beta_0}\)</span> and <span class="math inline">\(s_{\hat\beta_1}\)</span>, the column “t value” gives the individual <span class="math inline">\(t_s\)</span> and the column “Pr(&gt;|t|)” gives the respective p-value.</p>
-<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="03-lin_reg.html#cb26-1"></a><span class="co"># plot individual datasets with regression lines</span></span>
-<span id="cb26-2"><a href="03-lin_reg.html#cb26-2"></a><span class="kw">plot</span>(anscombe<span class="op">$</span>x1, anscombe<span class="op">$</span>y1, <span class="dt">xlim =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">20</span>), <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">14</span>), <span class="dt">pch =</span> <span class="dv">19</span>, <span class="dt">type =</span> <span class="st">&#39;p&#39;</span>)</span>
-<span id="cb26-3"><a href="03-lin_reg.html#cb26-3"></a><span class="kw">abline</span>(<span class="kw">coef</span>(fit1), <span class="dt">lwd =</span> <span class="dv">3</span>, <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>)</span>
-<span id="cb26-4"><a href="03-lin_reg.html#cb26-4"></a><span class="kw">plot</span>(anscombe<span class="op">$</span>x2, anscombe<span class="op">$</span>y2, <span class="dt">xlim =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">20</span>), <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">14</span>), <span class="dt">pch =</span> <span class="dv">19</span>, <span class="dt">type =</span> <span class="st">&#39;p&#39;</span>)</span>
-<span id="cb26-5"><a href="03-lin_reg.html#cb26-5"></a><span class="kw">abline</span>(<span class="kw">coef</span>(fit2), <span class="dt">lwd =</span> <span class="dv">3</span>, <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>)</span>
-<span id="cb26-6"><a href="03-lin_reg.html#cb26-6"></a><span class="kw">plot</span>(anscombe<span class="op">$</span>x3, anscombe<span class="op">$</span>y3, <span class="dt">xlim =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">20</span>), <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">14</span>), <span class="dt">pch =</span> <span class="dv">19</span>, <span class="dt">type =</span> <span class="st">&#39;p&#39;</span>)</span>
-<span id="cb26-7"><a href="03-lin_reg.html#cb26-7"></a><span class="kw">abline</span>(<span class="kw">coef</span>(fit3), <span class="dt">lwd =</span> <span class="dv">3</span>, <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>)</span>
-<span id="cb26-8"><a href="03-lin_reg.html#cb26-8"></a><span class="kw">plot</span>(anscombe<span class="op">$</span>x4, anscombe<span class="op">$</span>y4, <span class="dt">xlim =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">20</span>), <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">14</span>), <span class="dt">pch =</span> <span class="dv">19</span>, <span class="dt">type =</span> <span class="st">&#39;p&#39;</span>)</span>
-<span id="cb26-9"><a href="03-lin_reg.html#cb26-9"></a><span class="kw">abline</span>(<span class="kw">coef</span>(fit4), <span class="dt">lwd =</span> <span class="dv">3</span>, <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="03-lin_reg.html#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># plot individual datasets with regression lines</span></span>
+<span id="cb26-2"><a href="03-lin_reg.html#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(anscombe<span class="sc">$</span>x1, anscombe<span class="sc">$</span>y1, <span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">20</span>), <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">14</span>), <span class="at">pch =</span> <span class="dv">19</span>, <span class="at">type =</span> <span class="st">&#39;p&#39;</span>)</span>
+<span id="cb26-3"><a href="03-lin_reg.html#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="fu">coef</span>(fit1), <span class="at">lwd =</span> <span class="dv">3</span>, <span class="at">col =</span> <span class="st">&quot;red&quot;</span>)</span>
+<span id="cb26-4"><a href="03-lin_reg.html#cb26-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(anscombe<span class="sc">$</span>x2, anscombe<span class="sc">$</span>y2, <span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">20</span>), <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">14</span>), <span class="at">pch =</span> <span class="dv">19</span>, <span class="at">type =</span> <span class="st">&#39;p&#39;</span>)</span>
+<span id="cb26-5"><a href="03-lin_reg.html#cb26-5" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="fu">coef</span>(fit2), <span class="at">lwd =</span> <span class="dv">3</span>, <span class="at">col =</span> <span class="st">&quot;red&quot;</span>)</span>
+<span id="cb26-6"><a href="03-lin_reg.html#cb26-6" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(anscombe<span class="sc">$</span>x3, anscombe<span class="sc">$</span>y3, <span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">20</span>), <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">14</span>), <span class="at">pch =</span> <span class="dv">19</span>, <span class="at">type =</span> <span class="st">&#39;p&#39;</span>)</span>
+<span id="cb26-7"><a href="03-lin_reg.html#cb26-7" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="fu">coef</span>(fit3), <span class="at">lwd =</span> <span class="dv">3</span>, <span class="at">col =</span> <span class="st">&quot;red&quot;</span>)</span>
+<span id="cb26-8"><a href="03-lin_reg.html#cb26-8" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(anscombe<span class="sc">$</span>x4, anscombe<span class="sc">$</span>y4, <span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">20</span>), <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">14</span>), <span class="at">pch =</span> <span class="dv">19</span>, <span class="at">type =</span> <span class="st">&#39;p&#39;</span>)</span>
+<span id="cb26-9"><a href="03-lin_reg.html#cb26-9" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="fu">coef</span>(fit4), <span class="at">lwd =</span> <span class="dv">3</span>, <span class="at">col =</span> <span class="st">&quot;red&quot;</span>)</span></code></pre></div>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:anscombefit"></span>
 <img src="qm4g_files/figure-html/anscombefit-1.png" alt="Regression analysis of the four @anscombe1973 datasets, yielding virtually the same parameter estimates and coefficients of determination (see above), despite wildly different relationships between $x$ and $y$." width="50%" /><img src="qm4g_files/figure-html/anscombefit-2.png" alt="Regression analysis of the four @anscombe1973 datasets, yielding virtually the same parameter estimates and coefficients of determination (see above), despite wildly different relationships between $x$ and $y$." width="50%" /><img src="qm4g_files/figure-html/anscombefit-3.png" alt="Regression analysis of the four @anscombe1973 datasets, yielding virtually the same parameter estimates and coefficients of determination (see above), despite wildly different relationships between $x$ and $y$." width="50%" /><img src="qm4g_files/figure-html/anscombefit-4.png" alt="Regression analysis of the four @anscombe1973 datasets, yielding virtually the same parameter estimates and coefficients of determination (see above), despite wildly different relationships between $x$ and $y$." width="50%" />
 <p class="caption">
@@ -981,15 +1007,15 @@ Figure 2.9: Regression analysis of the four <span class="citation">Anscombe (<a 
 </ul>
 <p>If these assumptions are not met then we can resort to data transformation, weighted regression or Generalised Linear Models (this is the preferred option), which we will cover in chapter <a href="07-glms.html#glms">6</a>.</p>
 <p>A first useful diagnostic plot is of the residuals in series, i.e. by index <span class="math inline">\(i\)</span>, to see if there is a pattern due to the data collection process (Figure <a href="03-lin_reg.html#fig:anscomberes1">2.10</a>). For the Anscombe dataset, this detects the nonlinearity in dataset 2 (top-right) and the outlier in dataset 3 (bottom-left), compare Figure <a href="03-lin_reg.html#fig:anscombefit">2.9</a>.</p>
-<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="03-lin_reg.html#cb27-1"></a><span class="co"># plot residuals against index</span></span>
-<span id="cb27-2"><a href="03-lin_reg.html#cb27-2"></a><span class="kw">plot</span>(<span class="kw">residuals</span>(fit1), <span class="dt">xlim =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">12</span>), <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="op">-</span><span class="dv">2</span>, <span class="dv">2</span>), <span class="dt">pch =</span> <span class="dv">19</span>, <span class="dt">type =</span> <span class="st">&#39;p&#39;</span>)</span>
-<span id="cb27-3"><a href="03-lin_reg.html#cb27-3"></a><span class="kw">abline</span>(<span class="dt">h =</span> <span class="dv">0</span>, <span class="dt">lwd =</span> <span class="dv">3</span>, <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>)</span>
-<span id="cb27-4"><a href="03-lin_reg.html#cb27-4"></a><span class="kw">plot</span>(<span class="kw">residuals</span>(fit2), <span class="dt">xlim =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">12</span>), <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="op">-</span><span class="dv">2</span>, <span class="dv">2</span>), <span class="dt">pch =</span> <span class="dv">19</span>, <span class="dt">type =</span> <span class="st">&#39;p&#39;</span>)</span>
-<span id="cb27-5"><a href="03-lin_reg.html#cb27-5"></a><span class="kw">abline</span>(<span class="dt">h =</span> <span class="dv">0</span>, <span class="dt">lwd =</span> <span class="dv">3</span>, <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>)</span>
-<span id="cb27-6"><a href="03-lin_reg.html#cb27-6"></a><span class="kw">plot</span>(<span class="kw">residuals</span>(fit3), <span class="dt">xlim =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">12</span>), <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="op">-</span><span class="dv">2</span>, <span class="dv">4</span>), <span class="dt">pch =</span> <span class="dv">19</span>, <span class="dt">type =</span> <span class="st">&#39;p&#39;</span>)</span>
-<span id="cb27-7"><a href="03-lin_reg.html#cb27-7"></a><span class="kw">abline</span>(<span class="dt">h =</span> <span class="dv">0</span>, <span class="dt">lwd =</span> <span class="dv">3</span>, <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>)</span>
-<span id="cb27-8"><a href="03-lin_reg.html#cb27-8"></a><span class="kw">plot</span>(<span class="kw">residuals</span>(fit4), <span class="dt">xlim =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">12</span>), <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="op">-</span><span class="dv">2</span>, <span class="dv">2</span>), <span class="dt">pch =</span> <span class="dv">19</span>, <span class="dt">type =</span> <span class="st">&#39;p&#39;</span>)</span>
-<span id="cb27-9"><a href="03-lin_reg.html#cb27-9"></a><span class="kw">abline</span>(<span class="dt">h =</span> <span class="dv">0</span>, <span class="dt">lwd =</span> <span class="dv">3</span>, <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="03-lin_reg.html#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co"># plot residuals against index</span></span>
+<span id="cb27-2"><a href="03-lin_reg.html#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">residuals</span>(fit1), <span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">12</span>), <span class="at">ylim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">2</span>, <span class="dv">2</span>), <span class="at">pch =</span> <span class="dv">19</span>, <span class="at">type =</span> <span class="st">&#39;p&#39;</span>)</span>
+<span id="cb27-3"><a href="03-lin_reg.html#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h =</span> <span class="dv">0</span>, <span class="at">lwd =</span> <span class="dv">3</span>, <span class="at">col =</span> <span class="st">&quot;red&quot;</span>)</span>
+<span id="cb27-4"><a href="03-lin_reg.html#cb27-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">residuals</span>(fit2), <span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">12</span>), <span class="at">ylim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">2</span>, <span class="dv">2</span>), <span class="at">pch =</span> <span class="dv">19</span>, <span class="at">type =</span> <span class="st">&#39;p&#39;</span>)</span>
+<span id="cb27-5"><a href="03-lin_reg.html#cb27-5" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h =</span> <span class="dv">0</span>, <span class="at">lwd =</span> <span class="dv">3</span>, <span class="at">col =</span> <span class="st">&quot;red&quot;</span>)</span>
+<span id="cb27-6"><a href="03-lin_reg.html#cb27-6" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">residuals</span>(fit3), <span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">12</span>), <span class="at">ylim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">2</span>, <span class="dv">4</span>), <span class="at">pch =</span> <span class="dv">19</span>, <span class="at">type =</span> <span class="st">&#39;p&#39;</span>)</span>
+<span id="cb27-7"><a href="03-lin_reg.html#cb27-7" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h =</span> <span class="dv">0</span>, <span class="at">lwd =</span> <span class="dv">3</span>, <span class="at">col =</span> <span class="st">&quot;red&quot;</span>)</span>
+<span id="cb27-8"><a href="03-lin_reg.html#cb27-8" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">residuals</span>(fit4), <span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">12</span>), <span class="at">ylim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">2</span>, <span class="dv">2</span>), <span class="at">pch =</span> <span class="dv">19</span>, <span class="at">type =</span> <span class="st">&#39;p&#39;</span>)</span>
+<span id="cb27-9"><a href="03-lin_reg.html#cb27-9" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h =</span> <span class="dv">0</span>, <span class="at">lwd =</span> <span class="dv">3</span>, <span class="at">col =</span> <span class="st">&quot;red&quot;</span>)</span></code></pre></div>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:anscomberes1"></span>
 <img src="qm4g_files/figure-html/anscomberes1-1.png" alt="@anscombe1973 datasets. Plot of residuals in series, i.e. by index $i$." width="50%" /><img src="qm4g_files/figure-html/anscomberes1-2.png" alt="@anscombe1973 datasets. Plot of residuals in series, i.e. by index $i$." width="50%" /><img src="qm4g_files/figure-html/anscomberes1-3.png" alt="@anscombe1973 datasets. Plot of residuals in series, i.e. by index $i$." width="50%" /><img src="qm4g_files/figure-html/anscomberes1-4.png" alt="@anscombe1973 datasets. Plot of residuals in series, i.e. by index $i$." width="50%" />
 <p class="caption">
@@ -997,15 +1023,15 @@ Figure 2.10: <span class="citation">Anscombe (<a href="#ref-anscombe1973" role="
 </p>
 </div>
 <p>We should also plot the residuals by predicted value of <span class="math inline">\(y\)</span> to see if there is a pattern as a function of magnitude (Figure <a href="03-lin_reg.html#fig:anscomberes2">2.11</a>). For the Anscombe dataset, this emphasizes the non-linearity of dataset 2 (top-right) and the outlier in dataset 3 (bottom-left) and also detects the singular extreme point in dataset 4 (bottom-right). In sum, the independence and homoscedasticity assumptions seem to be violated in all datasets except dataset 1. This would have to be formally tested using the Durbin-Watson test, for example.</p>
-<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="03-lin_reg.html#cb28-1"></a><span class="co"># plot residuals against predicted value of y</span></span>
-<span id="cb28-2"><a href="03-lin_reg.html#cb28-2"></a><span class="kw">plot</span>(<span class="kw">fitted.values</span>(fit1),<span class="kw">residuals</span>(fit1), <span class="dt">xlim =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">14</span>), <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="op">-</span><span class="dv">2</span>, <span class="dv">2</span>), <span class="dt">pch =</span> <span class="dv">19</span>, <span class="dt">type =</span> <span class="st">&#39;p&#39;</span>)</span>
-<span id="cb28-3"><a href="03-lin_reg.html#cb28-3"></a><span class="kw">abline</span>(<span class="dt">h =</span> <span class="dv">0</span>, <span class="dt">lwd =</span> <span class="dv">3</span>, <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>)</span>
-<span id="cb28-4"><a href="03-lin_reg.html#cb28-4"></a><span class="kw">plot</span>(<span class="kw">fitted.values</span>(fit2),<span class="kw">residuals</span>(fit2), <span class="dt">xlim =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">14</span>), <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="op">-</span><span class="dv">2</span>, <span class="dv">2</span>), <span class="dt">pch =</span> <span class="dv">19</span>, <span class="dt">type =</span> <span class="st">&#39;p&#39;</span>)</span>
-<span id="cb28-5"><a href="03-lin_reg.html#cb28-5"></a><span class="kw">abline</span>(<span class="dt">h =</span> <span class="dv">0</span>, <span class="dt">lwd =</span> <span class="dv">3</span>, <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>)</span>
-<span id="cb28-6"><a href="03-lin_reg.html#cb28-6"></a><span class="kw">plot</span>(<span class="kw">fitted.values</span>(fit3),<span class="kw">residuals</span>(fit3), <span class="dt">xlim =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">14</span>), <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="op">-</span><span class="dv">2</span>, <span class="dv">4</span>), <span class="dt">pch =</span> <span class="dv">19</span>, <span class="dt">type =</span> <span class="st">&#39;p&#39;</span>)</span>
-<span id="cb28-7"><a href="03-lin_reg.html#cb28-7"></a><span class="kw">abline</span>(<span class="dt">h =</span> <span class="dv">0</span>, <span class="dt">lwd =</span> <span class="dv">3</span>, <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>)</span>
-<span id="cb28-8"><a href="03-lin_reg.html#cb28-8"></a><span class="kw">plot</span>(<span class="kw">fitted.values</span>(fit4),<span class="kw">residuals</span>(fit4), <span class="dt">xlim =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">14</span>), <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="op">-</span><span class="dv">2</span>, <span class="dv">2</span>), <span class="dt">pch =</span> <span class="dv">19</span>, <span class="dt">type =</span> <span class="st">&#39;p&#39;</span>)</span>
-<span id="cb28-9"><a href="03-lin_reg.html#cb28-9"></a><span class="kw">abline</span>(<span class="dt">h =</span> <span class="dv">0</span>, <span class="dt">lwd =</span> <span class="dv">3</span>, <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="03-lin_reg.html#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># plot residuals against predicted value of y</span></span>
+<span id="cb28-2"><a href="03-lin_reg.html#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">fitted.values</span>(fit1),<span class="fu">residuals</span>(fit1), <span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">14</span>), <span class="at">ylim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">2</span>, <span class="dv">2</span>), <span class="at">pch =</span> <span class="dv">19</span>, <span class="at">type =</span> <span class="st">&#39;p&#39;</span>)</span>
+<span id="cb28-3"><a href="03-lin_reg.html#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h =</span> <span class="dv">0</span>, <span class="at">lwd =</span> <span class="dv">3</span>, <span class="at">col =</span> <span class="st">&quot;red&quot;</span>)</span>
+<span id="cb28-4"><a href="03-lin_reg.html#cb28-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">fitted.values</span>(fit2),<span class="fu">residuals</span>(fit2), <span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">14</span>), <span class="at">ylim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">2</span>, <span class="dv">2</span>), <span class="at">pch =</span> <span class="dv">19</span>, <span class="at">type =</span> <span class="st">&#39;p&#39;</span>)</span>
+<span id="cb28-5"><a href="03-lin_reg.html#cb28-5" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h =</span> <span class="dv">0</span>, <span class="at">lwd =</span> <span class="dv">3</span>, <span class="at">col =</span> <span class="st">&quot;red&quot;</span>)</span>
+<span id="cb28-6"><a href="03-lin_reg.html#cb28-6" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">fitted.values</span>(fit3),<span class="fu">residuals</span>(fit3), <span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">14</span>), <span class="at">ylim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">2</span>, <span class="dv">4</span>), <span class="at">pch =</span> <span class="dv">19</span>, <span class="at">type =</span> <span class="st">&#39;p&#39;</span>)</span>
+<span id="cb28-7"><a href="03-lin_reg.html#cb28-7" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h =</span> <span class="dv">0</span>, <span class="at">lwd =</span> <span class="dv">3</span>, <span class="at">col =</span> <span class="st">&quot;red&quot;</span>)</span>
+<span id="cb28-8"><a href="03-lin_reg.html#cb28-8" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">fitted.values</span>(fit4),<span class="fu">residuals</span>(fit4), <span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">14</span>), <span class="at">ylim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">2</span>, <span class="dv">2</span>), <span class="at">pch =</span> <span class="dv">19</span>, <span class="at">type =</span> <span class="st">&#39;p&#39;</span>)</span>
+<span id="cb28-9"><a href="03-lin_reg.html#cb28-9" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h =</span> <span class="dv">0</span>, <span class="at">lwd =</span> <span class="dv">3</span>, <span class="at">col =</span> <span class="st">&quot;red&quot;</span>)</span></code></pre></div>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:anscomberes2"></span>
 <img src="qm4g_files/figure-html/anscomberes2-1.png" alt="@anscombe1973 datasets. Plot of residuals by predicted value of $y$." width="50%" /><img src="qm4g_files/figure-html/anscomberes2-2.png" alt="@anscombe1973 datasets. Plot of residuals by predicted value of $y$." width="50%" /><img src="qm4g_files/figure-html/anscomberes2-3.png" alt="@anscombe1973 datasets. Plot of residuals by predicted value of $y$." width="50%" /><img src="qm4g_files/figure-html/anscomberes2-4.png" alt="@anscombe1973 datasets. Plot of residuals by predicted value of $y$." width="50%" />
 <p class="caption">
@@ -1013,15 +1039,15 @@ Figure 2.11: <span class="citation">Anscombe (<a href="#ref-anscombe1973" role="
 </p>
 </div>
 <p>The normality assumption can be assessed using the QQ plot (Figure <a href="03-lin_reg.html#fig:anscombeqq">2.12</a>).</p>
-<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="03-lin_reg.html#cb29-1"></a><span class="co"># QQ plots</span></span>
-<span id="cb29-2"><a href="03-lin_reg.html#cb29-2"></a><span class="kw">qqnorm</span>(<span class="kw">residuals</span>(fit1), <span class="dt">xlim =</span> <span class="kw">c</span>(<span class="op">-</span><span class="dv">4</span>, <span class="dv">4</span>), <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="op">-</span><span class="dv">4</span>, <span class="dv">4</span>))</span>
-<span id="cb29-3"><a href="03-lin_reg.html#cb29-3"></a><span class="kw">qqline</span>(<span class="kw">residuals</span>(fit1))</span>
-<span id="cb29-4"><a href="03-lin_reg.html#cb29-4"></a><span class="kw">qqnorm</span>(<span class="kw">residuals</span>(fit2), <span class="dt">xlim =</span> <span class="kw">c</span>(<span class="op">-</span><span class="dv">4</span>, <span class="dv">4</span>), <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="op">-</span><span class="dv">4</span>, <span class="dv">4</span>))</span>
-<span id="cb29-5"><a href="03-lin_reg.html#cb29-5"></a><span class="kw">qqline</span>(<span class="kw">residuals</span>(fit2))</span>
-<span id="cb29-6"><a href="03-lin_reg.html#cb29-6"></a><span class="kw">qqnorm</span>(<span class="kw">residuals</span>(fit3), <span class="dt">xlim =</span> <span class="kw">c</span>(<span class="op">-</span><span class="dv">4</span>, <span class="dv">4</span>), <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="op">-</span><span class="dv">4</span>, <span class="dv">4</span>))</span>
-<span id="cb29-7"><a href="03-lin_reg.html#cb29-7"></a><span class="kw">qqline</span>(<span class="kw">residuals</span>(fit3))</span>
-<span id="cb29-8"><a href="03-lin_reg.html#cb29-8"></a><span class="kw">qqnorm</span>(<span class="kw">residuals</span>(fit4), <span class="dt">xlim =</span> <span class="kw">c</span>(<span class="op">-</span><span class="dv">4</span>, <span class="dv">4</span>), <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="op">-</span><span class="dv">4</span>, <span class="dv">4</span>))</span>
-<span id="cb29-9"><a href="03-lin_reg.html#cb29-9"></a><span class="kw">qqline</span>(<span class="kw">residuals</span>(fit4))</span></code></pre></div>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="03-lin_reg.html#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co"># QQ plots</span></span>
+<span id="cb29-2"><a href="03-lin_reg.html#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="fu">qqnorm</span>(<span class="fu">residuals</span>(fit1), <span class="at">xlim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">4</span>, <span class="dv">4</span>), <span class="at">ylim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">4</span>, <span class="dv">4</span>))</span>
+<span id="cb29-3"><a href="03-lin_reg.html#cb29-3" aria-hidden="true" tabindex="-1"></a><span class="fu">qqline</span>(<span class="fu">residuals</span>(fit1))</span>
+<span id="cb29-4"><a href="03-lin_reg.html#cb29-4" aria-hidden="true" tabindex="-1"></a><span class="fu">qqnorm</span>(<span class="fu">residuals</span>(fit2), <span class="at">xlim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">4</span>, <span class="dv">4</span>), <span class="at">ylim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">4</span>, <span class="dv">4</span>))</span>
+<span id="cb29-5"><a href="03-lin_reg.html#cb29-5" aria-hidden="true" tabindex="-1"></a><span class="fu">qqline</span>(<span class="fu">residuals</span>(fit2))</span>
+<span id="cb29-6"><a href="03-lin_reg.html#cb29-6" aria-hidden="true" tabindex="-1"></a><span class="fu">qqnorm</span>(<span class="fu">residuals</span>(fit3), <span class="at">xlim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">4</span>, <span class="dv">4</span>), <span class="at">ylim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">4</span>, <span class="dv">4</span>))</span>
+<span id="cb29-7"><a href="03-lin_reg.html#cb29-7" aria-hidden="true" tabindex="-1"></a><span class="fu">qqline</span>(<span class="fu">residuals</span>(fit3))</span>
+<span id="cb29-8"><a href="03-lin_reg.html#cb29-8" aria-hidden="true" tabindex="-1"></a><span class="fu">qqnorm</span>(<span class="fu">residuals</span>(fit4), <span class="at">xlim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">4</span>, <span class="dv">4</span>), <span class="at">ylim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">4</span>, <span class="dv">4</span>))</span>
+<span id="cb29-9"><a href="03-lin_reg.html#cb29-9" aria-hidden="true" tabindex="-1"></a><span class="fu">qqline</span>(<span class="fu">residuals</span>(fit4))</span></code></pre></div>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:anscombeqq"></span>
 <img src="qm4g_files/figure-html/anscombeqq-1.png" alt="@anscombe1973 datasets. Quantile-quantile plot (QQ plot) of residuals." width="50%" /><img src="qm4g_files/figure-html/anscombeqq-2.png" alt="@anscombe1973 datasets. Quantile-quantile plot (QQ plot) of residuals." width="50%" /><img src="qm4g_files/figure-html/anscombeqq-3.png" alt="@anscombe1973 datasets. Quantile-quantile plot (QQ plot) of residuals." width="50%" /><img src="qm4g_files/figure-html/anscombeqq-4.png" alt="@anscombe1973 datasets. Quantile-quantile plot (QQ plot) of residuals." width="50%" />
 <p class="caption">
@@ -1030,11 +1056,11 @@ Figure 2.12: <span class="citation">Anscombe (<a href="#ref-anscombe1973" role="
 </div>
 <p>In the QQ plot, every data point represents a certain quantile of the empirical distribution. This quantile (after standardisation) is plotted (vertical axis) against the value of that quantile expected under a standard normal distribution (horizontal axis). The resultant shapes say something about the distribution of the residuals. You can explore possible shapes using this <a href="https://xiongge.shinyapps.io/QQplots/">QQ plot app</a>. In case of a normal distribution, the residuals all fall on a straight line. In the Anscombe dataset, the only clearly non-normal dataset seems to be #3 (bottom-left). This would have to be formally tested using the Kolmogorov-Smirnov test or the Shapiro-Wilk test, for example.</p>
 <p>The non-normality of dataset 3 becomes apparent also in the residual histograms (Figure <a href="03-lin_reg.html#fig:anscomberes3">2.13</a>). They also emphasize the outlier in dataset 3. Note, it is generally difficult to reject the hypothesis of normally distributed residuals with so few data points.</p>
-<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="03-lin_reg.html#cb30-1"></a><span class="co"># histograms of residuals</span></span>
-<span id="cb30-2"><a href="03-lin_reg.html#cb30-2"></a><span class="kw">hist</span>(<span class="kw">residuals</span>(fit1), <span class="dt">breaks =</span> <span class="kw">seq</span>(<span class="op">-</span><span class="dv">4</span>,<span class="dv">4</span>,<span class="fl">0.5</span>))</span>
-<span id="cb30-3"><a href="03-lin_reg.html#cb30-3"></a><span class="kw">hist</span>(<span class="kw">residuals</span>(fit2), <span class="dt">breaks =</span> <span class="kw">seq</span>(<span class="op">-</span><span class="dv">4</span>,<span class="dv">4</span>,<span class="fl">0.5</span>))</span>
-<span id="cb30-4"><a href="03-lin_reg.html#cb30-4"></a><span class="kw">hist</span>(<span class="kw">residuals</span>(fit3), <span class="dt">breaks =</span> <span class="kw">seq</span>(<span class="op">-</span><span class="dv">4</span>,<span class="dv">4</span>,<span class="fl">0.5</span>))</span>
-<span id="cb30-5"><a href="03-lin_reg.html#cb30-5"></a><span class="kw">hist</span>(<span class="kw">residuals</span>(fit4), <span class="dt">breaks =</span> <span class="kw">seq</span>(<span class="op">-</span><span class="dv">4</span>,<span class="dv">4</span>,<span class="fl">0.5</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="03-lin_reg.html#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co"># histograms of residuals</span></span>
+<span id="cb30-2"><a href="03-lin_reg.html#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(<span class="fu">residuals</span>(fit1), <span class="at">breaks =</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="dv">4</span>,<span class="dv">4</span>,<span class="fl">0.5</span>))</span>
+<span id="cb30-3"><a href="03-lin_reg.html#cb30-3" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(<span class="fu">residuals</span>(fit2), <span class="at">breaks =</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="dv">4</span>,<span class="dv">4</span>,<span class="fl">0.5</span>))</span>
+<span id="cb30-4"><a href="03-lin_reg.html#cb30-4" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(<span class="fu">residuals</span>(fit3), <span class="at">breaks =</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="dv">4</span>,<span class="dv">4</span>,<span class="fl">0.5</span>))</span>
+<span id="cb30-5"><a href="03-lin_reg.html#cb30-5" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(<span class="fu">residuals</span>(fit4), <span class="at">breaks =</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="dv">4</span>,<span class="dv">4</span>,<span class="fl">0.5</span>))</span></code></pre></div>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:anscomberes3"></span>
 <img src="qm4g_files/figure-html/anscomberes3-1.png" alt="@anscombe1973 datasets. Quantile-quantile plot (QQ plot) of residuals." width="50%" /><img src="qm4g_files/figure-html/anscomberes3-2.png" alt="@anscombe1973 datasets. Quantile-quantile plot (QQ plot) of residuals." width="50%" /><img src="qm4g_files/figure-html/anscomberes3-3.png" alt="@anscombe1973 datasets. Quantile-quantile plot (QQ plot) of residuals." width="50%" /><img src="qm4g_files/figure-html/anscomberes3-4.png" alt="@anscombe1973 datasets. Quantile-quantile plot (QQ plot) of residuals." width="50%" />
 <p class="caption">
@@ -1045,15 +1071,15 @@ Figure 2.13: <span class="citation">Anscombe (<a href="#ref-anscombe1973" role="
 </div>
 </div>
 <h3>References<a href="10-refs.html#references" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<div id="refs" class="references">
-<div id="ref-anscombe1973">
-<p>Anscombe, F. J. 1973. “Graphs in Statistical Analysis.” <em>The American Statistician</em> 27 (1): 17–21. <a href="https://doi.org/10.1080/00031305.1973.10478966">https://doi.org/10.1080/00031305.1973.10478966</a>.</p>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-anscombe1973" class="csl-entry">
+Anscombe, F. J. 1973. <span>“Graphs in Statistical Analysis.”</span> <em>The American Statistician</em> 27 (1): 17–21. <a href="https://doi.org/10.1080/00031305.1973.10478966">https://doi.org/10.1080/00031305.1973.10478966</a>.
 </div>
-<div id="ref-hacking2001">
-<p>Hacking, I. 2001. <em>An Introduction to Probability and Inductive Logic</em>. Cambridge: Cambridge University Press.</p>
+<div id="ref-hacking2001" class="csl-entry">
+Hacking, I. 2001. <em>An Introduction to Probability and Inductive Logic</em>. Cambridge: Cambridge University Press.
 </div>
-<div id="ref-wainer2009">
-<p>Wainer, H. 2009. <em>Picturing the Uncertain World</em>. Princeton: Princeton University Press.</p>
+<div id="ref-wainer2009" class="csl-entry">
+Wainer, H. 2009. <em>Picturing the Uncertain World</em>. Princeton: Princeton University Press.
 </div>
 </div>
 <div class="footnotes">

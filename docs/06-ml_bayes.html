@@ -23,7 +23,7 @@
 <meta name="author" content="Tobias Krueger" />
 
 
-<meta name="date" content="2022-11-21" />
+<meta name="date" content="2023-01-09" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -49,7 +49,6 @@
 
 
 
-<script src="libs/accessible-code-block/empty-anchor.js"></script>
 <link href="libs/anchor-sections/anchor-sections.css" rel="stylesheet" />
 <link href="libs/anchor-sections/anchor-sections-hash.css" rel="stylesheet" />
 <script src="libs/anchor-sections/anchor-sections.js"></script>
@@ -419,18 +418,18 @@ void main(void) {
 
 
 <style type="text/css">
-code.sourceCode > span { display: inline-block; line-height: 1.25; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-code.sourceCode > span:empty { height: 1.2em; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
-code.sourceCode { white-space: pre; position: relative; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
 pre.sourceCode { margin: 0; }
 @media screen {
 div.sourceCode { overflow: auto; }
 }
 @media print {
-code.sourceCode { white-space: pre-wrap; }
-code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -450,13 +449,13 @@ pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-le
 div.sourceCode
   {   }
 @media screen {
-code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
 code span.at { color: #7d9029; } /* Attribute */
 code span.bn { color: #40a070; } /* BaseN */
-code span.bu { } /* BuiltIn */
+code span.bu { color: #008000; } /* BuiltIn */
 code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
 code span.ch { color: #4070a0; } /* Char */
 code span.cn { color: #880000; } /* Constant */
@@ -469,7 +468,7 @@ code span.er { color: #ff0000; font-weight: bold; } /* Error */
 code span.ex { } /* Extension */
 code span.fl { color: #40a070; } /* Float */
 code span.fu { color: #06287e; } /* Function */
-code span.im { } /* Import */
+code span.im { color: #008000; font-weight: bold; } /* Import */
 code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
 code span.kw { color: #007020; font-weight: bold; } /* Keyword */
 code span.op { color: #666666; } /* Operator */
@@ -483,6 +482,28 @@ code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
 
 <link rel="stylesheet" href="css/style.css" type="text/css" />
 </head>
@@ -530,10 +551,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="mlbayes" class="section level1 hasAnchor">
+<div id="mlbayes" class="section level1 hasAnchor" number="5">
 <h1><span class="header-section-number">Chapter 5</span> Probabilistic underpinnings<a href="06-ml_bayes.html#mlbayes" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <p>In this chapter we will see how the assumptions of linear regression - which are needed for the quantification of uncertainty in our results - come about. We will first derive the Least Squares parameter estimators from Maximum Likelihood theory (the historically dominant approach) before giving an introduction to the more general approach of Bayesian statistics. The latter is the focus of my course <em>Applied Statistical Modelling</em> in the summer term and also features at a basic level in <em>Risk and Uncertainty in Science and Policy</em> (offered summers and winters).</p>
-<div id="ml" class="section level2 hasAnchor">
+<div id="ml" class="section level2 hasAnchor" number="5.1">
 <h2><span class="header-section-number">5.1</span> Inference via Maximum Likelihood<a href="06-ml_bayes.html#ml" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>The so called <strong>likelihood</strong> of parameters conditional on some calibration data is defined as the probability of the data conditional on the parameters (and implicitly the model):
 <span class="math display" id="eq:lnorm1">\[\begin{equation}
@@ -601,11 +622,11 @@ Hence, the maximum likelihood estimator for <span class="math inline">\(\beta_0\
 Note, the Least Squares estimator is <span class="math inline">\(s=\sqrt{\frac{SSE}{df_{SSE}}}=\sqrt{\frac{SSE}{n-2}}\)</span>, which doesn’t make much of a difference for large <span class="math inline">\(n\)</span>.</p>
 <p>Now it should be clear that the assumptions underpinning linear regression come from maximum likelihood theory; even if parameter estimators can be motivated via Least Squares, their standard errors, confidence intervals and significance tests rely on the assumptions that the residuals be independent and identically distributed according to a normal distribution (“iid normal”). In chapter <a href="07-glms.html#glms">6</a> we will see how we can expand these assumptions, by making other distributional choices in Equation <a href="06-ml_bayes.html#eq:ynorm">(5.4)</a> as well as transformations of the linear model inside those distributions. We will effectively construct different likelihood functions - different formulations of <span class="math inline">\(\Pr(y_i|\boldsymbol{\theta})\)</span> in Equation <a href="06-ml_bayes.html#eq:lnorm2">(5.2)</a> - motivated by our conceptualisation of the process that generates the response data at hand.</p>
 </div>
-<div id="bayes" class="section level2 hasAnchor">
+<div id="bayes" class="section level2 hasAnchor" number="5.2">
 <h2><span class="header-section-number">5.2</span> Outlook: Bayesian inference<a href="06-ml_bayes.html#bayes" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Bayesian statistics is based on a different philosophical understanding of probability than classic (so called frequentist) statistics, even if both share the same probability calculus. In <strong>frequentist statistics</strong>, probability is a <strong>long-run relative frequency</strong>. For example, if we toss a fair coin a thousand times then we will see approximately 500 heads and 500 tails; we say the probability of heads is <span class="math inline">\(\frac{500}{1000}=0.5\)</span>. Of course 1000 tosses is not really enough to approach 0.5, so probability in this sense is defined mathematically as the limit when <span class="math inline">\(n\)</span>, the number of tosses in the example, goes to infinity.</p>
 <p>In <strong>Bayesian statistics</strong><a href="#fn10" class="footnote-ref" id="fnref10"><sup>10</sup></a>, probability is a <strong>degree of plausibility of a proposition</strong>, like that the coin will come up heads in our example. This degree of plausibility is informed by some observed (long-run) behaviour, like repeated tossing of the coin, but also other sources, like physical reasoning about the coin. In simple games of chance like coin tossing - processes that can be repeated a large number of times - it is hard to see the philosophical difference between the two types of probability and the two types of statistics. Where the difference is clearer - and important - is in the uncertain information we construct around statistical estimates, i.e. confidence intervals in frequentist statistics. Most important, however, are the many cases where there is no long-run relative frequency at all (or we cannot observe it). Consider, for example, the probability of exceeding a 1.5 degree Celsius rise in global average temperature by the end of this century; this is not a frequentist probability but a Bayesian one - a degree of plausibility given some data, models and other information that go into these kinds of assessments.</p>
-<div id="frequentist-sampling-distributions" class="section level3 hasAnchor">
+<div id="frequentist-sampling-distributions" class="section level3 hasAnchor" number="5.2.1">
 <h3><span class="header-section-number">5.2.1</span> Frequentist sampling distributions<a href="06-ml_bayes.html#frequentist-sampling-distributions" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Now on to uncertainty estimates, where I said the differences between frequentist and Bayesian probability matters. Frequentist estimates like means, test statistics (t-test, F-test, …) and regression parameters all come with so called <strong>sampling distributions</strong>; probability density functions (PDFs) that describe the variation in those estimates if the estimation procedure were repeated an infinite number of times. These are PDFs in a long-run relative frequency sense.</p>
 <p>For the <strong>mean</strong>, if the population that the data <span class="math inline">\(x\)</span> are a sample (of size <span class="math inline">\(n\)</span>) from is <em>normally distributed</em> with mean <span class="math inline">\(\mu\)</span> and standard deviation <span class="math inline">\(\sigma\)</span>, we can show mathematically that the deviation of the estimate <span class="math inline">\(\hat \mu=\bar x\)</span> from the unknown <span class="math inline">\(\mu\)</span>, scaled by the standard error <span class="math inline">\(s_{\hat \mu}=\frac{s}{\sqrt{n}}\)</span> (with <span class="math inline">\(s=\sqrt{\frac{1}{n-1}\cdot\sum_{i=1}^{n}\left(x_i-\bar x\right)^2}\)</span> being the standard deviation of <span class="math inline">\(x\)</span>) would follow a t-distribution in <em>repeated sampling</em> with parameter <span class="math inline">\(n-1\)</span>:
@@ -635,7 +656,7 @@ F_s=\frac{\hat \sigma_1^2}{\hat \sigma_2^2}\sim F_{n_1-1;n_2-1}
 \end{equation}\]</span></p>
 <p>As mentioned in Chapter <a href="03-lin_reg.html#linreg">2</a>, this is the central interval in which the true parameter value <span class="math inline">\(\beta\)</span> lies with a probability of 0.95. But this is a <em>frequentist probability</em>, meaning that in an assumed infinite number of regression experiments the 95% confidence interval captures the true parameter value in 95% of the cases. It is some measure of confidence, but <em>not</em> a probability of the true parameter value lying within the confidence interval for any one experiment. This, by contrast, is what the Bayesian approach provides, as we will see next.</p>
 </div>
-<div id="bayesian-posterior-distributions" class="section level3 hasAnchor">
+<div id="bayesian-posterior-distributions" class="section level3 hasAnchor" number="5.2.2">
 <h3><span class="header-section-number">5.2.2</span> Bayesian posterior distributions<a href="06-ml_bayes.html#bayesian-posterior-distributions" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>The Bayesian approach gives us an actual probability density function (PDF) of the parameters <span class="math inline">\(\boldsymbol{\theta}\)</span>, i.e. degrees of plausibility for different values of these parameters. This is the so called <strong>posterior distribution</strong>
 <span class="math inline">\(\Pr(\boldsymbol{\theta}|\mathbf{y})\)</span>, i.e. the probability distribution of the parameters conditional on the data <span class="math inline">\(\mathbf{y}\)</span> at hand. Posterior here means “after seeing the data”.</p>
@@ -655,22 +676,22 @@ Figure 5.1: Bayesian updating: The prior PDF of a hypothetical parameter <span c
 </div>
 <p>From the posterior, confidence interval-like metrics can be calculated, though these are called <strong>compatibility intervals</strong> in Bayesian statistics according to recent terminology.<a href="#fn13" class="footnote-ref" id="fnref13"><sup>13</sup></a> This is generally done numerically by sampling from the posterior - we will do this below. Once we have got our head round this it is quite straightforward. And we have direct probabilistic estimates of the parameters, without having to invoke any sampling distributions.<a href="#fn14" class="footnote-ref" id="fnref14"><sup>14</sup></a></p>
 </div>
-<div id="a-bayesian-analysis-of-the-yield-dataset" class="section level3 hasAnchor">
+<div id="a-bayesian-analysis-of-the-yield-dataset" class="section level3 hasAnchor" number="5.2.3">
 <h3><span class="header-section-number">5.2.3</span> A Bayesian analysis of the yield dataset<a href="06-ml_bayes.html#a-bayesian-analysis-of-the-yield-dataset" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Let us illustrate the Bayesian approach briefly for the yield dataset of Chapter <a href="04-categorical_vars.html#categoricalvars">3</a>. Implementation details, prior choices, model comparison and more complex models will be covered in <em>Applied Statistical Modelling</em> in the summer term. We use the <code>brms</code> package as the interface from <em>R</em> to the Bayesian inference engine <a href="https://mc-stan.org/">Stan</a>:<a href="#fn15" class="footnote-ref" id="fnref15"><sup>15</sup></a></p>
-<div class="sourceCode" id="cb113"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb113-1"><a href="06-ml_bayes.html#cb113-1"></a><span class="co"># load brms package</span></span>
-<span id="cb113-2"><a href="06-ml_bayes.html#cb113-2"></a><span class="kw">library</span>(brms)</span>
-<span id="cb113-3"><a href="06-ml_bayes.html#cb113-3"></a><span class="co"># load yields data</span></span>
-<span id="cb113-4"><a href="06-ml_bayes.html#cb113-4"></a>yields &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="st">&quot;data/yields.txt&quot;</span>,<span class="dt">header=</span>T)</span>
-<span id="cb113-5"><a href="06-ml_bayes.html#cb113-5"></a><span class="co"># expand to a long variable &quot;yield&quot; and a index variable &quot;soiltype&quot;</span></span>
-<span id="cb113-6"><a href="06-ml_bayes.html#cb113-6"></a>yields_long &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">yield =</span> <span class="kw">c</span>(yields<span class="op">$</span>sand, yields<span class="op">$</span>clay, yields<span class="op">$</span>loam),</span>
-<span id="cb113-7"><a href="06-ml_bayes.html#cb113-7"></a>                          <span class="dt">soiltype =</span> <span class="kw">as.factor</span>(<span class="kw">c</span>(<span class="kw">rep</span>(<span class="dv">1</span>,<span class="dv">10</span>), <span class="kw">rep</span>(<span class="dv">2</span>,<span class="dv">10</span>), <span class="kw">rep</span>(<span class="dv">3</span>,<span class="dv">10</span>))))</span>
-<span id="cb113-8"><a href="06-ml_bayes.html#cb113-8"></a><span class="co"># fit linear model using brms with default priors</span></span>
-<span id="cb113-9"><a href="06-ml_bayes.html#cb113-9"></a>yield_fit &lt;-<span class="st"> </span><span class="kw">brm</span>(yield <span class="op">~</span><span class="st"> </span><span class="dv">0</span> <span class="op">+</span><span class="st"> </span>soiltype, <span class="dt">data =</span> yields_long,</span>
-<span id="cb113-10"><a href="06-ml_bayes.html#cb113-10"></a>                 <span class="dt">family =</span> <span class="kw">gaussian</span>(), <span class="dt">silent =</span> <span class="ot">TRUE</span>, <span class="dt">refresh =</span> <span class="dv">0</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb113"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb113-1"><a href="06-ml_bayes.html#cb113-1" aria-hidden="true" tabindex="-1"></a><span class="co"># load brms package</span></span>
+<span id="cb113-2"><a href="06-ml_bayes.html#cb113-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(brms)</span>
+<span id="cb113-3"><a href="06-ml_bayes.html#cb113-3" aria-hidden="true" tabindex="-1"></a><span class="co"># load yields data</span></span>
+<span id="cb113-4"><a href="06-ml_bayes.html#cb113-4" aria-hidden="true" tabindex="-1"></a>yields <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">&quot;data/yields.txt&quot;</span>,<span class="at">header=</span>T)</span>
+<span id="cb113-5"><a href="06-ml_bayes.html#cb113-5" aria-hidden="true" tabindex="-1"></a><span class="co"># expand to a long variable &quot;yield&quot; and a index variable &quot;soiltype&quot;</span></span>
+<span id="cb113-6"><a href="06-ml_bayes.html#cb113-6" aria-hidden="true" tabindex="-1"></a>yields_long <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">yield =</span> <span class="fu">c</span>(yields<span class="sc">$</span>sand, yields<span class="sc">$</span>clay, yields<span class="sc">$</span>loam),</span>
+<span id="cb113-7"><a href="06-ml_bayes.html#cb113-7" aria-hidden="true" tabindex="-1"></a>                          <span class="at">soiltype =</span> <span class="fu">as.factor</span>(<span class="fu">c</span>(<span class="fu">rep</span>(<span class="dv">1</span>,<span class="dv">10</span>), <span class="fu">rep</span>(<span class="dv">2</span>,<span class="dv">10</span>), <span class="fu">rep</span>(<span class="dv">3</span>,<span class="dv">10</span>))))</span>
+<span id="cb113-8"><a href="06-ml_bayes.html#cb113-8" aria-hidden="true" tabindex="-1"></a><span class="co"># fit linear model using brms with default priors</span></span>
+<span id="cb113-9"><a href="06-ml_bayes.html#cb113-9" aria-hidden="true" tabindex="-1"></a>yield_fit <span class="ot">&lt;-</span> <span class="fu">brm</span>(yield <span class="sc">~</span> <span class="dv">0</span> <span class="sc">+</span> soiltype, <span class="at">data =</span> yields_long,</span>
+<span id="cb113-10"><a href="06-ml_bayes.html#cb113-10" aria-hidden="true" tabindex="-1"></a>                 <span class="at">family =</span> <span class="fu">gaussian</span>(), <span class="at">silent =</span> <span class="cn">TRUE</span>, <span class="at">refresh =</span> <span class="dv">0</span>)</span></code></pre></div>
 <p>We have fitted the model using default priors so let us check quickly which these are:</p>
-<div class="sourceCode" id="cb114"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb114-1"><a href="06-ml_bayes.html#cb114-1"></a><span class="co"># check default priors</span></span>
-<span id="cb114-2"><a href="06-ml_bayes.html#cb114-2"></a><span class="kw">prior_summary</span>(yield_fit)</span></code></pre></div>
+<div class="sourceCode" id="cb114"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb114-1"><a href="06-ml_bayes.html#cb114-1" aria-hidden="true" tabindex="-1"></a><span class="co"># check default priors</span></span>
+<span id="cb114-2"><a href="06-ml_bayes.html#cb114-2" aria-hidden="true" tabindex="-1"></a><span class="fu">prior_summary</span>(yield_fit)</span></code></pre></div>
 <pre><code>##                 prior class      coef group resp dpar
 ##                (flat)     b                          
 ##                (flat)     b soiltype1                
@@ -685,41 +706,41 @@ Figure 5.1: Bayesian updating: The prior PDF of a hypothetical parameter <span c
 ##         0         default</code></pre>
 <p>This rather cryptic output tells us that <code>brms</code> has used flat, i.e. uniform, priors for the three parameters, which are the unique means for the three soil types (compare Chapter <a href="04-categorical_vars.html#categoricalvars">3</a>), and a t-distribution with 3 degrees of freedom, centred on 0 and scaled by 4.4, as prior for <span class="math inline">\(\sigma\)</span>.</p>
 <p>Let us look at the parameter estimates:</p>
-<div class="sourceCode" id="cb116"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb116-1"><a href="06-ml_bayes.html#cb116-1"></a><span class="co"># summarise posterior</span></span>
-<span id="cb116-2"><a href="06-ml_bayes.html#cb116-2"></a><span class="kw">posterior_summary</span>(yield_fit, <span class="dt">pars =</span> <span class="kw">c</span>(<span class="st">&#39;soiltype1&#39;</span>,<span class="st">&#39;soiltype2&#39;</span>,<span class="st">&#39;soiltype3&#39;</span>,<span class="st">&#39;sigma&#39;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb116"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb116-1"><a href="06-ml_bayes.html#cb116-1" aria-hidden="true" tabindex="-1"></a><span class="co"># summarise posterior</span></span>
+<span id="cb116-2"><a href="06-ml_bayes.html#cb116-2" aria-hidden="true" tabindex="-1"></a><span class="fu">posterior_summary</span>(yield_fit, <span class="at">pars =</span> <span class="fu">c</span>(<span class="st">&#39;soiltype1&#39;</span>,<span class="st">&#39;soiltype2&#39;</span>,<span class="st">&#39;soiltype3&#39;</span>,<span class="st">&#39;sigma&#39;</span>))</span></code></pre></div>
 <pre><code>## Warning: Argument &#39;pars&#39; is deprecated. Please use
 ## &#39;variable&#39; instead.</code></pre>
 <pre><code>##             Estimate Est.Error   Q2.5  Q97.5
-## b_soiltype1    9.918    1.1379  7.602 12.207
-## b_soiltype2   11.513    1.1515  9.299 13.781
-## b_soiltype3   14.277    1.1508 12.127 16.565
-## sigma          3.525    0.4836  2.723  4.604</code></pre>
+## b_soiltype1    9.894     1.123  7.618 12.059
+## b_soiltype2   11.492     1.104  9.364 13.625
+## b_soiltype3   14.305     1.131 12.062 16.517
+## sigma          3.529     0.491  2.709  4.661</code></pre>
 <p>This output gives us the median of the posterior for each parameter (“Estimate”), the standard error of that estimate via the standard deviation of the posterior (“Est.Error”) and the central 95% compatibility interval between the bounds “Q2.5” and “Q97.5”. The central parameter estimates are essentially the same as in the frequentist approach (Chapter <a href="04-categorical_vars.html#categoricalvars">3</a>). The standard errors are slightly higher than the frequentist estimate of 1.08, and not homogeneous. The residual standard deviation, here <span class="math inline">\(\sigma\)</span>, is slightly higher than the frequentist estimate of <span class="math inline">\(\sqrt{\frac{SSE}{n-k}}=\sqrt{11.7}=3.4\)</span>.</p>
 <p>These are just summaries. To get a sense of the full posterior we need to extract the numerical samples of the posterior and then we can plot these as histograms, for example. Note, these are discrete approximations of the posterior PDFs, which already for moderately complex problems do not exist in closed form, so working with samples is the most general and often the only option.</p>
-<div class="sourceCode" id="cb119"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb119-1"><a href="06-ml_bayes.html#cb119-1"></a><span class="co"># extract posterior samples</span></span>
-<span id="cb119-2"><a href="06-ml_bayes.html#cb119-2"></a>s &lt;-<span class="st"> </span><span class="kw">posterior_samples</span>(yield_fit, <span class="dt">pars =</span> <span class="kw">c</span>(<span class="st">&#39;soiltype1&#39;</span>,<span class="st">&#39;soiltype2&#39;</span>,<span class="st">&#39;soiltype3&#39;</span>,<span class="st">&#39;sigma&#39;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb119"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb119-1"><a href="06-ml_bayes.html#cb119-1" aria-hidden="true" tabindex="-1"></a><span class="co"># extract posterior samples</span></span>
+<span id="cb119-2"><a href="06-ml_bayes.html#cb119-2" aria-hidden="true" tabindex="-1"></a>s <span class="ot">&lt;-</span> <span class="fu">posterior_samples</span>(yield_fit, <span class="at">pars =</span> <span class="fu">c</span>(<span class="st">&#39;soiltype1&#39;</span>,<span class="st">&#39;soiltype2&#39;</span>,<span class="st">&#39;soiltype3&#39;</span>,<span class="st">&#39;sigma&#39;</span>))</span></code></pre></div>
 <pre><code>## Warning: Method &#39;posterior_samples&#39; is deprecated.
 ## Please see ?as_draws for recommended alternatives.</code></pre>
-<div class="sourceCode" id="cb121"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb121-1"><a href="06-ml_bayes.html#cb121-1"></a><span class="co"># plot parameter posteriors as histograms</span></span>
-<span id="cb121-2"><a href="06-ml_bayes.html#cb121-2"></a><span class="kw">hist</span>(s<span class="op">$</span>b_soiltype1, <span class="dt">freq =</span> <span class="ot">FALSE</span>)</span>
-<span id="cb121-3"><a href="06-ml_bayes.html#cb121-3"></a><span class="kw">hist</span>(s<span class="op">$</span>b_soiltype2, <span class="dt">freq =</span> <span class="ot">FALSE</span>)</span>
-<span id="cb121-4"><a href="06-ml_bayes.html#cb121-4"></a><span class="kw">hist</span>(s<span class="op">$</span>b_soiltype3, <span class="dt">freq =</span> <span class="ot">FALSE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb121"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb121-1"><a href="06-ml_bayes.html#cb121-1" aria-hidden="true" tabindex="-1"></a><span class="co"># plot parameter posteriors as histograms</span></span>
+<span id="cb121-2"><a href="06-ml_bayes.html#cb121-2" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(s<span class="sc">$</span>b_soiltype1, <span class="at">freq =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb121-3"><a href="06-ml_bayes.html#cb121-3" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(s<span class="sc">$</span>b_soiltype2, <span class="at">freq =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb121-4"><a href="06-ml_bayes.html#cb121-4" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(s<span class="sc">$</span>b_soiltype3, <span class="at">freq =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
 <p><img src="qm4g_files/figure-html/unnamed-chunk-29-1.png" width="33%" /><img src="qm4g_files/figure-html/unnamed-chunk-29-2.png" width="33%" /><img src="qm4g_files/figure-html/unnamed-chunk-29-3.png" width="33%" /></p>
 <p>The beauty now is that we can calculate a probability distribution of the average yield differences between soil types, without having to worry about the two-sample t-test we did back in Chapter <a href="04-categorical_vars.html#categoricalvars">3</a> and its sampling distribution and all that. It is very simple:</p>
-<div class="sourceCode" id="cb122"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb122-1"><a href="06-ml_bayes.html#cb122-1"></a><span class="co"># plot average yield differences between soil types as histograms</span></span>
-<span id="cb122-2"><a href="06-ml_bayes.html#cb122-2"></a><span class="kw">hist</span>(s<span class="op">$</span>b_soiltype2<span class="op">-</span>s<span class="op">$</span>b_soiltype1, <span class="dt">freq =</span> <span class="ot">FALSE</span>)</span>
-<span id="cb122-3"><a href="06-ml_bayes.html#cb122-3"></a><span class="kw">hist</span>(s<span class="op">$</span>b_soiltype3<span class="op">-</span>s<span class="op">$</span>b_soiltype1, <span class="dt">freq =</span> <span class="ot">FALSE</span>)</span>
-<span id="cb122-4"><a href="06-ml_bayes.html#cb122-4"></a><span class="kw">hist</span>(s<span class="op">$</span>b_soiltype3<span class="op">-</span>s<span class="op">$</span>b_soiltype2, <span class="dt">freq =</span> <span class="ot">FALSE</span>)</span>
-<span id="cb122-5"><a href="06-ml_bayes.html#cb122-5"></a><span class="co"># express these differences as median and 95% compatibility interval</span></span>
-<span id="cb122-6"><a href="06-ml_bayes.html#cb122-6"></a><span class="kw">quantile</span>(s<span class="op">$</span>b_soiltype2<span class="op">-</span>s<span class="op">$</span>b_soiltype1, <span class="dt">probs =</span> <span class="kw">c</span>(<span class="fl">0.025</span>, <span class="fl">0.5</span>, <span class="fl">0.975</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb122"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb122-1"><a href="06-ml_bayes.html#cb122-1" aria-hidden="true" tabindex="-1"></a><span class="co"># plot average yield differences between soil types as histograms</span></span>
+<span id="cb122-2"><a href="06-ml_bayes.html#cb122-2" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(s<span class="sc">$</span>b_soiltype2<span class="sc">-</span>s<span class="sc">$</span>b_soiltype1, <span class="at">freq =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb122-3"><a href="06-ml_bayes.html#cb122-3" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(s<span class="sc">$</span>b_soiltype3<span class="sc">-</span>s<span class="sc">$</span>b_soiltype1, <span class="at">freq =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb122-4"><a href="06-ml_bayes.html#cb122-4" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(s<span class="sc">$</span>b_soiltype3<span class="sc">-</span>s<span class="sc">$</span>b_soiltype2, <span class="at">freq =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb122-5"><a href="06-ml_bayes.html#cb122-5" aria-hidden="true" tabindex="-1"></a><span class="co"># express these differences as median and 95% compatibility interval</span></span>
+<span id="cb122-6"><a href="06-ml_bayes.html#cb122-6" aria-hidden="true" tabindex="-1"></a><span class="fu">quantile</span>(s<span class="sc">$</span>b_soiltype2<span class="sc">-</span>s<span class="sc">$</span>b_soiltype1, <span class="at">probs =</span> <span class="fu">c</span>(<span class="fl">0.025</span>, <span class="fl">0.5</span>, <span class="fl">0.975</span>))</span></code></pre></div>
 <pre><code>##   2.5%    50%  97.5% 
-## -1.603  1.567  4.674</code></pre>
-<div class="sourceCode" id="cb124"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb124-1"><a href="06-ml_bayes.html#cb124-1"></a><span class="kw">quantile</span>(s<span class="op">$</span>b_soiltype3<span class="op">-</span>s<span class="op">$</span>b_soiltype1, <span class="dt">probs =</span> <span class="kw">c</span>(<span class="fl">0.025</span>, <span class="fl">0.5</span>, <span class="fl">0.975</span>))</span></code></pre></div>
+## -1.445  1.591  4.772</code></pre>
+<div class="sourceCode" id="cb124"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb124-1"><a href="06-ml_bayes.html#cb124-1" aria-hidden="true" tabindex="-1"></a><span class="fu">quantile</span>(s<span class="sc">$</span>b_soiltype3<span class="sc">-</span>s<span class="sc">$</span>b_soiltype1, <span class="at">probs =</span> <span class="fu">c</span>(<span class="fl">0.025</span>, <span class="fl">0.5</span>, <span class="fl">0.975</span>))</span></code></pre></div>
 <pre><code>##  2.5%   50% 97.5% 
-## 1.185 4.356 7.497</code></pre>
-<div class="sourceCode" id="cb126"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb126-1"><a href="06-ml_bayes.html#cb126-1"></a><span class="kw">quantile</span>(s<span class="op">$</span>b_soiltype3<span class="op">-</span>s<span class="op">$</span>b_soiltype2, <span class="dt">probs =</span> <span class="kw">c</span>(<span class="fl">0.025</span>, <span class="fl">0.5</span>, <span class="fl">0.975</span>))</span></code></pre></div>
+## 1.337 4.382 7.554</code></pre>
+<div class="sourceCode" id="cb126"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb126-1"><a href="06-ml_bayes.html#cb126-1" aria-hidden="true" tabindex="-1"></a><span class="fu">quantile</span>(s<span class="sc">$</span>b_soiltype3<span class="sc">-</span>s<span class="sc">$</span>b_soiltype2, <span class="at">probs =</span> <span class="fu">c</span>(<span class="fl">0.025</span>, <span class="fl">0.5</span>, <span class="fl">0.975</span>))</span></code></pre></div>
 <pre><code>##    2.5%     50%   97.5% 
-## -0.4962  2.7701  6.0722</code></pre>
+## -0.3054  2.8097  5.8944</code></pre>
 <p><img src="qm4g_files/figure-html/unnamed-chunk-30-1.png" width="33%" /><img src="qm4g_files/figure-html/unnamed-chunk-30-2.png" width="33%" /><img src="qm4g_files/figure-html/unnamed-chunk-30-3.png" width="33%" />
 We see that the only yield difference that is uniquely positive at the 95% compatibility level is that between soil types 3 and 1 - sand and loam. All other compatibility intervals overlap with zero meaning there are sizable probabilities of the differences going in either direction. In frequentist language we would call these differences insignificant, but looking at the full posterior distribution of the differences is much more useful than the binary split.</p>
 <p>All in all, this example shows how for simple models frequentist and Bayesian inference with uninformative priors yield essentially the same conclusions, although the Bayesian probabilities are much more intuitive to interpret and easier to post-process into any quantities of interest.</p>
@@ -728,9 +749,9 @@ We see that the only yield difference that is uniquely positive at the 95% compa
 </div>
 </div>
 <h3>References<a href="10-refs.html#references" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<div id="refs" class="references">
-<div id="ref-gelman2020">
-<p>Gelman, A., J. Hill, and A. Vehtari. 2020. <em>Regression and Other Stories</em>. Cambridge: Cambridge University Press.</p>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-gelman2020" class="csl-entry">
+Gelman, A., J. Hill, and A. Vehtari. 2020. <em>Regression and Other Stories</em>. Cambridge: Cambridge University Press.
 </div>
 </div>
 <div class="footnotes">

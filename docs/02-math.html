@@ -23,7 +23,7 @@
 <meta name="author" content="Tobias Krueger" />
 
 
-<meta name="date" content="2022-11-21" />
+<meta name="date" content="2023-01-09" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -49,7 +49,6 @@
 
 
 
-<script src="libs/accessible-code-block/empty-anchor.js"></script>
 <link href="libs/anchor-sections/anchor-sections.css" rel="stylesheet" />
 <link href="libs/anchor-sections/anchor-sections-hash.css" rel="stylesheet" />
 <script src="libs/anchor-sections/anchor-sections.js"></script>
@@ -419,18 +418,18 @@ void main(void) {
 
 
 <style type="text/css">
-code.sourceCode > span { display: inline-block; line-height: 1.25; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-code.sourceCode > span:empty { height: 1.2em; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
-code.sourceCode { white-space: pre; position: relative; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
 pre.sourceCode { margin: 0; }
 @media screen {
 div.sourceCode { overflow: auto; }
 }
 @media print {
-code.sourceCode { white-space: pre-wrap; }
-code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -450,13 +449,13 @@ pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-le
 div.sourceCode
   {   }
 @media screen {
-code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
 code span.at { color: #7d9029; } /* Attribute */
 code span.bn { color: #40a070; } /* BaseN */
-code span.bu { } /* BuiltIn */
+code span.bu { color: #008000; } /* BuiltIn */
 code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
 code span.ch { color: #4070a0; } /* Char */
 code span.cn { color: #880000; } /* Constant */
@@ -469,7 +468,7 @@ code span.er { color: #ff0000; font-weight: bold; } /* Error */
 code span.ex { } /* Extension */
 code span.fl { color: #40a070; } /* Float */
 code span.fu { color: #06287e; } /* Function */
-code span.im { } /* Import */
+code span.im { color: #008000; font-weight: bold; } /* Import */
 code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
 code span.kw { color: #007020; font-weight: bold; } /* Keyword */
 code span.op { color: #666666; } /* Operator */
@@ -483,6 +482,28 @@ code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
 
 <link rel="stylesheet" href="css/style.css" type="text/css" />
 </head>
@@ -530,10 +551,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="math" class="section level1 hasAnchor">
+<div id="math" class="section level1 hasAnchor" number="1">
 <h1><span class="header-section-number">Chapter 1</span> Mathematical preliminaries<a href="02-math.html#math" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <p>In this chapter we get a few mathematical preliminaries out of the way that are important for later chapters. If you feel rusty on any of these then please read up on them elsewhere.</p>
-<div id="logarithm-and-exponentiation" class="section level2 hasAnchor">
+<div id="logarithm-and-exponentiation" class="section level2 hasAnchor" number="1.1">
 <h2><span class="header-section-number">1.1</span> Logarithm and exponentiation<a href="02-math.html#logarithm-and-exponentiation" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>The following is inspired by <span class="citation">Gelman and Nolan (<a href="#ref-gelman2002" role="doc-biblioref">2002</a>)</span>. Suppose you have an amoeba that takes one hour to divide (Figure <a href="02-math.html#fig:amoeba">1.1</a>), and then the two amoebas each divide in one more hour, and so forth. What is the equation of the number of amoebas, <span class="math inline">\(y\)</span>, as a function of time, <span class="math inline">\(t\)</span> (in hours)?</p>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:amoeba"></span>
@@ -548,10 +569,10 @@ y=2^t
 \tag{1.1}
 \end{equation}\]</span>
 This is an <strong>exponential function</strong> with <strong>base</strong> 2 and <strong>exponent</strong> <span class="math inline">\(t\)</span>. Figure <a href="02-math.html#fig:explog">1.2</a> shows two plots of this function. (Don’t worry, you will start to understand the R code better as you progress in the PC labs.)</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="02-math.html#cb1-1"></a>t &lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="dv">1</span>, <span class="dv">6</span>)</span>
-<span id="cb1-2"><a href="02-math.html#cb1-2"></a>y &lt;-<span class="st"> </span><span class="dv">2</span><span class="op">^</span>t</span>
-<span id="cb1-3"><a href="02-math.html#cb1-3"></a><span class="kw">plot</span>(t, y, <span class="dt">pch =</span> <span class="dv">19</span>, <span class="dt">type =</span> <span class="st">&#39;b&#39;</span>)</span>
-<span id="cb1-4"><a href="02-math.html#cb1-4"></a><span class="kw">plot</span>(t, <span class="kw">log</span>(y), <span class="dt">pch =</span> <span class="dv">19</span>, <span class="dt">type =</span> <span class="st">&#39;b&#39;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="02-math.html#cb1-1" aria-hidden="true" tabindex="-1"></a>t <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">1</span>, <span class="dv">6</span>)</span>
+<span id="cb1-2"><a href="02-math.html#cb1-2" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="dv">2</span><span class="sc">^</span>t</span>
+<span id="cb1-3"><a href="02-math.html#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(t, y, <span class="at">pch =</span> <span class="dv">19</span>, <span class="at">type =</span> <span class="st">&#39;b&#39;</span>)</span>
+<span id="cb1-4"><a href="02-math.html#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(t, <span class="fu">log</span>(y), <span class="at">pch =</span> <span class="dv">19</span>, <span class="at">type =</span> <span class="st">&#39;b&#39;</span>)</span></code></pre></div>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:explog"></span>
 <img src="qm4g_files/figure-html/explog-1.png" alt="Left: Plot of Equation 2.1. Right: Plot of Equation 2.1 on logarithmic scale." width="50%" /><img src="qm4g_files/figure-html/explog-2.png" alt="Left: Plot of Equation 2.1. Right: Plot of Equation 2.1 on logarithmic scale." width="50%" />
 <p class="caption">
@@ -635,7 +656,7 @@ log\left(u^r\right)=r \cdot log(u)
 \tag{1.17}
 \end{equation}\]</span></p>
 </div>
-<div id="centring-and-standardisation" class="section level2 hasAnchor">
+<div id="centring-and-standardisation" class="section level2 hasAnchor" number="1.2">
 <h2><span class="header-section-number">1.2</span> Centring and standardisation<a href="02-math.html#centring-and-standardisation" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Centring and standardisation are used to transform different datasets onto the same scale. We will need this for the multivariate methods in later sessions (Chapter <a href="08-multivariate.html#multivariate">7</a>).</p>
 <p><strong>Centring</strong> means subtracting from every data point <span class="math inline">\(y\)</span> the overall mean of the dataset <span class="math inline">\(\bar{y}\)</span>:
@@ -644,20 +665,20 @@ y^*=y-\bar{y}
 \tag{1.18}
 \end{equation}\]</span>
 This yields new data points <span class="math inline">\(y^*\)</span> and a new mean <span class="math inline">\(\bar{y^*}=0\)</span> while the standard deviation of the transformed data remains the same: <span class="math inline">\(s_{y^*}=s_y\)</span>. Centring thus <em>shifts</em> the data histogram to be centred on zero, but does not change its shape (Figure <a href="02-math.html#fig:rawcentred">1.3</a>).</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="02-math.html#cb2-1"></a><span class="co"># draw random sample of size 1000 from normal distribution with mean 1 and standard deviation 2, i.e. y~N(1,2)</span></span>
-<span id="cb2-2"><a href="02-math.html#cb2-2"></a>y &lt;-<span class="st"> </span><span class="kw">rnorm</span>(<span class="dv">1000</span>, <span class="dt">mean =</span> <span class="dv">1</span>, <span class="dt">sd =</span> <span class="dv">2</span>)</span>
-<span id="cb2-3"><a href="02-math.html#cb2-3"></a><span class="co"># mean</span></span>
-<span id="cb2-4"><a href="02-math.html#cb2-4"></a>ybar &lt;-<span class="st"> </span><span class="kw">mean</span>(y)</span>
-<span id="cb2-5"><a href="02-math.html#cb2-5"></a><span class="co"># standard deviation</span></span>
-<span id="cb2-6"><a href="02-math.html#cb2-6"></a>s_y &lt;-<span class="st"> </span><span class="kw">sd</span>(y)</span>
-<span id="cb2-7"><a href="02-math.html#cb2-7"></a><span class="co"># histogram, raw</span></span>
-<span id="cb2-8"><a href="02-math.html#cb2-8"></a><span class="kw">hist</span>(y, <span class="dt">freq =</span> <span class="ot">FALSE</span>, <span class="dt">xlim =</span> <span class="kw">c</span>(<span class="op">-</span><span class="dv">10</span>,<span class="dv">10</span>), <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="fl">0.4</span>), <span class="dt">main =</span> <span class="st">&quot;&quot;</span>, </span>
-<span id="cb2-9"><a href="02-math.html#cb2-9"></a>     <span class="dt">xlab =</span> <span class="st">&quot;y&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;relative frequency&quot;</span>)</span>
-<span id="cb2-10"><a href="02-math.html#cb2-10"></a><span class="kw">lines</span>(<span class="kw">c</span>(ybar, ybar), <span class="kw">c</span>(<span class="dv">0</span>,<span class="fl">0.4</span>), <span class="dt">lwd =</span> <span class="dv">3</span>)</span>
-<span id="cb2-11"><a href="02-math.html#cb2-11"></a><span class="co"># histogram, centred</span></span>
-<span id="cb2-12"><a href="02-math.html#cb2-12"></a><span class="kw">hist</span>(y<span class="op">-</span>ybar, <span class="dt">freq =</span> <span class="ot">FALSE</span>, <span class="dt">xlim =</span> <span class="kw">c</span>(<span class="op">-</span><span class="dv">10</span>,<span class="dv">10</span>), <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="fl">0.4</span>), <span class="dt">main =</span> <span class="st">&quot;&quot;</span>, </span>
-<span id="cb2-13"><a href="02-math.html#cb2-13"></a>     <span class="dt">xlab =</span> <span class="st">&quot;y*&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;relative frequency&quot;</span>)</span>
-<span id="cb2-14"><a href="02-math.html#cb2-14"></a><span class="kw">lines</span>(<span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">0</span>), <span class="kw">c</span>(<span class="dv">0</span>,<span class="fl">0.4</span>), <span class="dt">lwd =</span> <span class="dv">3</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="02-math.html#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># draw random sample of size 1000 from normal distribution with mean 1 and standard deviation 2, i.e. y~N(1,2)</span></span>
+<span id="cb2-2"><a href="02-math.html#cb2-2" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">1000</span>, <span class="at">mean =</span> <span class="dv">1</span>, <span class="at">sd =</span> <span class="dv">2</span>)</span>
+<span id="cb2-3"><a href="02-math.html#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co"># mean</span></span>
+<span id="cb2-4"><a href="02-math.html#cb2-4" aria-hidden="true" tabindex="-1"></a>ybar <span class="ot">&lt;-</span> <span class="fu">mean</span>(y)</span>
+<span id="cb2-5"><a href="02-math.html#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="co"># standard deviation</span></span>
+<span id="cb2-6"><a href="02-math.html#cb2-6" aria-hidden="true" tabindex="-1"></a>s_y <span class="ot">&lt;-</span> <span class="fu">sd</span>(y)</span>
+<span id="cb2-7"><a href="02-math.html#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="co"># histogram, raw</span></span>
+<span id="cb2-8"><a href="02-math.html#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(y, <span class="at">freq =</span> <span class="cn">FALSE</span>, <span class="at">xlim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">10</span>,<span class="dv">10</span>), <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">0.4</span>), <span class="at">main =</span> <span class="st">&quot;&quot;</span>, </span>
+<span id="cb2-9"><a href="02-math.html#cb2-9" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">&quot;y&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;relative frequency&quot;</span>)</span>
+<span id="cb2-10"><a href="02-math.html#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(<span class="fu">c</span>(ybar, ybar), <span class="fu">c</span>(<span class="dv">0</span>,<span class="fl">0.4</span>), <span class="at">lwd =</span> <span class="dv">3</span>)</span>
+<span id="cb2-11"><a href="02-math.html#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="co"># histogram, centred</span></span>
+<span id="cb2-12"><a href="02-math.html#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(y<span class="sc">-</span>ybar, <span class="at">freq =</span> <span class="cn">FALSE</span>, <span class="at">xlim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">10</span>,<span class="dv">10</span>), <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">0.4</span>), <span class="at">main =</span> <span class="st">&quot;&quot;</span>, </span>
+<span id="cb2-13"><a href="02-math.html#cb2-13" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">&quot;y*&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;relative frequency&quot;</span>)</span>
+<span id="cb2-14"><a href="02-math.html#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(<span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>), <span class="fu">c</span>(<span class="dv">0</span>,<span class="fl">0.4</span>), <span class="at">lwd =</span> <span class="dv">3</span>)</span></code></pre></div>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:rawcentred"></span>
 <img src="qm4g_files/figure-html/rawcentred-1.png" alt="Histogram of dataset $y$ (left) and centred dataset $y^*$ (right). The vertical line represents the mean." width="50%" /><img src="qm4g_files/figure-html/rawcentred-2.png" alt="Histogram of dataset $y$ (left) and centred dataset $y^*$ (right). The vertical line represents the mean." width="50%" />
 <p class="caption">
@@ -670,14 +691,14 @@ y^*=\frac{y-\bar{y}}{s_y}
 \tag{1.19}
 \end{equation}\]</span>
 This yields new data points <span class="math inline">\(y^*\)</span>, a new mean <span class="math inline">\(\bar{y^*}=0\)</span> and a new standard deviation <span class="math inline">\(s_{y^*}=1\)</span>. Standardisation thus shifts the data histogram to be centred on zero and expands or contracts it to have unit standard deviation (Figure <a href="02-math.html#fig:rawstandardised">1.4</a>).</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="02-math.html#cb3-1"></a><span class="co"># histogram, raw</span></span>
-<span id="cb3-2"><a href="02-math.html#cb3-2"></a><span class="kw">hist</span>(y, <span class="dt">freq =</span> <span class="ot">FALSE</span>, <span class="dt">xlim =</span> <span class="kw">c</span>(<span class="op">-</span><span class="dv">10</span>,<span class="dv">10</span>), <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="fl">0.4</span>), <span class="dt">main =</span> <span class="st">&quot;&quot;</span>, </span>
-<span id="cb3-3"><a href="02-math.html#cb3-3"></a>     <span class="dt">xlab =</span> <span class="st">&quot;y&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;relative frequency&quot;</span>)</span>
-<span id="cb3-4"><a href="02-math.html#cb3-4"></a><span class="kw">lines</span>(<span class="kw">c</span>(ybar, ybar), <span class="kw">c</span>(<span class="dv">0</span>,<span class="fl">0.4</span>), <span class="dt">lwd =</span> <span class="dv">3</span>)</span>
-<span id="cb3-5"><a href="02-math.html#cb3-5"></a><span class="co"># histogram, standardised</span></span>
-<span id="cb3-6"><a href="02-math.html#cb3-6"></a><span class="kw">hist</span>((y<span class="op">-</span>ybar)<span class="op">/</span>s_y, <span class="dt">freq =</span> <span class="ot">FALSE</span>, <span class="dt">xlim =</span> <span class="kw">c</span>(<span class="op">-</span><span class="dv">10</span>,<span class="dv">10</span>), <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="fl">0.4</span>), <span class="dt">main =</span> <span class="st">&quot;&quot;</span>, </span>
-<span id="cb3-7"><a href="02-math.html#cb3-7"></a>     <span class="dt">xlab =</span> <span class="st">&quot;y*&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;relative frequency&quot;</span>)</span>
-<span id="cb3-8"><a href="02-math.html#cb3-8"></a><span class="kw">lines</span>(<span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">0</span>), <span class="kw">c</span>(<span class="dv">0</span>,<span class="fl">0.4</span>), <span class="dt">lwd =</span> <span class="dv">3</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="02-math.html#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># histogram, raw</span></span>
+<span id="cb3-2"><a href="02-math.html#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(y, <span class="at">freq =</span> <span class="cn">FALSE</span>, <span class="at">xlim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">10</span>,<span class="dv">10</span>), <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">0.4</span>), <span class="at">main =</span> <span class="st">&quot;&quot;</span>, </span>
+<span id="cb3-3"><a href="02-math.html#cb3-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">&quot;y&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;relative frequency&quot;</span>)</span>
+<span id="cb3-4"><a href="02-math.html#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(<span class="fu">c</span>(ybar, ybar), <span class="fu">c</span>(<span class="dv">0</span>,<span class="fl">0.4</span>), <span class="at">lwd =</span> <span class="dv">3</span>)</span>
+<span id="cb3-5"><a href="02-math.html#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="co"># histogram, standardised</span></span>
+<span id="cb3-6"><a href="02-math.html#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>((y<span class="sc">-</span>ybar)<span class="sc">/</span>s_y, <span class="at">freq =</span> <span class="cn">FALSE</span>, <span class="at">xlim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">10</span>,<span class="dv">10</span>), <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">0.4</span>), <span class="at">main =</span> <span class="st">&quot;&quot;</span>, </span>
+<span id="cb3-7"><a href="02-math.html#cb3-7" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">&quot;y*&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;relative frequency&quot;</span>)</span>
+<span id="cb3-8"><a href="02-math.html#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(<span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>), <span class="fu">c</span>(<span class="dv">0</span>,<span class="fl">0.4</span>), <span class="at">lwd =</span> <span class="dv">3</span>)</span></code></pre></div>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:rawstandardised"></span>
 <img src="qm4g_files/figure-html/rawstandardised-1.png" alt="Histogram of dataset $y$ (left) and standardised dataset $y^*$ (right). The vertical line represents the mean." width="50%" /><img src="qm4g_files/figure-html/rawstandardised-2.png" alt="Histogram of dataset $y$ (left) and standardised dataset $y^*$ (right). The vertical line represents the mean." width="50%" />
 <p class="caption">
@@ -686,7 +707,7 @@ Figure 1.4: Histogram of dataset <span class="math inline">\(y\)</span> (left) a
 </div>
 <p>If the original data <span class="math inline">\(y\)</span> were normally distributed (like we set it up for the plots above) then standardisation would transform <span class="math inline">\(y\)</span> to the scale of the standard normal distribution, i.e. a normal distribution with mean 0 and standard deviation 1. If you feel rusty on the normal distribution (or probability distributions in general) then Wikipedia is as good a source as any: <a href="https://en.wikipedia.org/wiki/Normal_distribution" class="uri">https://en.wikipedia.org/wiki/Normal_distribution</a>.</p>
 </div>
-<div id="derivatives" class="section level2 hasAnchor">
+<div id="derivatives" class="section level2 hasAnchor" number="1.3">
 <h2><span class="header-section-number">1.3</span> Derivatives<a href="02-math.html#derivatives" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>The <strong>first derivative</strong> of a function <span class="math inline">\(f(x)\)</span>, written as <span class="math inline">\(f&#39;(x)\)</span> or <span class="math inline">\(\frac{df(x)}{dx}\)</span>, can be interpreted graphically as the slope of that function, i.e. the tangent line of a certain point of the function (Figure <a href="02-math.html#fig:derivative">1.5</a>, left).</p>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:derivative"></span>
@@ -725,10 +746,10 @@ Figure 1.6: Use of first and second derivative to determine minima, maxima and i
 <p>Quotient rule: If <span class="math inline">\(y=\frac{u(t)}{v(t)}\)</span> then <span class="math inline">\(\frac{dy}{dt}=\frac{\left(\frac{du}{dt} \cdot v-u \cdot \frac{dv}{dt}\right)}{v^2}\)</span>.</p>
 <p>Chain rule: If <span class="math inline">\(y=f[g(t)]\)</span> then <span class="math inline">\(\frac{dy}{dt}=\frac{df[g]}{dg} \cdot \frac{dg}{dt}\)</span>, i.e. “outer times inner derivative”.</p>
 </div>
-<div id="matrix-algebra" class="section level2 hasAnchor">
+<div id="matrix-algebra" class="section level2 hasAnchor" number="1.4">
 <h2><span class="header-section-number">1.4</span> Matrix algebra<a href="02-math.html#matrix-algebra" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>The following is based on <span class="citation">Tabachnick and Fidell (<a href="#ref-tabachnick2013" role="doc-biblioref">2013</a>)</span>.</p>
-<div id="simple-matrix-operations" class="section level3 hasAnchor">
+<div id="simple-matrix-operations" class="section level3 hasAnchor" number="1.4.1">
 <h3><span class="header-section-number">1.4.1</span> Simple matrix operations<a href="02-math.html#simple-matrix-operations" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Let <span class="math inline">\(\mathbf{A}\)</span> and <span class="math inline">\(\mathbf{B}\)</span> be matrices:</p>
 <p><span class="math display">\[\mathbf{A} =
@@ -809,7 +830,7 @@ c &amp; f &amp; i
 \end{pmatrix}
 \]</span></p>
 </div>
-<div id="matrix-multiplication" class="section level3 hasAnchor">
+<div id="matrix-multiplication" class="section level3 hasAnchor" number="1.4.2">
 <h3><span class="header-section-number">1.4.2</span> Matrix multiplication<a href="02-math.html#matrix-multiplication" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Now, the multiplication of two matrices is the only operation that is a bit complicated at first. It may be best to consider an example to work out the rules:</p>
 <p><span class="math display">\[\begin{eqnarray}
@@ -911,7 +932,7 @@ g \cdot a + h \cdot b + i \cdot c &amp; g \cdot d + h \cdot e + i \cdot f &amp; 
 \end{eqnarray}\]</span></p>
 <p>This last matrix is symmetrical, i.e. mirrored along its diagonal. The diagonal elements here are so called <strong>sums of squares</strong>, off-diagonal elements are so called <strong>cross-products</strong>. This will be useful later on when working with variance-covariance matrices in Chapter <a href="08-multivariate.html#multivariate">7</a>.</p>
 </div>
-<div id="matrix-division-inverse-of-a-matrix-identity-matrix" class="section level3 hasAnchor">
+<div id="matrix-division-inverse-of-a-matrix-identity-matrix" class="section level3 hasAnchor" number="1.4.3">
 <h3><span class="header-section-number">1.4.3</span> Matrix division, inverse of a matrix, identity matrix<a href="02-math.html#matrix-division-inverse-of-a-matrix-identity-matrix" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p><strong>Division of two matrices</strong> means multiplication of one matrix with the so called inverse of the other, here <span class="math inline">\(\mathbf{B}^{-1}\)</span>:</p>
 <p><span class="math display">\[\frac{\mathbf{A}}{\mathbf{B}} = \mathbf{A} \cdot \mathbf{B}^{-1}\]</span></p>
@@ -927,7 +948,7 @@ g \cdot a + h \cdot b + i \cdot c &amp; g \cdot d + h \cdot e + i \cdot f &amp; 
 \]</span></p>
 </div>
 </div>
-<div id="exercises" class="section level2 hasAnchor">
+<div id="exercises" class="section level2 hasAnchor" number="1.5">
 <h2><span class="header-section-number">1.5</span> Exercises<a href="02-math.html#exercises" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <div id="exercise-1" class="section level3 unnumbered hasAnchor">
 <h3>Exercise 1<a href="02-math.html#exercise-1" class="anchor-section" aria-label="Anchor link to header"></a></h3>
@@ -955,12 +976,12 @@ g \cdot a + h \cdot b + i \cdot c &amp; g \cdot d + h \cdot e + i \cdot f &amp; 
 </div>
 </div>
 <h3>References<a href="10-refs.html#references" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<div id="refs" class="references">
-<div id="ref-gelman2002">
-<p>Gelman, A., and D. Nolan. 2002. <em>Teaching Statistics: A Bag of Tricks</em>. New York: Oxford University Press.</p>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-gelman2002" class="csl-entry">
+Gelman, A., and D. Nolan. 2002. <em>Teaching Statistics: A Bag of Tricks</em>. New York: Oxford University Press.
 </div>
-<div id="ref-tabachnick2013">
-<p>Tabachnick, B. G., and L. S. Fidell. 2013. <em>Using Multivariate Statistics</em>. Boston: Pearson Education.</p>
+<div id="ref-tabachnick2013" class="csl-entry">
+Tabachnick, B. G., and L. S. Fidell. 2013. <em>Using Multivariate Statistics</em>. Boston: Pearson Education.
 </div>
 </div>
             </section>
