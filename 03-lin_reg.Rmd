@@ -2,7 +2,7 @@
 
 ## Motivation
 
-The questions we wish to answer with linear regression are of the kind depicted in Figure \@ref(fig:motivation): What drives spatial variation in annual average precipitation and annual average temperature? In the case of precipitation the main drivers seem to be continentality and elevation, plus a few minor drivers, while temperature appears to be dominantly controlled by elevation only. Linear regression examines this question by modelling a response variable against one or more predictor variables, while the relationship between the two is linear in its parameters.
+The questions we wish to answer with linear regression are of the kind depicted in Figure \@ref(fig:motivation): What drives spatial variation in annual average precipitation and annual average temperature? In the case of precipitation, the main drivers seem to be continentality and elevation, plus a few minor drivers. Temperature appears to be dominantly controlled by elevation only. Linear regression examines this question by modelling a response variable against one or more predictor variables, while the relationship between the two is linear in its parameters.
 
 ```{r motivation, echo=FALSE, fig.align='center', fig.cap='Maps of annual average precipitation (left) and annual average air temperature (right) over Germany from 1961 to 1990. Source: https://www.dwd.de/EN/climate_environment/climateatlas/climateatlas_node.html.', fig.show='hold', out.width='50%'}
 knitr::include_graphics(c('figs/precip_D.png','figs/temp_D.png'))
@@ -106,7 +106,7 @@ Table: (\#tab:variants2) Historical names for the regression, depending on wheth
 
 ## Description versus prediction
 
-The primary purpose of regression analysis is the description (or explanation) of the data in terms of a general relationship pertaining to the population that these data are sampled from. Being a property of the population, this relationship should then also allow us to make predictions, but we need to be careful. Consider the relationship between year and world record time for the men's mile depicted in Figure \@ref(fig:mile). When the predictor is time, as shown here, regression becomes a form of trend analysis, in this case of how the record time in the male competition decreased over the years. We will talk about the R code and output further below, here we're just interested in the linear predictions.
+The primary purpose of regression analysis is the description (or explanation) of the data in terms of a general relationship pertaining to the population that these data are sampled from. Being a property of the population, this relationship should then also allow us to make predictions, but we need to be careful. Consider the relationship between year and world record time for the men's mile depicted in Figure \@ref(fig:mile). When the predictor is time, as shown here, regression becomes a form of trend analysis, in this case of how the record time in the male competition decreased over the years. We will talk about the R code and output further below, here we are just interested in the linear predictions.
 
 ```{r echo=TRUE}
 # load mile data from remote repository
@@ -192,7 +192,7 @@ $$\begin{equation}
 (\#eq:insert2)
 \end{equation}$$
 
-Third, we solve Equation \@ref(eq:insert2) for $\beta_1$:
+Third, we solve Equation \@ref(eq:insert2) for $\hat\beta_1$:
 
 $$\begin{equation}
 \sum_{i=1}^{n}\left(x_i \cdot y_i-\bar{y} \cdot x_i\right)-\hat\beta_1 \cdot \sum_{i=1}^{n}\left(x_i^2-\bar{x} \cdot x_i\right)=0
@@ -215,7 +215,7 @@ We then insert Equation \@ref(eq:b13) back into Equation \@ref(eq:sse) and have 
 
 ## Significance of regression
 
-Having estimates for the regression parameters we need to ask ourselves whether these estimates are statistically significant or could have arisen by chance from the (assumed) random process of sampling the data. We do this via **Analysis of Variance (ANOVA)**, which begins by constructing the ANOVA table (Table \@ref(tab:anova)). This is often done in the background in software like R and not actually looked at that much.
+Having estimates for the regression parameters, classical statistics then asks whether these estimates are "statistically significant" or could have arisen by chance from the (assumed) random process of sampling the data.^[Note, we here follow a classical statistical exposition bearing in mind that the concept of significance is not very useful and potentially dangerous [@amrhein2019]. Still, p-values can be used to judge whether results are compatible with unimportant effects.] We do this via **Analysis of Variance (ANOVA)**, which begins by constructing the ANOVA table (Table \@ref(tab:anova)). This is often done in the background in software like R and not actually looked at that much.
 
 | Source | Sum of<br>squares | Degrees of freedom $(df)$ | Mean squares | F statistic $\left(F_s\right)$ | $\Pr\left(Z\geq F_s\right)$ |
 | :---: | :---: | :---: | :---: | :---: | :---: |
@@ -224,25 +224,31 @@ Having estimates for the regression parameters we need to ask ourselves whether 
 | Total | $SSY$ | $n-1$ | | | |
 Table: (\#tab:anova) ANOVA table for linear regression.
 
-In the second column of Table \@ref(tab:anova), $SSY=\sum_{i=1}^{n}\left(y_i-\bar{y}\right)^2$ is a measure of the total variance of the data, i.e. how much the data points are varying around the overall mean (Figure \@ref(fig:ssysse), left). $SSE=\sum_{i=1}^{n}\left(\epsilon_i\right)^2=\sum_{i=1}^{n}\left(y_i-\left(\beta_0+\beta_1 \cdot x_i\right)\right)^2$ is a measure of the error variance, i.e. how much the data points are varying around the regression line (Figure \@ref(fig:ssysse), right). This is the variance not explained by the model. $SSR=SSY-SSE$ then is a measure of the variance explained by the model.
+In the second column of Table \@ref(tab:anova), $SSY=\sum_{i=1}^{n}\left(y_i-\bar{y}\right)^2$ is a measure of the total variance of the data, i.e. how much the data points are varying around the overall mean (Figure \@ref(fig:ssysse), left).
+
+$SSE=\sum_{i=1}^{n}\left(\epsilon_i\right)^2=\sum_{i=1}^{n}\left(y_i-\left(\beta_0+\beta_1 \cdot x_i\right)\right)^2$ is a measure of the error variance, i.e. how much the data points are varying around the regression line (Figure \@ref(fig:ssysse), right). This is the variance not explained by the model.
+
+$SSR=SSY-SSE$ then is a measure of the variance explained by the model.
 
 ```{r ssysse, echo=FALSE, fig.align='center', fig.cap='Variation of the data points around the mean, summarised by $SSY$ (left), and around the regression line, summarised by $SSE$ (right).', fig.show='hold', out.width='50%'}
 knitr::include_graphics(c('figs/ssy.jpg','figs/sse.jpg'))
 ```
 
-The third column of Table \@ref(tab:anova) lists the so called **degrees of freedom** of the three variance terms, which can be understood as the number of free parameters for the respective term that is controlled by the (assumed) random process of sampling the data. It is the number of possibilities for the chance process to unfold. $SSY$ requires one parameter $\left(\bar{y}\right)$ to be calculated from the data (see above). Hence the degrees of freedom are $n-1$; if I know $\bar{y}$ then there are $n-1$ data points left that can be generated by chance, the nth one I can calculate from all the others and $\bar{y}$. $SSE$, in turn, requires two parameters ($\beta_0$ and $\beta_1$) to be calculated from the data (Equations \@ref(eq:b03) and \@ref(eq:b13)). Hence the degrees of freedom are $n-2$. The degrees of freedom of $SSR$ then are just the difference between the former two; $df_{SSR}=df_{SSY}-df_{SSE}=1$. The degrees of freedom are used to normalise the variance terms in the fourth column of Table \@ref(tab:anova), where $s^2$ is called the **error variance**.
+The third column of Table \@ref(tab:anova) lists the so called **degrees of freedom** of the three variance terms, which can be understood as the number of free parameters for the respective term that is controlled by the (assumed) random process of sampling the data. It is the number of possibilities for the chance process to unfold. $SSY$ requires one parameter $\left(\bar{y}\right)$ to be calculated from the data (see above). Hence the degrees of freedom are $n-1$; if I know $\bar{y}$ then there are $n-1$ data points left that can be generated by chance, the $n$th one I can calculate from all the others and $\bar{y}$. $SSE$, in turn, requires two parameters ($\beta_0$ and $\beta_1$) to be calculated from the data (Equations \@ref(eq:b03) and \@ref(eq:b13)). Hence the degrees of freedom are $n-2$. The degrees of freedom of $SSR$ then are just the difference between the former two; $df_{SSR}=df_{SSY}-df_{SSE}=1$. The degrees of freedom are used to normalise the variance terms in the fourth column of Table \@ref(tab:anova), where $s^2$ is called the **error variance**.
 
-In the fifth column of Table \@ref(tab:anova) we find the ratio of two variances; regression variance over error variance. Naturally, for a significant regression we want the regression variance (explained by the model) to be much larger than the error variance (unexplained by the model). This is an **F-Test** problem, testing whether the variance explained by the model is significantly different from the variance unexplained by the model. The ratio of the two variances serves as the F statistic $\left(F_s\right)$. The sixth column of Table \@ref(tab:anova) then shows the **p-value** of the F-Test, i.e. the probability of getting $F_s$ or a larger value (i.e. an even better model) by chance if the Null hypothesis $\left(H_0\right)$ is true. $H_0$ here is that the two variances are equal. It can be shown mathematically that $F_s$ follows an F-distribution with parameters $1$ and $n-2$ under the Null hypothesis (Figure \@ref(fig:fcdf)). The red line in Figure \@ref(fig:fcdf) marks a particular value of $F_s$ (here between 10 and 11) and the corresponding value of the cumulative distribution function of the F-distribution $\left(F\left(F_s,1,n-2\right)\right)$. The p-value is $\Pr\left(Z\geq F_s\right)=1-F\left(F_s,1,n-2\right)$, i.e. the probability of getting this variance ratio or a greater one by chance (due to the random sampling process) even if the two variances are actually equal. Here this value is very small and hence we conclude that the regression is significant.
+In the fifth column of Table \@ref(tab:anova) we find the ratio of two variances; regression variance over error variance. A "significant" regression is conceptualised as having a regression variance (explained by the model) that is much larger than the error variance (unexplained by the model). This is an **F-Test** problem, testing whether the variance explained by the model is significantly different from the variance unexplained by the model. The ratio of the two variances serves as the F statistic $\left(F_s\right)$.
+
+The sixth column of Table \@ref(tab:anova) then shows the **p-value** of the F-Test, i.e. the probability of getting $F_s$ or a larger value (i.e. an even better model) by chance if the Null hypothesis $\left(H_0\right)$ is true. $H_0$ here is that the two variances are equal. It can be shown mathematically that $F_s$ follows an F-distribution with parameters $1$ and $n-2$ under the Null hypothesis (Figure \@ref(fig:fcdf)). The red line in Figure \@ref(fig:fcdf) marks a particular value of $F_s$ (here between 10 and 11) and the corresponding value of the cumulative distribution function of the F-distribution $\left(F\left(F_s,1,n-2\right)\right)$. The p-value is $\Pr\left(Z\geq F_s\right)=1-F\left(F_s,1,n-2\right)$, i.e. the probability of getting this variance ratio or a greater one by chance (due to the random sampling process) even if the two variances are actually equal. Here, the p-value is very small and hence we conclude that the regression is "significant".
 
 ```{r fcdf, echo=FALSE, fig.align='center', fig.cap='Cumulative distribution function (CDF) of the F-distribution of the F statistic $\\left(F_s\\right)$, with a particular value and corresponding value of the CDF marked in red.', out.width='80%'}
 knitr::include_graphics('figs/cdf_f.jpg')
 ```
 
-The correct interpretation of the p-value is a bit tricky. In the words of philosopher of science Ian @hacking2001, if we have a p-value of say 0.01 this means "either the Null hypothesis is true, in which case something unusual happened by chance (probability 1%), or the Null hypothesis is false." This means, strictly speaking, the p-value is not the probability of the Null hypothesis being true; it is the probability of the data to come about if the Null hypothesis were true. If this is a very low probability then we think this tells us something about the Null hypothesis (that perhaps we should reject it), but in a roundabout way. Note, in the case of linear regression, the Null model is $\beta_1=0$, i.e. $y=\beta_0$ with $\hat\beta_0=\bar{y}$, which means the overall mean is the best model summarising the data (Figure \@ref(fig:ssysse), left).
+The correct interpretation of the p-value is a bit tricky. In the words of philosopher of science Ian @hacking2001, if we have a p-value of say 0.01 this means "either the Null hypothesis is true, in which case something unusual happened by chance (probability 1%), or the Null hypothesis is false." This means, the p-value is not the probability of the Null hypothesis being true; it is the probability of the data to come about if the Null hypothesis were true. If this is a very low probability then we think this tells us something about the Null hypothesis (that perhaps we should reject it), but in a roundabout way. Note, in the case of linear regression, the Null model is $\beta_1=0$, i.e. $y=\beta_0$ with $\hat\beta_0=\bar{y}$, which means the overall mean is the best model summarising the data (Figure \@ref(fig:ssysse), left).
 
 ## Confidence in parameter estimates
 
-Having established the statistical significance of the regression, we should look at the uncertainty around the parameter estimates. In classic linear regression this uncertainty is conceptualised as arising purely from the random sampling process; the data at hand are just one possibility of many, and in each alternative case the parameter estimates would have turned out slightly different. The linear model itself is assumed to be correct.
+Having established the statistical significance of the regression, we typically look at the uncertainty around the parameter estimates. In classic linear regression this uncertainty is conceptualised as arising purely from the random sampling process; the data at hand are just one possibility of many, and in each alternative case the parameter estimates would have turned out slightly different. The linear model itself is assumed to be correct.
 
 The first step in establishing how confident we should be that the parameter estimates are correct is the calculation of **standard errors**. For $\hat\beta_0$ this is (derivation not shown here):
 
@@ -250,7 +256,8 @@ $$\begin{equation}
 s_{\hat\beta_0}=\sqrt{\frac{\sum_{i=1}^{n}x_i^2}{n} \cdot \frac{s^2}{SSX}}
 (\#eq:seb0)
 \end{equation}$$
-Breaking down this formula into its individual parts, we can see that the more data points $n$ we have, the smaller the standard error, i.e. the more confidence we have in the estimate. Also, the larger the variation in $x$ $(SSX)$ the smaller the standard error. Both effects make intuitive sense: the more data points we have and the more possibilities for $x$ we have covered in our data, the more we can be confident that we have not missed much in our random sample. Conversely, the larger the error variance $s^2$, i.e. the smaller the explanatory power of our model, the larger the standard error. And, the more $x$ data points we have away from zero, i.e. the greater $\sum_{i=1}^{n}x_i^2$, the smaller our confidence in the intercept (where $x=0$) and hence the standard error increases.
+
+Breaking down this formula into its individual parts, we can see that the more data points $n$ we have, the smaller the standard error gets, i.e. the more confidence we should have in the estimate. Also, the larger the variation in $x$ $(SSX)$ the smaller the standard error. Both effects make intuitive sense: the more data points we have and the more possibilities for $x$ we have covered in our data, the more we can be confident that we have not missed much in our random sample. Conversely, the larger the error variance $s^2$, i.e. the smaller the explanatory power of our model, the larger the standard error. And, the more $x$ data points we have away from zero, i.e. the greater $\sum_{i=1}^{n}x_i^2$, the smaller our confidence in the intercept (where $x=0$) and hence the standard error increases.
 
 The standard error for $\hat\beta_1$ is:
 
@@ -258,6 +265,7 @@ $$\begin{equation}
 s_{\hat\beta_1}=\sqrt{\frac{s^2}{SSX}}
 (\#eq:seb1)
 \end{equation}$$
+
 The same interpretation applies, except there is no influence of the magnitude of the $x$ data points.
 
 We can also establish a standard error for new predictions $\hat y$ for given new predictor values $\hat x$:
@@ -266,7 +274,8 @@ $$\begin{equation}
 s_{\hat y}=\sqrt{s^2 \cdot \left(\frac{1}{n}+\frac{\left(\hat x-\bar x\right)^2}{SSX}\right)}
 (\#eq:sey)
 \end{equation}$$
-The same interpretation applies again, except there now is an added term $\left(\hat x-\bar x\right)^2$ which means the further the new $x$ value is away from the centre of the original data (the training or calibration data) the greater the standard error of the new prediction, i.e. the lower the confidence in it being correct. Note, the formulae for the standard errors arise from the fundamental assumptions of linear regression, which will be covered below. This can be shown mathematically but is omitted here.
+
+The same interpretation applies again, except there now is an added term $\left(\hat x-\bar x\right)^2$ which means the further the new $x$ value is away from the centre of the original data (the training or calibration data) the greater the standard error of the new prediction, i.e. the lower the confidence in it being correct. Note, the formulas for the standard errors arise from the fundamental assumptions of linear regression, which will be covered below. This can be shown mathematically but is omitted here.
 
 From the standard errors we can calculate **confidence intervals** for the parameter estimates as follows:
 
@@ -274,15 +283,17 @@ $$\begin{equation}
 \Pr\left(\hat\beta_0-t_{n-2;0.975} \cdot s_{\hat\beta_0}\leq \beta_0\leq \hat\beta_0+t_{n-2;0.975} \cdot s_{\hat\beta_0}\right)=0.95
 (\#eq:cib01)
 \end{equation}$$
-The symbol $\Pr(\cdot)$ means probability. The symbol $t_{n-2;0.975}$ stands for the 0.975-percentile of the t-distribution with $n-2$ degrees of freedom. Equation \@ref(eq:cib01) is the central 95% confidence interval, which is defined as the bounds in which the true parameter, here $\beta_0$, lies with a probability of 0.95. We can write the interval like this:
+
+The symbol $\Pr(\cdot)$ means probability. The symbol $t_{n-2;0.975}$ stands for the 0.975-percentile of the t-distribution with $n-2$ degrees of freedom. Equation \@ref(eq:cib01) is the central 95% confidence interval, which is defined as the bounds in which the "true" parameter, here $\beta_0$, lies with a probability of 0.95. We can write the interval like this:
 
 $$\begin{equation}
 CI=\left[\hat\beta_0-t_{n-2;0.975} \cdot s_{\hat\beta_0};\hat\beta_0+t_{n-2;0.975} \cdot s_{\hat\beta_0}\right]
 (\#eq:cib02)
 \end{equation}$$
+
 As can be seen, the confidence interval $CI$ is symmetric around the parameter estimate $\hat\beta_0$ and arises from a t-distribution with parameter $n-2$ whose width is modulated by the standard error $s_{\hat\beta_0}$. Note, the width of the t-distribution is also controlled by sample size; it becomes narrower with increasing $n$.
 
-The same formulae apply for $\beta_1$ and $y$:
+The same formulas apply for $\beta_1$ and $y$:
 
 $$\begin{equation}
 \Pr\left(\hat\beta_1-t_{n-2;0.975} \cdot s_{\hat\beta_1}\leq \beta_1\leq \hat\beta_1+t_{n-2;0.975} \cdot s_{\hat\beta_1}\right)=0.95
@@ -292,15 +303,16 @@ $$\begin{equation}
 \Pr\left(\hat y-t_{n-2;0.975} \cdot s_{\hat y}\leq y\leq \hat y+t_{n-2;0.975} \cdot s_{\hat y}\right)=0.95
 (\#eq:ciy)
 \end{equation}$$
-As with the p-values, we need to be clear about the meaning of probability here, which in classic statistics is predicated on the **repeated sampling principle**. The meaning of the 95% confidence interval then is that in an assumed infinite number of regression experiments the 95% confidence interval captures the true parameter value in 95% of the cases. Again, this is not a probability of the true parameter value lying within the confidence interval for any one experiment!
 
-The formulae for the confidence intervals (Equations \@ref(eq:cib01), \@ref(eq:cib1) and \@ref(eq:ciy)) arise from the fundamental assumptions of linear regression; the residuals are **independent identically distributed (iid)** according to a **normal distribution** and **the linear model is correct**. Then it can be shown mathematically that $\frac{\hat\beta_0-\beta_0}{s_{\hat\beta_0}}$, $\frac{\hat\beta_1-\beta_1}{s_{\hat\beta_1}}$ and $\frac{\hat y-y}{s_{\hat y}}$ are $t_{n-2}$-distributed (t-distribution with $n-2$ degrees of freedom). Since the central 95% confidence interval of an arbitrary $t_{n-2}$-distributed random variable $Z$ is $\Pr\left(-t_{n-2;0.975}\leq Z\leq t_{n-2;0.975}\right)=0.95$ (Figure \@ref(fig:tpdfcdf)), we can substitute any of the aforementioned three terms for $Z$ and rearrange to arrive at Equations \@ref(eq:cib01), \@ref(eq:cib1) and \@ref(eq:ciy).
+As with the p-value, we need to be clear about the meaning of probability here, which in classic statistics is predicated on the **repeated sampling principle**. The meaning of the 95% confidence interval then is that in an assumed infinite number of regression experiments the 95% confidence interval captures the true parameter value in 95% of the cases. Again, this is not a probability of the true parameter value lying within the confidence interval for any one experiment!
+
+The formulas for the confidence intervals (Equations \@ref(eq:cib01), \@ref(eq:cib1) and \@ref(eq:ciy)) arise from the fundamental assumptions of linear regression; the residuals are **independent identically distributed (iid)** according to a **normal distribution** and **the linear model is correct**. Then it can be shown mathematically that $\frac{\hat\beta_0-\beta_0}{s_{\hat\beta_0}}$, $\frac{\hat\beta_1-\beta_1}{s_{\hat\beta_1}}$ and $\frac{\hat y-y}{s_{\hat y}}$ are $t_{n-2}$-distributed (t-distribution with $n-2$ degrees of freedom). Since the central 95% confidence interval of an arbitrary $t_{n-2}$-distributed random variable $Z$ is $\Pr\left(-t_{n-2;0.975}\leq Z\leq t_{n-2;0.975}\right)=0.95$ (Figure \@ref(fig:tpdfcdf)), we can substitute any of the aforementioned three terms for $Z$ and rearrange to arrive at Equations \@ref(eq:cib01), \@ref(eq:cib1) and \@ref(eq:ciy).
 
 ```{r tpdfcdf, echo=FALSE, fig.align='center', fig.cap='Left: Probability density function (PDF) of a t-distributed random variable $Z$, with central 95% confidence interval marked in red. 95% of the PDF lies between the two bounds, 2.5% lies left of the lower bound and 2.5% right of the upper bound. Right: Cumulative distribution function (CDF) of the same t-distributed random variable $Z$. The upper bound of the 95% confidence interval is defined as $t_{n-2;0.975}$, i.e. the 0.975-percentile of the distribution, while the lower bound is defined as $t_{n-2;0.025}$, which is equivalent to $-t_{n-2;0.975}$ due to the symmetry of the distribution.', fig.show='hold', out.width='50%'}
 knitr::include_graphics(c('figs/pdf_t.jpg','figs/cdf_t.jpg'))
 ```
 
-The t-distribution property of the parameter estimates can further be exploited to test each parameter estimate separately for its statistical significance. This becomes especially important for multiple regression problems where we have more than one possible predictor, not all of which will have a statistically significant effect. The **significance of the parameter estimates** is determined via a **t-test**. The Null hypothesis is that the true parameters are zero, i.e. the parameter estimates are not significant:
+The t-distribution property of the parameter estimates can further be exploited to test each parameter estimate separately for its statistical significance. The **significance of the parameter estimates** is determined via a **t-test**. The Null hypothesis is that the true parameters are zero, i.e. the parameter estimates are "not significant":
 
 $$\begin{equation}
 H_0:\beta_0=0
@@ -311,7 +323,7 @@ H_0:\beta_1=0
 (\#eq:h0b1)
 \end{equation}$$
 
-This hypothesis is tested against the alternative hypothesis that the true parameters are different from zero, i.e. the parameter estimates are significant:
+This hypothesis is tested against the alternative hypothesis that the true parameters are different from zero, i.e. the parameter estimates are "significant":
 
 $$\begin{equation}
 H_1:\beta_0\neq 0
@@ -332,6 +344,7 @@ $$\begin{equation}
 t_s=\frac{\hat\beta_1-0}{s_{\hat\beta_1}}\sim t_{n-2}
 (\#eq:tsb1)
 \end{equation}$$
+
 The “tilde” symbol $(\sim)$ means the test statistics follow a certain distribution, here the t-distribution. This arises again from the regression assumptions noted above. The assumptions are the same as for the common t-test of means, except in the case of linear regression the residuals are assumed iid normal while in the case of means the actual data points $y$ are assumed iid normal.
 
 Analogous to the common 2-sided t-test, the p-value is defined as:
@@ -340,9 +353,10 @@ $$\begin{equation}
 2 \cdot \Pr\left(t>|t_s|\right)=2 \cdot \left(1-F_t\left(|t_s|\right)\right)
 (\#eq:pv)
 \end{equation}$$
-The symbol $F_t\left(|t_s|\right)$ signifies the value of the CDF of the t-distribution at the location of the absolute value of the test statistic ($|t_s|$, Figure \@ref(fig:tc)). With a significance level of say $\alpha=0.05$ we arrive at critical values of the test statistic $t_c=t_{n-2;0.975}$ and $-t_c$ beyond which we reject the Null hypothesis and call the parameter estimates significant (Figure \@ref(fig:tc)).
 
-```{r tc, echo=FALSE, fig.align='center', fig.cap='Schematic of the t-test of significance of parameter estimates. The test statistic follows a t-distribution under the Null hypothesis. The actual value of the test statistic $t_s$ is marked in blue and mirrored at zero for the 2-sided test. The critical value of the test statistic $t_c$, which we get from a significance level of $\\alpha=0.05$, is marked in red; this too is mirrored for the 2-sided test. We reject the Null hypothesis if $|t_s|>t_c$, i.e. for values of $t_s$ below $-t_c$ and above $t_c$, and then call this parameter estimate significant. We keep the Null hypothesis if $|t_s|\\leq t_c$, i.e. for values of $t_s$ between $-t_c$ and $t_c$, and then call this parameter estimate insignificant (for now). In the example shown the parameter estimate is insignificant.', out.width='80%'}
+The symbol $F_t\left(|t_s|\right)$ signifies the value of the CDF of the t-distribution at the location of the absolute value of the test statistic ($|t_s|$, Figure \@ref(fig:tc)). With a significance level of say $\alpha=0.01$ we arrive at critical values of the test statistic $t_c=t_{n-2;0.99}$ and $-t_c$ beyond which we reject the Null hypothesis and call the parameter estimates significant (Figure \@ref(fig:tc)).
+
+```{r tc, echo=FALSE, fig.align='center', fig.cap='Schematic of the t-test of significance of parameter estimates. The test statistic follows a t-distribution under the Null hypothesis. The actual value of the test statistic $t_s$ is marked in blue and mirrored at zero for the 2-sided test. The critical value of the test statistic $t_c$, which we get from a significance level of $\\alpha=0.01$, is marked in red; this too is mirrored for the 2-sided test. We reject the Null hypothesis if $|t_s|>t_c$, i.e. for values of $t_s$ below $-t_c$ and above $t_c$, and then call this parameter estimate significant. We keep the Null hypothesis if $|t_s|\\leq t_c$, i.e. for values of $t_s$ between $-t_c$ and $t_c$, and then call this parameter estimate insignificant (for now). In the example shown the parameter estimate is insignificant.', out.width='80%'}
 knitr::include_graphics('figs/tc.jpg')
 ```
 
@@ -354,6 +368,7 @@ $$\begin{equation}
 r^2=\frac{SSY-SSE}{SSY}=1-\frac{SSE}{SSY}
 (\#eq:r2)
 \end{equation}$$
+
 As can be seen, when the model fails to explain more variation than the total variation around the mean, i.e. $SSE=SSY$, then $r^2=0$. Conversely, when the model fits the data perfectly, i.e. $SSE=0$, then $r^2=1$. Any value in between signifies varying levels of goodness of fit. This can be visualised again with Figure \@ref(fig:ssysse), with the left panel signifying $SSY$ and the right panel $SSE$.
 
 When it comes to comparing models of varying complexity (i.e. with more or less parameters) using $r^2$, then penalising the metric by the number of model parameters makes sense since more complex models (more parameters) automatically lead to better fits, simply due to the greater degrees of freedom that more complex models have for fitting the data. This leads to the **adjusted $r^2$**:
@@ -414,7 +429,7 @@ The fundamental assumptions of linear regression are:
 - The residuals are **normally distributed** – this can be visually assessed using the quantile-quantile plot (QQ plot) and the residual histogram, and can be tested using the Kolmogorov-Smirnov test and the Shapiro-Wilk test
 - The variance is the same across residuals, i.e. residuals are **homoscedastic**, in which case there is no "fanning out" of the residuals
 
-If these assumptions are not met then we can resort to data transformation, weighted regression or Generalised Linear Models (this is the preferred option), which we will cover in chapter \@ref(glms).
+If these assumptions are not met then we can resort to data transformation, weighted regression or Generalised Linear Models, which we will cover in chapter \@ref(glms).
 
 A first useful diagnostic plot is of the residuals in series, i.e. by index $i$, to see if there is a pattern due to the data collection process (Figure \@ref(fig:anscomberes1)). For the Anscombe dataset, this detects the nonlinearity in dataset 2 (top-right) and the outlier in dataset 3 (bottom-left), compare Figure \@ref(fig:anscombefit).
 

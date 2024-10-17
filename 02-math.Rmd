@@ -110,16 +110,16 @@ log\left(u^r\right)=r \cdot log(u)
 
 ## Centring and standardisation
 
-Centring and standardisation are used to transform different datasets onto the same scale. We will need this for the multivariate methods in later sessions (Chapter \@ref(multivariate)).
+Centring and standardisation are used to transform different datasets onto the same scale. We will need this for the multivariate methods in later sessions (Chapter \@ref(multivariate)) or when comparing the effects of different predictors on a response variable (Chapter \@ref(multiplelinreg)).
 
-**Centring** means subtracting from every data point $y$ the overall mean of the dataset $\bar{y}$:
+**Centring** means subtracting from every data point $y$ the overall mean of the data $\bar{y}$:
 $$\begin{equation}
 y^*=y-\bar{y}
 (\#eq:centring)
 \end{equation}$$
 This yields new data points $y^*$ and a new mean $\bar{y^*}=0$ while the standard deviation of the transformed data remains the same: $s_{y^*}=s_y$. Centring thus *shifts* the data histogram to be centred on zero, but does not change its shape (Figure \@ref(fig:rawcentred)).
 
-```{r rawcentred, echo=TRUE, fig.align='center', fig.cap='Histogram of dataset $y$ (left) and centred dataset $y^*$ (right). The vertical line represents the mean.', fig.show='hold', out.width='50%'}
+```{r rawcentred, echo=TRUE, fig.align='center', fig.cap='Histogram of data $y$ (left) and centred data $y^*$ (right). The vertical line represents the mean.', fig.show='hold', out.width='50%'}
 # draw random sample of size 1000 from normal distribution with mean 1 and standard deviation 2, i.e. y~N(1,2)
 y <- rnorm(1000, mean = 1, sd = 2)
 # mean
@@ -136,14 +136,14 @@ hist(y-ybar, freq = FALSE, xlim = c(-10,10), ylim = c(0, 0.4), main = "",
 lines(c(0, 0), c(0,0.4), lwd = 3)
 ```
 
-**Standardisation** means subtracting from every data point $y$ the overall mean of the dataset $\bar{y}$ and additionally dividing by the standard deviation $s_y$:
+**Standardisation** means subtracting from every data point $y$ the overall mean of the data $\bar{y}$ and additionally dividing by the standard deviation $s_y$:
 $$\begin{equation}
 y^*=\frac{y-\bar{y}}{s_y}
 (\#eq:standardisation)
 \end{equation}$$
 This yields new data points $y^*$, a new mean $\bar{y^*}=0$ and a new standard deviation $s_{y^*}=1$. Standardisation thus shifts the data histogram to be centred on zero and expands or contracts it to have unit standard deviation (Figure \@ref(fig:rawstandardised)).
 
-```{r rawstandardised, echo=TRUE, fig.align='center', fig.cap='Histogram of dataset $y$ (left) and standardised dataset $y^*$ (right). The vertical line represents the mean.', fig.show='hold', out.width='50%'}
+```{r rawstandardised, echo=TRUE, fig.align='center', fig.cap='Histogram of data $y$ (left) and standardised data $y^*$ (right). The vertical line represents the mean.', fig.show='hold', out.width='50%'}
 # histogram, raw
 hist(y, freq = FALSE, xlim = c(-10,10), ylim = c(0, 0.4), main = "", 
      xlab = "y", ylab = "relative frequency")
@@ -225,15 +225,15 @@ lines(c(-0.1, xval3), c(yval3,yval3), lwd = 1, lty = 2)
 lines(c(-0.1, xval4), c(yval4,yval4), lwd = 1, lty = 2)
 text(0.3, -0.1, expression(x[0]), xpd = TRUE)
 text(xval2, -0.1, expression(x[0]+h), xpd = TRUE)
-text(xval3, -0.1, expression(x[0]+h^1), xpd = TRUE)
-text(xval4, -0.1, expression(x[0]+h^2), xpd = TRUE)
+text(xval3, -0.1, expression(x[0]+h_1), xpd = TRUE)
+text(xval4, -0.1, expression(x[0]+h_2), xpd = TRUE)
 text(0, yval+0.05, expression(f(x[0])), xpd = TRUE, adj = 0)
 text(0, yval2+0.05, expression(f(x[0]+h)), xpd = TRUE, adj = 0)
-text(0, yval3+0.05, expression(f(x[0]+h^1)), xpd = TRUE, adj = 0)
-text(0, yval4+0.05, expression(f(x[0]+h^2)), xpd = TRUE, adj = 0)
+text(0, yval3+0.05, expression(f(x[0]+h_1)), xpd = TRUE, adj = 0)
+text(0, yval4+0.05, expression(f(x[0]+h_2)), xpd = TRUE, adj = 0)
 ```
 
-Mathematically, the slope amounts to the limiting value of the ratio of the (vertical) increment of the function, $\Delta f(x)$, for an (horizontal) increment of $x$, $\Delta x$, for $\Delta x$ approaching zero, $\Delta x \to 0$:
+Mathematically, the slope amounts to the limiting value of the ratio of the (vertical) increment of the function, $\Delta f(x)$, and the (horizontal) increment of $x$, $\Delta x$, for $\Delta x$ approaching zero, i.e. $\Delta x \to 0$:
 $$\begin{equation}
 f'(x)=\frac{df(x)}{dx}=\lim_{\Delta x \to 0}\frac{\Delta f(x)}{\Delta x}
 (\#eq:derivative1)
@@ -371,7 +371,7 @@ $$
 
 ### Matrix multiplication
 
-Now, the multiplication of two matrices is the only operation that is a bit complicated at first. It may be best to consider an example to work out the rules:
+The multiplication of two matrices is the only operation that is a bit complicated at first. It may be best to consider an example to work out the rules:
 
 $$\begin{eqnarray}
 \mathbf{A} \cdot \mathbf{B}&=&
@@ -502,6 +502,8 @@ $$\mathbf{I} =
 $$
 
 ## Exercises
+
+To be done in class.
 
 ### Exercise 1 {-}
 
