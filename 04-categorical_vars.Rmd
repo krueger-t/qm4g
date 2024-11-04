@@ -12,6 +12,7 @@ library(knitr)
 ```
 ```{r include = FALSE}
 library(tidyverse)
+library(ggplot2)
 ```
 
 ```{r echo=TRUE}
@@ -38,13 +39,13 @@ $$\begin{equation}
 y_{ji}=\mu+a_j+\epsilon_{ji}
 (\#eq:effform)
 \end{equation}$$
-With $j=1, 2, \ldots, k$ indexing the levels (e.g. sand, clay, loam), $i=1, 2, \ldots, n_j$ indexing the data points at level $j$, $y_{ji}$ being the $i$th observation of the response variable (e.g. yield) at level $j$, $\mu$ being the overall mean of the response variable (Figure \@ref(fig:anovassysse), left), $\mu_j$ being the mean of the response variable at level $j$, $a_j=\mu_j-\mu$ being the effect of level $j$, and $\epsilon_{ji}$ being the residual error. So effectively the response variable for each level is predicted by its mean plus random noise (Figure \@ref(fig:anovassysse), right):
+With $j=1, 2, \ldots, k$ indexing the levels (e.g. sand, clay, loam), $i=1, 2, \ldots, n_j$ indexing the data points at level $j$, $y_{ji}$ being the $i$th observation of the response variable (e.g. yield) at level $j$, $\mu$ being the overall mean of the response variable (Figure \@ref(fig:anovassysse), left), $a_j=\mu_j-\mu$ being the effect of level $j$, and $\epsilon_{ji}$ being the residual error. $\mu_j$ is the mean of the response variable at level $j$. So effectively the response variable for each level is predicted by its mean plus random noise (Figure \@ref(fig:anovassysse), right):
 $$\begin{equation}
 y_{ji}=\mu_j+\epsilon_{ji}
 (\#eq:levform)
 \end{equation}$$
 
-```{r anovassysse, echo=FALSE, fig.align='center', fig.cap='Left: Variation of data points around overall mean $\\mu$, summarised by $SSY$. Right: Variation of data points around individual means $\\mu_1, \\mu_2, \\mu_3$, summarised by $SSE$.', fig.show='hold', out.width='50%'}
+```{r anovassysse, echo=FALSE, warning=FALSE, message=FALSE, fig.align='center', fig.cap='Left: Variation of data points around overall mean $\\mu$, summarised by $SSY$. Right: Variation of data points around individual means $\\mu_1, \\mu_2, \\mu_3$, summarised by $SSE$.', fig.show='hold', out.width='50%'}
 
 yields %>%
   pivot_longer(everything()) %>%
@@ -188,7 +189,7 @@ s_{\Delta\mu_j}=\sqrt{\frac{2\cdot s^2}{n_j}}
 (\#eq:sedelta)
 \end{equation}$$
 
-The t-test statistics then is:
+The t-test statistic then is:
 $$\begin{equation}
 t_s=\frac{\Delta\mu_j}{s_{\Delta\mu_j}}
 (\#eq:ts)
@@ -220,3 +221,25 @@ pvalue <- 2*(1-pt(t_s,20-2))
 pvalue
 ```
 We conclude that the yields on sand and loam are just about significantly different at a conventional significance level of 0.01, with yields on sand being 4.4 units lower on average. The other yield differences are not statistically significant (compare Figure \@ref(fig:yields)).
+
+Finally, we show that we get the results of the ANOVA and bivariate t-tests with the `lm()` function:
+
+```{r echo=TRUE}
+# expand to a long variable "yield" and a index variable "soiltype"
+yields_long <- data.frame(yield = c(yields$sand, yields$clay, yields$loam),
+                          soiltype = as.factor(c(rep(1,10), rep(2,10), rep(3,10))))
+# fit linear model using lm
+yield_fit <- lm(yield ~ soiltype, data = yields_long)
+summary(yield_fit)
+```
+
+The intercept is the mean of the base category "sand", $\beta_0$ in Equation \@ref(eq:dummyanova). The predictor "soiltype2" is the difference between "sand" and "clay", $\beta_1$ in Equation \@ref(eq:dummyanova). The predictor "soiltype3" is the difference between "sand" and "loam", $\beta_2$ in Equation \@ref(eq:dummyanova). Note the corresponding standard errors and t-test statistics that we calculated by hand above.
+
+Only the p-values are slightly different because with `lm()` we estimate 3 parameters with all $n$ data, hence the degrees of freedom are 27 in this case:
+```{r echo=TRUE}
+# p-values
+pvalue <- 2*(1-pt(t_s,30-3))
+pvalue
+```
+
+This is a more elegant solution than doing bivariate t-tests.
