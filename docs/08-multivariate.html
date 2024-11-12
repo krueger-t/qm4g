@@ -23,7 +23,7 @@
 <meta name="author" content="Tobias Krueger" />
 
 
-<meta name="date" content="2024-11-04" />
+<meta name="date" content="2024-11-12" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -561,7 +561,7 @@ div.csl-indent {
 <p><strong>Cluster Analysis</strong> (Chapter <a href="08-multivariate.html#clusteranalysis">7.1</a>) looks for groups in a multivariate dataset. Data points belonging to the same group “resemble” each other - we will see what this means. Data points belonging to different groups are “dissimilar”.</p>
 <div id="clusteranalysis" class="section level2 hasAnchor" number="7.1">
 <h2><span class="header-section-number">7.1</span> Cluster analysis<a href="08-multivariate.html#clusteranalysis" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>This section is based on material by Cornelius Senf.<a href="#fn25" class="footnote-ref" id="fnref25"><sup>25</sup></a> Cluster analysis looks for groups (clusters) in a multivariate dataset. Objects (data points) belonging to the same group “resemble” each other. Objects belonging to different groups are “dissimilar”. There are three groups of methods:</p>
+<p>This section is based on material by Cornelius Senf.<a href="#fn26" class="footnote-ref" id="fnref26"><sup>26</sup></a> Cluster analysis looks for groups (clusters) in a multivariate dataset. Objects (data points) belonging to the same group “resemble” each other. Objects belonging to different groups are “dissimilar”. There are three groups of methods:</p>
 <ol style="list-style-type: decimal">
 <li><strong>Partitioning</strong> the dataset into a number of clusters specified by the user, e.g. the <em>kmeans</em> algorithm</li>
 <li><strong>Hierarchical</strong>, starting with each object (data point) as a separate cluster and then aggregating these step by step, ending up with a single cluster</li>
@@ -603,7 +603,7 @@ div.csl-indent {
 <span id="cb154-3"><a href="08-multivariate.html#cb154-3" tabindex="-1"></a><span class="co"># scatterplot matrix</span></span>
 <span id="cb154-4"><a href="08-multivariate.html#cb154-4" tabindex="-1"></a><span class="fu">plot</span>(iris[,<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>], <span class="at">col=</span>iris_fit3<span class="sc">$</span>cluster)</span></code></pre></div>
 <p><img src="qm4g_files/figure-html/unnamed-chunk-42-1.png" width="80%" /></p>
-<p>I think we would be happy with this visually. But are there perhaps even more clusters? When to stop? A useful stopping criterion is to look at the inflexion point where the total intra-cluster sum of squares (Equation <a href="08-multivariate.html#eq:intraclusterss">(7.1)</a>) does not change much anymore with increasing <span class="math inline">\(k\)</span> in a so called <strong>screeplot</strong><a href="#fn26" class="footnote-ref" id="fnref26"><sup>26</sup></a>:</p>
+<p>I think we would be happy with this visually. But are there perhaps even more clusters? When to stop? A useful stopping criterion is to look at the inflexion point where the total intra-cluster sum of squares (Equation <a href="08-multivariate.html#eq:intraclusterss">(7.1)</a>) does not change much anymore with increasing <span class="math inline">\(k\)</span> in a so called <strong>screeplot</strong><a href="#fn27" class="footnote-ref" id="fnref27"><sup>27</sup></a>:</p>
 <div class="sourceCode" id="cb155"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb155-1"><a href="08-multivariate.html#cb155-1" tabindex="-1"></a><span class="co"># specify vector of clusters</span></span>
 <span id="cb155-2"><a href="08-multivariate.html#cb155-2" tabindex="-1"></a>clusters <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span></span>
 <span id="cb155-3"><a href="08-multivariate.html#cb155-3" tabindex="-1"></a><span class="co"># initialise corresponding vector of total intra-cluster sum of squares</span></span>
@@ -624,9 +624,9 @@ div.csl-indent {
 <span id="cb156-2"><a href="08-multivariate.html#cb156-2" tabindex="-1"></a><span class="fu">table</span>(iris_fit3<span class="sc">$</span>cluster, iris<span class="sc">$</span>Species)</span></code></pre></div>
 <pre><code>##    
 ##     setosa versicolor virginica
-##   1     50          0         0
-##   2      0          2        36
-##   3      0         48        14</code></pre>
+##   1      0         48        14
+##   2     50          0         0
+##   3      0          2        36</code></pre>
 <p>The separation of <em>Iris versicolor</em> and <em>Iris virginica</em>, however, is not perfect.</p>
 </div>
 <div id="hierarchical-methods" class="section level3 hasAnchor" number="7.1.2">
@@ -686,7 +686,7 @@ div.csl-indent {
 Figure 7.1: Left: Histogram of calcium concentration measurements from stream chemistry dataset, with fitted normal distribution. The vertical line marks the mean. Right: Scatterplot of calcium against magnesium concentration measurements, with coloured countours of fitted multivariate normal distribution. The vertical and horizontal lines are the individual means, which intersect at the centroid. Data from: <span class="citation">Lovett, Weathers, and Sobczak (<a href="#ref-lovett2000">2000</a>)</span>, cited in <span class="citation">Quinn and Keough (<a href="#ref-quinn2002">2002</a>)</span>.
 </p>
 </div>
-<p>The <strong>variance-covariance matrix</strong> (or just covariance matrix) is a matrix of associations between variables. On its diagonal are the variances of the individual variables,<a href="#fn27" class="footnote-ref" id="fnref27"><sup>27</sup></a> on the off-diagonals are the covariances between two variables:</p>
+<p>The <strong>variance-covariance matrix</strong> (or just covariance matrix) is a matrix of associations between variables. On its diagonal are the variances of the individual variables,<a href="#fn28" class="footnote-ref" id="fnref28"><sup>28</sup></a> on the off-diagonals are the covariances between two variables:</p>
 <p><span class="math display" id="eq:covmatrix">\[\begin{equation}
 \mathbf{C}=\begin{pmatrix}
 \frac{\sum_{i=1}^{n}\left(y_{i1}-\bar y_1\right)^2}{n-1} &amp; \cdots &amp; \frac{\sum_{i=1}^{n}\left(y_{ip}-\bar y_p\right)\cdot\left(y_{i1}-\bar y_1\right)}{n-1} \\
@@ -817,7 +817,7 @@ Figure 7.3: Geometric derivation of the new coordinates of a point <span class="
 Figure 7.4: PCA of the crabs dataset as axis rotation. The two <strong>Eigenvectors</strong> spanning the new coordinate system are marked in blue and green. After: <span class="citation">Quinn and Keough (<a href="#ref-quinn2002">2002</a>)</span>, based on data by <span class="citation">Green (<a href="#ref-green1997">1997</a>)</span>.
 </p>
 </div>
-<p>The Eigenvectors are found so that the following equation holds:<a href="#fn28" class="footnote-ref" id="fnref28"><sup>28</sup></a></p>
+<p>The Eigenvectors are found so that the following equation holds:<a href="#fn29" class="footnote-ref" id="fnref29"><sup>29</sup></a></p>
 <p><span class="math display" id="eq:eigen">\[\begin{equation}
 \mathbf{C}\cdot\begin{pmatrix}
 u_{1k}\\u_{2k}\\\vdots\\u_{pk}
@@ -830,7 +830,7 @@ u_{1k}\\u_{2k}\\\vdots\\u_{pk}
 <p>Determining the Eigenvectors and Eigenvalues is called Eigenanalysis. The Eigenanalysis can be carried out on the covariance matrix <span class="math inline">\(\mathbf{C}\)</span> or the correlation matrix <span class="math inline">\(\mathbf{R}\)</span> using <em>Spectral Decomposition (Eigendecomposition)</em> or on the data matrix (raw, centred or standardised) using <em>Singular Value Decomposition</em>, which is the more general method. We do not go into the details of these techniques here.</p>
 <p>If the Eigenanalysis is carried out on the covariance matrix <span class="math inline">\(\mathbf{C}\)</span> then <span class="math inline">\(\sum_{j=1}^{k}\lambda_j=Tr(\mathbf{C})\)</span>, i.e. the sum of the Eigenvalues is the trace of <span class="math inline">\(\mathbf{C}\)</span>. The <strong>trace</strong> is defined as the sum of the diagonal elements of a matrix, i.e. here the sum of the variances of the original <em>centred</em> variables. This is appropriate when the variables are measured in comparable units and differences in variance make an important contribution to interpretation.</p>
 <p>If the Eigenanalysis is carried out on the correlation matrix <span class="math inline">\(\mathbf{R}\)</span> then <span class="math inline">\(\sum_{j=1}^{k}\lambda_j=Tr(\mathbf{R})\)</span>, i.e. the sum of the variances of the original <em>standardised</em> variables: <span class="math inline">\(y^*=\frac{y-\mu}{\sigma}\)</span> so that <span class="math inline">\(\mu^*=0\)</span> and <span class="math inline">\(\sigma^*=1\)</span>. Compare Chapter <a href="02-math.html#math">1</a>. This is necessary when variables are measured in very different units or scales, otherwise variables with large values/variances may dominate the results.</p>
-<p>In the stream chemistry example we best work with standardised data because variances are orders of magnitude different.<a href="#fn29" class="footnote-ref" id="fnref29"><sup>29</sup></a> We use the <code>prcomp()</code> function on the data matrix, and tell it to standardise the variables by <code>scale=TRUE</code>. To only centre the variables we would use <code>center=TRUE</code> and <code>scale=FALSE</code> (which is the default).</p>
+<p>In the stream chemistry example we best work with standardised data because variances are orders of magnitude different.<a href="#fn30" class="footnote-ref" id="fnref30"><sup>30</sup></a> We use the <code>prcomp()</code> function on the data matrix, and tell it to standardise the variables by <code>scale=TRUE</code>. To only centre the variables we would use <code>center=TRUE</code> and <code>scale=FALSE</code> (which is the default).</p>
 <div class="sourceCode" id="cb167"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb167-1"><a href="08-multivariate.html#cb167-1" tabindex="-1"></a>streams_pca <span class="ot">&lt;-</span> <span class="fu">prcomp</span>(streams_log[,<span class="dv">6</span><span class="sc">:</span><span class="dv">15</span>], <span class="at">scale=</span><span class="cn">TRUE</span>)</span>
 <span id="cb167-2"><a href="08-multivariate.html#cb167-2" tabindex="-1"></a>streams_pca</span></code></pre></div>
 <pre><code>## Standard deviations (1, .., p=10):
@@ -960,12 +960,12 @@ u_{1k}\\u_{2k}\\\vdots\\u_{pk}
 z_{ik}=u_{1k}\cdot(\log Cu)_i+u_{2k}\cdot(\log Pb)_i+u_{3k}\cdot(\log Ni)_i+u_{4k}\cdot(\log Mn)_i
 \tag{7.10}
 \end{equation}\]</span></p>
-<p>MANOVA then finds the linear combination <span class="math inline">\(z_k\)</span> of response variables which <em>maximises the between-group variance:within-group variance ratio</em> of the data. This is called the <strong>1st discriminant function</strong>; similar, but not identical, to the 1st principal component in PCA.<a href="#fn30" class="footnote-ref" id="fnref30"><sup>30</sup></a> The Null hypothesis of MANOVA is that there are no differences between factor level centroids. Before testing this hypothesis, MANOVA proceeds through the following steps.</p>
+<p>MANOVA then finds the linear combination <span class="math inline">\(z_k\)</span> of response variables which <em>maximises the between-group variance:within-group variance ratio</em> of the data. This is called the <strong>1st discriminant function</strong>; similar, but not identical, to the 1st principal component in PCA.<a href="#fn31" class="footnote-ref" id="fnref31"><sup>31</sup></a> The Null hypothesis of MANOVA is that there are no differences between factor level centroids. Before testing this hypothesis, MANOVA proceeds through the following steps.</p>
 <div id="steps-of-manova" class="section level3 hasAnchor" number="7.3.1">
 <h3><span class="header-section-number">7.3.1</span> Steps of MANOVA<a href="08-multivariate.html#steps-of-manova" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>The first step is to calculate sums-of-squares-and-cross-products (SSCP) matrices:</p>
 <ol style="list-style-type: decimal">
-<li>The <strong>total matrix</strong> <span class="math inline">\(\mathbf T\)</span>, replacing SSY of ANOVA (compare Figure <a href="04-categorical_vars.html#fig:anovassysse">3.2</a>, left)<a href="#fn31" class="footnote-ref" id="fnref31"><sup>31</sup></a></li>
+<li>The <strong>total matrix</strong> <span class="math inline">\(\mathbf T\)</span>, replacing SSY of ANOVA (compare Figure <a href="04-categorical_vars.html#fig:anovassysse">3.2</a>, left)<a href="#fn32" class="footnote-ref" id="fnref32"><sup>32</sup></a></li>
 </ol>
 <p><span class="math display" id="eq:totalmatrix">\[\begin{equation}
 \mathbf T=\begin{pmatrix}
@@ -976,7 +976,7 @@ z_{ik}=u_{1k}\cdot(\log Cu)_i+u_{2k}\cdot(\log Pb)_i+u_{3k}\cdot(\log Ni)_i+u_{4
 \tag{7.11}
 \end{equation}\]</span></p>
 <ol start="2" style="list-style-type: decimal">
-<li>The <strong>error (or residual) matrix</strong> <span class="math inline">\(\mathbf E\)</span> (“within-group SSCP”), replacing SSE of ANOVA (compare Figure <a href="04-categorical_vars.html#fig:anovassysse">3.2</a>, right)<a href="#fn32" class="footnote-ref" id="fnref32"><sup>32</sup></a></li>
+<li>The <strong>error (or residual) matrix</strong> <span class="math inline">\(\mathbf E\)</span> (“within-group SSCP”), replacing SSE of ANOVA (compare Figure <a href="04-categorical_vars.html#fig:anovassysse">3.2</a>, right)<a href="#fn33" class="footnote-ref" id="fnref33"><sup>33</sup></a></li>
 </ol>
 <p><span class="math display" id="eq:errormatrix">\[\begin{equation}
 \mathbf E=\begin{pmatrix}
@@ -995,7 +995,7 @@ z_{ik}=u_{1k}\cdot(\log Cu)_i+u_{2k}\cdot(\log Pb)_i+u_{3k}\cdot(\log Ni)_i+u_{4
 \tag{7.13}
 \end{equation}\]</span></p>
 <p>This replaces the F statistic <span class="math inline">\(\frac{\frac{SSA}{k-1}}{\frac{SSE}{n-k}}\)</span> of ANOVA.</p>
-<p>The third step is to perform an Eigenanalysis of the resulting matrix <span class="math inline">\(\mathbf H\cdot\mathbf E^{-1}\)</span>, like in PCA.<a href="#fn33" class="footnote-ref" id="fnref33"><sup>33</sup></a> The resulting Eigenvectors contain the coefficients <span class="math inline">\(u\)</span> of Equation <a href="08-multivariate.html#eq:lincombsed">(7.10)</a>. Their Eigenvalues measure how much of the between-group SSCP:within-group SSCP ratio is explained by each Eigenvector. As with PCA, the sum of the Eigenvalues is the trace of the matrix <span class="math inline">\(\mathbf H\cdot\mathbf E^{-1}\)</span>: <span class="math inline">\(Tr\left(\mathbf H\cdot\mathbf E^{-1}\right)=\sum_{i=1}^{p}diag\left(\mathbf H\cdot\mathbf E^{-1}\right)\)</span>, i.e. the sum of the univariate between-group SSCP:within-group SSCP ratios.</p>
+<p>The third step is to perform an Eigenanalysis of the resulting matrix <span class="math inline">\(\mathbf H\cdot\mathbf E^{-1}\)</span>, like in PCA.<a href="#fn34" class="footnote-ref" id="fnref34"><sup>34</sup></a> The resulting Eigenvectors contain the coefficients <span class="math inline">\(u\)</span> of Equation <a href="08-multivariate.html#eq:lincombsed">(7.10)</a>. Their Eigenvalues measure how much of the between-group SSCP:within-group SSCP ratio is explained by each Eigenvector. As with PCA, the sum of the Eigenvalues is the trace of the matrix <span class="math inline">\(\mathbf H\cdot\mathbf E^{-1}\)</span>: <span class="math inline">\(Tr\left(\mathbf H\cdot\mathbf E^{-1}\right)=\sum_{i=1}^{p}diag\left(\mathbf H\cdot\mathbf E^{-1}\right)\)</span>, i.e. the sum of the univariate between-group SSCP:within-group SSCP ratios.</p>
 <p>Fourth, the linear combination producing the largest eigenvalue maximises the between-group variance:within-group variance ratio, with the Eigenvector containing the coefficients <span class="math inline">\(u\)</span>.</p>
 <p>Let us perform the MANOVA for the marine sediments example:</p>
 <div class="sourceCode" id="cb188"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb188-1"><a href="08-multivariate.html#cb188-1" tabindex="-1"></a><span class="co"># perform MANOVA</span></span>
@@ -1105,7 +1105,7 @@ Tr\left(\mathbf H\cdot\mathbf T^{-1}\right)
 <span id="cb202-4"><a href="08-multivariate.html#cb202-4" tabindex="-1"></a><span class="co"># plot discriminant functions</span></span>
 <span id="cb202-5"><a href="08-multivariate.html#cb202-5" tabindex="-1"></a><span class="fu">plot</span>(sediments_dfa, <span class="at">xlim=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">5</span>,<span class="dv">5</span>), <span class="at">xlab=</span><span class="st">&quot;DF1&quot;</span>, <span class="at">ylab=</span><span class="st">&quot;DF2&quot;</span>)</span></code></pre></div>
 <p><img src="qm4g_files/figure-html/unnamed-chunk-70-1.png" width="80%" /></p>
-<p>We see that DF1 separates the three sites pretty well, better than the original variables in the scatterplot matrix in the previous section. DF2 adds little to this separation, as could already be seen in its comparably small Eigenvalue. The Eigenvalues of DF3 and DF4 are so small that they are considered zero and not displayed here.<a href="#fn34" class="footnote-ref" id="fnref34"><sup>34</sup></a></p>
+<p>We see that DF1 separates the three sites pretty well, better than the original variables in the scatterplot matrix in the previous section. DF2 adds little to this separation, as could already be seen in its comparably small Eigenvalue. The Eigenvalues of DF3 and DF4 are so small that they are considered zero and not displayed here.<a href="#fn35" class="footnote-ref" id="fnref35"><sup>35</sup></a></p>
 <p>Looking at the Eigenvectors, the 4th original variable (Mn) contributes most to the 1st discriminant function - it is the best single discriminator - as could be seen already in the scatterplot matrix in the previous section:</p>
 <div class="sourceCode" id="cb203"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb203-1"><a href="08-multivariate.html#cb203-1" tabindex="-1"></a><span class="co"># extract Eigenvectors</span></span>
 <span id="cb203-2"><a href="08-multivariate.html#cb203-2" tabindex="-1"></a>sediments_dfa<span class="sc">$</span>scaling</span></code></pre></div>
@@ -1387,17 +1387,17 @@ Quinn, G. P., and M. J. Keough. 2002. <em>Experimental Design and Data Analysis 
 </div>
 <div class="footnotes">
 <hr />
-<ol start="25">
-<li id="fn25"><p><a href="https://corneliussenf.com/" class="uri">https://corneliussenf.com/</a><a href="08-multivariate.html#fnref25" class="footnote-back">↩︎</a></p></li>
-<li id="fn26"><p>It is called screeplot because it looks like the scree at the foot of a mountain.<a href="08-multivariate.html#fnref26" class="footnote-back">↩︎</a></p></li>
-<li id="fn27"><p>The variance of a variable is of course the covariance between that variable and itself, e.g. <span class="math inline">\(var\left(y_1\right)=cov\left(y_1,y_1\right)\)</span>.<a href="08-multivariate.html#fnref27" class="footnote-back">↩︎</a></p></li>
-<li id="fn28"><p>An example - though one that does not involve a covariance matrix! - is: <span class="math inline">\(\begin{pmatrix}2&amp;3\\2&amp;1\end{pmatrix}\cdot\begin{pmatrix}3\\2\end{pmatrix}=\begin{pmatrix}12\\8\end{pmatrix}=4\cdot\begin{pmatrix}3\\2\end{pmatrix}\)</span>.<a href="08-multivariate.html#fnref28" class="footnote-back">↩︎</a></p></li>
-<li id="fn29"><p>You could try this yourself either way to see what difference it makes.<a href="08-multivariate.html#fnref29" class="footnote-back">↩︎</a></p></li>
-<li id="fn30"><p>As we will see in Chapter <a href="08-multivariate.html#dfa">7.4</a>, the mathematics of MANOVA and DFA are identical.<a href="08-multivariate.html#fnref30" class="footnote-back">↩︎</a></p></li>
-<li id="fn31"><p>Note, the total matrix is the covariance matrix without division by <span class="math inline">\(n-1\)</span>; the diagonals are the SSYs of the individual variables.<a href="08-multivariate.html#fnref31" class="footnote-back">↩︎</a></p></li>
-<li id="fn32"><p>Note, the diagonals of the residual matrix are the SSEs of the individual variables.<a href="08-multivariate.html#fnref32" class="footnote-back">↩︎</a></p></li>
-<li id="fn33"><p>By comparison, in PCA the Eigenanalysis is done on the covariance or correlation matrix.<a href="08-multivariate.html#fnref33" class="footnote-back">↩︎</a></p></li>
-<li id="fn34"><p>In fact, the MANOVA estimated the Eigenvalues of DF3 and DF4 to be negative, which is a numerical error that happens at these very small numbers.<a href="08-multivariate.html#fnref34" class="footnote-back">↩︎</a></p></li>
+<ol start="26">
+<li id="fn26"><p><a href="https://corneliussenf.com/" class="uri">https://corneliussenf.com/</a><a href="08-multivariate.html#fnref26" class="footnote-back">↩︎</a></p></li>
+<li id="fn27"><p>It is called screeplot because it looks like the scree at the foot of a mountain.<a href="08-multivariate.html#fnref27" class="footnote-back">↩︎</a></p></li>
+<li id="fn28"><p>The variance of a variable is of course the covariance between that variable and itself, e.g. <span class="math inline">\(var\left(y_1\right)=cov\left(y_1,y_1\right)\)</span>.<a href="08-multivariate.html#fnref28" class="footnote-back">↩︎</a></p></li>
+<li id="fn29"><p>An example - though one that does not involve a covariance matrix! - is: <span class="math inline">\(\begin{pmatrix}2&amp;3\\2&amp;1\end{pmatrix}\cdot\begin{pmatrix}3\\2\end{pmatrix}=\begin{pmatrix}12\\8\end{pmatrix}=4\cdot\begin{pmatrix}3\\2\end{pmatrix}\)</span>.<a href="08-multivariate.html#fnref29" class="footnote-back">↩︎</a></p></li>
+<li id="fn30"><p>You could try this yourself either way to see what difference it makes.<a href="08-multivariate.html#fnref30" class="footnote-back">↩︎</a></p></li>
+<li id="fn31"><p>As we will see in Chapter <a href="08-multivariate.html#dfa">7.4</a>, the mathematics of MANOVA and DFA are identical.<a href="08-multivariate.html#fnref31" class="footnote-back">↩︎</a></p></li>
+<li id="fn32"><p>Note, the total matrix is the covariance matrix without division by <span class="math inline">\(n-1\)</span>; the diagonals are the SSYs of the individual variables.<a href="08-multivariate.html#fnref32" class="footnote-back">↩︎</a></p></li>
+<li id="fn33"><p>Note, the diagonals of the residual matrix are the SSEs of the individual variables.<a href="08-multivariate.html#fnref33" class="footnote-back">↩︎</a></p></li>
+<li id="fn34"><p>By comparison, in PCA the Eigenanalysis is done on the covariance or correlation matrix.<a href="08-multivariate.html#fnref34" class="footnote-back">↩︎</a></p></li>
+<li id="fn35"><p>In fact, the MANOVA estimated the Eigenvalues of DF3 and DF4 to be negative, which is a numerical error that happens at these very small numbers.<a href="08-multivariate.html#fnref35" class="footnote-back">↩︎</a></p></li>
 </ol>
 </div>
             </section>

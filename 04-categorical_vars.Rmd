@@ -199,10 +199,10 @@ Compare the standard t-test where the test statistic is $t_s=\frac{\bar x_1-\bar
 
 The corresponding p-value of the 2-sided test then is:
 $$\begin{equation}
-\Pr\left(|Z|\geq t_s\right)=2\cdot\left(1-t\left(t_s,n'-2\right)\right)
+\Pr\left(|Z|\geq t_s\right)=2\cdot\left(1-t\left(t_s,n'-3\right)\right)
 (\#eq:pvalue)
 \end{equation}$$
-With $t\left(t_s,n'-2\right)$ being the value of the cumulative distribution function (cdf) of the t-distribution with parameter $n'-2$ at the location $t_s$, and $n'=20$ in the yields example.
+With $t\left(t_s,n'-3\right)$ being the value of the cumulative distribution function (cdf) of the t-distribution with parameter $n'-3$ at the location $t_s$, and $n'=30$ in the yields example.^[Note that I am deviating here from @crawley2012 who uses a t-distribution with $n'-2$ degrees of freedom and $n'=20$, reasoning that two means have been estimated each having 10 replicate measurements. In keeping with the following `lm()` results, however, I reason that we have actually estimated three means together each having 10 replicates, i.e. using a total of 30 data points.]
 
 Let's calculate these t-tests "by hand" in R:
 ```{r echo=TRUE}
@@ -217,13 +217,12 @@ s_delta_mu_j
 t_s <- delta_mu_j/s_delta_mu_j
 t_s
 # p-values
-pvalue <- 2*(1-pt(t_s,20-2))
+pvalue <- 2*(1-pt(t_s,30-3))
 pvalue
 ```
 We conclude that the yields on sand and loam are just about significantly different at a conventional significance level of 0.01, with yields on sand being 4.4 units lower on average. The other yield differences are not statistically significant (compare Figure \@ref(fig:yields)).
 
 Finally, we show that we get the results of the ANOVA and bivariate t-tests with the `lm()` function:
-
 ```{r echo=TRUE}
 # expand to a long variable "yield" and a index variable "soiltype"
 yields_long <- data.frame(yield = c(yields$sand, yields$clay, yields$loam),
@@ -233,13 +232,12 @@ yield_fit <- lm(yield ~ soiltype, data = yields_long)
 summary(yield_fit)
 ```
 
-The intercept is the mean of the base category "sand", $\beta_0$ in Equation \@ref(eq:dummyanova). The predictor "soiltype2" is the difference between "sand" and "clay", $\beta_1$ in Equation \@ref(eq:dummyanova). The predictor "soiltype3" is the difference between "sand" and "loam", $\beta_2$ in Equation \@ref(eq:dummyanova). Note the corresponding standard errors and t-test statistics that we calculated by hand above.
+The intercept is the mean of the base category "sand", $\beta_0$ in Equation \@ref(eq:dummyanova). The predictor "soiltype2" is the difference between "sand" and "clay", $\beta_1$ in Equation \@ref(eq:dummyanova). The predictor "soiltype3" is the difference between "sand" and "loam", $\beta_2$ in Equation \@ref(eq:dummyanova). Note the corresponding standard errors and t-test statistics that we calculated by hand above. This is a more elegant solution than doing bivariate t-tests.
 
-Only the p-values are slightly different because with `lm()` we estimate 3 parameters with all $n$ data, hence the degrees of freedom are 27 in this case:
+An alternative setup using `lm()` is to estimate the three separate means instead of the mean of one base category and two differences from this. This is achieved through the notation `0 + ...`, which suppresses the overall intercept. Effectively, this now is a linear model with three separate intercepts:
 ```{r echo=TRUE}
-# p-values
-pvalue <- 2*(1-pt(t_s,30-3))
-pvalue
+yield_fit2 <- lm(yield ~ 0 + soiltype, data = yields_long)
+summary(yield_fit2)
 ```
 
-This is a more elegant solution than doing bivariate t-tests.
+From here, bivariate comparisons can proceed like we did by hand above.

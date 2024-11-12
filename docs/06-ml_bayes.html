@@ -23,7 +23,7 @@
 <meta name="author" content="Tobias Krueger" />
 
 
-<meta name="date" content="2024-11-04" />
+<meta name="date" content="2024-11-12" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -626,7 +626,7 @@ Note, the Least Squares estimator is <span class="math inline">\(s=\sqrt{\frac{S
 <div id="bayes" class="section level2 hasAnchor" number="5.2">
 <h2><span class="header-section-number">5.2</span> Outlook: Bayesian inference<a href="06-ml_bayes.html#bayes" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Bayesian statistics is based on a different philosophical understanding of probability than classic (so called frequentist) statistics, even if both share the same probability calculus. In <strong>frequentist statistics</strong>, probability is a <strong>long-run relative frequency</strong>. For example, if we toss a fair coin a thousand times then we will see approximately 500 heads and 500 tails; we say the probability of heads is <span class="math inline">\(\frac{500}{1000}=0.5\)</span>. Of course 1000 tosses is not really enough to approach 0.5, so probability in this sense is defined mathematically as the limit when <span class="math inline">\(n\)</span>, the number of tosses in the example, goes to infinity.</p>
-<p>In <strong>Bayesian statistics</strong><a href="#fn11" class="footnote-ref" id="fnref11"><sup>11</sup></a>, probability is a <strong>degree of plausibility of a proposition</strong>, like that the coin will come up heads in our example. This degree of plausibility is informed by some observed (long-run) behaviour, like repeated tossing of the coin, but also other sources, like physical reasoning about the coin. In simple games of chance like coin tossing - processes that can be repeated a large number of times - it is hard to see the philosophical difference between the two types of probability and the two types of statistics. Where the difference is clearer - and important - is in the uncertain information we construct around statistical estimates, i.e. confidence intervals in frequentist statistics. Most important, however, are the many cases where there is no long-run relative frequency at all (or we cannot observe it). Consider, for example, the probability of exceeding a 1.5 degree Celsius rise in global average temperature by the end of this century; this is not a frequentist probability but a Bayesian one - a degree of plausibility given some data, models and other information that go into these kinds of assessments.</p>
+<p>In <strong>Bayesian statistics</strong><a href="#fn12" class="footnote-ref" id="fnref12"><sup>12</sup></a>, probability is a <strong>degree of plausibility of a proposition</strong>, like that the coin will come up heads in our example. This degree of plausibility is informed by some observed (long-run) behaviour, like repeated tossing of the coin, but also other sources, like physical reasoning about the coin. In simple games of chance like coin tossing - processes that can be repeated a large number of times - it is hard to see the philosophical difference between the two types of probability and the two types of statistics. Where the difference is clearer - and important - is in the uncertain information we construct around statistical estimates, i.e. confidence intervals in frequentist statistics. Most important, however, are the many cases where there is no long-run relative frequency at all (or we cannot observe it). Consider, for example, the probability of exceeding a 1.5 degree Celsius rise in global average temperature by the end of this century; this is not a frequentist probability but a Bayesian one - a degree of plausibility given some data, models and other information that go into these kinds of assessments.</p>
 <div id="frequentist-sampling-distributions" class="section level3 hasAnchor" number="5.2.1">
 <h3><span class="header-section-number">5.2.1</span> Frequentist sampling distributions<a href="06-ml_bayes.html#frequentist-sampling-distributions" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Now on to uncertainty estimates, where I said the differences between frequentist and Bayesian probability matters. Frequentist estimates like means, test statistics (t-test, F-test, …) and regression parameters all come with so called <strong>sampling distributions</strong>; probability density functions (PDFs) that describe the variation in those estimates if the estimation procedure were repeated an infinite number of times. These are PDFs in a long-run relative frequency sense.</p>
@@ -640,7 +640,7 @@ Note, the Least Squares estimator is <span class="math inline">\(s=\sqrt{\frac{S
 t_s=\frac{\hat \mu_1-\hat \mu_2}{\sqrt{s_{\hat\mu_1}^2+s_{\hat\mu_2}^2}}\sim t_{n_1+n_2-2}
 \tag{3.6}
 \end{equation}\]</span></p>
-<p>The <strong>F-test statistic</strong>, the ratio of two variance estimates <span class="math inline">\(\hat\sigma_1\)</span> and <span class="math inline">\(\hat\sigma_2\)</span>, would follow a F-distribution<a href="#fn12" class="footnote-ref" id="fnref12"><sup>12</sup></a> in <em>repeated sampling</em> if the two samples came from <em>normal populations</em> with <em>identical variances</em> (the Null hypothesis of the F-test):
+<p>The <strong>F-test statistic</strong>, the ratio of two variance estimates <span class="math inline">\(\hat\sigma_1\)</span> and <span class="math inline">\(\hat\sigma_2\)</span>, would follow a F-distribution<a href="#fn13" class="footnote-ref" id="fnref13"><sup>13</sup></a> in <em>repeated sampling</em> if the two samples came from <em>normal populations</em> with <em>identical variances</em> (the Null hypothesis of the F-test):
 <span class="math display" id="eq:fs">\[\begin{equation}
 F_s=\frac{\hat \sigma_1^2}{\hat \sigma_2^2}\sim F_{n_1-1;n_2-1}
 \tag{5.14}
@@ -661,7 +661,7 @@ F_s=\frac{\hat \sigma_1^2}{\hat \sigma_2^2}\sim F_{n_1-1;n_2-1}
 <h3><span class="header-section-number">5.2.2</span> Bayesian posterior distributions<a href="06-ml_bayes.html#bayesian-posterior-distributions" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>The Bayesian approach gives us an actual probability density function (PDF) of the parameters <span class="math inline">\(\boldsymbol{\theta}\)</span>, i.e. degrees of plausibility for different values of these parameters. This is the so called <strong>posterior distribution</strong>
 <span class="math inline">\(\Pr(\boldsymbol{\theta}|\mathbf{y})\)</span>, i.e. the probability distribution of the parameters conditional on the data <span class="math inline">\(\mathbf{y}\)</span> at hand. Posterior here means “after seeing the data”.</p>
-<p>We get the posterior distribution from <strong>Bayes rule</strong>:<a href="#fn13" class="footnote-ref" id="fnref13"><sup>13</sup></a>
+<p>We get the posterior distribution from <strong>Bayes rule</strong>:<a href="#fn14" class="footnote-ref" id="fnref14"><sup>14</sup></a>
 <span class="math display" id="eq:bayesrule">\[\begin{equation}
 \Pr(\boldsymbol{\theta}|\mathbf{y})=\frac{\Pr(\mathbf{y}|\boldsymbol{\theta})\cdot\Pr(\boldsymbol{\theta})}{\int\Pr(\mathbf{y}|\boldsymbol{\theta})\cdot\Pr(\boldsymbol{\theta})\;d\boldsymbol{\theta}}
 \tag{5.17}
@@ -675,11 +675,11 @@ What happens in Bayesian inference can be illustrated with Figure <a href="06-ml
 Figure 5.1: Bayesian updating: The prior PDF of a hypothetical parameter <span class="math inline">\(\theta\)</span> (green) is updated by the likelihood function (blue) to yield the posterior PDF (red). We see clearly how the posterior is a compromise between the prior and the likelihood.
 </p>
 </div>
-<p>From the posterior, confidence interval-like metrics can be calculated, though these are called <strong>compatibility intervals</strong> in Bayesian statistics according to recent terminology.<a href="#fn14" class="footnote-ref" id="fnref14"><sup>14</sup></a> This is generally done numerically by sampling from the posterior - we will do this below. Once we have got our head round this it is quite straightforward. And we have direct probabilistic estimates of the parameters, without having to invoke any sampling distributions.<a href="#fn15" class="footnote-ref" id="fnref15"><sup>15</sup></a></p>
+<p>From the posterior, confidence interval-like metrics can be calculated, though these are called <strong>compatibility intervals</strong> in Bayesian statistics according to recent terminology.<a href="#fn15" class="footnote-ref" id="fnref15"><sup>15</sup></a> This is generally done numerically by sampling from the posterior - we will do this below. Once we have got our head round this it is quite straightforward. And we have direct probabilistic estimates of the parameters, without having to invoke any sampling distributions.<a href="#fn16" class="footnote-ref" id="fnref16"><sup>16</sup></a></p>
 </div>
 <div id="a-bayesian-analysis-of-the-yield-dataset" class="section level3 hasAnchor" number="5.2.3">
 <h3><span class="header-section-number">5.2.3</span> A Bayesian analysis of the yield dataset<a href="06-ml_bayes.html#a-bayesian-analysis-of-the-yield-dataset" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>Let us illustrate the Bayesian approach briefly for the yield dataset of Chapter <a href="04-categorical_vars.html#categoricalvars">3</a>. Implementation details, prior choices, model comparison and more complex models will be covered in <em>Applied Statistical Modelling</em> in the summer term. We use the <code>brms</code> package as the interface from <em>R</em> to the Bayesian inference engine <a href="https://mc-stan.org/">Stan</a>:<a href="#fn16" class="footnote-ref" id="fnref16"><sup>16</sup></a></p>
+<p>Let us illustrate the Bayesian approach briefly for the yield dataset of Chapter <a href="04-categorical_vars.html#categoricalvars">3</a>. Implementation details, prior choices, model comparison and more complex models will be covered in <em>Applied Statistical Modelling</em> in the summer term. We use the <code>brms</code> package as the interface from <em>R</em> to the Bayesian inference engine <a href="https://mc-stan.org/">Stan</a>:<a href="#fn17" class="footnote-ref" id="fnref17"><sup>17</sup></a></p>
 <div class="sourceCode" id="cb116"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb116-1"><a href="06-ml_bayes.html#cb116-1" tabindex="-1"></a><span class="co"># load brms package</span></span>
 <span id="cb116-2"><a href="06-ml_bayes.html#cb116-2" tabindex="-1"></a><span class="fu">library</span>(brms)</span>
 <span id="cb116-3"><a href="06-ml_bayes.html#cb116-3" tabindex="-1"></a><span class="co"># load yields data</span></span>
@@ -712,10 +712,10 @@ Figure 5.1: Bayesian updating: The prior PDF of a hypothetical parameter <span c
 <pre><code>## Warning: Argument &#39;pars&#39; is deprecated. Please use
 ## &#39;variable&#39; instead.</code></pre>
 <pre><code>##             Estimate Est.Error   Q2.5  Q97.5
-## b_soiltype1    9.874    1.1080  7.697 12.021
-## b_soiltype2   11.509    1.1754  9.295 13.848
-## b_soiltype3   14.317    1.1270 12.126 16.576
-## sigma          3.529    0.4912  2.714  4.631</code></pre>
+## b_soiltype1    9.911    1.0976  7.701 12.074
+## b_soiltype2   11.483    1.1342  9.211 13.689
+## b_soiltype3   14.287    1.1516 12.074 16.544
+## sigma          3.542    0.4867  2.730  4.653</code></pre>
 <p>This output gives us the median of the posterior for each parameter (“Estimate”), the standard error of that estimate via the standard deviation of the posterior (“Est.Error”) and the central 95% compatibility interval between the bounds “Q2.5” and “Q97.5”. The central parameter estimates are essentially the same as in the frequentist approach (Chapter <a href="04-categorical_vars.html#categoricalvars">3</a>). The standard errors are slightly higher than the frequentist estimate of 1.08, and not homogeneous. The residual standard deviation, here <span class="math inline">\(\sigma\)</span>, is slightly higher than the frequentist estimate of <span class="math inline">\(\sqrt{\frac{SSE}{n-k}}=\sqrt{11.7}=3.4\)</span>.</p>
 <p>These are just summaries. To get a sense of the full posterior we need to extract the numerical samples of the posterior and then we can plot these as histograms, for example. Note, these are discrete approximations of the posterior PDFs, which already for moderately complex problems do not exist in closed form, so working with samples is the most general and often the only option.</p>
 <div class="sourceCode" id="cb122"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb122-1"><a href="06-ml_bayes.html#cb122-1" tabindex="-1"></a><span class="co"># extract posterior samples</span></span>
@@ -735,13 +735,13 @@ Figure 5.1: Bayesian updating: The prior PDF of a hypothetical parameter <span c
 <span id="cb125-5"><a href="06-ml_bayes.html#cb125-5" tabindex="-1"></a><span class="co"># express these differences as median and 95% compatibility interval</span></span>
 <span id="cb125-6"><a href="06-ml_bayes.html#cb125-6" tabindex="-1"></a><span class="fu">quantile</span>(s<span class="sc">$</span>b_soiltype2<span class="sc">-</span>s<span class="sc">$</span>b_soiltype1, <span class="at">probs =</span> <span class="fu">c</span>(<span class="fl">0.025</span>, <span class="fl">0.5</span>, <span class="fl">0.975</span>))</span></code></pre></div>
 <pre><code>##   2.5%    50%  97.5% 
-## -1.581  1.634  4.976</code></pre>
+## -1.536  1.537  4.688</code></pre>
 <div class="sourceCode" id="cb127"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb127-1"><a href="06-ml_bayes.html#cb127-1" tabindex="-1"></a><span class="fu">quantile</span>(s<span class="sc">$</span>b_soiltype3<span class="sc">-</span>s<span class="sc">$</span>b_soiltype1, <span class="at">probs =</span> <span class="fu">c</span>(<span class="fl">0.025</span>, <span class="fl">0.5</span>, <span class="fl">0.975</span>))</span></code></pre></div>
 <pre><code>##  2.5%   50% 97.5% 
-## 1.352 4.461 7.542</code></pre>
+## 1.098 4.379 7.581</code></pre>
 <div class="sourceCode" id="cb129"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb129-1"><a href="06-ml_bayes.html#cb129-1" tabindex="-1"></a><span class="fu">quantile</span>(s<span class="sc">$</span>b_soiltype3<span class="sc">-</span>s<span class="sc">$</span>b_soiltype2, <span class="at">probs =</span> <span class="fu">c</span>(<span class="fl">0.025</span>, <span class="fl">0.5</span>, <span class="fl">0.975</span>))</span></code></pre></div>
 <pre><code>##    2.5%     50%   97.5% 
-## -0.3856  2.8285  5.9685</code></pre>
+## -0.2766  2.7912  6.0039</code></pre>
 <p><img src="qm4g_files/figure-html/unnamed-chunk-32-1.png" width="33%" /><img src="qm4g_files/figure-html/unnamed-chunk-32-2.png" width="33%" /><img src="qm4g_files/figure-html/unnamed-chunk-32-3.png" width="33%" />
 We see that the only yield difference that is uniquely positive at the 95% compatibility level is that between soil types 3 and 1 - sand and loam. All other compatibility intervals overlap with zero meaning there are sizable probabilities of the differences going in either direction. In frequentist language we would call these differences insignificant, but looking at the full posterior distribution of the differences is much more useful than the binary split.</p>
 <p>All in all, this example shows how for simple models frequentist and Bayesian inference with uninformative priors yield essentially the same conclusions, although the Bayesian probabilities are much more intuitive to interpret and easier to post-process into any quantities of interest.</p>
@@ -757,13 +757,13 @@ Gelman, A., J. Hill, and A. Vehtari. 2020. <em>Regression and Other Stories</em>
 </div>
 <div class="footnotes">
 <hr />
-<ol start="11">
-<li id="fn11"><p>Bayesian statistics is named after 18th century Presbyterian minister <strong>Thomas Bayes</strong>, who conducted a famous inferential experiment by applying what was later called Bayes rule. This type of inferential reasoning, however, predates Bayes and there were more influential figures since, but somehow the name stuck. Not even Bayes rule is anything special; it arises simply from rearranging the product rule of probability calculus.<a href="06-ml_bayes.html#fnref11" class="footnote-back">↩︎</a></p></li>
-<li id="fn12"><p>These tests got their names from the sampling distributions of their test statistics.<a href="06-ml_bayes.html#fnref12" class="footnote-back">↩︎</a></p></li>
-<li id="fn13"><p>As said previously, Bayes rule is just the rearranged <strong>product rule</strong> of basic probability calculus: <span class="math inline">\(\Pr(A,B)=\Pr(A|B)\cdot\Pr(B)=\Pr(B|A)\cdot\Pr(A)\)</span><a href="06-ml_bayes.html#fnref13" class="footnote-back">↩︎</a></p></li>
-<li id="fn14"><p><span class="citation">Gelman, Hill, and Vehtari (<a href="#ref-gelman2020">2020</a>)</span>; alternative terms are “uncertainty intervals” or, somewhat outdated, “credible intervals”.<a href="06-ml_bayes.html#fnref14" class="footnote-back">↩︎</a></p></li>
-<li id="fn15"><p>Note, another problem with frequentist statistics is that, even if sampling distributions may provide useful approximations of real-world uncertainties, already for moderately complex models there exist no closed-form sampling distributions. Here the Bayesian approach, and its numerical sampling, are much more general.<a href="06-ml_bayes.html#fnref15" class="footnote-back">↩︎</a></p></li>
-<li id="fn16"><p>Other packages are available, most notably <code>rstanarm</code>, which is a little more intuitive but less comprehensive.<a href="06-ml_bayes.html#fnref16" class="footnote-back">↩︎</a></p></li>
+<ol start="12">
+<li id="fn12"><p>Bayesian statistics is named after 18th century Presbyterian minister <strong>Thomas Bayes</strong>, who conducted a famous inferential experiment by applying what was later called Bayes rule. This type of inferential reasoning, however, predates Bayes and there were more influential figures since, but somehow the name stuck. Not even Bayes rule is anything special; it arises simply from rearranging the product rule of probability calculus.<a href="06-ml_bayes.html#fnref12" class="footnote-back">↩︎</a></p></li>
+<li id="fn13"><p>These tests got their names from the sampling distributions of their test statistics.<a href="06-ml_bayes.html#fnref13" class="footnote-back">↩︎</a></p></li>
+<li id="fn14"><p>As said previously, Bayes rule is just the rearranged <strong>product rule</strong> of basic probability calculus: <span class="math inline">\(\Pr(A,B)=\Pr(A|B)\cdot\Pr(B)=\Pr(B|A)\cdot\Pr(A)\)</span><a href="06-ml_bayes.html#fnref14" class="footnote-back">↩︎</a></p></li>
+<li id="fn15"><p><span class="citation">Gelman, Hill, and Vehtari (<a href="#ref-gelman2020">2020</a>)</span>; alternative terms are “uncertainty intervals” or, somewhat outdated, “credible intervals”.<a href="06-ml_bayes.html#fnref15" class="footnote-back">↩︎</a></p></li>
+<li id="fn16"><p>Note, another problem with frequentist statistics is that, even if sampling distributions may provide useful approximations of real-world uncertainties, already for moderately complex models there exist no closed-form sampling distributions. Here the Bayesian approach, and its numerical sampling, are much more general.<a href="06-ml_bayes.html#fnref16" class="footnote-back">↩︎</a></p></li>
+<li id="fn17"><p>Other packages are available, most notably <code>rstanarm</code>, which is a little more intuitive but less comprehensive.<a href="06-ml_bayes.html#fnref17" class="footnote-back">↩︎</a></p></li>
 </ol>
 </div>
             </section>
