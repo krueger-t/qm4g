@@ -1,6 +1,6 @@
 # Probabilistic underpinnings {#mlbayes}
 
-In this chapter we will see how the assumptions of linear regression - which are needed for the quantification of uncertainty in our results - come about. We will first derive the Least Squares parameter estimators from Maximum Likelihood theory (the historically dominant approach) before giving an introduction to the more general approach of Bayesian statistics. The latter is the focus of my course _Applied Statistical Modelling_ in the summer term and also features at a basic level in _Risk and Uncertainty in Science and Policy_ (offered summers and winters).
+In this chapter we will see how the assumptions of linear regression - which are needed for the quantification of uncertainty in our results - come about. We will first derive the Least Squares parameter estimators from Maximum Likelihood theory (the historically dominant approach) before giving an introduction to the more general approach of Bayesian statistics. The latter is the focus of my course _Applied Statistical Modelling_ in the summer term and also features at a basic level in _Risk and Uncertainty in Science and Policy_ in the winter term.
 
 ## Inference via Maximum Likelihood {#ml}
 
@@ -25,7 +25,7 @@ L(\beta_0,\beta_1,\sigma|\mathbf{y})=\prod_{i=1}^{n}\frac{1}{\sigma\cdot\sqrt{2\
 
 This means, the probability of individual data points to arise given certain parameter values, $\Pr(y_i|\boldsymbol{\theta})$, is $\frac{1}{\sigma\cdot\sqrt{2\cdot\pi}}\cdot\exp\left(\frac{\left(y_i-\beta_0-\beta_1\cdot x_i\right)^2}{-2\cdot\sigma^2}\right)$. This is the formula of the probability density function (PDF) of the normal distribution, $\frac{1}{\sigma\cdot\sqrt{2\cdot\pi}}\cdot\exp\left(\frac{\left(y_i-\mu\right)^2}{-2\cdot\sigma^2}\right)$, with $\mu$ being substituted with the linear predictor $\beta_0+\beta_1\cdot x_i$.
 
-In effect, we are saying that the response data are normally distributed, with the mean represented by the linear model, i.e. not constant but changing as a function of the predictor $x_i$:
+In effect, we are saying that the response data are normally distributed, with the mean represented by the linear model, i.e. not constant but changing as a function of the predictor values $x_i$:
 $$\begin{equation}
 y_i\sim N\left(\beta_0+\beta_1\cdot x_i,\sigma\right)
 (\#eq:ynorm)
@@ -40,7 +40,7 @@ L(\beta_0,\beta_1,\sigma|\mathbf{y})=\frac{1}{\left(\sigma\cdot\sqrt{2\cdot\pi}\
 \end{equation}$$
 Compare exercises in chapter \@ref(math).
 
-The **log-likelihood** is often mathematically easier to handle, while locations of maxima (this is all about maximum likelihood) remain unchanged:
+The **log-likelihood** is often mathematically easier to handle, while locations of maxima (this is all about _maximum_ likelihood) remain unchanged:
 $$\begin{equation}
 \log L(\beta_0,\beta_1,\sigma|\mathbf{y})=\log\left(\sigma^{-n}\cdot (2\cdot\pi)^{-\frac{n}{2}}\right)-\frac{1}{2\cdot\sigma^2}\cdot\sum_{i=1}^{n}\left(y_i-\beta_0-\beta_1\cdot x_i\right)^2
 (\#eq:loglnorm1)
@@ -60,7 +60,7 @@ $$\begin{equation}
 \frac{\partial\log L\left(\beta_0,\beta_1,\sigma\right)}{\partial \beta_1}=\frac{1}{\sigma^2}\cdot \sum_{i=1}^{n}x_i\cdot\left(y_i-\beta_0-\beta_1 \cdot x_i\right)=0
 (\#eq:loglb1)
 \end{equation}$$
-Hence, the maximum likelihood estimator for $\beta_0$ and $\beta_1$ under normal residuals is identical to the Least Squares parameter estimator (Equations \@ref(eq:sseb0) and \@ref(eq:sseb1) in chapter \@ref(linreg)).
+Hence, the maximum likelihood estimators for $\beta_0$ and $\beta_1$ under normal residuals are identical to the Least Squares parameter estimators (Equations \@ref(eq:sseb0) and \@ref(eq:sseb1) in chapter \@ref(linreg)).
 
 For $\sigma$, we have:
 $$\begin{equation}
@@ -77,7 +77,7 @@ $$\begin{equation}
 \sigma=\sqrt{\frac{SSE}{n}}
 (\#eq:sigma)
 \end{equation}$$
-Note, the Least Squares estimator is $s=\sqrt{\frac{SSE}{df_{SSE}}}=\sqrt{\frac{SSE}{n-2}}$, which doesn’t make much of a difference for large $n$.
+Note, the Least Squares estimator is $s=\sqrt{\frac{SSE}{df_{SSE}}}=\sqrt{\frac{SSE}{n-2}}$, which does not make much of a difference for large $n$.
 
 Now it should be clear that the assumptions underpinning linear regression come from maximum likelihood theory; even if parameter estimators can be motivated via Least Squares, their standard errors, confidence intervals and significance tests rely on the assumptions that the residuals be independent and identically distributed according to a normal distribution ("iid normal"). In chapter \@ref(glms) we will see how we can expand these assumptions, by making other distributional choices in Equation \@ref(eq:ynorm) as well as transformations of the linear model inside those distributions. We will effectively construct different likelihood functions - different formulations of $\Pr(y_i|\boldsymbol{\theta})$ in Equation \@ref(eq:lnorm2) - motivated by our conceptualisation of the process that generates the response data at hand.
 
@@ -85,11 +85,11 @@ Now it should be clear that the assumptions underpinning linear regression come 
 
 Bayesian statistics is based on a different philosophical understanding of probability than classic (so called frequentist) statistics, even if both share the same probability calculus. In **frequentist statistics**, probability is a **long-run relative frequency**. For example, if we toss a fair coin a thousand times then we will see approximately 500 heads and 500 tails; we say the probability of heads is $\frac{500}{1000}=0.5$. Of course 1000 tosses is not really enough to approach 0.5, so probability in this sense is defined mathematically as the limit when $n$, the number of tosses in the example, goes to infinity.
 
-In **Bayesian statistics**^[Bayesian statistics is named after 18th century Presbyterian minister **Thomas Bayes**, who conducted a famous inferential experiment by applying what was later called Bayes rule. This type of inferential reasoning, however, predates Bayes and there were more influential figures since, but somehow the name stuck. Not even Bayes rule is anything special; it arises simply from rearranging the product rule of probability calculus.], probability is a **degree of plausibility of a proposition**, like that the coin will come up heads in our example. This degree of plausibility is informed by some observed (long-run) behaviour, like repeated tossing of the coin, but also other sources, like physical reasoning about the coin. In simple games of chance like coin tossing - processes that can be repeated a large number of times - it is hard to see the philosophical difference between the two types of probability and the two types of statistics. Where the difference is clearer - and important - is in the uncertain information we construct around statistical estimates, i.e. confidence intervals in frequentist statistics. Most important, however, are the many cases where there is no long-run relative frequency at all (or we cannot observe it). Consider, for example, the probability of exceeding a 1.5 degree Celsius rise in global average temperature by the end of this century; this is not a frequentist probability but a Bayesian one - a degree of plausibility given some data, models and other information that go into these kinds of assessments.
+In **Bayesian statistics**^[Bayesian statistics is named after 18th century Presbyterian minister **Thomas Bayes**, who conducted a famous inferential experiment by applying what was later called Bayes rule. This type of inferential reasoning, however, predates Bayes and there were more influential figures since, but somehow the name stuck (see @bertsch2011 for a history of Bayes rule). Not even Bayes rule is anything special; it arises simply from rearranging the product rule of probability calculus.], probability is a **degree of plausibility of a proposition**, like that the coin will come up heads in our example. This degree of plausibility is informed by some observed (long-run) behaviour, like repeated tossing of the coin, but also other sources, like physical reasoning about the coin. In simple games of chance like coin tossing - processes that can be repeated a large number of times - it is hard to see the philosophical difference between the two types of probability and the two types of statistics. Where the difference is clearer - and important - is in the uncertain information we construct around statistical estimates, i.e. confidence intervals in frequentist statistics. Most important, however, are the many cases where there is no long-run relative frequency at all (or we cannot observe it). Consider, for example, the probability of exceeding a 2 degree Celsius rise in global average temperature by the end of this century; this is not a frequentist probability but a Bayesian one - a degree of plausibility given some data, models and other information that go into these kinds of assessments.
 
 ### Frequentist sampling distributions
 
-Now on to uncertainty estimates, where I said the differences between frequentist and Bayesian probability matters. Frequentist estimates like means, test statistics (t-test, F-test, ...) and regression parameters all come with so called **sampling distributions**; probability density functions (PDFs) that describe the variation in those estimates if the estimation procedure were repeated an infinite number of times. These are PDFs in a long-run relative frequency sense.
+Now on to uncertainty estimates, where I said the differences between frequentist and Bayesian probability matter. Frequentist estimates like means, test statistics (t-test, F-test, ...) and regression parameters all come with so called **sampling distributions**; probability density functions (PDFs) that describe the variation in those estimates if the estimation procedure were repeated an infinite number of times. These are PDFs in a long-run relative frequency sense.
 
 For the **mean**, if the population that the data $x$ are a sample (of size $n$) from is _normally distributed_ with mean $\mu$ and standard deviation $\sigma$, we can show mathematically that the deviation of the estimate $\hat \mu=\bar x$ from the unknown $\mu$, scaled by the standard error $s_{\hat \mu}=\frac{s}{\sqrt{n}}$ (with $s=\sqrt{\frac{1}{n-1}\cdot\sum_{i=1}^{n}\left(x_i-\bar x\right)^2}$ being the standard deviation of $x$) would follow a t-distribution in _repeated sampling_ with parameter $n-1$:
 $$\begin{equation}
@@ -158,7 +158,7 @@ yields_long <- data.frame(yield = c(yields$sand, yields$clay, yields$loam),
                           soiltype = as.factor(c(rep(1,10), rep(2,10), rep(3,10))))
 # fit linear model using brms with default priors
 yield_fit <- brm(yield ~ 0 + soiltype, data = yields_long,
-                 family = gaussian(), silent = TRUE, refresh = 0)
+                 family = gaussian, silent = TRUE, refresh = 0)
 ```
 
 We have fitted the model using default priors so let us check quickly which these are:
@@ -170,8 +170,8 @@ This rather cryptic output tells us that `brms` has used flat, i.e. uniform, pri
 
 Let us look at the parameter estimates:
 ```{r echo=TRUE}
-# summarise posterior
-posterior_summary(yield_fit, pars = c('soiltype1','soiltype2','soiltype3','sigma'))
+# summarise posterior 
+posterior_summary(yield_fit, variable = c('b_soiltype1','b_soiltype2','b_soiltype3','sigma'))
 ```
 This output gives us the median of the posterior for each parameter ("Estimate"), the standard error of that estimate via the standard deviation of the posterior ("Est.Error") and the central 95% compatibility interval between the bounds "Q2.5" and "Q97.5". The central parameter estimates are essentially the same as in the frequentist approach (Chapter \@ref(categoricalvars)). The standard errors are slightly higher than the frequentist estimate of 1.08, and not homogeneous. The residual standard deviation, here $\sigma$, is slightly higher than the frequentist estimate of $\sqrt{\frac{SSE}{n-k}}=\sqrt{11.7}=3.4$.
 
@@ -179,7 +179,7 @@ These are just summaries. To get a sense of the full posterior we need to extrac
 
 ```{r echo=TRUE, fig.show='hold', out.width='33%'}
 # extract posterior samples
-s <- posterior_samples(yield_fit, pars = c('soiltype1','soiltype2','soiltype3','sigma'))
+s <- as_draws_df(yield_fit, variable = c('b_soiltype1','b_soiltype2','b_soiltype3','sigma'))
 # plot parameter posteriors as histograms
 hist(s$b_soiltype1, freq = FALSE)
 hist(s$b_soiltype2, freq = FALSE)
