@@ -153,6 +153,7 @@ eq:resdeviance
 eq:lratio
 eq:nulldeviance
 eq:pseudor2
+eq:resdeviancestar
 fig:rawres
 eq:pearsonres
 tab:pearsonres
@@ -216,7 +217,13 @@ generalising-the-normal-distribution-through-the-exponential-class-of-probabilit
 the-link-function-between-mean-response-and-predictor-variables
 log-linear-regression
 logistic-regression
-goodness-of-fit-of-glms
+interpreting-the-regression-coefficients
+derivation-of-the-divide-by-4-rule-of-logistic-regression
+deviance-as-a-goodness-of-fit-measure
+deviance
+residual-analysis-for-glms
+pearson-residuals
+deviance-residuals
 overdisp
 multivariate
 clusteranalysis
