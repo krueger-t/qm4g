@@ -6,13 +6,13 @@
 
 **Discriminant Function Analysis (DFA)** (Chapter \@ref(dfa)) is a _classification_ method that tests how well multi-response observations discriminate between pre-determined groups, and can also be used to classify new observations into one of the groups.
 
-**Principle Component Analysis (PCA)** (Chapter \@ref(pca)), **Factor Analysis (FA)** and related methods aim at finding _structure_ in a multivariate dataset, not deciding on response/predictor variables just yet. They extract a reduced set of components that explain much of the _variability_ or _correlation_ among the original variables. PCA and FA are typically employed to pre-structure and _simplify_ a problem by reducing its data dimensions, e.g. to reduce collinearity (compare Chapter \@ref(multiplelinreg)).
+**Principle Component Analysis (PCA)** (Chapter \@ref(pca)), **Factor Analysis (FA)** and related methods aim at finding _structure_ in a multivariate dataset, not deciding on response/ predictor variables just yet. They extract a reduced set of components that explain much of the _variability_ or _correlation_ among the original variables. PCA and FA are typically employed to pre-structure and _simplify_ a problem by reducing its data dimensions, e.g. to reduce collinearity (compare Chapter \@ref(multiplelinreg)).
 
 **Cluster Analysis** (Chapter \@ref(clusteranalysis)) looks for groups in a multivariate dataset. Data points belonging to the same group "resemble" each other - we will see what this means. Data points belonging to different groups are "dissimilar".
 
 ## Cluster analysis {#clusteranalysis}
 
-This section is based on material by Cornelius Senf.^[https://corneliussenf.com/] Cluster analysis looks for groups (clusters) in a multivariate dataset. Objects (data points) belonging to the same group "resemble" each other. Objects belonging to different groups are "dissimilar". There are three groups of methods:
+This section is based on material by Cornelius Senf.^[https://www.professoren.tum.de/senf-cornelius] Cluster analysis looks for groups (clusters) in a multivariate dataset. Objects (data points) belonging to the same group "resemble" each other. Objects belonging to different groups are "dissimilar". There are three groups of methods:
 
 1. **Partitioning** the dataset into a number of clusters specified by the user, e.g. the _kmeans_ algorithm
 2. **Hierarchical**, starting with each object (data point) as a separate cluster and then aggregating these step by step, ending up with a single cluster
@@ -31,10 +31,10 @@ We can already see at least two clusters. In some dimensions (petal length and w
 
 ### The _kmeans_ algorithm
 
-The purpose of _kmeans_ is to build clusters such that the distance of cluster objects (data points) to cluster _centroids_ (vectors of means) is minimised. The algorithm proceeds though the following steps:
+The purpose of _kmeans_ is to build clusters such that the distance of cluster _objects_ (data points) to cluster _centroids_ (vectors of means) is minimised. The algorithm proceeds though the following steps:
 
 1. Choose $k$ random cluster centroids in the multivariate space
-2. Allocate each object to a cluster so that _total intra-cluster sum of squares_ (Equation \@ref(eq:intraclusterss)) is minimised
+2. Allocate each object to a cluster so that the _total intra-cluster sum of squares_ (Equation \@ref(eq:intraclusterss)) is minimised
 
 $$\begin{equation}
 \sum_{j=1}^{k}\sum_{i=1}^{n_j}\lVert \mathbf{y}_{ij}-\boldsymbol{\mu}_j\rVert^2
@@ -92,7 +92,7 @@ We can see that beyond three clusters the improvement in separation is minimal, 
 table(iris_fit3$cluster, iris$Species)
 ```
 
-The separation of _Iris versicolor_ and _Iris virginica_, however, is not perfect.
+With the `table()` command we can construct a contingency table. Here, the rows are the cluster IDs and the columns are the species from the original dataset. Each cell in the table counts the co-occurrence of cluster ID and species. We can see that cluster 2 corresponds to _Iris setosa_, cluster 3 to _Iris versicolor_ and cluster 1 to _Iris virginica_. The separation of _Iris versicolor_ and _Iris virginica_, however, is not perfect; we can see some _Iris versicolor_ individuals in cluster 1 and quite a few _Iris virginica_ individuals in cluster 3.
 
 ### Hierarchical methods
 
@@ -100,7 +100,7 @@ The principle of hierarchical methods is to start with each object as a separate
 
 1. Build _dissimilarity matrix_, i.e. a matrix of the distances of every object to every other object in the multivariate space, e.g. by Euclidean distance $\lVert\mathbf{y}_i-\mathbf{y}_{i^*}\rVert$
 2. Start with each object as a separate cluster
-3. Join the two most similar clusters, e.g. those that lead to minimum increase in total intra-cluster sum of squares after merging (Equation \@ref(eq:intraclusterss)); this is called _Ward’s method_
+3. Join the two most similar clusters, e.g. those that lead to minimal increase in total intra-cluster sum of squares after merging (Equation \@ref(eq:intraclusterss)); this is called _Ward’s method_
 4. Repeat step 3 until a single cluster is built
 
 The result is a **dendrogram**, whose "height" is the distance between clusters, e.g. in Ward’s method the increase in the intra-cluster sum of squares of the clusters being merged:
@@ -130,7 +130,7 @@ The dataset first lists catchment characteristics: name, maximum elevation, elev
 
 ### From univariate normal to multivariate normal
 
-Like univariate methods, multivariate methods, too, rely on the normality assumption; the univariate normal distribution (Figure \@ref(fig:camg), left) is generalised to the **multivariate normal distribution** (Figure \@ref(fig:camg), right). Taking calcium concentration in the stream chemistry dataset as an example, the univariate normal model would be $N(\mu,\sigma)$ with mean $\mu=65.13$ and variance $\sigma^2=194.74$ (Figure \@ref(fig:camg), left). Looking at calcium and magnesium concentration together, the multivariate normal model would be $MVN(\boldsymbol\mu,\boldsymbol\Sigma)$  with **centroid** (vector of means) $\boldsymbol\mu=\begin{pmatrix}65.13&22.86\end{pmatrix}^T$ and **variance-covariance matrix** $\boldsymbol\Sigma=\begin{pmatrix}194.74&27.03\\27.03&194.74\end{pmatrix}$ (Figure \@ref(fig:camg), right).
+Like univariate methods, multivariate methods, too, rely on the normality assumption; the univariate normal distribution (Figure \@ref(fig:camg), left) is generalised to the **multivariate normal distribution** (Figure \@ref(fig:camg), right). Taking calcium concentration in the stream chemistry dataset as an example, the univariate normal model would be $N(\mu,\sigma)$ with mean $\mu=65.13$ and variance $\sigma^2=194.74$ (Figure \@ref(fig:camg), left). Looking at calcium and magnesium concentration together, the multivariate normal model would be $MVN(\boldsymbol\mu,\boldsymbol\Sigma)$  with **centroid** (vector of means) $\boldsymbol\mu=\begin{pmatrix}65.13&22.86\end{pmatrix}^T$ and **variance-covariance matrix** $\boldsymbol\Sigma=\begin{pmatrix}194.74&27.03\\27.03&26.25\end{pmatrix}$ (Figure \@ref(fig:camg), right).
 
 ```{r camg, echo=FALSE, fig.align='center', fig.cap='Left: Histogram of calcium concentration measurements from stream chemistry dataset, with fitted normal distribution. The vertical line marks the mean. Right: Scatterplot of calcium against magnesium concentration measurements, with coloured countours of fitted multivariate normal distribution. The vertical and horizontal lines are the individual means, which intersect at the centroid. Data from: @lovett2000, cited in @quinn2002.', fig.show='hold', out.width='50%'}
 knitr::include_graphics(c('figs/ca_pdf.jpg','figs/ca_mg_jointpdf.jpg'))
@@ -167,7 +167,7 @@ example(pairs)
 pairs(streams[,6:15], diag.panel = panel.hist)
 ```
 
-First of all, we notice the non-normality of DOC, Cl and H (at least; in principle this diagnosis is ambiguous). Hence we log-transform these three variables to make them adhere better to normality:
+First of all, we notice the non-normality of DOC, Cl and H (at least; this diagnosis is ambiguous). Hence we log-transform these three variables to make them adhere better to normality:
 
 ```{r echo=TRUE}
 streams_log <- streams
@@ -202,13 +202,13 @@ z_{ik}=u_{1k}\cdot y_{i1}+u_{2k}\cdot y_{i2}+\ldots+u_{pk}\cdot y_{ip}
 (\#eq:lincomb)
 \end{equation}$$
 
-$z_{ik}$ is the value of the _new_ variable $k$ for object $i$. The object is a datapoint for a timestep, spatial location or else. $u_{1k},\ldots,u_{pk}$ are the _coefficients_ indicating how much each original variable contributes to the linear combination. This is the so called _Eigenvector_ of the covariance matrix (more on this later). $y_{i1},\ldots,y_{ip}$ are the values of the _original_ variables $1,\ldots,p$ for object $i$.
+$z_{ik}$ is the value of the _new_ variable $k$ for object $i$. The object is a datapoint for a timestep or a spatial location, for example. $u_{1k},\ldots,u_{pk}$ are the _coefficients_ indicating how much each original variable contributes to the linear combination. This is the so called _Eigenvector_ of the covariance matrix (more on this later). $y_{i1},\ldots,y_{ip}$ are the values of the _original_ variables $1,\ldots,p$ for object $i$.
 
 The new variables are called (depending on the method) **principal components**, factors or discriminant functions. They are extracted so that the first explains most of the variance in the original variables, the second explains most of the remaining variance after the first has been extracted but is _independent_ of (uncorrelated with) the first ... and so on. The number of new variables $k$ is the same as the number of original variables $p$, although the variance is usually consolidated in the first few new variables. The unknown coefficients $u_{1k},\ldots,u_{pk}$ are determined via so called **Eigenanalysis** (see below).
 
-A graphical explanation of what PCA does is **axis rotation**. We illustrate this with an example in 2D from @green1997, cited in @quinn2002; total biomass of red land crabs against number of burrows at ten forested sites on Christmas Island (Figure \@ref(fig:crabs1)). When the data are centred then the origin is where the individual means intersect (the centroid); the original axes are the black lines in the plots. Through PCA, the original axes are now rotated such that the 1st new one (PC1 in red) goes in the direction of the greatest spread of points and the 2nd new axis (PC2 in red), still perpendicular, covers the secondary variation. This is also the principle with more dimensions, though we cannot visualise it anymore.
+A graphical explanation of what PCA does is **axis rotation**. We illustrate this with an example in 2D from @green1997, cited in @quinn2002; total biomass of red land crabs against number of burrows at ten forested sites on Christmas Island (Figure \@ref(fig:crabs1)). When the data are centred then the origin is where the individual means intersect (the centroid); the original axes are the black lines in the plot. Through PCA, the original axes are now rotated such that the 1st new one (PC1 in red) extends in the direction of the greatest spread of points and the 2nd new axis (PC2 in red), still perpendicular, covers the secondary variation. This is also the principle with more dimensions, though we cannot visualise it anymore.
 
-```{r crabs1, echo=FALSE, fig.align='center', fig.cap='Total biomass of red land crabs against number of burrows at ten forested sites on Christmas Island. When the data are centred then the origin is where the individual means intersect (the centroid); the original axes are the black lines in the plots. Through PCA, the original axes are rotated such that the 1st new one (PC1 in red) goes in the direction of the greatest spread of points and the 2nd new axis (PC2 in red), still perpendicular, covers the secondary variation. For one data point, marked by the cross, the new coordinates in PC1 and PC2 direction are marked in blue and green, respectively. After: @quinn2002, based on data by @green1997.'}
+```{r crabs1, echo=FALSE, fig.align='center', fig.cap='Total biomass of red land crabs against number of burrows at ten forested sites on Christmas Island. When the data are centred then the origin is where the individual means intersect (the centroid); the original axes are the black lines in the plot. Through PCA, the original axes are rotated such that the 1st new one (PC1 in red) extends in the direction of the greatest spread of points and the 2nd new axis (PC2 in red), still perpendicular, covers the secondary variation. For one data point, marked by the cross, the new coordinates in PC1 and PC2 direction are marked in blue and green, respectively. After: @quinn2002, based on data by @green1997.'}
 # load crabs data
 crabs <- read.table("data/crabs.txt",header=T)
 # PCA
@@ -264,7 +264,7 @@ y'=-\sin\alpha\cdot x+\cos\alpha\cdot y
 knitr::include_graphics('figs/Coordinate_system_rotation_svg.svg')
 ```
 
-Equations \@ref(eq:zi1) and \@ref(eq:xtick), and \@ref(eq:zi2) and \@ref(eq:ytick) are equivalent.
+We can see that Equations \@ref(eq:zi1) and \@ref(eq:xtick), and Equations \@ref(eq:zi2) and \@ref(eq:ytick) are equivalent when we substitute $z_{i,1}=x'$, $z_{i,2}=y'$, $y_{i,1}=x$, $y_{i,2}=y$, $u_{1,1}=\cos\alpha$, $u_{2,1}=\sin\alpha$, $u_{1,2}=-\sin\alpha$, $u_{2,2}=\cos\alpha$.
 
 ### Eigenanalysis
 
@@ -309,9 +309,9 @@ Determining the Eigenvectors and Eigenvalues is called Eigenanalysis. The Eigena
 
 If the Eigenanalysis is carried out on the covariance matrix $\mathbf{C}$ then $\sum_{j=1}^{k}\lambda_j=Tr(\mathbf{C})$, i.e. the sum of the Eigenvalues is the trace of $\mathbf{C}$. The **trace** is defined as the sum of the diagonal elements of a matrix, i.e. here the sum of the variances of the original _centred_ variables. This is appropriate when the variables are measured in comparable units and differences in variance make an important contribution to interpretation.
 
-If the Eigenanalysis is carried out on the correlation matrix $\mathbf{R}$ then $\sum_{j=1}^{k}\lambda_j=Tr(\mathbf{R})$, i.e. the sum of the variances of the original _standardised_ variables: $y^*=\frac{y-\mu}{\sigma}$ so that $\mu^*=0$ and $\sigma^*=1$. Compare Chapter \@ref(math). This is necessary when variables are measured in very different units or scales, otherwise variables with large values/variances may dominate the results.
+If the Eigenanalysis is carried out on the correlation matrix $\mathbf{R}$ then $\sum_{j=1}^{k}\lambda_j=Tr(\mathbf{R})$, i.e. the sum of the variances of the original _standardised_ variables: $y^*=\frac{y-\mu}{\sigma}$ so that $\mu^*=0$ and $\sigma^*=1$. Compare Chapter \@ref(math). This is necessary when variables are measured in very different units or scales, otherwise variables with large values/ variances may dominate the results.
 
-In the stream chemistry example we best work with standardised data because variances are orders of magnitude different.^[You could try this yourself either way to see what difference it makes.] We use the `prcomp()` function on the data matrix, and tell it to standardise the variables by `scale=TRUE`. To only centre the variables we would use `center=TRUE` and `scale=FALSE` (which is the default).
+In the stream chemistry example, we best work with standardised data because variances are orders of magnitude different.^[You could try this yourself either way to see what difference it makes.] We use the `prcomp()` function on the data matrix, and tell it to standardise the variables by `scale=TRUE`. To only centre the variables we would use `center=TRUE` and `scale=FALSE` (which is the default).
 
 ```{r echo=TRUE}
 streams_pca <- prcomp(streams_log[,6:15], scale=TRUE)
@@ -340,7 +340,7 @@ plot(seq(1,10,1), ev, pch = 19, type = 'b', ylim=c(0,4),
      xlab="Principal Component", ylab="Eigenvalue")
 ```
 
-What's called "rotation" in the output are the Eigenvectors, measuring how much much each original variable contributes to the PCs. We look at the Eigenvectors of the first three PCs only here:
+What's called "rotation" in the output are the Eigenvectors, measuring how much much each original variable contributes to the PCs (we say "loads" on the PCs). We look at the Eigenvectors of the first three PCs only here:
 ```{r echo=TRUE}
 streams_pca$rotation[,1:3]
 ```
@@ -375,7 +375,7 @@ We could also use the PCs as predictors in a regression model. This is especiall
 
 ## Multivariate ANOVA (MANOVA) {#manova}
 
-MANOVA extends ANOVA to the case of multiple response variables. Let us remind ourselves (compare Chapter \@ref(categoricalvars)) that the categorical predictor variables are called **factors**, the categories of each factor are called **levels**, **groups** or **treatments**. And the parameters are called **effects**. Where ANOVA asks whether _means_ across factor levels (groups) are significantly different (compare the yields example from Chapter \@ref(categoricalvars)), MANOVA asks whether _centroids_ across factor levels (groups) are significantly different, taking all response variables together.
+MANOVA extends ANOVA to the case of multiple response variables. Let us remind ourselves (compare Chapter \@ref(categoricalvars)) that the categorical predictor variables are called **factors**, the categories of each factor are called **levels**, **groups** or **treatments**. And the parameters are called **effects**. Where ANOVA asks whether _means_ across factor levels (groups) are different (compare the yields example from Chapter \@ref(categoricalvars)), MANOVA asks whether _centroids_ across factor levels (groups) are different by taking all response variables together.
 
 We illustrate **single-factor MANOVA** with a marine sediment dataset from @haynes1995, cited in @quinn2002. We use this dataset to test for differences between sites in trace metal concentrations in marine sediments off the Victorian coast in southern Australia:
 ```{r echo=TRUE}
@@ -521,7 +521,7 @@ $$\begin{equation}
 
 This measures the ratio of _explained to unexplained_ variance, with greater values indicating greater group differences.
 
-Since the sampling distributions of these statistics are not well understood either, they are again treated as _approximate_ F statistics, following an F-distribution. In practice it is advised to look at all of these variants of the test statistic to see if the results are consistent.
+Since the sampling distributions of these statistics are not well understood either, they are again treated as _approximate_ F statistics, following an F-distribution. In practice it is advised to look at all of these variants of the test statistic to see if the results are consistent. And, as for (generalised) linear modelling, the p-values should be used as a measure of uncertainty rather than as a separation between "significant/ insignificant" results. In this way, small differences between the aforementioned test statistics can be reconciled.
 
 In the marine sediments example, the four test statistics give comparable results, though the test statistic based on the Pillai trace would not meet the conventional significance level of 0.01:
 ```{r echo=TRUE}
@@ -531,13 +531,13 @@ summary(sediments_fit, test ="Pillai")
 summary(sediments_fit, test ="Hotelling-Lawley")
 ```
 
-We may still conclude that the trace metal signatures at the sites (summarised by the centroids) are significantly different.
+We may still conclude that there is a difference in trace metal signatures at the sites (summarised by the centroids).
 
 ## Discriminant Function Analysis (DFA) {#dfa}
 
-DFA and MANOVA are mathematically identical, though DFA emphasises _classification_ and _prediction_, and MANOVA tests hypotheses about group differences. MANOVA tests whether centroids across factor levels (groups) are significantly different, using the 1st discriminant function, a linear combination of all response variables. DFA uses all discriminant functions to calculate the _probability of correctly assigning observations to their pre-determined groups_, e.g. sites in the marine sediments example.
+DFA and MANOVA are mathematically identical, though DFA emphasises _classification_ and _prediction_, and MANOVA tests hypotheses about group differences. MANOVA tests whether centroids across factor levels (groups) are different, using the 1st discriminant function, a linear combination of all response variables. DFA uses all discriminant functions to calculate the _probability of correctly assigning observations to their pre-determined groups_, e.g. sites in the marine sediments example.
 
-MANOVA is usually the first step in DFA because if the difference between group centroids is not significant then the discriminant functions will not be very useful for separating groups and therefore classifying observations. DFA is also used to _classify new observations into one of the groups_, calculating some measure of success of classification. DFA goes further than MANOVA in that it uses not only the 1st discriminant function but also additional discriminant functions to classify observations into groups.
+MANOVA is usually the first step in DFA because if the difference between group centroids is uncertain then the discriminant functions will not be very useful for separating groups and therefore classifying observations. DFA is also used to _classify new observations into one of the groups_, calculating some measure of success of classification. DFA goes further than MANOVA in that it uses not only the 1st discriminant function but also additional discriminant functions to classify observations into groups.
 
 In our marine sediments example, we already saw in the last section that the 1st discriminant function has the largest Eigenvalue and thus maximises the between group variance:within group variance ratio, hence separates the three sites best. We can now plot the discriminant functions using DFA:
 ```{r echo=TRUE, message=FALSE, warning=FALSE, out.width='80%'}
@@ -558,7 +558,7 @@ sediments_dfa$scaling
 
 ### Classification
 
-Now we use the DFs to classify objects to (known) groups. For every measurement (object $i$), three classification scores are calculated, one for every site (group $j$). The classification scores are mathematically relate to the discriminant functions (Eigenvectors $\mathbf{u_k}$). See @quinn2002 for details. The maximum classification score determines the group classification for every object. From this, for every object a probability of belonging to each of the groups is calculated:
+Now we use the DFs to classify objects to (known) groups. For every measurement (object $i$), three classification scores are calculated, one for every site (group $j$). The classification scores are mathematically relate to the discriminant functions (Eigenvectors $\mathbf{u_k}$). See @quinn2002 for details. The maximum classification score determines the group classification for every object. From this, for every object, a probability of belonging to each of the groups is calculated:
 ```{r echo=TRUE}
 # predict group membership
 sediments_pred <- predict(sediments_dfa)
@@ -566,7 +566,7 @@ sediments_pred <- predict(sediments_dfa)
 sediments_pred$posterior
 ```
 
-We see that we can recover the original group membership this way: the first four samples have highest probability to be from Delray, the next four from Seaspray and the last four from Woodside. We can see this by constructing a contingency table:
+We see that we can recover the original group membership this way: the first four samples have highest probability to be from Delray, the next four from Seaspray and the last four from Woodside. We can see this by constructing a contingency table (rows being predicted sites, columns being actual sites):
 ```{r echo=TRUE}
 # contingency table of prediction:group matches
 table(sediments_pred$class, sediments_log$site)
@@ -574,7 +574,7 @@ table(sediments_pred$class, sediments_log$site)
 
 ### Leave-one-out cross-validation
 
-Predicting the training data is no big deal. A more severe test of the classification approach is out-of-sample prediction ("validation"), which in small datasets we approximate by leave-one-out cross-validation (LOOCV). The algorithm is as follows:
+Predicting the training data is no big deal. A more severe test of the classification approach is out-of-sample prediction ("validation"), which in small datasets we approximate by leave-one-out cross-validation (LOOCV). The algorithm is as follows:^[Similar algorithms extend LOOCV to other methods.]
 
 1. For every measurement (object $i$), do a DFA using only the remaining measurements (leaving object $i$ out)
 2. Classify object $i$ with the corresponding classification equations
@@ -595,7 +595,7 @@ Now the classification is less than perfect, as can be seen in the contingency t
 table(sediments_dfa2$class, sediments_log$site)
 ```
 
-A useful diagnostic, for this and other classification problems is the **confusion matrix** (Table \@ref(tab:confusion)).
+A useful diagnostic, for this and other classification problems, is the **confusion matrix** (Table \@ref(tab:confusion)).
 
 ```{r include=FALSE}
 library("readxl")
@@ -611,7 +611,7 @@ tab_confusion %>%
   kable_paper("hover", font_size=12)
 ```
 
-Filled in for the marine sediments example this is Table \@ref(tab:confusion2).
+Filling in the data from the marine sediments example (the contingency table) yields Table \@ref(tab:confusion2).
 
 ```{r confusion2, echo=FALSE}
 opts <- options(knitr.kable.NA = "")
