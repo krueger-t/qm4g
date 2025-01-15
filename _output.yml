@@ -13,4 +13,5 @@ bookdown::gitbook:
         <li><a href="./">Quantitative Methods for Geographers</a></li>
       after: |
         <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
-        
+  fontsettings:
+    theme: night
