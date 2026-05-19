@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 6 Generalised Linear Models (GLMs) | Quantitative Methods for Geographers</title>
   <meta name="description" content="This is the script of the course ‘Quantitative Methods for Geographers’ run at the Geography Department of Humboldt-Universität zu Berlin." />
-  <meta name="generator" content="bookdown 0.30 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.46 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 6 Generalised Linear Models (GLMs) | Quantitative Methods for Geographers" />
   <meta property="og:type" content="book" />
@@ -23,7 +23,7 @@
 <meta name="author" content="Tobias Krueger" />
 
 
-<meta name="date" content="2025-01-15" />
+<meta name="date" content="2026-05-19" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -60,6 +60,7 @@
 <script src="libs/rglwidgetClass/buffer.src.js"></script>
 <script src="libs/rglwidgetClass/subscenes.src.js"></script>
 <script src="libs/rglwidgetClass/shaders.src.js"></script>
+<script src="libs/rglwidgetClass/shadersrc.src.js"></script>
 <script src="libs/rglwidgetClass/textures.src.js"></script>
 <script src="libs/rglwidgetClass/projection.src.js"></script>
 <script src="libs/rglwidgetClass/mouse.src.js"></script>
@@ -72,344 +73,6 @@
 <script src="libs/rglwidgetClass/pretty.src.js"></script>
 <script src="libs/rglwidgetClass/axes.src.js"></script>
 <script src="libs/rglwidgetClass/animation.src.js"></script>
-<!--html_preserve--><script type = "text/plain" id = "rgl-vertex-shader">
-#line 2 1
-// File 1 is the vertex shader
-#ifdef GL_ES
-#ifdef GL_FRAGMENT_PRECISION_HIGH
-precision highp float;
-#else
-precision mediump float;
-#endif
-#endif
-
-attribute vec3 aPos;
-attribute vec4 aCol;
-uniform mat4 mvMatrix;
-uniform mat4 prMatrix;
-varying vec4 vCol;
-varying vec4 vPosition;
-
-#ifdef NEEDS_VNORMAL
-attribute vec3 aNorm;
-uniform mat4 normMatrix;
-varying vec4 vNormal;
-#endif
-
-#if defined(HAS_TEXTURE) || defined (IS_TEXT)
-attribute vec2 aTexcoord;
-varying vec2 vTexcoord;
-#endif
-
-#ifdef FIXED_SIZE
-uniform vec3 textScale;
-#endif
-
-#ifdef FIXED_QUADS
-attribute vec3 aOfs;
-#endif
-
-#ifdef IS_TWOSIDED
-#ifdef HAS_NORMALS
-varying float normz;
-uniform mat4 invPrMatrix;
-#else
-attribute vec3 aPos1;
-attribute vec3 aPos2;
-varying float normz;
-#endif
-#endif // IS_TWOSIDED
-
-#ifdef FAT_LINES
-attribute vec3 aNext;
-attribute vec2 aPoint;
-varying vec2 vPoint;
-varying float vLength;
-uniform float uAspect;
-uniform float uLwd;
-#endif
-
-
-void main(void) {
-  
-#ifndef IS_BRUSH
-#if defined(NCLIPPLANES) || !defined(FIXED_QUADS) || defined(HAS_FOG)
-  vPosition = mvMatrix * vec4(aPos, 1.);
-#endif
-  
-#ifndef FIXED_QUADS
-  gl_Position = prMatrix * vPosition;
-#endif
-#endif // !IS_BRUSH
-  
-#ifdef IS_POINTS
-  gl_PointSize = POINTSIZE;
-#endif
-  
-  vCol = aCol;
-  
-#ifdef NEEDS_VNORMAL
-  vNormal = normMatrix * vec4(-aNorm, dot(aNorm, aPos));
-#endif
-  
-#ifdef IS_TWOSIDED
-#ifdef HAS_NORMALS
-  /* normz should be calculated *after* projection */
-  normz = (invPrMatrix*vNormal).z;
-#else
-  vec4 pos1 = prMatrix*(mvMatrix*vec4(aPos1, 1.));
-  pos1 = pos1/pos1.w - gl_Position/gl_Position.w;
-  vec4 pos2 = prMatrix*(mvMatrix*vec4(aPos2, 1.));
-  pos2 = pos2/pos2.w - gl_Position/gl_Position.w;
-  normz = pos1.x*pos2.y - pos1.y*pos2.x;
-#endif
-#endif // IS_TWOSIDED
-  
-#ifdef NEEDS_VNORMAL
-  vNormal = vec4(normalize(vNormal.xyz/vNormal.w), 1);
-#endif
-  
-#if defined(HAS_TEXTURE) || defined(IS_TEXT)
-  vTexcoord = aTexcoord;
-#endif
-  
-#if defined(FIXED_SIZE) && !defined(ROTATING)
-  vec4 pos = prMatrix * mvMatrix * vec4(aPos, 1.);
-  pos = pos/pos.w;
-  gl_Position = pos + vec4(aOfs*textScale, 0.);
-#endif
-  
-#if defined(IS_SPRITES) && !defined(FIXED_SIZE)
-  vec4 pos = mvMatrix * vec4(aPos, 1.);
-  pos = pos/pos.w + vec4(aOfs,  0.);
-  gl_Position = prMatrix*pos;
-#endif
-  
-#ifdef FAT_LINES
-  /* This code was inspired by Matt Deslauriers' code in 
-   https://mattdesl.svbtle.com/drawing-lines-is-hard */
-  vec2 aspectVec = vec2(uAspect, 1.0);
-  mat4 projViewModel = prMatrix * mvMatrix;
-  vec4 currentProjected = projViewModel * vec4(aPos, 1.0);
-  currentProjected = currentProjected/currentProjected.w;
-  vec4 nextProjected = projViewModel * vec4(aNext, 1.0);
-  vec2 currentScreen = currentProjected.xy * aspectVec;
-  vec2 nextScreen = (nextProjected.xy / nextProjected.w) * aspectVec;
-  float len = uLwd;
-  vec2 dir = vec2(1.0, 0.0);
-  vPoint = aPoint;
-  vLength = length(nextScreen - currentScreen)/2.0;
-  vLength = vLength/(vLength + len);
-  if (vLength > 0.0) {
-    dir = normalize(nextScreen - currentScreen);
-  }
-  vec2 normal = vec2(-dir.y, dir.x);
-  dir.x /= uAspect;
-  normal.x /= uAspect;
-  vec4 offset = vec4(len*(normal*aPoint.x*aPoint.y - dir), 0.0, 0.0);
-  gl_Position = currentProjected + offset;
-#endif
-  
-#ifdef IS_BRUSH
-  gl_Position = vec4(aPos, 1.);
-#endif
-}
-</script>
-<script type = "text/plain" id = "rgl-fragment-shader">
-#line 2 2
-// File 2 is the fragment shader
-#ifdef GL_ES
-#ifdef GL_FRAGMENT_PRECISION_HIGH
-precision highp float;
-#else
-precision mediump float;
-#endif
-#endif
-varying vec4 vCol; // carries alpha
-varying vec4 vPosition;
-#if defined(HAS_TEXTURE) || defined (IS_TEXT)
-varying vec2 vTexcoord;
-uniform sampler2D uSampler;
-#endif
-
-#ifdef HAS_FOG
-uniform int uFogMode;
-uniform vec3 uFogColor;
-uniform vec4 uFogParms;
-#endif
-
-#if defined(IS_LIT) && !defined(FIXED_QUADS)
-varying vec4 vNormal;
-#endif
-
-#if NCLIPPLANES > 0
-uniform vec4 vClipplane[NCLIPPLANES];
-#endif
-
-#if NLIGHTS > 0
-uniform mat4 mvMatrix;
-#endif
-
-#ifdef IS_LIT
-uniform vec3 emission;
-uniform float shininess;
-#if NLIGHTS > 0
-uniform vec3 ambient[NLIGHTS];
-uniform vec3 specular[NLIGHTS]; // light*material
-uniform vec3 diffuse[NLIGHTS];
-uniform vec3 lightDir[NLIGHTS];
-uniform bool viewpoint[NLIGHTS];
-uniform bool finite[NLIGHTS];
-#endif
-#endif // IS_LIT
-
-#ifdef IS_TWOSIDED
-uniform bool front;
-varying float normz;
-#endif
-
-#ifdef FAT_LINES
-varying vec2 vPoint;
-varying float vLength;
-#endif
-
-void main(void) {
-  vec4 fragColor;
-#ifdef FAT_LINES
-  vec2 point = vPoint;
-  bool neg = point.y < 0.0;
-  point.y = neg ? (point.y + vLength)/(1.0 - vLength) :
-                 -(point.y - vLength)/(1.0 - vLength);
-#if defined(IS_TRANSPARENT) && defined(IS_LINESTRIP)
-  if (neg && length(point) <= 1.0) discard;
-#endif
-  point.y = min(point.y, 0.0);
-  if (length(point) > 1.0) discard;
-#endif // FAT_LINES
-  
-#ifdef ROUND_POINTS
-  vec2 coord = gl_PointCoord - vec2(0.5);
-  if (length(coord) > 0.5) discard;
-#endif
-  
-#if NCLIPPLANES > 0
-  for (int i = 0; i < NCLIPPLANES; i++)
-    if (dot(vPosition, vClipplane[i]) < 0.0) discard;
-#endif
-    
-#ifdef FIXED_QUADS
-    vec3 n = vec3(0., 0., 1.);
-#elif defined(IS_LIT)
-    vec3 n = normalize(vNormal.xyz);
-#endif
-    
-#ifdef IS_TWOSIDED
-    if ((normz <= 0.) != front) discard;
-#endif
-    
-#ifdef IS_LIT
-    vec3 eye = normalize(-vPosition.xyz/vPosition.w);
-    vec3 lightdir;
-    vec4 colDiff;
-    vec3 halfVec;
-    vec4 lighteffect = vec4(emission, 0.);
-    vec3 col;
-    float nDotL;
-#ifdef FIXED_QUADS
-    n = -faceforward(n, n, eye);
-#endif
-    
-#if NLIGHTS > 0
-    for (int i=0;i<NLIGHTS;i++) {
-      colDiff = vec4(vCol.rgb * diffuse[i], vCol.a);
-      lightdir = lightDir[i];
-      if (!viewpoint[i])
-        lightdir = (mvMatrix * vec4(lightdir, 1.)).xyz;
-      if (!finite[i]) {
-        halfVec = normalize(lightdir + eye);
-      } else {
-        lightdir = normalize(lightdir - vPosition.xyz/vPosition.w);
-        halfVec = normalize(lightdir + eye);
-      }
-      col = ambient[i];
-      nDotL = dot(n, lightdir);
-      col = col + max(nDotL, 0.) * colDiff.rgb;
-      col = col + pow(max(dot(halfVec, n), 0.), shininess) * specular[i];
-      lighteffect = lighteffect + vec4(col, colDiff.a);
-    }
-#endif
-    
-#else // not IS_LIT
-    vec4 colDiff = vCol;
-    vec4 lighteffect = colDiff;
-#endif
-    
-#ifdef IS_TEXT
-    vec4 textureColor = lighteffect*texture2D(uSampler, vTexcoord);
-#endif
-    
-#ifdef HAS_TEXTURE
-#ifdef TEXTURE_rgb
-    vec4 textureColor = lighteffect*vec4(texture2D(uSampler, vTexcoord).rgb, 1.);
-#endif
-    
-#ifdef TEXTURE_rgba
-    vec4 textureColor = lighteffect*texture2D(uSampler, vTexcoord);
-#endif
-    
-#ifdef TEXTURE_alpha
-    vec4 textureColor = texture2D(uSampler, vTexcoord);
-    float luminance = dot(vec3(1.,1.,1.), textureColor.rgb)/3.;
-    textureColor =  vec4(lighteffect.rgb, lighteffect.a*luminance);
-#endif
-    
-#ifdef TEXTURE_luminance
-    vec4 textureColor = vec4(lighteffect.rgb*dot(texture2D(uSampler, vTexcoord).rgb, vec3(1.,1.,1.))/3., lighteffect.a);
-#endif
-    
-#ifdef TEXTURE_luminance_alpha
-    vec4 textureColor = texture2D(uSampler, vTexcoord);
-    float luminance = dot(vec3(1.,1.,1.),textureColor.rgb)/3.;
-    textureColor = vec4(lighteffect.rgb*luminance, lighteffect.a*textureColor.a);
-#endif
-    
-    fragColor = textureColor;
-
-#elif defined(IS_TEXT)
-    if (textureColor.a < 0.1)
-      discard;
-    else
-      fragColor = textureColor;
-#else
-    fragColor = lighteffect;
-#endif // HAS_TEXTURE
-    
-#ifdef HAS_FOG
-    // uFogParms elements: x = near, y = far, z = fogscale, w = (1-sin(FOV/2))/(1+sin(FOV/2))
-    // In Exp and Exp2: use density = density/far
-    // fogF will be the proportion of fog
-    // Initialize it to the linear value
-    float fogF;
-    if (uFogMode > 0) {
-      fogF = (uFogParms.y - vPosition.z/vPosition.w)/(uFogParms.y - uFogParms.x);
-      if (uFogMode > 1)
-        fogF = mix(uFogParms.w, 1.0, fogF);
-      fogF = fogF*uFogParms.z;
-      if (uFogMode == 2)
-        fogF = 1.0 - exp(-fogF);
-      // Docs are wrong: use (density*c)^2, not density*c^2
-      // https://gitlab.freedesktop.org/mesa/mesa/-/blob/master/src/mesa/swrast/s_fog.c#L58
-      else if (uFogMode == 3)
-        fogF = 1.0 - exp(-fogF*fogF);
-      fogF = clamp(fogF, 0.0, 1.0);
-      gl_FragColor = vec4(mix(fragColor.rgb, uFogColor, fogF), fragColor.a);
-    } else gl_FragColor = fragColor;
-#else
-    gl_FragColor = fragColor;
-#endif // HAS_FOG
-    
-}
-</script><!--/html_preserve-->
 <script src="libs/CanvasMatrix4/CanvasMatrix.src.js"></script>
 <script src="libs/kePrint/kePrint.js"></script>
 <link href="libs/lightable/lightable.css" rel="stylesheet" />
@@ -418,8 +81,9 @@ void main(void) {
 
 
 <style type="text/css">
+html { -webkit-text-size-adjust: 100%; }
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -429,7 +93,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -483,11 +147,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </style>
 
 <style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+<style type="text/css">
 /* Used with Pandoc 2.11+ new --citeproc when CSL is used */
 div.csl-bib-body { }
 div.csl-entry {
   clear: both;
-  margin-bottom: 0em;
 }
 .hanging div.csl-entry {
   margin-left:2em;
@@ -534,7 +201,6 @@ div.csl-indent {
 <li class="chapter" data-level="" data-path="10-refs.html"><a href="10-refs.html"><i class="fa fa-check"></i>References</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
-
 </ul>
 
       </nav>
@@ -662,7 +328,7 @@ f(y)=\exp\left\{y\cdot\log(\lambda)-\color{red}{\lambda}\color{blue}{-\log(y!)+\
 <p>Note, the symbol <span class="math inline">\(!\)</span> stands for the factorial.<a href="#fn21" class="footnote-ref" id="fnref21"><sup>21</sup></a> The support space <span class="math inline">\(\mathbb{S}\)</span> is here restricted to positive whole numbers. By comparing Equation <a href="07-glms.html#eq:expclass">(6.3)</a> and Equation <a href="07-glms.html#eq:expclasspois">(6.7)</a>, we can see that for the Poisson distribution the natural parameter <span class="math inline">\(\theta\)</span> is <span class="math inline">\(\log(\lambda)\)</span> and the dispersion parameter <span class="math inline">\(\varphi\)</span> is 1; the denominator in Equation <a href="07-glms.html#eq:expclass">(6.3)</a> has vanished in Equation <a href="07-glms.html#eq:expclasspois">(6.7)</a>. The mean response is <span class="math inline">\(E[y]=\lambda\)</span>.</p>
 <p>The one parameter of the Poisson distribution, <span class="math inline">\(\lambda\)</span>, controls both the mean as well as the variance of the distribution, i.e. if the mean increases then the variance increases, too (Figure <a href="07-glms.html#fig:poisb">6.4</a>, left). Not only is the Poisson distribution, due to its discreteness and positive support space, a natural distribution for count data, it can also capture the increase in variance with increase in mean response that we often see in count data such as our bird species example (Figure <a href="07-glms.html#fig:countdat">6.2</a>).</p>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:poisb"></span>
-<img src="qm4g_files/figure-html/poisb-1.png" alt="Left: Probability density function (pdf) of the **Poisson distribution** of a response variable $y$ for three variants of the parameter $\lambda$. Right: Probability density function (pdf) of the **binomial distribution** of a response variable $y$, normalised by the number of &quot;trials&quot; $n$, for three variants of the parameter $\pi$." width="50%" /><img src="qm4g_files/figure-html/poisb-2.png" alt="Left: Probability density function (pdf) of the **Poisson distribution** of a response variable $y$ for three variants of the parameter $\lambda$. Right: Probability density function (pdf) of the **binomial distribution** of a response variable $y$, normalised by the number of &quot;trials&quot; $n$, for three variants of the parameter $\pi$." width="50%" />
+&lt;img src=“qm4g_files/figure-html/poisb-1.png” alt=“Left: Probability density function (pdf) of the <strong>Poisson distribution</strong> of a response variable <span class="math inline">\(y\)</span> for three variants of the parameter <span class="math inline">\(\lambda\)</span>. Right: Probability density function (pdf) of the <strong>binomial distribution</strong> of a response variable <span class="math inline">\(y\)</span>, normalised by the number of”trials” <span class="math inline">\(n\)</span>, for three variants of the parameter <span class="math inline">\(\pi\)</span>.” width=“50%” /&gt;&lt;img src=“qm4g_files/figure-html/poisb-2.png” alt=“Left: Probability density function (pdf) of the <strong>Poisson distribution</strong> of a response variable <span class="math inline">\(y\)</span> for three variants of the parameter <span class="math inline">\(\lambda\)</span>. Right: Probability density function (pdf) of the <strong>binomial distribution</strong> of a response variable <span class="math inline">\(y\)</span>, normalised by the number of”trials” <span class="math inline">\(n\)</span>, for three variants of the parameter <span class="math inline">\(\pi\)</span>.” width=“50%” /&gt;
 <p class="caption">
 Figure 6.4: Left: Probability density function (pdf) of the <strong>Poisson distribution</strong> of a response variable <span class="math inline">\(y\)</span> for three variants of the parameter <span class="math inline">\(\lambda\)</span>. Right: Probability density function (pdf) of the <strong>binomial distribution</strong> of a response variable <span class="math inline">\(y\)</span>, normalised by the number of “trials” <span class="math inline">\(n\)</span>, for three variants of the parameter <span class="math inline">\(\pi\)</span>.
 </p>
@@ -815,7 +481,7 @@ Figure 6.5: Left: Bird species data with fitted log-linear model. The linear pre
 </div>
 <p>To get a sense of what is happening here, consider Figure <a href="07-glms.html#fig:birds">6.6</a>. In order to represent the variation in the response we could use one overall Poisson distribution (a), which is equivalent to log-linear regression with an intercept only. This clearly does not capture the variation in the data. By introducing “relief” as a predictor, we effectively model every relief level with its own Poisson distribution. This is especially easy to show here as the dataset has only four levels (b-e). What log-linear regression does is average those individual Poisson distributions to form an overall distribution of the response (f). This is clearly better at capturing the variation in the data, the predictor “relief” explains some of that variation, but the model is still underestimating the increase in variance with increasing mean response; this is especially visible in (d-e). We say the data are <em>over-dispersed</em> with respect to the Poisson process, a topic we will come back to in Chapter <a href="07-glms.html#overdisp">6.8</a>.</p>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:birds"></span>
-<img src="qm4g_files/figure-html/birds-1.png" alt="Illustration of log-linear regression with the birds example. (a) One overall Poisson distribution fitted to the data; equivalent to log-linear regression with an intercept only. This clearly does not capture the variation in the data. (b-e) Individual Poisson distributions for the four relief levels (compare Figure \@ref(fig:loglin)) as estimated by log-linear regression with relief as predictor. (f) Overall distribution estimated by the log-linear model, obtained by averaging the four individual distributions. This is clearly better at capturing the variation in the data, the predictor &quot;relief&quot; explains some of that variation, but the model is still underestimating the increase in variance with increasing mean response, e.g. (d-e). The data are _over-dispersed_ with respect to the Poisson process (see Chapter \@ref(overdisp))." width="33%" /><img src="qm4g_files/figure-html/birds-2.png" alt="Illustration of log-linear regression with the birds example. (a) One overall Poisson distribution fitted to the data; equivalent to log-linear regression with an intercept only. This clearly does not capture the variation in the data. (b-e) Individual Poisson distributions for the four relief levels (compare Figure \@ref(fig:loglin)) as estimated by log-linear regression with relief as predictor. (f) Overall distribution estimated by the log-linear model, obtained by averaging the four individual distributions. This is clearly better at capturing the variation in the data, the predictor &quot;relief&quot; explains some of that variation, but the model is still underestimating the increase in variance with increasing mean response, e.g. (d-e). The data are _over-dispersed_ with respect to the Poisson process (see Chapter \@ref(overdisp))." width="33%" /><img src="qm4g_files/figure-html/birds-3.png" alt="Illustration of log-linear regression with the birds example. (a) One overall Poisson distribution fitted to the data; equivalent to log-linear regression with an intercept only. This clearly does not capture the variation in the data. (b-e) Individual Poisson distributions for the four relief levels (compare Figure \@ref(fig:loglin)) as estimated by log-linear regression with relief as predictor. (f) Overall distribution estimated by the log-linear model, obtained by averaging the four individual distributions. This is clearly better at capturing the variation in the data, the predictor &quot;relief&quot; explains some of that variation, but the model is still underestimating the increase in variance with increasing mean response, e.g. (d-e). The data are _over-dispersed_ with respect to the Poisson process (see Chapter \@ref(overdisp))." width="33%" /><img src="qm4g_files/figure-html/birds-4.png" alt="Illustration of log-linear regression with the birds example. (a) One overall Poisson distribution fitted to the data; equivalent to log-linear regression with an intercept only. This clearly does not capture the variation in the data. (b-e) Individual Poisson distributions for the four relief levels (compare Figure \@ref(fig:loglin)) as estimated by log-linear regression with relief as predictor. (f) Overall distribution estimated by the log-linear model, obtained by averaging the four individual distributions. This is clearly better at capturing the variation in the data, the predictor &quot;relief&quot; explains some of that variation, but the model is still underestimating the increase in variance with increasing mean response, e.g. (d-e). The data are _over-dispersed_ with respect to the Poisson process (see Chapter \@ref(overdisp))." width="33%" /><img src="qm4g_files/figure-html/birds-5.png" alt="Illustration of log-linear regression with the birds example. (a) One overall Poisson distribution fitted to the data; equivalent to log-linear regression with an intercept only. This clearly does not capture the variation in the data. (b-e) Individual Poisson distributions for the four relief levels (compare Figure \@ref(fig:loglin)) as estimated by log-linear regression with relief as predictor. (f) Overall distribution estimated by the log-linear model, obtained by averaging the four individual distributions. This is clearly better at capturing the variation in the data, the predictor &quot;relief&quot; explains some of that variation, but the model is still underestimating the increase in variance with increasing mean response, e.g. (d-e). The data are _over-dispersed_ with respect to the Poisson process (see Chapter \@ref(overdisp))." width="33%" /><img src="qm4g_files/figure-html/birds-6.png" alt="Illustration of log-linear regression with the birds example. (a) One overall Poisson distribution fitted to the data; equivalent to log-linear regression with an intercept only. This clearly does not capture the variation in the data. (b-e) Individual Poisson distributions for the four relief levels (compare Figure \@ref(fig:loglin)) as estimated by log-linear regression with relief as predictor. (f) Overall distribution estimated by the log-linear model, obtained by averaging the four individual distributions. This is clearly better at capturing the variation in the data, the predictor &quot;relief&quot; explains some of that variation, but the model is still underestimating the increase in variance with increasing mean response, e.g. (d-e). The data are _over-dispersed_ with respect to the Poisson process (see Chapter \@ref(overdisp))." width="33%" />
+&lt;img src=“qm4g_files/figure-html/birds-1.png” alt=“Illustration of log-linear regression with the birds example. (a) One overall Poisson distribution fitted to the data; equivalent to log-linear regression with an intercept only. This clearly does not capture the variation in the data. (b-e) Individual Poisson distributions for the four relief levels (compare Figure <a href="07-glms.html#fig:loglin">6.5</a>) as estimated by log-linear regression with relief as predictor. (f) Overall distribution estimated by the log-linear model, obtained by averaging the four individual distributions. This is clearly better at capturing the variation in the data, the predictor”relief” explains some of that variation, but the model is still underestimating the increase in variance with increasing mean response, e.g. (d-e). The data are <em>over-dispersed</em> with respect to the Poisson process (see Chapter <a href="07-glms.html#overdisp">6.8</a>).” width=“33%” /&gt;&lt;img src=“qm4g_files/figure-html/birds-2.png” alt=“Illustration of log-linear regression with the birds example. (a) One overall Poisson distribution fitted to the data; equivalent to log-linear regression with an intercept only. This clearly does not capture the variation in the data. (b-e) Individual Poisson distributions for the four relief levels (compare Figure <a href="07-glms.html#fig:loglin">6.5</a>) as estimated by log-linear regression with relief as predictor. (f) Overall distribution estimated by the log-linear model, obtained by averaging the four individual distributions. This is clearly better at capturing the variation in the data, the predictor”relief” explains some of that variation, but the model is still underestimating the increase in variance with increasing mean response, e.g. (d-e). The data are <em>over-dispersed</em> with respect to the Poisson process (see Chapter <a href="07-glms.html#overdisp">6.8</a>).” width=“33%” /&gt;&lt;img src=“qm4g_files/figure-html/birds-3.png” alt=“Illustration of log-linear regression with the birds example. (a) One overall Poisson distribution fitted to the data; equivalent to log-linear regression with an intercept only. This clearly does not capture the variation in the data. (b-e) Individual Poisson distributions for the four relief levels (compare Figure <a href="07-glms.html#fig:loglin">6.5</a>) as estimated by log-linear regression with relief as predictor. (f) Overall distribution estimated by the log-linear model, obtained by averaging the four individual distributions. This is clearly better at capturing the variation in the data, the predictor”relief” explains some of that variation, but the model is still underestimating the increase in variance with increasing mean response, e.g. (d-e). The data are <em>over-dispersed</em> with respect to the Poisson process (see Chapter <a href="07-glms.html#overdisp">6.8</a>).” width=“33%” /&gt;&lt;img src=“qm4g_files/figure-html/birds-4.png” alt=“Illustration of log-linear regression with the birds example. (a) One overall Poisson distribution fitted to the data; equivalent to log-linear regression with an intercept only. This clearly does not capture the variation in the data. (b-e) Individual Poisson distributions for the four relief levels (compare Figure <a href="07-glms.html#fig:loglin">6.5</a>) as estimated by log-linear regression with relief as predictor. (f) Overall distribution estimated by the log-linear model, obtained by averaging the four individual distributions. This is clearly better at capturing the variation in the data, the predictor”relief” explains some of that variation, but the model is still underestimating the increase in variance with increasing mean response, e.g. (d-e). The data are <em>over-dispersed</em> with respect to the Poisson process (see Chapter <a href="07-glms.html#overdisp">6.8</a>).” width=“33%” /&gt;&lt;img src=“qm4g_files/figure-html/birds-5.png” alt=“Illustration of log-linear regression with the birds example. (a) One overall Poisson distribution fitted to the data; equivalent to log-linear regression with an intercept only. This clearly does not capture the variation in the data. (b-e) Individual Poisson distributions for the four relief levels (compare Figure <a href="07-glms.html#fig:loglin">6.5</a>) as estimated by log-linear regression with relief as predictor. (f) Overall distribution estimated by the log-linear model, obtained by averaging the four individual distributions. This is clearly better at capturing the variation in the data, the predictor”relief” explains some of that variation, but the model is still underestimating the increase in variance with increasing mean response, e.g. (d-e). The data are <em>over-dispersed</em> with respect to the Poisson process (see Chapter <a href="07-glms.html#overdisp">6.8</a>).” width=“33%” /&gt;&lt;img src=“qm4g_files/figure-html/birds-6.png” alt=“Illustration of log-linear regression with the birds example. (a) One overall Poisson distribution fitted to the data; equivalent to log-linear regression with an intercept only. This clearly does not capture the variation in the data. (b-e) Individual Poisson distributions for the four relief levels (compare Figure <a href="07-glms.html#fig:loglin">6.5</a>) as estimated by log-linear regression with relief as predictor. (f) Overall distribution estimated by the log-linear model, obtained by averaging the four individual distributions. This is clearly better at capturing the variation in the data, the predictor”relief” explains some of that variation, but the model is still underestimating the increase in variance with increasing mean response, e.g. (d-e). The data are <em>over-dispersed</em> with respect to the Poisson process (see Chapter <a href="07-glms.html#overdisp">6.8</a>).” width=“33%” /&gt;
 <p class="caption">
 Figure 6.6: Illustration of log-linear regression with the birds example. (a) One overall Poisson distribution fitted to the data; equivalent to log-linear regression with an intercept only. This clearly does not capture the variation in the data. (b-e) Individual Poisson distributions for the four relief levels (compare Figure <a href="07-glms.html#fig:loglin">6.5</a>) as estimated by log-linear regression with relief as predictor. (f) Overall distribution estimated by the log-linear model, obtained by averaging the four individual distributions. This is clearly better at capturing the variation in the data, the predictor “relief” explains some of that variation, but the model is still underestimating the increase in variance with increasing mean response, e.g. (d-e). The data are <em>over-dispersed</em> with respect to the Poisson process (see Chapter <a href="07-glms.html#overdisp">6.8</a>).
 </p>
@@ -884,7 +550,7 @@ Figure 6.7: Left: Survival data with fitted logistic model. The linear predictor
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:bison"></span>
 <img src="qm4g_files/figure-html/bison-1.png" alt="Left: Occurrence of bison as a function of forest distance with 1 indicating presence and 0 indicating absence. A logistic regression is fitted to these data that models the probability of occurrence. Note, due to the overlap of 1s and 0s to the left of the graph, the probability of occurrence comes out at only 0.6 for zero distance. Right: This can be seen better when plotting so called binned averages of the occurrence indicator against forest distance (open circles) after @gelman2020. Data from: Benjamin Bleyhl." width="50%" /><img src="qm4g_files/figure-html/bison-2.png" alt="Left: Occurrence of bison as a function of forest distance with 1 indicating presence and 0 indicating absence. A logistic regression is fitted to these data that models the probability of occurrence. Note, due to the overlap of 1s and 0s to the left of the graph, the probability of occurrence comes out at only 0.6 for zero distance. Right: This can be seen better when plotting so called binned averages of the occurrence indicator against forest distance (open circles) after @gelman2020. Data from: Benjamin Bleyhl." width="50%" />
 <p class="caption">
-Figure 6.8: Left: Occurrence of bison as a function of forest distance with 1 indicating presence and 0 indicating absence. A logistic regression is fitted to these data that models the probability of occurrence. Note, due to the overlap of 1s and 0s to the left of the graph, the probability of occurrence comes out at only 0.6 for zero distance. Right: This can be seen better when plotting so called binned averages of the occurrence indicator against forest distance (open circles) after <span class="citation">Gelman, Hill, and Vehtari (<a href="#ref-gelman2020">2020</a>)</span>. Data from: Benjamin Bleyhl.
+Figure 6.8: Left: Occurrence of bison as a function of forest distance with 1 indicating presence and 0 indicating absence. A logistic regression is fitted to these data that models the probability of occurrence. Note, due to the overlap of 1s and 0s to the left of the graph, the probability of occurrence comes out at only 0.6 for zero distance. Right: This can be seen better when plotting so called binned averages of the occurrence indicator against forest distance (open circles) after <span class="citation">Gelman et al. (<a href="#ref-gelman2020">2020</a>)</span>. Data from: Benjamin Bleyhl.
 </p>
 </div>
 </div>
@@ -895,10 +561,6 @@ Figure 6.8: Left: Occurrence of bison as a function of forest distance with 1 in
 <pre><code>## 
 ## Call:
 ## glm(formula = y ~ relief, family = poisson(link = &quot;log&quot;), data = birds)
-## 
-## Deviance Residuals: 
-##     Min       1Q   Median       3Q      Max  
-## -11.198   -2.141   -0.002    2.199   10.720  
 ## 
 ## Coefficients:
 ##             Estimate Std. Error z value Pr(&gt;|z|)    
@@ -925,10 +587,6 @@ So if <span class="math inline">\(relief_i=0\)</span> then <span class="math inl
 ## glm(formula = proportion ~ concentration, family = binomial(link = &quot;logit&quot;), 
 ##     data = survival, weights = total)
 ## 
-## Deviance Residuals: 
-##    Min      1Q  Median      3Q     Max  
-## -1.061  -0.626   0.290   0.826   1.401  
-## 
 ## Coefficients:
 ##               Estimate Std. Error z value Pr(&gt;|z|)    
 ## (Intercept)      5.703      0.806    7.07  1.5e-12 ***
@@ -947,7 +605,7 @@ So if <span class="math inline">\(relief_i=0\)</span> then <span class="math inl
 <p>The coefficients are again given at the scale of the linear predictor (Figure <a href="07-glms.html#fig:logistic">6.7</a>, right), prior to its transformation through, in this case, the inverse logit-link. A rule of thumb for interpreting the effect parameter, of concentration in this case, is the <strong>divide-by-4 rule</strong>: At the centre of the logistic function, where the slope is steepest, for every unit change in concentration the probability changes by <span class="math inline">\(\frac{\beta_1}{4}=\frac{-2.31}{4}=-0.58\)</span>. Hence, at the centre of the logistic function, every unit change in concentration decreases the survival probability by -0.58. This is an upper bound because as soon as we move away from the centre by even a small amount the slope declines again. But it gives a sense of magnitude of the logistic regression slope on the probability scale.</p>
 <div id="derivation-of-the-divide-by-4-rule-of-logistic-regression" class="section level3 hasAnchor" number="6.5.1">
 <h3><span class="header-section-number">6.5.1</span> Derivation of the divide-by-4 rule of logistic regression<a href="07-glms.html#derivation-of-the-divide-by-4-rule-of-logistic-regression" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>I took the basics of the following from <span class="citation">Gelman, Hill, and Vehtari (<a href="#ref-gelman2020">2020</a>)</span>, p. 220. Staying with the survival example, but being more general in the notation, I call the survival proportion <span class="math inline">\(y\)</span> and the concentration of the toxin <span class="math inline">\(x\)</span>. The logistic regression model is thus:
+<p>I took the basics of the following from <span class="citation">Gelman et al. (<a href="#ref-gelman2020">2020</a>)</span>, p. 220. Staying with the survival example, but being more general in the notation, I call the survival proportion <span class="math inline">\(y\)</span> and the concentration of the toxin <span class="math inline">\(x\)</span>. The logistic regression model is thus:
 <span class="math display">\[\Pr(y=1)=logit^{-1}(\beta_0+\beta_1\cdot x)=\frac{1}{1+e^{-(\beta_0+\beta_1\cdot x)}}\]</span></p>
 <p>The response is on probability scale (left-hand side); the linear predictor is transformed through the inverse logit-link (middle), which is the logistic function (right-hand side). Note, we could also write the right-hand side as <span class="math inline">\(\frac{e^{\beta_0+\beta_1\cdot x}}{1+e^{\beta_0+\beta_1\cdot x}}\)</span>, which we see in some textbooks.</p>
 <p>Now, the purpose of the divide-by-4 rule is to express the <span class="math inline">\(\beta_1\)</span> coefficient of logistic regression, which is on the scale of the linear predictor, on the probability scale, which is the response scale of interest. For the survival example, <span class="math inline">\(\beta_1=-2.31\)</span> (rounded). So, what does this tell us about the change in <span class="math inline">\(\Pr(y=1)\)</span> for a unit change in <span class="math inline">\(x\)</span>?</p>
@@ -1115,10 +773,6 @@ Figure 6.10: Left: Pearson residuals of the log-linear model fit to the birds da
 ## Call:
 ## glm.nb(formula = y ~ relief, data = birds, link = log, init.theta = 11.71533906)
 ## 
-## Deviance Residuals: 
-##     Min       1Q   Median       3Q      Max  
-## -2.3174  -0.5935  -0.0551   0.4673   2.1245  
-## 
 ## Coefficients:
 ##             Estimate Std. Error z value Pr(&gt;|z|)    
 ## (Intercept)   4.7245     0.0880   53.71  &lt; 2e-16 ***
@@ -1147,7 +801,7 @@ Figure 6.10: Left: Pearson residuals of the log-linear model fit to the birds da
 <span id="cb146-4"><a href="07-glms.html#cb146-4" tabindex="-1"></a>newdat <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">relief=</span><span class="fu">seq</span>(<span class="dv">0</span>,<span class="dv">5</span>,<span class="fl">0.01</span>))</span>
 <span id="cb146-5"><a href="07-glms.html#cb146-5" tabindex="-1"></a>y_new <span class="ot">&lt;-</span> <span class="fu">predict</span>(birds_fit2, <span class="at">newdata=</span>newdat, <span class="at">type =</span> <span class="st">&quot;response&quot;</span>)</span>
 <span id="cb146-6"><a href="07-glms.html#cb146-6" tabindex="-1"></a><span class="fu">lines</span>(newdat<span class="sc">$</span>relief, y_new, <span class="at">lwd =</span> <span class="dv">3</span>, <span class="at">col =</span> <span class="st">&quot;red&quot;</span>)</span></code></pre></div>
-<p><img src="qm4g_files/figure-html/unnamed-chunk-38-1.png" width="80%" /></p>
+<p><img src="qm4g_files/figure-html/unnamed-chunk-38-1.png" alt="" width="80%" /></p>
 <p>But now we have the additional dispersion parameter <span class="math inline">\(\theta\)</span>, coming out at 11.72 for the birds data, which leads to a better coverage of the response distribution compared to the Poisson model:</p>
 <div class="sourceCode" id="cb147"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb147-1"><a href="07-glms.html#cb147-1" tabindex="-1"></a><span class="co"># plot overall response distribution for negative-binomial fit</span></span>
 <span id="cb147-2"><a href="07-glms.html#cb147-2" tabindex="-1"></a><span class="fu">plot</span>(h0, <span class="at">freq =</span> <span class="cn">FALSE</span>, <span class="at">col =</span> <span class="st">&quot;gray&quot;</span>, <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="fl">0.02</span>),</span>
@@ -1162,7 +816,7 @@ Figure 6.10: Left: Pearson residuals of the log-linear model fit to the birds da
 <span id="cb147-11"><a href="07-glms.html#cb147-11" tabindex="-1"></a>                <span class="fu">dnbinom</span>(x, <span class="at">mu=</span><span class="fu">predict</span>(birds_fit2, <span class="at">newdata=</span><span class="fu">data.frame</span>(<span class="at">relief=</span><span class="fl">3.6090</span>),</span>
 <span id="cb147-12"><a href="07-glms.html#cb147-12" tabindex="-1"></a>                                      <span class="at">type =</span> <span class="st">&quot;response&quot;</span>), <span class="at">size=</span>birds_fit2<span class="sc">$</span>theta))<span class="sc">/</span><span class="dv">4</span>,</span>
 <span id="cb147-13"><a href="07-glms.html#cb147-13" tabindex="-1"></a>      <span class="at">add=</span><span class="cn">TRUE</span>, <span class="at">col =</span> <span class="st">&quot;red&quot;</span>, <span class="at">type =</span> <span class="st">&#39;b&#39;</span>)</span></code></pre></div>
-<p><img src="qm4g_files/figure-html/unnamed-chunk-39-1.png" width="80%" /></p>
+<p><img src="qm4g_files/figure-html/unnamed-chunk-39-1.png" alt="" width="80%" /></p>
 <p>The AIC as well - indicative of predictive performance - is a lot better compared to the Poisson model, even if the pseudo-<span class="math inline">\(r^2\)</span> is a little worse:</p>
 <div class="sourceCode" id="cb148"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb148-1"><a href="07-glms.html#cb148-1" tabindex="-1"></a>birds_fit2<span class="sc">$</span>aic</span></code></pre></div>
 <pre><code>## [1] 681.9</code></pre>
@@ -1174,33 +828,33 @@ Figure 6.10: Left: Pearson residuals of the log-linear model fit to the birds da
 <span id="cb152-2"><a href="07-glms.html#cb152-2" tabindex="-1"></a><span class="fu">plot</span>(birds_fit2<span class="sc">$</span>fitted.values, <span class="fu">resid</span>(birds_fit2, <span class="at">type =</span> <span class="st">&#39;pearson&#39;</span>),</span>
 <span id="cb152-3"><a href="07-glms.html#cb152-3" tabindex="-1"></a>     <span class="at">pch =</span> <span class="dv">19</span>, <span class="at">type =</span> <span class="st">&#39;p&#39;</span>, <span class="at">xlim=</span><span class="fu">c</span>(<span class="dv">100</span>,<span class="dv">400</span>), <span class="at">ylim=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">3</span>,<span class="dv">3</span>),</span>
 <span id="cb152-4"><a href="07-glms.html#cb152-4" tabindex="-1"></a>     <span class="at">xlab=</span><span class="st">&#39;Number of bird species&#39;</span>, <span class="at">ylab=</span><span class="st">&#39;Residuals&#39;</span>)</span></code></pre></div>
-<p><img src="qm4g_files/figure-html/unnamed-chunk-41-1.png" width="80%" /></p>
+<p><img src="qm4g_files/figure-html/unnamed-chunk-41-1.png" alt="" width="80%" /></p>
 <p>It seems we have reached the limit here of what we can achieve with just a single predictor. Further improvements should only be expected if we introduce additional predictors of the number of bird species.</p>
 
 </div>
 </div>
 <h3>References<a href="10-refs.html#references" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<div id="refs" class="references csl-bib-body hanging-indent" entry-spacing="0">
+<div id="refs" class="references csl-bib-body hanging-indent">
 <div id="ref-crawley2012" class="csl-entry">
-Crawley, M. J. 2012. <em>The r Book (2nd Ed.)</em>. Chichester: John Wiley &amp; Sons Ltd.
+Crawley, M. J. 2012. <em>The r Book (2nd Ed.)</em>. John Wiley &amp; Sons Ltd.
 </div>
 <div id="ref-dormann2013" class="csl-entry">
-Dormann, C. F. 2013. <em>Parametrische Statistik</em>. Berlin: Springer.
+Dormann, C. F. 2013. <em>Parametrische Statistik</em>. Springer.
 </div>
 <div id="ref-gelman2020" class="csl-entry">
-Gelman, A., J. Hill, and A. Vehtari. 2020. <em>Regression and Other Stories</em>. Cambridge: Cambridge University Press.
+Gelman, A., J. Hill, and A. Vehtari. 2020. <em>Regression and Other Stories</em>. Cambridge University Press.
 </div>
 <div id="ref-mccullagh1989" class="csl-entry">
-McCullagh, P., and J. A. Nelder. 1989. <em>Generalized Linear Models</em>. 2nd ed. London: Chapman &amp; Hall.
+McCullagh, P., and J. A. Nelder. 1989. <em>Generalized Linear Models</em>. 2nd ed. Chapman &amp; Hall.
 </div>
 <div id="ref-mcelreath2020" class="csl-entry">
-McElreath, R. 2020. <em>Statistical Rethinking: A Bayesian Course with Examples in r and Stan (2nd Ed.)</em>. Boca Raton: CRC Press.
+McElreath, R. 2020. <em>Statistical Rethinking: A Bayesian Course with Examples in r and Stan (2nd Ed.)</em>. CRC Press.
 </div>
 <div id="ref-piegorsch2005" class="csl-entry">
-Piegorsch, W. W., and A. J. Bailer. 2005. <em>Analyzing Environmental Data</em>. Chichester: John Wiley &amp; Sons, Ltd.
+Piegorsch, W. W., and A. J. Bailer. 2005. <em>Analyzing Environmental Data</em>. John Wiley &amp; Sons, Ltd.
 </div>
 <div id="ref-quinn2002" class="csl-entry">
-Quinn, G. P., and M. J. Keough. 2002. <em>Experimental Design and Data Analysis for Biologists</em>. Cambridge: Cambridge University Press.
+Quinn, G. P., and M. J. Keough. 2002. <em>Experimental Design and Data Analysis for Biologists</em>. Cambridge University Press.
 </div>
 </div>
 <div class="footnotes">
@@ -1239,42 +893,42 @@ Quinn, G. P., and M. J. Keough. 2002. <em>Experimental Design and Data Analysis 
 <script>
 gitbook.require(["gitbook"], function(gitbook) {
 gitbook.start({
-"sharing": {
-"github": true,
-"facebook": false,
-"twitter": false,
-"linkedin": false,
-"weibo": false,
-"instapaper": false,
-"vk": false,
-"whatsapp": false,
-"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
-},
-"fontsettings": {
-"theme": "white",
-"family": "sans",
-"size": 2
-},
-"edit": {
-"link": null,
-"text": null
-},
-"history": {
-"link": null,
-"text": null
-},
-"view": {
-"link": null,
-"text": null
-},
-"download": null,
-"search": {
-"engine": "fuse",
-"options": null
-},
-"toc": {
-"collapse": "none"
-}
+  "sharing": {
+    "github": true,
+    "facebook": false,
+    "twitter": false,
+    "linkedin": false,
+    "weibo": false,
+    "instapaper": false,
+    "vk": false,
+    "whatsapp": false,
+    "all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+  },
+  "fontsettings": {
+    "theme": "white",
+    "family": "sans",
+    "size": 2
+  },
+  "edit": {
+    "link": null,
+    "text": null
+  },
+  "history": {
+    "link": null,
+    "text": null
+  },
+  "view": {
+    "link": null,
+    "text": null
+  },
+  "download": null,
+  "search": {
+    "engine": "fuse",
+    "options": null
+  },
+  "toc": {
+    "collapse": "none"
+  }
 });
 });
 </script>

@@ -242,42 +242,44 @@
         
       n = subscene.lights.length;
         
-      ambient = new Float32Array(3*n);
-      specular = new Float32Array(3*n);
-      diffuse = new Float32Array(3*n);
-      lightDir = new Float32Array(3*n);
-      viewpoint = new Int32Array(n);
-      finite = new Int32Array(n);
+      if (n > 0) {
+        ambient = new Float32Array(3*n);
+        specular = new Float32Array(3*n);
+        diffuse = new Float32Array(3*n);
+        lightDir = new Float32Array(3*n);
+        viewpoint = new Int32Array(n);
+        finite = new Int32Array(n);
           
-      for (i=0; i < n; i++) {
-        light = this.getObj(subscene.lights[i]);
-        if (!light.initialized) this.initObj(light);
-        ambient0 = this.componentProduct(light.ambient, obj.ambient);
-        specular0 = this.componentProduct(light.specular, obj.specular);
-        for (j=0; j < 3; j++) {
-          ambient[3*i + j] = ambient0[j];
-          specular[3*i + j] = specular0[j];
-          diffuse[3*i + j] = light.diffuse[j];
-          lightDir[3*i + j] = light.lightDir[j];
+        for (i=0; i < n; i++) {
+          light = this.getObj(subscene.lights[i]);
+          if (!light.initialized) this.initObj(light);
+          ambient0 = this.componentProduct(light.ambient, obj.ambient);
+          specular0 = this.componentProduct(light.specular, obj.specular);
+          for (j=0; j < 3; j++) {
+            ambient[3*i + j] = ambient0[j];
+            specular[3*i + j] = specular0[j];
+            diffuse[3*i + j] = light.diffuse[j];
+            lightDir[3*i + j] = light.lightDir[j];
+          }
+          viewpoint[i] = light.viewpoint;
+          finite[i] = light.finite;
         }
-        viewpoint[i] = light.viewpoint;
-        finite[i] = light.finite;
-      }
         
-      for (i = n; i < obj.nlights; i++) {
-        for (j = 0; j < 3; j++) {
-          ambient[3*i + j] = 0.0;
-          specular[3*i + j] = 0.0;
-          diffuse[3*i + j] = 0.0;
+        for (i = n; i < obj.nlights; i++) {
+          for (j = 0; j < 3; j++) {
+            ambient[3*i + j] = 0.0;
+            specular[3*i + j] = 0.0;
+            diffuse[3*i + j] = 0.0;
+          }
         }
-      }
         
-      gl.uniform3fv( obj.ambientLoc, ambient);
-      gl.uniform3fv( obj.specularLoc, specular);
-      gl.uniform3fv( obj.diffuseLoc, diffuse);
-      gl.uniform3fv( obj.lightDirLoc, lightDir);
-      gl.uniform1iv( obj.viewpointLoc, viewpoint);
-      gl.uniform1iv( obj.finiteLoc, finite);
+        gl.uniform3fv( obj.ambientLoc, ambient);
+        gl.uniform3fv( obj.specularLoc, specular);
+        gl.uniform3fv( obj.diffuseLoc, diffuse);
+        gl.uniform3fv( obj.lightDirLoc, lightDir);
+        gl.uniform1iv( obj.viewpointLoc, viewpoint);
+        gl.uniform1iv( obj.finiteLoc, finite);
+      }
     };
     
     /**
@@ -689,7 +691,7 @@
      * @param { array } context - Which context are we in?
      */      
     rglwidgetClass.prototype.drawPlanes = function(obj, subscene, context) {
-      if (obj.bbox !== subscene.par3d.bbox || !obj.initialized) {
+      if (this.opaquePass && (obj.bbox !== subscene.par3d.bbox || !obj.initialized)) {
           this.planeUpdateTriangles(obj, subscene.par3d.bbox);
       }
       return this.drawSimple(obj, subscene, context);
@@ -954,9 +956,12 @@
         this.setnormMatrix2();
         this.setprmvMatrix();
       
-        for (i=0; i < obj.objects.length; i++)
+        j = iOrig % obj.shapefirst.length;
+        var first = obj.shapefirst[j];
+        
+        for (i=0; i < obj.shapelens[j]; i++)
           if (this.opaquePass)
-            result = result.concat(this.drawObjId(obj.objects[i], subscene.id, context.concat(j)));
+            result = result.concat(this.drawObjId(obj.objects[first + i], subscene.id, context.concat(j)));
           else
             this.drawObjId(obj.objects[i], subscene.id, context);
       }
@@ -1164,14 +1169,17 @@
         savepr = this.prMatrix;
         saveinvpr = this.invPrMatrix;
         savemv = this.mvMatrix;
+        savenorm = this.normMatrix;
         this.prMatrix = new CanvasMatrix4();
         this.invPrMatrix = new CanvasMatrix4();
         this.mvMatrix = new CanvasMatrix4();
+        this.normMatrix = new CanvasMatrix4();
         for (i=0; i < obj.quad.length; i++)
           result = result.concat(this.drawObjId(obj.quad[i], subsceneid));
         this.prMatrix = savepr;
         this.invPrMatrix = saveinvpr;
         this.mvMatrix = savemv;
+        this.normMatrix = savenorm;
 
       } else if (obj.sphere) {
         subscene = this.getObj(subsceneid);
