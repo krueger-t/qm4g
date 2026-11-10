@@ -484,3 +484,16 @@ hist(residuals(fit2), breaks = seq(-4,4,0.5))
 hist(residuals(fit3), breaks = seq(-4,4,0.5))
 hist(residuals(fit4), breaks = seq(-4,4,0.5))
 ```
+
+A one-stop shop for residual diagnostics is provided by the [DHARMa package](https://cran.r-project.org/web/packages/DHARMa/vignettes/DHARMa.html). This works even when we vary the distributional assumptions around linear models from chapter \@ref(glms) onwards, at which point the residual plots above are not informative anymore. We here show the default plot of DHARMa for the Anscombe dataset 1.
+
+```{r echo=TRUE, message=FALSE}
+library(DHARMa)
+plot(simulateResiduals(fittedModel = fit1, plot = F))
+```
+
+The DHARMa residuals are quantile residuals that follow a uniform distribution if the distributional assumption of the linear model - for linear regression iid normal - is met, regardless of the nature of that distributional assumption. How quantile residuals are calculated is explained visually in the [vignette](https://cran.r-project.org/web/packages/DHARMa/vignettes/DHARMa.html) of the package at the very beginning.
+
+The left panel of the output then creates a QQ plot comparing the distribution of the quantile residuals to the expected uniform distribution. A Kolmogorov-Smirnov test assesses this assumption formally, here finding no indication for rejecting the uniformity assumption (and hence the underlying normality assumption). A dispersion test assesses homoscedasticity, here also finding no indication to reject this assumption. An outlier test assesses the potential for individual residuals violating the uniformity assumption, here again finding no such indication. Any problems in these regards would be flagged up in red and with additional annotations.
+
+The right panel of the output plots the quantile residuals against the fitted values (rank transformed). Problematic points would be marked. The expected uniformity of this plot in the vertical direction is assessed via quantile regression comparing the empirical 0.25, 0.5 and 0.75 quantiles (solid lines) with the corresponding theoretical quantiles (dashed lines). Deviations from the expected quantiles would be flagged in red.
