@@ -448,7 +448,7 @@ Calculations for other GLMs work accordingly, with the exception that the disper
 
 ## Residual analysis for GLMs
 
-Finally, we need to look at the residuals as we did for linear regression, it is just that the raw residuals are structured by design for non-normal response distributions, hence they require standardisation. To understand how the raw residuals are structured by design, consider the Poisson model (Figure \@ref(fig:loglin), left): Here the residual variance increases with the mean response (Figure \@ref(fig:rawres), left), so seeing this structure in the residuals is expected and does not indicate a systematic error in the model. Consider further the binomial model (Figure \@ref(fig:logistic), left): Here the residual variance peaks at 0.5 (Figure \@ref(fig:rawres), right), which does not indicate a systematic error either.
+Finally, we need to look at the residuals as we did for linear regression, it is just that the raw residuals are structured by design for non-normal response distributions, hence they require standardisation. This is where quantile residuals really pay off, but let's first look at more conventional ways of standardisation. To understand how the raw residuals are structured by design, consider the Poisson model (Figure \@ref(fig:loglin), left): Here the residual variance increases with the mean response (Figure \@ref(fig:rawres), left), so seeing this structure in the raw residuals is expected and does not indicate a systematic error in the model. Consider further the binomial model (Figure \@ref(fig:logistic), left): Here the residual variance peaks at 0.5 (Figure \@ref(fig:rawres), right), which does not indicate a systematic error either.
 
 ```{r rawres, echo=TRUE, fig.align='center', fig.cap='Left: Raw residuals of the log-linear model fit to the birds data. The residual variance by design increases with increasing mean response. Right: Raw residuals of the logistic model fit to the survival data. The residual variance peaks at 0.5 by design.', fig.show='hold', out.width='50%'}
 # plot raw residuals of birds model
@@ -464,7 +464,7 @@ plot(survival_fit$fitted.values, resid(survival_fit, type = 'response'),
 
 ### Pearson residuals
 
-In order to correct for the change in residual variance that is built into these models, a useful standardisation of the raw residuals is by the standard deviation of the prediction at each data point. This gives the so called **Pearson residuals**:
+In order to correct for the change in residual variance that is built into these models, a conventional standardisation of the raw residuals is by the standard deviation of the prediction at each data point. This gives the so called **Pearson residuals**:
 $$\begin{equation}
 \frac{y_i-\hat y_i}{\sqrt{Var\left(\hat y_i\right)}}
 (\#eq:pearsonres)
@@ -503,9 +503,20 @@ $$d_i=(y_i-(\beta_0+\beta_1\cdot x_i))^2$$
 
 That is, the squared difference between observation and model prediction.
 
+### Quantile residuals
+
+The most general standardisation are **quantile residuals** that can be generated from any distributional assumption via sampling. As explained in Chapter \@ref(linreg), quantile residuals provided by the [DHARMa package](https://cran.r-project.org/web/packages/DHARMa/vignettes/DHARMa.html) follow a uniform distribution if the distributional assumption of the GLM is met, regardless of the nature of that distributional assumption, e.g. Poisson, binomial or else. For the birds example:
+
+```{r include=FALSE}
+library(DHARMa)
+```
+```{r echo=TRUE, message=FALSE}
+plot(simulateResiduals(fittedModel = birds_fit, plot = F))
+```
+
 ## Over-dispersed count data {#overdisp}
 
-The residuals of the log-linear model of the birds data still show a pattern; after standardisation they still increase with increasing mean response (Figure \@ref(fig:pearsonres), left). Remember that in the Poisson model the variance is modelled to increase 1:1 with the mean response (Figure \@ref(fig:birds)). If we see the actual variance in our birds data increasing at a greater rate, then we say that the data are **over-dispersed**.
+The residuals of the log-linear model of the birds data still show a pattern after standardisation; they are over-dispersed. Remember that in the Poisson model the variance is modelled to increase 1:1 with the mean response (Figure \@ref(fig:birds)). If we see the actual variance in our birds data increasing at a greater rate, then we say that the data are **over-dispersed**.
 
 In such cases, we might use the so called **negative-binomial model** which has two parameters: $\mu$, which is equal to the mean, and $\theta$, which modulates the variance in the form of $\mu+\frac{\mu^2}{\theta}$, i.e. the variance is now a non-linear function of the mean, and not equal to the mean as in the Poisson model. This allows for over-dispersion.^[Note, there are other over-dispersed model choices.] The negative-binomial is available through the `MASS` package in _R_. Let us see how it fits the birds data:
 
@@ -553,12 +564,9 @@ pseudo_r2 <- 1 - birds_fit2$deviance / birds_fit2$null.deviance
 pseudo_r2
 ```
 
-The residuals show some improvement, but not much:
-```{r echo=TRUE, out.width='80%'}
-# plot Pearson residuals of negative-binomial fit
-plot(birds_fit2$fitted.values, resid(birds_fit2, type = 'pearson'),
-     pch = 19, type = 'p', xlim=c(100,400), ylim=c(-3,3),
-     xlab='Number of bird species', ylab='Residuals')
+The residuals could still be improved, but no serious issues are flagged up:
+```{r echo=TRUE, message=FALSE}
+plot(simulateResiduals(fittedModel = birds_fit2, plot = F))
 ```
 
 It seems we have reached the limit here of what we can achieve with just a single predictor. Further improvements should only be expected if we introduce additional predictors of the number of bird species.

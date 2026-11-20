@@ -23,7 +23,7 @@
 <meta name="author" content="Tobias Krueger" />
 
 
-<meta name="date" content="2026-11-10" />
+<meta name="date" content="2026-11-20" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -376,10 +376,10 @@ Figure 5.1: Bayesian updating: The prior PDF of a hypothetical parameter <span c
 <div class="sourceCode" id="cb120"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb120-1"><a href="06-ml_bayes.html#cb120-1" tabindex="-1"></a><span class="co"># summarise posterior </span></span>
 <span id="cb120-2"><a href="06-ml_bayes.html#cb120-2" tabindex="-1"></a><span class="fu">posterior_summary</span>(yield_fit, <span class="at">variable =</span> <span class="fu">c</span>(<span class="st">&#39;b_soiltype1&#39;</span>,<span class="st">&#39;b_soiltype2&#39;</span>,<span class="st">&#39;b_soiltype3&#39;</span>,<span class="st">&#39;sigma&#39;</span>))</span></code></pre></div>
 <pre><code>##             Estimate Est.Error   Q2.5  Q97.5
-## b_soiltype1    9.912    1.1239  7.656 12.132
-## b_soiltype2   11.523    1.1408  9.283 13.765
-## b_soiltype3   14.281    1.1526 12.047 16.561
-## sigma          3.538    0.4931  2.724  4.674</code></pre>
+## b_soiltype1    9.924    1.1476  7.736 12.211
+## b_soiltype2   11.523    1.1171  9.306 13.680
+## b_soiltype3   14.315    1.1160 12.062 16.493
+## sigma          3.529    0.4843  2.732  4.583</code></pre>
 <p>This output gives us the median of the posterior for each parameter (“Estimate”), the standard error of that estimate via the standard deviation of the posterior (“Est.Error”) and the central 95% compatibility interval between the bounds “Q2.5” and “Q97.5”. The central parameter estimates are essentially the same as in the frequentist approach (Chapter <a href="04-categorical_vars.html#categoricalvars">3</a>). The standard errors are slightly higher than the frequentist estimate of 1.08, and not homogeneous. The residual standard deviation, here <span class="math inline">\(\sigma\)</span>, is slightly higher than the frequentist estimate of <span class="math inline">\(\sqrt{\frac{SSE}{n-k}}=\sqrt{11.7}=3.4\)</span>.</p>
 <p>These are just summaries. To get a sense of the full posterior we need to extract the numerical samples of the posterior and then we can plot these as histograms, for example. Note, these are discrete approximations of the posterior PDFs, which already for moderately complex problems do not exist in closed form, so working with samples is the most general and often the only option.</p>
 <div class="sourceCode" id="cb122"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb122-1"><a href="06-ml_bayes.html#cb122-1" tabindex="-1"></a><span class="co"># extract posterior samples</span></span>
@@ -388,7 +388,7 @@ Figure 5.1: Bayesian updating: The prior PDF of a hypothetical parameter <span c
 <span id="cb122-4"><a href="06-ml_bayes.html#cb122-4" tabindex="-1"></a><span class="fu">hist</span>(s<span class="sc">$</span>b_soiltype1, <span class="at">freq =</span> <span class="cn">FALSE</span>)</span>
 <span id="cb122-5"><a href="06-ml_bayes.html#cb122-5" tabindex="-1"></a><span class="fu">hist</span>(s<span class="sc">$</span>b_soiltype2, <span class="at">freq =</span> <span class="cn">FALSE</span>)</span>
 <span id="cb122-6"><a href="06-ml_bayes.html#cb122-6" tabindex="-1"></a><span class="fu">hist</span>(s<span class="sc">$</span>b_soiltype3, <span class="at">freq =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
-<p><img src="qm4g_files/figure-html/unnamed-chunk-32-1.png" alt="" width="33%" /><img src="qm4g_files/figure-html/unnamed-chunk-32-2.png" alt="" width="33%" /><img src="qm4g_files/figure-html/unnamed-chunk-32-3.png" alt="" width="33%" /></p>
+<p><img src="qm4g_files/figure-html/unnamed-chunk-33-1.png" alt="" width="33%" /><img src="qm4g_files/figure-html/unnamed-chunk-33-2.png" alt="" width="33%" /><img src="qm4g_files/figure-html/unnamed-chunk-33-3.png" alt="" width="33%" /></p>
 <p>The beauty now is that we can calculate a probability distribution of the average yield differences between soil types, without having to worry about the two-sample t-test we did back in Chapter <a href="04-categorical_vars.html#categoricalvars">3</a> and its sampling distribution and all that. It is very simple:</p>
 <div class="sourceCode" id="cb123"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb123-1"><a href="06-ml_bayes.html#cb123-1" tabindex="-1"></a><span class="co"># plot average yield differences between soil types as histograms</span></span>
 <span id="cb123-2"><a href="06-ml_bayes.html#cb123-2" tabindex="-1"></a><span class="fu">hist</span>(s<span class="sc">$</span>b_soiltype2<span class="sc">-</span>s<span class="sc">$</span>b_soiltype1, <span class="at">freq =</span> <span class="cn">FALSE</span>)</span>
@@ -397,14 +397,14 @@ Figure 5.1: Bayesian updating: The prior PDF of a hypothetical parameter <span c
 <span id="cb123-5"><a href="06-ml_bayes.html#cb123-5" tabindex="-1"></a><span class="co"># express these differences as median and 95% compatibility interval</span></span>
 <span id="cb123-6"><a href="06-ml_bayes.html#cb123-6" tabindex="-1"></a><span class="fu">quantile</span>(s<span class="sc">$</span>b_soiltype2<span class="sc">-</span>s<span class="sc">$</span>b_soiltype1, <span class="at">probs =</span> <span class="fu">c</span>(<span class="fl">0.025</span>, <span class="fl">0.5</span>, <span class="fl">0.975</span>))</span></code></pre></div>
 <pre><code>##   2.5%    50%  97.5% 
-## -1.653  1.630  4.845</code></pre>
+## -1.457  1.631  4.665</code></pre>
 <div class="sourceCode" id="cb125"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb125-1"><a href="06-ml_bayes.html#cb125-1" tabindex="-1"></a><span class="fu">quantile</span>(s<span class="sc">$</span>b_soiltype3<span class="sc">-</span>s<span class="sc">$</span>b_soiltype1, <span class="at">probs =</span> <span class="fu">c</span>(<span class="fl">0.025</span>, <span class="fl">0.5</span>, <span class="fl">0.975</span>))</span></code></pre></div>
 <pre><code>##  2.5%   50% 97.5% 
-## 1.058 4.371 7.703</code></pre>
+## 1.176 4.386 7.544</code></pre>
 <div class="sourceCode" id="cb127"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb127-1"><a href="06-ml_bayes.html#cb127-1" tabindex="-1"></a><span class="fu">quantile</span>(s<span class="sc">$</span>b_soiltype3<span class="sc">-</span>s<span class="sc">$</span>b_soiltype2, <span class="at">probs =</span> <span class="fu">c</span>(<span class="fl">0.025</span>, <span class="fl">0.5</span>, <span class="fl">0.975</span>))</span></code></pre></div>
-<pre><code>##    2.5%     50%   97.5% 
-## -0.3685  2.7080  6.0089</code></pre>
-<p><img src="qm4g_files/figure-html/unnamed-chunk-33-1.png" alt="" width="33%" /><img src="qm4g_files/figure-html/unnamed-chunk-33-2.png" alt="" width="33%" /><img src="qm4g_files/figure-html/unnamed-chunk-33-3.png" alt="" width="33%" />
+<pre><code>##   2.5%    50%  97.5% 
+## -0.304  2.773  5.922</code></pre>
+<p><img src="qm4g_files/figure-html/unnamed-chunk-34-1.png" alt="" width="33%" /><img src="qm4g_files/figure-html/unnamed-chunk-34-2.png" alt="" width="33%" /><img src="qm4g_files/figure-html/unnamed-chunk-34-3.png" alt="" width="33%" />
 We see that the only yield difference that is uniquely positive at the 95% compatibility level is that between soil types 3 and 1 - sand and loam. All other compatibility intervals overlap with zero meaning there are sizable probabilities of the differences going in either direction. In frequentist language we would call these differences insignificant, but looking at the full posterior distribution of the differences is much more useful than the binary split.</p>
 <p>All in all, this example shows how for simple models frequentist and Bayesian inference with uninformative priors yield essentially the same conclusions, although the Bayesian probabilities are much more intuitive to interpret and easier to post-process into any quantities of interest.</p>
 

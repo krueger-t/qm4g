@@ -23,7 +23,7 @@
 <meta name="author" content="Tobias Krueger" />
 
 
-<meta name="date" content="2026-11-10" />
+<meta name="date" content="2026-11-20" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -391,17 +391,9 @@ AIC=-2\cdot logL\left(\hat\beta, \hat\sigma|\mathbf{y}\right)+2\cdot p
 ## Multiple R-squared:  0.606,  Adjusted R-squared:  0.595 
 ## F-statistic: 54.9 on 3 and 107 DF,  p-value: &lt;2e-16</code></pre>
 <p>Before we interpret this, let’s look at the residuals:</p>
-<div class="sourceCode" id="cb70"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb70-1"><a href="05-multiple_lin_reg.html#cb70-1" tabindex="-1"></a><span class="co"># residuals by index</span></span>
-<span id="cb70-2"><a href="05-multiple_lin_reg.html#cb70-2" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">residuals</span>(ozone_fit), <span class="at">pch =</span> <span class="dv">19</span>, <span class="at">type =</span> <span class="st">&#39;p&#39;</span>)</span>
-<span id="cb70-3"><a href="05-multiple_lin_reg.html#cb70-3" tabindex="-1"></a><span class="co"># residuals by modelled value</span></span>
-<span id="cb70-4"><a href="05-multiple_lin_reg.html#cb70-4" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">fitted.values</span>(ozone_fit), <span class="fu">residuals</span>(ozone_fit), <span class="at">pch =</span> <span class="dv">19</span>, <span class="at">type =</span> <span class="st">&#39;p&#39;</span>)</span>
-<span id="cb70-5"><a href="05-multiple_lin_reg.html#cb70-5" tabindex="-1"></a><span class="co"># residual histogram</span></span>
-<span id="cb70-6"><a href="05-multiple_lin_reg.html#cb70-6" tabindex="-1"></a><span class="fu">hist</span>(<span class="fu">residuals</span>(ozone_fit))</span>
-<span id="cb70-7"><a href="05-multiple_lin_reg.html#cb70-7" tabindex="-1"></a><span class="co"># residual QQ-plot</span></span>
-<span id="cb70-8"><a href="05-multiple_lin_reg.html#cb70-8" tabindex="-1"></a><span class="fu">qqnorm</span>(<span class="fu">residuals</span>(ozone_fit))</span>
-<span id="cb70-9"><a href="05-multiple_lin_reg.html#cb70-9" tabindex="-1"></a><span class="fu">qqline</span>(<span class="fu">residuals</span>(ozone_fit))</span></code></pre></div>
-<p><img src="qm4g_files/figure-html/unnamed-chunk-18-1.png" alt="" width="50%" /><img src="qm4g_files/figure-html/unnamed-chunk-18-2.png" alt="" width="50%" /><img src="qm4g_files/figure-html/unnamed-chunk-18-3.png" alt="" width="50%" /><img src="qm4g_files/figure-html/unnamed-chunk-18-4.png" alt="" width="50%" /></p>
-<p>The residuals are heteroscedastic and right-skewed, which is something we might be able to fix by log-transforming the response. This is something to try in any case when the response varies over orders of magnitude <span class="citation">(<a href="#ref-gelman2020">Gelman et al. 2020</a>)</span>.</p>
+<div class="sourceCode" id="cb70"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb70-1"><a href="05-multiple_lin_reg.html#cb70-1" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">simulateResiduals</span>(<span class="at">fittedModel =</span> ozone_fit, <span class="at">plot =</span> F))</span></code></pre></div>
+<p><img src="qm4g_files/figure-html/unnamed-chunk-19-1.png" alt="" width="672" /></p>
+<p>The residuals are heteroscedastic, which is something we might be able to fix by log-transforming the response. This is something to try in any case when the response varies over orders of magnitude <span class="citation">(<a href="#ref-gelman2020">Gelman et al. 2020</a>)</span>.</p>
 <div class="sourceCode" id="cb71"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb71-1"><a href="05-multiple_lin_reg.html#cb71-1" tabindex="-1"></a><span class="co"># add log-transform of ozone to data.frame</span></span>
 <span id="cb71-2"><a href="05-multiple_lin_reg.html#cb71-2" tabindex="-1"></a>ozone_std<span class="sc">$</span>log_ozone <span class="ot">&lt;-</span> <span class="fu">log</span>(ozone_std<span class="sc">$</span>ozone)</span>
 <span id="cb71-3"><a href="05-multiple_lin_reg.html#cb71-3" tabindex="-1"></a><span class="co"># fit</span></span>
@@ -428,13 +420,9 @@ AIC=-2\cdot logL\left(\hat\beta, \hat\sigma|\mathbf{y}\right)+2\cdot p
 ## Residual standard error: 0.509 on 107 degrees of freedom
 ## Multiple R-squared:  0.665,  Adjusted R-squared:  0.655 
 ## F-statistic: 70.6 on 3 and 107 DF,  p-value: &lt;2e-16</code></pre>
-<p>Log-transforming ozone stabilised the predictors and also increased <span class="math inline">\(r^2\)</span> by 0.05. The relationship of ozone to the three predictors has apparently turned more linear on the log-scale. The residuals, too, conform better to the assumptions, except for one outlier at the very low end:</p>
-<div class="sourceCode" id="cb73"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb73-1"><a href="05-multiple_lin_reg.html#cb73-1" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">residuals</span>(log_ozone_fit), <span class="at">pch =</span> <span class="dv">19</span>, <span class="at">type =</span> <span class="st">&#39;p&#39;</span>)</span>
-<span id="cb73-2"><a href="05-multiple_lin_reg.html#cb73-2" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">fitted.values</span>(log_ozone_fit), <span class="fu">residuals</span>(log_ozone_fit), <span class="at">pch =</span> <span class="dv">19</span>, <span class="at">type =</span> <span class="st">&#39;p&#39;</span>)</span>
-<span id="cb73-3"><a href="05-multiple_lin_reg.html#cb73-3" tabindex="-1"></a><span class="fu">hist</span>(<span class="fu">residuals</span>(log_ozone_fit))</span>
-<span id="cb73-4"><a href="05-multiple_lin_reg.html#cb73-4" tabindex="-1"></a><span class="fu">qqnorm</span>(<span class="fu">residuals</span>(log_ozone_fit))</span>
-<span id="cb73-5"><a href="05-multiple_lin_reg.html#cb73-5" tabindex="-1"></a><span class="fu">qqline</span>(<span class="fu">residuals</span>(log_ozone_fit))</span></code></pre></div>
-<p><img src="qm4g_files/figure-html/unnamed-chunk-20-1.png" alt="" width="50%" /><img src="qm4g_files/figure-html/unnamed-chunk-20-2.png" alt="" width="50%" /><img src="qm4g_files/figure-html/unnamed-chunk-20-3.png" alt="" width="50%" /><img src="qm4g_files/figure-html/unnamed-chunk-20-4.png" alt="" width="50%" /></p>
+<p>Log-transforming ozone stabilised the predictors and also increased <span class="math inline">\(r^2\)</span> by 0.05. The relationship of ozone to the three predictors has apparently turned more linear on the log-scale. The residuals, too, conform better to the assumptions:</p>
+<div class="sourceCode" id="cb73"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb73-1"><a href="05-multiple_lin_reg.html#cb73-1" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">simulateResiduals</span>(<span class="at">fittedModel =</span> log_ozone_fit, <span class="at">plot =</span> F))</span></code></pre></div>
+<p><img src="qm4g_files/figure-html/unnamed-chunk-21-1.png" alt="" width="672" /></p>
 <p>The AIC of the log-ozone model is:<a href="#fn9" class="footnote-ref" id="fnref9"><sup>9</sup></a></p>
 <div class="sourceCode" id="cb74"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb74-1"><a href="05-multiple_lin_reg.html#cb74-1" tabindex="-1"></a><span class="fu">AIC</span>(log_ozone_fit)</span></code></pre></div>
 <pre><code>## [1] 170.8</code></pre>
@@ -520,12 +508,8 @@ AIC=-2\cdot logL\left(\hat\beta, \hat\sigma|\mathbf{y}\right)+2\cdot p
 <div class="sourceCode" id="cb86"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb86-1"><a href="05-multiple_lin_reg.html#cb86-1" tabindex="-1"></a><span class="fu">AIC</span>(log_ozone_fit4)</span></code></pre></div>
 <pre><code>## [1] 170.4</code></pre>
 <p>This interaction is not estimated precisely and we only gain an improvement in <span class="math inline">\(r^2\)</span> of 0.01 and a negligible gain in AIC. So I’m inclined to go with model 3 (all three predictors and the “temp:wind” interaction). Due to the imprecision of the interaction parameter it does not make sense to add more predictors at this stage. The residuals of model 3 still look alright:</p>
-<div class="sourceCode" id="cb88"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb88-1"><a href="05-multiple_lin_reg.html#cb88-1" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">residuals</span>(log_ozone_fit3), <span class="at">pch =</span> <span class="dv">19</span>, <span class="at">type =</span> <span class="st">&#39;p&#39;</span>)</span>
-<span id="cb88-2"><a href="05-multiple_lin_reg.html#cb88-2" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">fitted.values</span>(log_ozone_fit3), <span class="fu">residuals</span>(log_ozone_fit3), <span class="at">pch =</span> <span class="dv">19</span>, <span class="at">type =</span> <span class="st">&#39;p&#39;</span>)</span>
-<span id="cb88-3"><a href="05-multiple_lin_reg.html#cb88-3" tabindex="-1"></a><span class="fu">hist</span>(<span class="fu">residuals</span>(log_ozone_fit3))</span>
-<span id="cb88-4"><a href="05-multiple_lin_reg.html#cb88-4" tabindex="-1"></a><span class="fu">qqnorm</span>(<span class="fu">residuals</span>(log_ozone_fit3))</span>
-<span id="cb88-5"><a href="05-multiple_lin_reg.html#cb88-5" tabindex="-1"></a><span class="fu">qqline</span>(<span class="fu">residuals</span>(log_ozone_fit3))</span></code></pre></div>
-<p><img src="qm4g_files/figure-html/unnamed-chunk-25-1.png" alt="" width="50%" /><img src="qm4g_files/figure-html/unnamed-chunk-25-2.png" alt="" width="50%" /><img src="qm4g_files/figure-html/unnamed-chunk-25-3.png" alt="" width="50%" /><img src="qm4g_files/figure-html/unnamed-chunk-25-4.png" alt="" width="50%" /></p>
+<div class="sourceCode" id="cb88"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb88-1"><a href="05-multiple_lin_reg.html#cb88-1" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">simulateResiduals</span>(<span class="at">fittedModel =</span> log_ozone_fit3, <span class="at">plot =</span> F))</span></code></pre></div>
+<p><img src="qm4g_files/figure-html/unnamed-chunk-26-1.png" alt="" width="672" /></p>
 <p>The model that we settled with is:
 <span class="math display" id="eq:ozonemod">\[\begin{equation}
 \log(ozone)=3.4+0.2\cdot rad_{std}+0.5\cdot temp_{std}-0.2\cdot wind_{std}-0.1\cdot temp_{std}\cdot wind_{std}+\epsilon
@@ -610,13 +594,9 @@ Figure 4.5: Childrens’ IQ score against their mothers’ IQ score, with symbol
 ## mom_iq:mom_hs  -0.4843     0.1622  -2.985  2.994e-03</code></pre>
 <div class="sourceCode" id="cb113"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb113-1"><a href="05-multiple_lin_reg.html#cb113-1" tabindex="-1"></a><span class="fu">AIC</span>(iq_fit5)</span></code></pre></div>
 <pre><code>## [1] 3745</code></pre>
-<p>The most complex model (#5) comes out on top here according to AIC. Its residuals look alright too:</p>
-<div class="sourceCode" id="cb115"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb115-1"><a href="05-multiple_lin_reg.html#cb115-1" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">residuals</span>(iq_fit5), <span class="at">pch =</span> <span class="dv">19</span>, <span class="at">type =</span> <span class="st">&#39;p&#39;</span>)</span>
-<span id="cb115-2"><a href="05-multiple_lin_reg.html#cb115-2" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">fitted.values</span>(iq_fit5), <span class="fu">residuals</span>(iq_fit5), <span class="at">pch =</span> <span class="dv">19</span>, <span class="at">type =</span> <span class="st">&#39;p&#39;</span>)</span>
-<span id="cb115-3"><a href="05-multiple_lin_reg.html#cb115-3" tabindex="-1"></a><span class="fu">hist</span>(<span class="fu">residuals</span>(iq_fit5))</span>
-<span id="cb115-4"><a href="05-multiple_lin_reg.html#cb115-4" tabindex="-1"></a><span class="fu">qqnorm</span>(<span class="fu">residuals</span>(iq_fit5))</span>
-<span id="cb115-5"><a href="05-multiple_lin_reg.html#cb115-5" tabindex="-1"></a><span class="fu">qqline</span>(<span class="fu">residuals</span>(iq_fit5))</span></code></pre></div>
-<p><img src="qm4g_files/figure-html/unnamed-chunk-28-1.png" alt="" width="50%" /><img src="qm4g_files/figure-html/unnamed-chunk-28-2.png" alt="" width="50%" /><img src="qm4g_files/figure-html/unnamed-chunk-28-3.png" alt="" width="50%" /><img src="qm4g_files/figure-html/unnamed-chunk-28-4.png" alt="" width="50%" /></p>
+<p>The most complex model (#5) comes out on top here according to AIC. Its residuals look alright, except for some overdispersion (0.75-quantile) at the low end and in the middle:</p>
+<div class="sourceCode" id="cb115"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb115-1"><a href="05-multiple_lin_reg.html#cb115-1" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">simulateResiduals</span>(<span class="at">fittedModel =</span> iq_fit5, <span class="at">plot =</span> F))</span></code></pre></div>
+<p><img src="qm4g_files/figure-html/unnamed-chunk-29-1.png" alt="" width="672" /></p>
 <p>Let’s plot the six variants to look at the meaning of interactions once more (Figure <a href="05-multiple_lin_reg.html#fig:iqmod">4.6</a>).</p>
 <div class="sourceCode" id="cb116"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb116-1"><a href="05-multiple_lin_reg.html#cb116-1" tabindex="-1"></a><span class="co"># Null model</span></span>
 <span id="cb116-2"><a href="05-multiple_lin_reg.html#cb116-2" tabindex="-1"></a><span class="fu">plot</span>(iq_cen<span class="sc">$</span>mom_iq, iq_cen<span class="sc">$</span>kid_score, <span class="at">pch =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">20</span>)[iq_cen<span class="sc">$</span>mom_hs<span class="sc">+</span><span class="dv">1</span>],</span>

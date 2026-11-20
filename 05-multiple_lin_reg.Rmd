@@ -133,19 +133,14 @@ summary(ozone_fit)
 ```
 
 Before we interpret this, let's look at the residuals:
-```{r echo=TRUE, fig.show='hold', out.width='50%'}
-# residuals by index
-plot(residuals(ozone_fit), pch = 19, type = 'p')
-# residuals by modelled value
-plot(fitted.values(ozone_fit), residuals(ozone_fit), pch = 19, type = 'p')
-# residual histogram
-hist(residuals(ozone_fit))
-# residual QQ-plot
-qqnorm(residuals(ozone_fit))
-qqline(residuals(ozone_fit))
+```{r include=FALSE}
+library(DHARMa)
+```
+```{r echo=TRUE, message=FALSE}
+plot(simulateResiduals(fittedModel = ozone_fit, plot = F))
 ```
 
-The residuals are heteroscedastic and right-skewed, which is something we might be able to fix by log-transforming the response. This is something to try in any case when the response varies over orders of magnitude [@gelman2020].
+The residuals are heteroscedastic, which is something we might be able to fix by log-transforming the response. This is something to try in any case when the response varies over orders of magnitude [@gelman2020].
 ```{r echo=TRUE}
 # add log-transform of ozone to data.frame
 ozone_std$log_ozone <- log(ozone_std$ozone)
@@ -154,13 +149,9 @@ log_ozone_fit <- lm(log_ozone ~ rad+temp+wind, data = ozone_std)
 summary(log_ozone_fit)
 ```
 
-Log-transforming ozone stabilised the predictors and also increased $r^2$ by 0.05. The relationship of ozone to the three predictors has apparently turned more linear on the log-scale. The residuals, too, conform better to the assumptions, except for one outlier at the very low end:
-```{r echo=TRUE, fig.show='hold', out.width='50%'}
-plot(residuals(log_ozone_fit), pch = 19, type = 'p')
-plot(fitted.values(log_ozone_fit), residuals(log_ozone_fit), pch = 19, type = 'p')
-hist(residuals(log_ozone_fit))
-qqnorm(residuals(log_ozone_fit))
-qqline(residuals(log_ozone_fit))
+Log-transforming ozone stabilised the predictors and also increased $r^2$ by 0.05. The relationship of ozone to the three predictors has apparently turned more linear on the log-scale. The residuals, too, conform better to the assumptions:
+```{r echo=TRUE, message=FALSE}
+plot(simulateResiduals(fittedModel = log_ozone_fit, plot = F))
 ```
 
 The AIC of the log-ozone model is:^[Note, we cannot compare AIC values of log-ozone and un-transformed ozone models without correcting for the response data transformation.]
@@ -187,12 +178,8 @@ summary(log_ozone_fit4)
 AIC(log_ozone_fit4)
 ```
 This interaction is not estimated precisely and we only gain an improvement in $r^2$ of 0.01 and a negligible gain in AIC. So I'm inclined to go with model 3 (all three predictors and the "temp:wind" interaction). Due to the imprecision of the interaction parameter it does not make sense to add more predictors at this stage. The residuals of model 3 still look alright:
-```{r echo=TRUE, fig.show='hold', out.width='50%'}
-plot(residuals(log_ozone_fit3), pch = 19, type = 'p')
-plot(fitted.values(log_ozone_fit3), residuals(log_ozone_fit3), pch = 19, type = 'p')
-hist(residuals(log_ozone_fit3))
-qqnorm(residuals(log_ozone_fit3))
-qqline(residuals(log_ozone_fit3))
+```{r echo=TRUE, message=FALSE}
+plot(simulateResiduals(fittedModel = log_ozone_fit3, plot = F))
 ```
 
 The model that we settled with is:
@@ -260,14 +247,10 @@ coef(summary(iq_fit5))
 AIC(iq_fit5)
 ```
 
-The most complex model (#5) comes out on top here according to AIC. Its residuals look alright too:
+The most complex model (#5) comes out on top here according to AIC. Its residuals look alright, except for some overdispersion (0.75-quantile) at the low end and in the middle:
 
-```{r echo=TRUE, fig.show='hold', out.width='50%'}
-plot(residuals(iq_fit5), pch = 19, type = 'p')
-plot(fitted.values(iq_fit5), residuals(iq_fit5), pch = 19, type = 'p')
-hist(residuals(iq_fit5))
-qqnorm(residuals(iq_fit5))
-qqline(residuals(iq_fit5))
+```{r echo=TRUE, message=FALSE}
+plot(simulateResiduals(fittedModel = iq_fit5, plot = F))
 ```
 
 Let's plot the six variants to look at the meaning of interactions once more (Figure \@ref(fig:iqmod)).

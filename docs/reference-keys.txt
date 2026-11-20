@@ -224,6 +224,7 @@ deviance
 residual-analysis-for-glms
 pearson-residuals
 deviance-residuals
+quantile-residuals
 overdisp
 multivariate
 clusteranalysis
